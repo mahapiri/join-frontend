@@ -2,12 +2,17 @@
     margin: 0;
     box-sizing: border-box;
     color: rgba(0, 0, 0, 1);
-    background-color: rgba(246, 247, 248, 1);
 }
 
 @font-face {
     font-family: 'Inter';
     src: url(assets/fonts/Inter-VariableFont_opsz\,wght.ttf);
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(246, 247, 248, 1);
 }
 
 :root {
@@ -16,6 +21,7 @@
     --third: rgba(9, 25, 49, 1);
     --hover: rgba(42, 61, 89, 1);
     --white: rgba(255, 255, 255, 1);
+    --gray: rgba(205, 205, 205, 1);
     --hover-btn: rgba(12, 46, 98, 0.12);
     --red: rgba(255, 0, 31, 1);
 
@@ -110,5 +116,12 @@ a {
     line-height: 19.2px;
     text-decoration: none;
     cursor: pointer;
+}
+
+.a-bold {
+    font-family: 'Inter';
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19.2px;
 }
 

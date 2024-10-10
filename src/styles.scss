@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: rgba(42, 54, 71, 1);
+    --secondary: rgba(41, 171, 226, 1);
+    --third: rgba(9, 25, 49, 1);
+    --hover: rgba(42, 61, 89, 1);
+    --white: rgba(255, 255, 255, 1);
+    --hover-btn: rgba(12, 46, 98, 0.12);
+    
+    --orange: rgba(255, 122, 0, 1);
+    --pink: rgba(255, 94, 179, 1);
+    --purple: rgba(110, 82, 255, 1);
+    --purple-lighten: rgba(147, 39, 255, 1);
+    --turquoise: rgba(0, 190, 232, 1);
+    --mint: rgba(31, 215, 193, 1);
+    --salmon: rgba(255, 116, 94, 1);
+    --orange-lighten: rgba(255, 163, 94, 1);
+    --rosa: rgba(252, 113, 255, 1);
+    --yellow-orange: rgba(255, 199, 1, 1);
+    --blue: rgba(0, 56, 255, 1);
+    --neon-yellow: rgba(195, 255, 43, 1);
+    --yellow: rgba(255, 230, 43, 1);
+    --red: rgba(255, 70, 70, 1);
+    --orange-lighten: rgba(255, 187, 43, 1);
+}

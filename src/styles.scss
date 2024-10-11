@@ -125,3 +125,6 @@ a {
     line-height: 19.2px;
 }
 
+@mixin transition-75 {
+    transition: all 125ms ease-in-out;
+}

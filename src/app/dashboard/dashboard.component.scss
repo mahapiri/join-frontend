@@ -1,3 +1,5 @@
+@import "../../styles.scss";
+
 .dashboard-container {
     display: flex;
     flex-direction: row;
@@ -20,31 +22,42 @@
     justify-content: space-between;
     align-items: center;
 
+    position: relative;
+    z-index: 1;
+
     a {
         color: var(--gray);
+        user-select: none;
     }
 }
 
 .menu {
     flex-grow: 1;
+    flex-shrink: 0;
     height: 96px;
     background-color: var(--white);
+
+    position: relative;
+    z-index: 1;
+
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+
 }
 
 .logo {
     width: 100px;
-    margin-bottom: 64px;
 }
 
-.menu-container {
+.sidebar-container {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     flex-grow: 1;
+    padding-top: 64px;
 }
 
-.menu-list {
+.sidebar-list {
     width: 100%;
     list-style-type: none;
     margin: 0;
@@ -53,14 +66,15 @@
     gap: 15px;
 }
 
-.menu-item {
+.sidebar-item {
     width: 100%;
-    transition: linear 75ms ease-in-out;
+    @include transition-75;
 
     a {
         line-height: unset;
     }
 
+    .sidebar-item-active,
     &:hover {
         background-color: var(--third);
         cursor: pointer;
@@ -89,16 +103,77 @@
     }
 }
 
+.menu-container {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 96px;
+    padding-right: 40px;
+}
+
+.menu-right-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+app-submenu {
+    position: absolute;
+    top: 100%;
+    right: 20px;
+}
+
+.help-icon-active img,
+.help-icon:hover {
+    @include transition-75;
+    transform: scale(1.2);
+}
+
+
+
+.profile-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 100%;
+    border: 3px solid var(--primary);
+    cursor: pointer;
+    @include transition-75;
+
+    &:hover {
+        background-color: rgba(12, 46, 98, 0.12);
+    }
+
+    a {
+        color: var(--secondary);
+        font-weight: 700;
+    }
+}
+
 .legal-item {
+    width: 112px;
     display: flex;
     flex-direction: column;
     gap: 15px;
 
-    a {
-        &:hover {
-            color: var(--secondary);
-            font-weight: 700;
-        }
+    .legal-item-active,
+    a:hover {
+        color: var(--secondary);
+        font-weight: 700;
     }
+}
 
+.router-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    position: absolute;
+    top: 0;
+    z-index: 0;
+    padding-left: 328px;
+    padding-top: 206px;
 }

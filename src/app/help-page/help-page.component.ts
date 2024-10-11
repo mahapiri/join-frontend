@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-help-page',
@@ -9,4 +10,9 @@ import { Component } from '@angular/core';
 })
 export class HelpPageComponent {
 
+  constructor(private _location: Location) {}
+
+  back() {
+    this._location.back();
+  }
 }

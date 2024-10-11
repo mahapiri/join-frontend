@@ -13,6 +13,20 @@ body {
     width: 100vw;
     height: 100vh;
     background-color: rgba(246, 247, 248, 1);
+    overflow: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 8px;
 }
 
 :root {
@@ -22,6 +36,7 @@ body {
     --hover: rgba(42, 61, 89, 1);
     --white: rgba(255, 255, 255, 1);
     --gray: rgba(205, 205, 205, 1);
+    --lightgray: rgba(238, 238, 238, 1);
     --hover-btn: rgba(12, 46, 98, 0.12);
     --red: rgba(255, 0, 31, 1);
 
@@ -46,7 +61,7 @@ body {
 }
 
 // Headline Join 360
-h1 {                            
+h1 {
     font-family: 'Inter';
     font-weight: 700;
     font-size: 61px;
@@ -125,6 +140,31 @@ a {
     line-height: 19.2px;
 }
 
+.inside-app {
+    width: 100vw;
+    height: 100vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    padding-left: 328px;
+    padding-top: 206px;
+    padding-right: 64px;
+    padding-bottom: 64px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 32px;
+}
+
 @mixin transition-75 {
     transition: all 125ms ease-in-out;
+}
+
+@mixin box-shadow {
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+}
+
+@mixin box-shadow-stronger {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }

@@ -1,0 +1,84 @@
+@import "../../../styles.scss";
+
+.panel-container {
+    width: 560px;
+    height: 562px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.box {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    align-items: center;
+    border-radius: 30px;
+    padding: 38px 19px;
+    background-color: var(--white);
+    cursor: pointer;
+    @include transition-75;
+    @include box-shadow;
+
+    &:hover {
+        color: var(--white);
+        background-color: var(--third);
+        @include box-shadow-stronger;
+
+        h2, p {
+            color: var(--white);
+        }
+
+        .icon {
+            background-color: var(--white);
+        }
+    }
+}
+
+.panel-row {
+    flex: 1;
+    display: flex; 
+    justify-content: space-between;
+    gap: 32px;
+}
+
+.box1, .box2 {
+    flex: 1;
+}
+
+.box3 {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.panel-row-3 {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+.box4, .box5, .box6 {
+    flex: 1;
+}
+
+.icon {
+    background-color: var(--primary);
+    padding: 16px;
+    border-radius: 50%;
+
+    img {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+.box-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}

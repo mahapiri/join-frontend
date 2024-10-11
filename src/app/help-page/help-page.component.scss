@@ -1,0 +1,73 @@
+@import "../../styles.scss";
+
+.help {
+    align-items: flex-start;
+}
+
+h5 {
+    font-weight: 700;
+}
+
+.blue {
+    color: var(--secondary)
+}
+
+span {
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+}
+
+article {
+    font-family: 'Inter';
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+}
+
+.back-icon {
+    position: absolute;
+    right: 64px;
+
+    img {
+        width: 32px;
+        height: 32px;
+        @include transition-75;
+
+        &:hover {
+            background-color: var(--lightgray);
+            border-radius: 42px;
+        }
+
+    }
+}
+
+ol {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 16px;
+    padding-inline-start: 0px;
+    margin-bottom: 32px;
+}
+
+ol li {
+    display: flex;               
+    align-items: flex-start;    
+    counter-increment: list-counter; 
+    margin-bottom: 16px;     
+}
+
+ol li::before {
+    content: counter(list-counter) ".";
+    font-family: 'Inter';
+    font-weight: 700;
+    font-size: 27px;
+    padding-right: 32px;       
+}  
+
+.list-item {
+    line-height: 24px;
+}

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { PanelComponent } from "./panel/panel.component";
 
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [],
+  imports: [PanelComponent],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss'
 })

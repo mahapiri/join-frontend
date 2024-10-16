@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-help-page',
@@ -10,7 +11,9 @@ import {Location} from '@angular/common';
 })
 export class HelpPageComponent {
 
-  constructor(private _location: Location) {}
+  constructor(private _location: Location, private titleService: Title) {
+    this.titleService.setTitle("Join - Help");
+  }
 
   back() {
     this._location.back();

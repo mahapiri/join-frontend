@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-add-task',
@@ -8,5 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './add-task.component.scss'
 })
 export class AddTaskComponent {
-
+  constructor(private titleService: Title) {
+    this.titleService.setTitle("Join - Add Task");
+  }
 }

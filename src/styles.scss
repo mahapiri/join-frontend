@@ -42,6 +42,8 @@ body {
     --red: rgba(255, 0, 31, 1);
     --prio-red: rgba(255, 61, 0, 1);
     --divider-line: rgba(209, 209, 209, 1);
+    --required: rgba(254, 144, 157, 1);
+    --hover-icon: rgba(217, 217, 217, 1);
 
 
     --mint: rgba(31, 215, 193, 1);
@@ -160,8 +162,37 @@ a {
     gap: 32px;
 }
 
+
+input, textarea {
+    width: 440px;
+    border-radius: 10px;
+    border: 1px solid var(--divider-line);
+    background-color: var(--white);
+    padding: 12px 21px;
+    display: flex;
+    gap: 8px;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    outline: none;
+    // @include transition-75;
+
+    &::placeholder {
+        color: var(--divider-line);
+    }
+}
+
+input[type=submit] {
+    cursor: pointer;
+}
+
 @mixin transition-75 {
     transition: all 125ms ease-in-out;
+}
+
+@mixin transition-100 {
+    transition: all 100ms ease-out;
 }
 
 @mixin box-shadow {
@@ -170,4 +201,8 @@ a {
 
 @mixin box-shadow-stronger {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+@mixin box-shadow-backlog {
+    box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
 }

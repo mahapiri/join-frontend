@@ -1,0 +1,35 @@
+<form class="form-container" onsubmit="sendForm()">
+    <div class="field-container">
+        <div class="field-layout">
+            <p>Title<span>*</span></p>
+            <input type="text" placeholder="Enter a title" required>
+        </div>
+        <div class="field-layout">
+            <p>Description</p>
+            <textarea type="text" placeholder="Enter a Description"></textarea>
+        </div>
+        <div class="field-layout">
+            <p>Assigned To</p>
+            <div class="select-container">
+                <input class="assigned-to-field" type="text" value="Select contacts to assign" readonly (click)="toggleAssigneTo()">
+                <img class="arrow-icon" [src]="isAssignedTo ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'" alt="arrow" (click)="toggleAssigneTo()">
+                <div *ngIf="isAssignedTo" class="backlog-box">
+                    <div class="contact-container">
+                        <div class="contact-name">
+                            <div class="contact-icon">SM</div>
+                            <p>Sofia Müller</p>
+                        </div>
+                        <div>
+                            <input type="checkbox">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="divider"></div>
+    <div>Date</div>
+    <input type="submit">
+</form>

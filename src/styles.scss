@@ -2,6 +2,7 @@
     margin: 0;
     box-sizing: border-box;
     color: rgba(0, 0, 0, 1);
+    user-select: none;
 }
 
 @font-face {
@@ -39,6 +40,8 @@ body {
     --lightgray: rgba(238, 238, 238, 1);
     --hover-btn: rgba(12, 46, 98, 0.12);
     --red: rgba(255, 0, 31, 1);
+    --prio-red: rgba(255, 61, 0, 1);
+    --divider-line: rgba(209, 209, 209, 1);
 
 
     --mint: rgba(31, 215, 193, 1);

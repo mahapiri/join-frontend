@@ -11,4 +11,5 @@ import { Component } from '@angular/core';
 export class PanelComponent {
   imgSrcTodo = 'assets/img/edit/default.svg';
   imgSrcDone = 'assets/img/check/default.svg';
+  imgSrcPrio = 'assets/img/prio/urgent-active.svg';
 }

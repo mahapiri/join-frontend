@@ -9,20 +9,50 @@
                 <p>To-do</p>
             </div>
         </div>
-        <div class="box box2" (mouseover)="imgSrcDone ='assets/img/edit/hover.svg'" (mouseout)="imgSrcDone ='assets/img/edit/default.svg'">
+        <div class="box box2" (mouseover)="imgSrcDone ='assets/img/check/hover.svg'" (mouseout)="imgSrcDone ='assets/img/check/default.svg'">
             <div class="icon">
                 <img [src]="imgSrcDone" alt="To-Do">
             </div>
             <div class="box-content">
                 <h2>1</h2>
-                <p>To-do</p>
+                <p>Done</p>
             </div>
         </div>
     </div>
-    <div class="box box3">3</div>
+    <div class="box box3" (mouseover)="imgSrcPrio ='assets/img/prio/urgent-default.svg'" (mouseout)="imgSrcPrio ='assets/img/prio/urgent-active.svg'">
+        <div class="urgency-container">
+            <div class="icon prio-icon">
+                <img [src]="imgSrcPrio" alt="Prio-Urgent">
+            </div>
+            <div class="box-content">
+                <h2>1</h2>
+                <p>Urgent</p>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="urgency-content">
+            <p class="p-bold">October 16, 2022</p>
+            <a>Upcoming Deadline</a>
+        </div>
+    </div>
     <div class="panel-row-3">
-        <div class="box box4">4</div>
-        <div class="box box5">5</div>
-        <div class="box box6">6</div>
+        <div class="box box4">
+            <div class="box-content">
+                <h2>5</h2>
+                <p class="box-text">Tasks in Board</p>
+            </div>
+        </div>
+        <div class="box box5">
+            <div class="box-content">
+                <h2>2</h2>
+                <p class="box-text">Tasks in Progress</p>
+            </div>
+        </div>
+        <div class="box box6">
+            <div class="box-content">
+                <h2>2</h2>
+                <p class="box-text">Awaiting Feedback</p>
+            </div>
+        </div>
     </div>
 </div>

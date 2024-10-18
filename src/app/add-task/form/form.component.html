@@ -1,35 +1,92 @@
-<form class="form-container" onsubmit="sendForm()">
-    <div class="field-container">
-        <div class="field-layout">
-            <p>Title<span>*</span></p>
-            <input type="text" placeholder="Enter a title" required>
-        </div>
-        <div class="field-layout">
-            <p>Description</p>
-            <textarea type="text" placeholder="Enter a Description"></textarea>
-        </div>
-        <div class="field-layout">
-            <p>Assigned To</p>
-            <div class="select-container">
-                <input class="assigned-to-field" type="text" value="Select contacts to assign" readonly (click)="toggleAssigneTo()">
-                <img class="arrow-icon" [src]="isAssignedTo ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'" alt="arrow" (click)="toggleAssigneTo()">
-                <div *ngIf="isAssignedTo" class="backlog-box">
-                    <div class="contact-container">
-                        <div class="contact-name">
-                            <div class="contact-icon">SM</div>
-                            <p>Sofia Müller</p>
-                        </div>
-                        <div>
-                            <input type="checkbox">
-                        </div>
+<form #taskform="ngForm" class="form-layout" onsubmit="onSubmit(taskForm)">
+    <div class="form-container">
+        <div class="field-container">
+            <div class="field-layout">
+                <p>Title<span>*</span></p>
+                <input type="text" placeholder="Enter a title" required>
+            </div>
+            <div class="field-layout">
+                <p>Description</p>
+                <textarea type="text" placeholder="Enter a Description"></textarea>
+            </div>
+            <div class="field-layout">
+                <p>Assigned To</p>
+                <div class="select-container">
+                    <input class="assigned-to-field" type="text" value="Select contacts to assign" readonly
+                        (click)="toggleAssigneTo()">
+                    <img class="arrow-icon"
+                        [src]="isAssignedTo ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
+                        alt="arrow" (click)="toggleAssigneTo()">
 
+                    <div [style.display]="isAssignedTo ? 'flex' : 'none'" class="backlog-box">
+                        <label class="contact-container" #contactContainer>
+                            <div class="contact-name">
+                                <div class="contact-icon">SM</div>
+                                <p>Sofia Müller</p>
+                            </div>
+                            <div class="checkbox-container">
+                                <input type="checkbox" #checkbox
+                                    (change)="onCheckboxChange(checkbox, contactContainer)">
+                                <span class="checkmark checkmark-font"></span>
+                            </div>
+                        </label>
                     </div>
                 </div>
             </div>
-        </div>
 
+        </div>
+        <div class="divider"></div>
+        <div class="field-container">
+            <div class="field-layout">
+                <p>Due date<span>*</span></p>
+                <div class="datepicker-box">
+                    <span class="datepicker-btn"></span>
+                    <input matInput [matDatepicker]="picker" [formControl]="date" class="datepicker-input">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </div>
+            </div>
+            <div class="field-layout">
+                <p>Prio</p>
+                <input type="text" placeholder="Enter a title" required>
+            </div>
+            <div class="field-layout">
+                <p>Category<span>*</span></p>
+                <div class="select-container">
+                    <input class="assigned-to-field" type="text" value="Select task category" readonly required
+                        (click)="toggleCategory()">
+                    <img class="arrow-icon"
+                        [src]="isCategory ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
+                        alt="arrow" (click)="toggleCategory()">
+
+                    <div [style.display]="isCategory ? 'flex' : 'none'" class="backlog-box height-auto">
+                        <label class="contact-container width-100" #contactContainerCategory>
+                            <div class="contact-name">
+                                <p>Technical Task</p>
+                            </div>
+                        </label>
+                        <label class="contact-container width-100" #contactContainerCategory>
+                            <div class="contact-name">
+                                <p>User Story</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="field-layout">
+                <p>Subtasks</p>
+                <input type="text" placeholder="Add new subtask">
+            </div>
+        </div>
     </div>
-    <div class="divider"></div>
-    <div>Date</div>
-    <input type="submit">
+    <div>
+        <div class="required-text">
+            <p><span>*</span>This field is required</p>
+        </div>
+        <div>
+            <button type="button" (click)="resetForm(taskform)">Clear</button> 
+            <button type="submit">Submit</button> 
+        </div>
+    </div>
+
 </form>

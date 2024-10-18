@@ -1,5 +1,11 @@
 @import "../../../styles.scss";
 
+.form-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+}
+
 .form-container {
     width: 100%;
     height: 100%;
@@ -9,7 +15,7 @@
 }
 
 .field-container {
-    height: 424px;
+    // height: 424px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -65,6 +71,10 @@ textarea {
 }
 
 .backlog-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
     width: 440px;
     height: 336px;
     position: absolute;
@@ -76,6 +86,16 @@ textarea {
     border-bottom-left-radius: 10px;
     @include box-shadow-backlog;
     overflow-y: scroll;
+}
+
+.height-auto {
+    height: 100px;
+    overflow-y: hidden !important;
+}
+
+.width-100 {
+    width: 100% !important;
+
 }
 
 .contact-container {
@@ -115,42 +135,136 @@ textarea {
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 2px solid;
+}
+
+.checkbox-container {
+    width: 16px;
+    height: 16px;
+    position: relative;
+}
+
+.checkbox-container {
+    width: 16px;
+    height: 16px;
+    position: relative;
 }
 
 
 input[type=checkbox] {
-    width: unset;
-    // height: 16px;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    opacity: 0;
+    z-index: 1;
+    cursor: pointer;
+
+
+    &:checked {
+        +.checkmark {
+            border-color: var(--white);
+            background-color: var(--primary);
+
+            &::after {
+                display: block;
+            }
+        }
+
+        +.contact-container {
+            background-color: var(--primary);
+
+            p {
+                color: var(--white) !important;
+            }
+        }
+    }
+}
+
+.checkmark {
+    width: 16px;
+    height: 16px;
+    background-color: var(--white);
+    border: 2px solid var(--primary);
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 3px;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    @include transition-75;
+
+    &::after {
+        content: "";
+        position: relative;
+        display: none;
+        left: 6px;
+        bottom: 5px;
+        width: 4px;
+        height: 12px;
+        border: solid var(--white);
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+}
+
+.checkmark-font {
     font-family: Inter;
     font-size: 12px;
     font-weight: 400;
     line-height: 14.4px;
-    appearance: none;
-    // aspect-ratio: 1;
-    border-radius: 3px;
-    border: 2px solid var(--primary);
-    margin: 0;
-    position: relative;
-    cursor: pointer;
+}
 
-    &:hover {
-        background-color: yellow;
-        border: 3px solid var(--primary);
-    }
 
-    &:checked {
-        background-color: red;
-        accent-color: var(--white);
+.required-text {
+    p {
+        display: flex;
+        align-items: flex-start;
     }
 }
 
-input[type="checkbox"]::after {
-    border-color: gray;
-    border-style: solid;
-    border-width: 0 0.15em 0.15em 0;
-    box-sizing: border-box;
-    content: '';
-    aspect-ratio: 1 / 1.8;
-    rotate: 40deg;
-    width: 0.375em;
+.datepicker-box {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.datepicker-btn {
+    position: absolute;
+    top: 28%;
+    right: 16px;
+    width: 24px;
+    height: 24px;
+    background-image: url('../../../assets/img/calender/default.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 10px;
+    cursor: pointer;
+    @include transition-75;
+}
+
+.datepicker-input::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    position: absolute;
+    top: 33%;
+    right: 16px;
+    cursor: pointer;
+}
+
+mat-datepicker-toggle {
+    opacity: 0;
+    position: absolute;
+    top: 33%;
+    right: 16px;
+}
+
+mat-datepicker {
+    width: 24px !important;
+    height: 24px !important;
+    display: none;
+    padding: 0;
+}
+
+mat-calendar {
+    background-color: red !important;
 }

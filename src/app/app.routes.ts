@@ -9,6 +9,7 @@ import { LegalNoticeComponent } from './legal-notice/legal-notice.component';
 import { HelpPageComponent } from './help-page/help-page.component';
 
 export const routes: Routes = [
+    { path: '', component: SummaryComponent},
     { path: 'summary', component: SummaryComponent},
     { path: 'add-task', component: AddTaskComponent},
     { path: 'board', component: BoardComponent},

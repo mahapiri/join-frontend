@@ -38,23 +38,31 @@ export class FormComponent {
   readonly date = new FormControl(new Date());
   isAssignedTo: boolean = false;
   isCategory: boolean = false;
+  isHoverContact: boolean = false;
+  private readonly _currentYear = new Date().getFullYear();
+  readonly minDate = new Date(this._currentYear, 0, 1);
+  readonly maxDate = new Date(this._currentYear + 5, 11, 31);
 
   constructor() {
   }
 
-  onCheckboxChange(checkbox: HTMLInputElement, contactContainer: HTMLElement) {
+  onCheckboxChange(checkbox: HTMLInputElement, contactContainer: HTMLElement, isHovering: boolean) {
+    const paragraph = contactContainer.querySelector('p') as HTMLElement;
+    const contactIcon = contactContainer.querySelector('.contact-icon') as HTMLElement;
+
     if (checkbox.checked) {
-      contactContainer.style.backgroundColor = 'var(--primary)';
-      const paragraph = contactContainer.querySelector('p') as HTMLElement;
-      const contactIcon = contactContainer.querySelector('.contact-icon') as HTMLElement;
+      if(isHovering) {
+        contactContainer.style.backgroundColor = 'var(--third)';
+      } else {
+        contactContainer.style.backgroundColor = 'var(--primary)';
+      }
+
       if (paragraph) {
         paragraph.style.color = 'var(--white)';
         contactIcon.style.borderColor = 'var(--white)';
       }
     } else {
-      contactContainer.style.backgroundColor = 'var(--white)';
-      const paragraph = contactContainer.querySelector('p') as HTMLElement;
-      const contactIcon = contactContainer.querySelector('.contact-icon') as HTMLElement;
+      contactContainer.style.backgroundColor = '';
       if (paragraph) {
         paragraph.style.color = '';
         contactIcon.style.borderColor = '';
@@ -73,6 +81,12 @@ export class FormComponent {
 
   toggleAssigneTo() {
     this.isAssignedTo = !this.isAssignedTo;
+    const assignedToInput = document.getElementById('assignedTo') as HTMLInputElement;
+    if(assignedToInput && this.isAssignedTo) {
+      assignedToInput.value = '';
+    } else {
+      assignedToInput.value = 'Select contacts to assign';
+    }
   }
 
   toggleCategory() {

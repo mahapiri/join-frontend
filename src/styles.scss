@@ -41,6 +41,8 @@ body {
     --hover-btn: rgba(12, 46, 98, 0.12);
     --red: rgba(255, 0, 31, 1);
     --prio-red: rgba(255, 61, 0, 1);
+    --prio-orange: rgba(255, 168, 0, 1);
+    --prio-green: rgba(122, 226, 41, 1);
     --divider-line: rgba(209, 209, 209, 1);
     --required: rgba(254, 144, 157, 1);
     --hover-icon: rgba(217, 217, 217, 1);
@@ -63,9 +65,29 @@ body {
     --yellow: rgba(255, 230, 43, 1);
     --red: rgba(255, 70, 70, 1);
     --orange-lighten: rgba(255, 187, 43, 1);
+
 }
 
-// Headline Join 360
+@mixin transition-75 {
+    transition: all 125ms ease-in-out;
+}
+
+@mixin transition-100 {
+    transition: all 100ms ease-out;
+}
+
+@mixin box-shadow {
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+}
+
+@mixin box-shadow-stronger {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+@mixin box-shadow-backlog {
+    box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
+}
+
 h1 {
     font-family: 'Inter';
     font-weight: 700;
@@ -163,7 +185,8 @@ a {
 }
 
 
-input, textarea {
+input,
+textarea {
     width: 440px;
     border-radius: 10px;
     border: 1px solid var(--divider-line);
@@ -176,10 +199,20 @@ input, textarea {
     font-size: 20px;
     line-height: 24px;
     outline: none;
-    // @include transition-75;
+    resize: vertical;
+    @include transition-75;
 
     &::placeholder {
         color: var(--divider-line);
+    }
+
+    &:active {
+        border-color: var(--secondary);
+    }
+
+    &:focus,
+    &:focus-visible {
+        border-color: var(--secondary);
     }
 }
 
@@ -187,24 +220,37 @@ input {
     cursor: pointer;
 }
 
-@mixin transition-75 {
-    transition: all 125ms ease-in-out;
+::-webkit-resizer {
+    // border-width: 1px;
+    // border-style: solid;
+    // border-color: var(--divider-line);
+
 }
 
-@mixin transition-100 {
-    transition: all 100ms ease-out;
+mat-calendar {
+    background-color: var(--white) !important;
+    border: 1px solid var(--white);
+    border-radius: 10px;
+    @include transition-75;
+    @include box-shadow-backlog;
 }
 
-@mixin box-shadow {
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+.mat-calendar-period-button:hover {
+    background-color: var(--hover-icon);
 }
 
-@mixin box-shadow-stronger {
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+.mat-calendar-body-selected {
+    background-color: var(--primary) !important;
 }
 
-@mixin box-shadow-backlog {
-    box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
+.mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+    border-color: var(--secondary) !important;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-calendar-body-selected.mat-calendar-body-today {
+    box-shadow: unset !important;
+}
+
+.mat-datepicker-content {
+    margin-top: 8px;
+}

@@ -39,6 +39,8 @@ export class FormComponent {
   isAssignedTo: boolean = false;
   isCategory: boolean = false;
   isHoverContact: boolean = false;
+  isSubtask: boolean = false;
+  isSubtaskEditable: boolean = false;
   private readonly _currentYear = new Date().getFullYear();
   readonly minDate = new Date(this._currentYear, 0, 1);
   readonly maxDate = new Date(this._currentYear + 5, 11, 31);
@@ -91,5 +93,23 @@ export class FormComponent {
 
   toggleCategory() {
     this.isCategory = !this.isCategory;
+  }
+
+  writingSubtask(input: HTMLInputElement) {
+    if(input.value.trim() === "") {
+      this.isSubtask = false;
+    } else {
+      this.isSubtask = true;
+    }
+  }
+
+  setSubtaskEdit(subtaskitem: HTMLElement) {
+    console.log('hover')
+    this.isSubtaskEditable = true;
+  }
+
+  setSubtaskNotEdit(subtaskitem: HTMLElement) {
+    console.log('weg')
+    this.isSubtaskEditable = false;
   }
 }

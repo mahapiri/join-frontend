@@ -13,22 +13,22 @@
                 <p>Assigned To</p>
                 <div class="select-container">
                     <input class="assigned-to-field" type="text" value="Select contacts to assign"
-                        (click)="toggleAssigneTo()"
-                        id="assignedTo">
-                    <img class="arrow-icon"
+                        (click)="toggleAssigneTo()" id="assignedTo">
+                    <img class="input-icon"
                         [src]="isAssignedTo ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
                         alt="arrow" (click)="toggleAssigneTo()">
 
                     <div [style.display]="isAssignedTo ? 'flex' : 'none'" class="backlog-box">
-                        <label class="contact-container" #contactContainer (mouseover)="onCheckboxChange(checkbox, contactContainer, true)" (mouseout)="onCheckboxChange(checkbox, contactContainer, false)">
+                        <label class="contact-container" #contactContainer
+                            (mouseover)="onCheckboxChange(checkbox, contactContainer, true)"
+                            (mouseout)="onCheckboxChange(checkbox, contactContainer, false)">
                             <div class="contact-name">
                                 <div class="contact-icon">SM</div>
                                 <p>Sofia Müller</p>
                             </div>
                             <div class="checkbox-container">
                                 <input type="checkbox" #checkbox
-                                    (change)="onCheckboxChange(checkbox, contactContainer, true)"
-                                    >
+                                    (change)="onCheckboxChange(checkbox, contactContainer, true)">
                                 <span class="checkmark checkmark-font"></span>
                             </div>
                         </label>
@@ -47,13 +47,14 @@
                 <p>Due date<span>*</span></p>
                 <div class="datepicker-box">
                     <span class="datepicker-btn"></span>
-                    <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" [formControl]="date" class="datepicker-input">
+                    <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" [formControl]="date"
+                        class="datepicker-input">
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </div>
             </label>
 
-<!--  -->
+            <!--  -->
 
 
             <div class="field-layout">
@@ -77,7 +78,7 @@
                 </div>
             </div>
 
-<!--  -->
+            <!--  -->
 
 
 
@@ -87,7 +88,7 @@
                 <div class="select-container">
                     <input class="assigned-to-field" type="text" value="Select task category" readonly required
                         (click)="toggleCategory()">
-                    <img class="arrow-icon"
+                    <img class="input-icon"
                         [src]="isCategory ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
                         alt="arrow" (click)="toggleCategory()">
 
@@ -105,10 +106,36 @@
                     </div>
                 </div>
             </div>
+
+            <!--  -->
             <div class="field-layout">
                 <p>Subtasks</p>
-                <input type="text" placeholder="Add new subtask">
+                <div class="select-container">
+                    <input #subtaskInput (input)="writingSubtask(subtaskInput)" type="text"
+                        placeholder="Add new subtask">
+                    <div *ngIf="isSubtask" class="input-icon-container">
+                        <img src="assets/img/cancel/default.svg" alt="Cancel">
+                        <div class="input-divider"></div>
+                        <img src="assets/img/check/default-subtask.svg" alt="Check">
+                    </div>
+                    <img *ngIf="!isSubtask" class="input-icon" src="assets/img/add/default-subtask.svg" alt="Add">
+                </div>
+                <ul class="subtask-list">
+                    <li (mouseover)="setSubtaskEdit(subtaskitem)" (mouseleave)="setSubtaskNotEdit(subtaskitem)">
+                        <a>Contact Form</a>
+                        <div #subtaskitem class="input-icon-container" *ngIf="isSubtaskEditable">
+                            <img src="assets/img/edit/hover.svg" alt="Edit">
+                            <div class="input-divider"></div>
+                            <img src="assets/img/delete/default.svg" alt="Delete">    
+                        </div>
+                    </li>
+                    <li><a>Contact Form</a></li>
+                    <li><a>Contact Form</a></li>
+                    <li><a>Contact Form</a></li>
+                    <li><a>Contact Form</a></li>
+                </ul>
             </div>
+            <!--  -->
         </div>
     </div>
     <div>
@@ -116,8 +143,8 @@
             <p><span>*</span>This field is required</p>
         </div>
         <div>
-            <button type="button" (click)="resetForm(taskform)">Clear</button> 
-            <button type="submit">Submit</button> 
+            <button type="button" (click)="resetForm(taskform)">Clear</button>
+            <button type="submit">Submit</button>
         </div>
     </div>
 

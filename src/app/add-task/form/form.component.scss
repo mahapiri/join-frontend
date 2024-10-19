@@ -26,8 +26,14 @@
 
 .divider {
     width: 0px;
-    border: 1px solid var(--divider-line);
     height: 424px;
+    border: 1px solid var(--divider-line);
+}
+
+.input-divider {
+    width: 0px;
+    height: 24px;
+    border: 1px solid var(--input-divider);
 }
 
 span {
@@ -42,6 +48,7 @@ span {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    position: relative;
 }
 
 textarea {
@@ -53,19 +60,42 @@ textarea {
     z-index: 1;
 }
 
-.arrow-icon {
+.input-icon {
     width: 24px;
     height: 24px;
     position: absolute;
     top: 25%;
-    z-index: 1;
     right: 16px;
+    z-index: 1;
     @include transition-100;
     cursor: pointer;
     border-radius: 50%;
 
     &:hover {
         background-color: var(--hover-icon);
+    }
+}
+
+.input-icon-container {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    position: absolute;
+    top: 25%;
+    right: 16px;
+    z-index: 1;
+    @include transition-100;
+
+    img {
+        width: 24px;
+        height: 24px;
+        @include transition-100;
+        cursor: pointer;
+        border-radius: 50%;
+
+        &:hover {
+            background-color: var(--hover-icon);
+        }
     }
 }
 
@@ -350,4 +380,57 @@ mat-datepicker {
 
 #low:checked + label img {
     content: url('../../../assets/img/prio/low-active.svg');
+}
+
+
+
+.subtask-list {
+    width: 100%;
+    height: 111px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: absolute;
+    top: calc(100% + 8px);
+    overflow-y: auto;
+    padding: 0;
+
+    .input-icon-container {
+        position: unset;
+        display: none;
+    }
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 16px;
+        padding-left: 32px;
+        list-style-position: inside;
+        list-style:circle;
+        border-radius: 10px;
+        cursor: pointer;
+        position: relative;
+
+        &::before {
+            content: "";
+            position: absolute;
+            transform: translateY(-50%);
+            top: 50%;
+            left: 16px;
+            border-radius: 100%;
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+        }
+
+        &:hover {
+            background-color: var(--lightgray);
+        }
+
+        a {
+            width: 100%;
+        }
+    }
+
 }

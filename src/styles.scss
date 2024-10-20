@@ -13,7 +13,7 @@
 body {
     width: 100vw;
     height: 100vh;
-    background-color: rgba(246, 247, 248, 1);
+    background-color: var(--background);
     overflow: hidden;
 }
 
@@ -31,6 +31,7 @@ body {
 }
 
 :root {
+    --background: rgba(246, 247, 248, 1);
     --primary: rgba(42, 54, 71, 1);
     --secondary: rgba(41, 171, 226, 1);
     --third: rgba(9, 25, 49, 1);
@@ -222,11 +223,13 @@ input {
     cursor: pointer;
 }
 
-::-webkit-resizer {
-    // border-width: 1px;
-    // border-style: solid;
-    // border-color: var(--divider-line);
-
+button {
+    border-radius: 10px;
+    border: 1px solid var(--primary);
+    padding: 16px;
+    position: relative;
+    cursor: pointer;
+    @include transition-75;
 }
 
 mat-calendar {

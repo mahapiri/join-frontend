@@ -142,13 +142,19 @@
             <!--  -->
         </div>
     </div>
-    <div>
+    <div class="submit-container">
         <div class="required-text">
             <p><span>*</span>This field is required</p>
         </div>
-        <div>
-            <button type="button" (click)="resetForm(taskform)">Clear</button>
-            <button type="submit">Submit</button>
+        <div class="btn-content">
+            <button class="clear-btn" type="button" (click)="resetForm(taskform)">
+                <p>Clear</p>
+                <img class="clear-img" src="assets/img/clear/default.svg" alt="Clear">
+            </button>
+            <button class="submit-btn" type="submit">
+                <p class="p-bold">Create Task</p>
+                <img src="assets/img/check/default-create-task.svg" alt="Create">
+            </button>
         </div>
     </div>
 

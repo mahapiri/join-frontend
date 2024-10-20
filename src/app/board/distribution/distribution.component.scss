@@ -1,0 +1,57 @@
+@import "../../../styles.scss";
+
+.layout-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 26px;
+}
+
+.p-bold {
+    color: var(--header-border);
+}
+
+.column {
+    flex: 1;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    margin-bottom: 24px;
+
+    img {
+        @include transition-100;
+
+        &:hover {
+            content: url(../../../assets/img/plus/hover.svg);
+        }
+
+        &:active {
+            content: url(../../../assets/img/plus/active.svg);
+        }
+    }
+}
+
+.task-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.no-task-content {
+    height: 48px;
+    border-radius: 10px;
+    border: 1px dotted var(--input-divider);
+    background-color: var(--notask-card);
+    @include box-shadow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    a {
+        color: var(--input-divider);
+        cursor: default;
+    }
+}

@@ -121,18 +121,22 @@
                     <img *ngIf="!isSubtask" class="input-icon" src="assets/img/add/default-subtask.svg" alt="Add">
                 </div>
                 <ul class="subtask-list">
-                    <li (mouseover)="setSubtaskEdit(subtaskitem)" (mouseleave)="setSubtaskNotEdit(subtaskitem)">
+                    <li (mouseover)="setSubtaskEdit(subtaskitem0)" (mouseleave)="setSubtaskNotEdit(subtaskitem0)">
                         <a>Contact Form</a>
-                        <div #subtaskitem class="input-icon-container" *ngIf="isSubtaskEditable">
+                        <div #subtaskitem0 class="input-icon-container">
                             <img src="assets/img/edit/hover.svg" alt="Edit">
                             <div class="input-divider"></div>
                             <img src="assets/img/delete/default.svg" alt="Delete">    
                         </div>
                     </li>
-                    <li><a>Contact Form</a></li>
-                    <li><a>Contact Form</a></li>
-                    <li><a>Contact Form</a></li>
-                    <li><a>Contact Form</a></li>
+                    <div class="subtask-edit-container">
+                        <input type="text" value="Contact Form" class="input-subtask">
+                        <div class="input-icon-container">
+                            <img src="assets/img/delete/default.svg" alt="Delete">
+                            <div class="input-divider"></div>
+                            <img src="assets/img/check/default-subtask.svg" alt="Check">    
+                        </div>
+                    </div>
                 </ul>
             </div>
             <!--  -->

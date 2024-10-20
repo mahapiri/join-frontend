@@ -40,7 +40,7 @@ export class FormComponent {
   isCategory: boolean = false;
   isHoverContact: boolean = false;
   isSubtask: boolean = false;
-  isSubtaskEditable: boolean = false;
+
   private readonly _currentYear = new Date().getFullYear();
   readonly minDate = new Date(this._currentYear, 0, 1);
   readonly maxDate = new Date(this._currentYear + 5, 11, 31);
@@ -103,13 +103,11 @@ export class FormComponent {
     }
   }
 
-  setSubtaskEdit(subtaskitem: HTMLElement) {
-    console.log('hover')
-    this.isSubtaskEditable = true;
+  setSubtaskEdit(subtaskitem: any) {
+    subtaskitem.style.opacity = "1";
   }
 
-  setSubtaskNotEdit(subtaskitem: HTMLElement) {
-    console.log('weg')
-    this.isSubtaskEditable = false;
+  setSubtaskNotEdit(subtaskitem: any) {
+    subtaskitem.style.opacity = "0";
   }
 }

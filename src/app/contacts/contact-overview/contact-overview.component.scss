@@ -1,0 +1,18 @@
+.inside-app {
+    padding-left: 32px;
+    padding-top: 206px;
+    height: unset;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.divider {
+    width: 3px;
+    height: 59px;
+    background-color: var(--secondary);
+}

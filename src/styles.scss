@@ -210,6 +210,7 @@ textarea {
     outline: none;
     resize: vertical;
     @include transition-75;
+    cursor: text;
 
     &::placeholder {
         color: var(--divider-line);
@@ -223,10 +224,6 @@ textarea {
     &:focus-visible {
         border-color: var(--secondary);
     }
-}
-
-input {
-    cursor: pointer;
 }
 
 button {

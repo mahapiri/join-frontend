@@ -12,9 +12,9 @@ import { CardComponent } from '../card/card.component';
 export class DistributionComponent {
   taskStatuses = [
     { label: 'To do', isHovered: false, isAdding: false, tasks: ['1'] },
-    { label: 'In progress', isHovered: false, isAdding: false, tasks: [] },
-    { label: 'Await feedback', isHovered: false, isAdding: false, tasks: [] },
-    { label: 'Done', tasks: [] },
+    { label: 'In progress', isHovered: false, isAdding: false, tasks: ['1'] },
+    { label: 'Await feedback', isHovered: false, isAdding: false, tasks: ['1'] },
+    { label: 'Done', tasks: ['1'] },
   ];
 
 

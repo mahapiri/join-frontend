@@ -9,9 +9,22 @@
         </div>
         <div class="progress-bar-container">
             <div class="progress-bar">
-                <div class="bar"></div>
+                <div class="bar" [style.width]="subtaskStatus"></div>
             </div>
             <div class="subtasks-status">1/2 Subtasks</div>
+        </div>
+        <div class="assigned-prio-container">
+            <div class="assigned-content">
+                <div class="contact-icon">
+                    SM
+                </div>
+                <div class="contact-icon translateX">
+                    SM
+                </div>
+            </div>
+            <div class="prio-content">
+                <img src="../../../assets/img/prio/low-default.svg" alt="Prio">
+            </div>
         </div>
     </div>
 </div>

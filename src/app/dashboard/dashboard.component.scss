@@ -72,6 +72,7 @@
 
     a {
         line-height: unset;
+        color: var(--gray) !important;
     }
 
     .sidebar-item-active,
@@ -80,7 +81,7 @@
         cursor: pointer;
 
         a {
-            color: var(--white);
+            color: var(--white) !important;
         }
 
         img {

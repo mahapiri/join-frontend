@@ -1,43 +1,28 @@
 <div class="layout-container">
-    <div class="column">
+    <div class="column" *ngFor="let status of taskStatuses">
         <div class="header">
-            <p class="p-bold">To do</p>
-            <img src="assets/img/plus/default.svg" alt="Add Task">
+            <p class="p-bold">{{ status.label }}</p>
+            <ng-container *ngIf="status.label !== 'Done'">
+                <img *ngIf="!status.isAdding" 
+                     (mouseover)="onMouseOver(status)" 
+                     (mouseout)="onMouseLeave(status)" 
+                     (click)="toggleAddTask(status)" 
+                     [src]="status.isHovered ? 'assets/img/plus/hover.svg' : 'assets/img/plus/default.svg'" 
+                     alt="Add Task">
+                <img *ngIf="status.isAdding" 
+                     (click)="toggleAddTask(status)" 
+                     src="assets/img/plus/active.svg" 
+                     alt="Add Task">
+            </ng-container>
         </div>
         <div class="task-container">
-            <div class="no-task-content">
+            <div class="no-task-content" *ngIf="!status.tasks.length">
                 <a>No tasks To do</a>
             </div>
-            <div class="task-content">Card</div>
-        </div>
-    </div>
-    <div class="column">
-        <div class="header">
-            <p class="p-bold">In progress</p>
-            <img src="assets/img/plus/default.svg" alt="Add Task">
-        </div>
-        <div class="task-container">
-            <div class="no-task-content">No</div>
-            <div class="task-content">Card</div>
-        </div>
-    </div>
-    <div class="column">
-        <div class="header">
-            <p class="p-bold">Await feedback</p>
-            <img src="assets/img/plus/default.svg" alt="Add Task">
-        </div>
-        <div class="task-container">
-            <div class="no-task-content">No</div>
-            <div class="task-content">Card</div>
-        </div>
-    </div>
-    <div class="column">
-        <div class="header">
-            <p class="p-bold">Done</p>
-        </div>
-        <div class="task-container">
-            <div class="no-task-content">No</div>
-            <div class="task-content">Card</div>
+            <div class="task-content" *ngFor="let task of status.tasks">
+                <!-- {{ task }} -->
+                <app-card></app-card>
+            </div>
         </div>
     </div>
 </div>

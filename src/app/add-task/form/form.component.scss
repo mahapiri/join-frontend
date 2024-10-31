@@ -118,7 +118,7 @@ textarea {
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     @include box-shadow-backlog;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .height-auto {
@@ -132,7 +132,7 @@ textarea {
 }
 
 .contact-container {
-    width: 416px;
+    width: 100%;
     position: relative;
     top: 16px;
     display: flex;
@@ -496,7 +496,7 @@ mat-datepicker {
             color: var(--secondary);
         }
 
-        img {
+        .clear-img {
             content: url(../../../assets/img/clear/hover.svg);
         }
     }
@@ -508,7 +508,7 @@ mat-datepicker {
             color: var(--third);
         }
 
-        img {
+        .clear-img {
             content: url(../../../assets/img/clear/active.svg);
         }
     }

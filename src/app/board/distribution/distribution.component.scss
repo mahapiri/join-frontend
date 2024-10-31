@@ -18,19 +18,19 @@
 .header {
     display: flex;
     justify-content: space-between;
-    cursor: pointer;
     margin-bottom: 24px;
 
     img {
         @include transition-100;
+        cursor: pointer;
 
-        &:hover {
-            content: url(../../../assets/img/plus/hover.svg);
-        }
+        // &:hover {
+        //     content: url(../../../assets/img/plus/hover.svg);
+        // }
 
-        &:active {
-            content: url(../../../assets/img/plus/active.svg);
-        }
+        // &:active {
+        //     content: url(../../../assets/img/plus/active.svg);
+        // }
     }
 }
 

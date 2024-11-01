@@ -43,13 +43,14 @@ header {
 .edit-delete-section {
     display: flex;
     gap: 32px;
+    @include transition-100;
 
-    img {
+    svg {
        width: 24px;
        height: 24px; 
     }
 
-    p {
+    a {
         color: var(--primary);
     }
 }
@@ -58,9 +59,20 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 13px;
+    gap: 8px;
     @include transition-100;
     cursor: pointer;
+
+    &:hover {
+        a {
+            color: var(--secondary);
+            font-weight: 700;
+        }
+
+        svg path {
+            fill: var(--secondary);
+        }
+    }
 }
 
 .contact-icon {

@@ -13,4 +13,8 @@ export class PrivacyPolicyComponent {
   constructor(private _location: Location, private titleService: Title) {
     this.titleService.setTitle("Join - Privacy Policy");
   }
+
+  back() {
+    this._location.back();
+  }
 }

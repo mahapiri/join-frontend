@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Location } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -10,8 +11,11 @@ import { Title } from '@angular/platform-browser';
 })
 export class LegalNoticeComponent {
 
-  constructor(private titleService:Title) {
+  constructor(private _location: Location, private titleService:Title) {
     this.titleService.setTitle("Join - Legal notice")
   }
 
+  back() {
+    this._location.back();
+  }
 }

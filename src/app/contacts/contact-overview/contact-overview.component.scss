@@ -1,3 +1,5 @@
+@import "../../../styles.scss";
+
 .inside-app {
     padding-left: 32px;
     padding-top: 206px;
@@ -9,10 +11,94 @@ header {
     justify-content: center;
     align-items: center;
     gap: 30px;
+
+    h5 {
+        color: var(--primary);
+    }
 }
 
 .divider {
     width: 3px;
     height: 59px;
     background-color: var(--secondary);
+}
+
+.contact-container {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.contact-title {
+    display: flex;
+    gap: 54px;
+}
+
+.contact-title-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.edit-delete-section {
+    display: flex;
+    gap: 32px;
+
+    img {
+       width: 24px;
+       height: 24px; 
+    }
+
+    p {
+        color: var(--primary);
+    }
+}
+
+.edit-delete-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    @include transition-100;
+    cursor: pointer;
+}
+
+.contact-icon {
+    width: 120px;
+    height: 120px;
+    border-radius: 70px;
+    border: 3px solid var(--white);
+    background-color: var(--orange);
+    font-family: 'Inter';
+    font-size: 47px;
+    font-weight: 500;
+    line-height: 56.4px;
+    text-align: center;
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    @include box-shadow;
+}
+
+.contact-infos {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.email-phone-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    a {
+        cursor: default;
+    }
+}
+
+.email-text {
+    color: rgba(0, 124, 238, 1);
+    cursor: pointer !important;
 }

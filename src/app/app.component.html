@@ -1,5 +1,9 @@
 <app-dashboard></app-dashboard>
-<!-- <div class="popup">
-
-</div> -->
+<div class="popup-container" *ngIf="isPopup">
+    <div class="popup-content" [ngClass]="{'add-task': isAddTask, 'card': isCard}">
+        <img class="close-icon" src="assets/img/close/default-disable.svg" alt="Close" (click)="close()">
+        <app-add-task *ngIf="isAddTask"></app-add-task>
+        <app-card *ngIf="isCard"></app-card>
+    </div>
+</div>
 

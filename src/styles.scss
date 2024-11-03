@@ -263,3 +263,8 @@ mat-calendar {
     margin-top: 8px;
 }
 
+@mixin popup {
+    border-radius: 30px;
+    background-color: var(--white);
+    @include box-shadow;
+}

@@ -1,0 +1,122 @@
+@import "../../../styles.scss";
+
+
+.card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    overflow-y: scroll;
+}
+
+.category {
+    width: max-content;
+    color: var(--white);
+    border-radius: 8px;
+    padding: 4px 24px;
+    background-color: var(--blue);
+}
+
+.card-content {
+    display: flex;
+    gap: 25px;
+}
+
+.prio-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    img {
+        width: 17px;
+    }
+}
+
+.a-s-container {
+    flex-direction: column;
+    gap: 8px;
+}
+
+.assigned-box {
+    max-height: 176px;
+    overflow-y: scroll;
+}
+
+.subtask-box {
+    max-height: 76px;
+    overflow-y: scroll;
+}
+
+.a-s-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 7px 16px;
+}
+
+.contact-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 100%;
+    background-color: var(--orange);
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14.4px;
+    text-align: center;
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid;
+}
+
+.gray {
+    color: rgba(66, 82, 110, 1);
+}
+
+.checkbox {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    @include transition-100;
+}
+
+.edit-delete-container {
+    justify-content: flex-end;
+}
+
+.edit-delete-section {
+    display: flex;
+    gap: 32px;
+    @include transition-100;
+
+    svg {
+       width: 24px;
+       height: 24px; 
+    }
+
+    a {
+        color: var(--primary);
+    }
+}
+
+.edit-delete-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    @include transition-100;
+    cursor: pointer;
+
+    &:hover {
+        a {
+            color: var(--secondary);
+            font-weight: 700;
+        }
+
+        svg path {
+            fill: var(--secondary);
+        }
+    }
+}

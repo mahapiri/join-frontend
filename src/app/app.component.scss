@@ -1,4 +1,6 @@
-.popup {
+@import "../styles.scss";
+
+.popup-container {
     width: 100vw;
     height: 100vh;
     position: absolute;
@@ -6,4 +8,39 @@
     left: 0;
     z-index: 1;
     background-color: rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    position: relative;
+    @include popup;
+    padding: 48px 40px;
+    overflow-y: scroll;
+}
+
+.add-task {
+    width: auto;
+    height: auto;
+}
+
+.card {
+    width: 525px;
+    max-height: 100vh;
+    overflow-y: hidden;
+}
+
+.close-icon {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    right: 32px;
+    border-radius: 56px;
+    cursor: pointer;
+    @include transition-100;
+
+    &:hover {
+        background-color: var(--lightgray);
+    }
 }

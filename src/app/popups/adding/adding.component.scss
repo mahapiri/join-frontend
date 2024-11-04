@@ -1,0 +1,20 @@
+@import "../../../styles.scss";
+
+.backlog {
+    background-color: var(--primary);
+    @include box-shadow;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+
+    p {
+        color: var(--white);
+    }
+
+    img {
+        width: 30px;
+        height: 30px;
+    }
+}

@@ -484,10 +484,7 @@ mat-datepicker {
     align-items: center;
     background-color: var(--background);
     gap: 4px;
-
-    p, img {
-        @include transition-100
-    }
+    @include transition-100;
 
     img {
         width: 24px;
@@ -525,10 +522,10 @@ mat-datepicker {
     align-items: center;
     background-color: var(--primary);
     gap: 4px;
+    @include transition-100;
 
     p {
         color: var(--white);
-        @include transition-100;
     }
 
     img {

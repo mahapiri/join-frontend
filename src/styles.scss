@@ -268,3 +268,13 @@ mat-calendar {
     background-color: var(--white);
     @include box-shadow;
 }
+
+@keyframes slideIn {
+    from {
+        transform: translateX(4000px);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}

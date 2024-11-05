@@ -23,14 +23,6 @@
     img {
         @include transition-100;
         cursor: pointer;
-
-        // &:hover {
-        //     content: url(../../../assets/img/plus/hover.svg);
-        // }
-
-        // &:active {
-        //     content: url(../../../assets/img/plus/active.svg);
-        // }
     }
 }
 
@@ -43,7 +35,7 @@
 .no-task-content {
     height: 48px;
     border-radius: 10px;
-    border: 1px dotted var(--input-divider);
+    border: 1px dashed var(--input-divider);
     background-color: var(--notask-card);
     @include box-shadow;
     display: flex;
@@ -54,4 +46,15 @@
         color: var(--input-divider);
         cursor: default;
     }
+}
+
+.dragbox {
+    height: 200px;
+    border-radius: 10px;
+    border: 1px dashed var(--input-divider);
+}
+
+.rotate {
+    transform-origin: left bottom;
+    transform: rotate(3deg);
 }

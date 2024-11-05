@@ -17,12 +17,12 @@ import { AddContactComponent } from './popups/add-contact/add-contact.component'
 })
 export class AppComponent {
   title = 'Join';
-  isPopup: boolean = true;
+  isPopup: boolean = false;
   isAddTask: boolean = false;
   isCard: boolean = false;
   isAdding: boolean = false;
-  isAddContact: boolean = true;
-  isEditContact: boolean = false;
+  isAddContact: boolean = false;
+  isEditContact: boolean = true;
 
   close() {
     this.isPopup = false;

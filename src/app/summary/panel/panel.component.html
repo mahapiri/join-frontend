@@ -1,56 +1,56 @@
 <div class="panel-container">
     <div class="panel-row">
-        <div class="box box1" (mouseover)="imgSrcTodo ='assets/img/edit/hover.svg'" (mouseout)="imgSrcTodo ='assets/img/edit/default.svg'">
+        <div class="box box1" (mouseover)="imgSrcTodo ='assets/img/edit/hover.svg'" (mouseout)="imgSrcTodo ='assets/img/edit/default.svg'" (click)="navigateToBoard()">
             <div class="icon">
                 <img [src]="imgSrcTodo" alt="To-Do">
             </div>
             <div class="box-content">
-                <h2>1</h2>
+                <h2>{{ this.taskService.tasksToDo }}</h2>
                 <p>To-do</p>
             </div>
         </div>
-        <div class="box box2" (mouseover)="imgSrcDone ='assets/img/check/hover.svg'" (mouseout)="imgSrcDone ='assets/img/check/default.svg'">
+        <div class="box box2" (mouseover)="imgSrcDone ='assets/img/check/hover.svg'" (mouseout)="imgSrcDone ='assets/img/check/default.svg'" (click)="navigateToBoard()">
             <div class="icon">
                 <img [src]="imgSrcDone" alt="To-Do">
             </div>
             <div class="box-content">
-                <h2>1</h2>
+                <h2>{{ this.taskService.tasksDone }}</h2>
                 <p>Done</p>
             </div>
         </div>
     </div>
-    <div class="box box3" (mouseover)="imgSrcPrio ='assets/img/prio/urgent-default.svg'" (mouseout)="imgSrcPrio ='assets/img/prio/urgent-active.svg'">
+    <div class="box box3" (mouseover)="imgSrcPrio ='assets/img/prio/urgent-default.svg'" (mouseout)="imgSrcPrio ='assets/img/prio/urgent-active.svg'" (click)="navigateToBoard()">
         <div class="urgency-container">
             <div class="icon prio-icon">
                 <img [src]="imgSrcPrio" alt="Prio-Urgent">
             </div>
             <div class="box-content">
-                <h2>1</h2>
+                <h2>{{ this.taskService.urgent }}</h2>
                 <p>Urgent</p>
             </div>
         </div>
         <div class="divider"></div>
         <div class="urgency-content">
-            <p class="p-bold">October 16, 2022</p>
+            <p class="p-bold">{{ this.taskService.upComingDeadline }}</p>
             <a>Upcoming Deadline</a>
         </div>
     </div>
     <div class="panel-row-3">
-        <div class="box box4">
+        <div class="box box4" (click)="navigateToBoard()">
             <div class="box-content">
-                <h2>5</h2>
+                <h2>{{ this.taskService.totalTasks }}</h2>
                 <p class="box-text">Tasks in Board</p>
             </div>
         </div>
-        <div class="box box5">
+        <div class="box box5" (click)="navigateToBoard()">
             <div class="box-content">
-                <h2>2</h2>
+                <h2>{{ this.taskService.tasksInProgress }}</h2>
                 <p class="box-text">Tasks in Progress</p>
             </div>
         </div>
-        <div class="box box6">
+        <div class="box box6" (click)="navigateToBoard()">
             <div class="box-content">
-                <h2>2</h2>
+                <h2>{{ this.taskService.awaitingFeedback }}</h2>
                 <p class="box-text">Awaiting Feedback</p>
             </div>
         </div>

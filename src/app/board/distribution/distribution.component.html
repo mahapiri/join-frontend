@@ -17,7 +17,7 @@
             </div>
             <div class="task-content" *ngFor="let task of status.tasks">
                 <!-- {{ task }} -->
-                <div (dr)="startDragging()" [class.rotate]="isDragging">
+                <div (click)="startDragging()" class="card" [class.rotate]="isDragging">
                     <app-card></app-card>
                 </div>
                 <div class="dragbox" *ngIf="isDragging"></div>

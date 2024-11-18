@@ -191,8 +191,10 @@ a {
     justify-content: flex-start;
     align-items: flex-start;
     gap: 32px;
+    transition: cubic-bezier(0.41, -0.22, 1, 0.78) 1000000ms ease-in-out;
+    animation-name: fadeIn;
+    animation-duration: 75ms;
 }
-
 
 input,
 textarea {
@@ -276,5 +278,17 @@ mat-calendar {
 
     to {
         transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        filter: blur(2px);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0px);
     }
 }

@@ -1,20 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { CardComponent } from '../card/card.component';
-import {
-  CdkDragDrop,
-  CdkDrag,
-  CdkDropList,
-  CdkDropListGroup,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
 import { TaskService } from '../../services/task.service';
 
 @Component({
   selector: 'app-distribution',
   standalone: true,
-  imports: [CommonModule, CardComponent, CdkDropListGroup, CdkDropList, CdkDrag],
+  imports: [CommonModule, CardComponent],
   templateUrl: './distribution.component.html',
   styleUrls: ['./distribution.component.scss']
 })
@@ -27,7 +19,7 @@ export class DistributionComponent {
   ];
 
   constructor(private task: TaskService) {
-    console.log(this.task.tasks)
+
   }
 
   isDragging: boolean = false;

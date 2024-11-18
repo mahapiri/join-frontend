@@ -48,6 +48,10 @@
     }
 }
 
+.card {
+    @include transition-100;
+}
+
 .dragbox {
     height: 200px;
     border-radius: 10px;

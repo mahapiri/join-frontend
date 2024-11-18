@@ -1,6 +1,6 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,7 +26,8 @@ export const MY_DATE_FORMATS = {
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
     { provide: DateAdapter, useClass: NativeDateAdapter },
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+    DatePipe
   ],
   imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,7 +46,7 @@ export class FormComponent {
   readonly minDate = new Date(this._currentYear, 0, 1);
   readonly maxDate = new Date(this._currentYear + 5, 11, 31);
 
-  constructor() {
+  constructor(private datePipe: DatePipe) {
   }
 
   onCheckboxChange(checkbox: HTMLInputElement, contactContainer: HTMLElement, isHovering: boolean) {
@@ -72,8 +73,12 @@ export class FormComponent {
     }
   }
 
-  onSubmit(form: any) {
-    console.log(form.value);
+  dueDate: Date | null = null;
+
+  onSubmit(form: NgForm) {
+    const dueDateValue = this.date.value; 
+    const formattedDate = this.datePipe.transform(dueDateValue, 'dd/MM/YYYY');
+    console.log('Selected Due Date:', formattedDate);
   }
 
   resetForm(form: any) {

@@ -9,6 +9,7 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { TaskService } from '../../services/task.service';
 
 @Component({
   selector: 'app-distribution',
@@ -24,6 +25,10 @@ export class DistributionComponent {
     { label: 'Await feedback', isHovered: false, isAdding: false, tasks: [] },
     { label: 'Done', tasks: [] },
   ];
+
+  constructor(private task: TaskService) {
+    console.log(this.task.tasks)
+  }
 
   isDragging: boolean = false;
 

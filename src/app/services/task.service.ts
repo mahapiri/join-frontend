@@ -6,11 +6,22 @@ import { Task } from '../models/task.model';
 })
 export class TaskService {
 
-  task: Task = new Task({
-
-  });
+  tasks: Task[] = [
+    new Task(
+      {
+        title: 'TestTitle',
+        dueDate: '01/01/2024',
+        category: 'User Story',
+      }
+    )
+];
 
   constructor() { 
     
+  }
+
+  createTask(taskData: Task) {
+    const newTask = new Task(taskData);
+    this.tasks.push(newTask);
   }
 }

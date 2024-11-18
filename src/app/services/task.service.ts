@@ -10,9 +10,7 @@ export class TaskService {
   private _tasks = new BehaviorSubject<Task[]>([]);
   tasks$ = this._tasks.asObservable();
 
-  tasks: Task[] = [
-
-  ];
+  tasks: Task[] = [];
 
   tasksToDo: number = 0;
   tasksInProgress: number = 0;
@@ -25,18 +23,29 @@ export class TaskService {
   constructor() {
     const exampleTask1 = new Task(
       {
+        status: 'inProgress',
         title: 'TestTitle',
+        description: 'Das ist eine Beschreibung',
+        assignedTo: ['Sabrina Müller', 'Max Mustermann'],
         dueDate: '2024-12-15',
-        category: 'User Story',
         prio: 'urgent',
-      });
+        category: 'User Story',
+        subtasks: ['Subtask1', 'Subtask2'],
+        createDate: new Date(),
+      }
+    );
 
     const exampleTask2 = new Task(
       {
+        status: 'todo',
         title: 'TestTitle2',
-        dueDate: '2024-12-18',
-        category: 'User Story',
+        description: 'Das ist eine Beschreibung2',
+        assignedTo: ['Piri Müller', 'Mona Mustermann'],
+        dueDate: '2024-12-10',
         prio: 'urgent',
+        category: 'User Story',
+        subtasks: ['Subtask1', 'Subtask3'],
+        createDate: new Date(),
       }
     )
     this._tasks.next([exampleTask1, exampleTask2]);

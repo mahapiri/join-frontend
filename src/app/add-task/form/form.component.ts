@@ -1,12 +1,15 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { FormControl, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { provideNativeDateAdapter } from '@angular/material/core';
 import { MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { NativeDateAdapter } from '@angular/material/core';
+import { TaskService } from '../../services/task.service';
+import { Subscription } from 'rxjs';
+import { UserService } from '../../services/user.service';
+import { Task } from '../../models/task.model';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -35,7 +38,7 @@ export const MY_DATE_FORMATS = {
   styleUrl: './form.component.scss'
 
 })
-export class FormComponent {
+export class FormComponent implements OnDestroy {
   readonly date = new FormControl(new Date());
   isAssignedTo: boolean = false;
   isCategory: boolean = false;
@@ -46,7 +49,39 @@ export class FormComponent {
   readonly minDate = new Date(this._currentYear, 0, 1);
   readonly maxDate = new Date(this._currentYear + 5, 11, 31);
 
-  constructor(private datePipe: DatePipe) {
+  taskServiceSubscription: Subscription = new Subscription();
+  userServiceSubscription: Subscription = new Subscription();
+
+  users: any[] = [];
+  tasks: Task[] = [];
+
+  constructor(private datePipe: DatePipe, private taskService: TaskService, private userService: UserService) {
+    this.taskServiceSubscription = this.taskService.tasks$.subscribe((tasks) => {
+      this.tasks = [];
+      tasks.forEach((task) => {
+        this.tasks.push(task);
+      })
+    })
+
+    this.userServiceSubscription = this.userService.users$.subscribe((users) => {
+      this.users = [];
+      users.forEach((user, i) => {
+        const fullName = user.firstName + ' ' + user.lastName;
+        const initial = this.getInitial(user.firstName) + this.getInitial(user.lastName);
+        this.users.push({
+          name: fullName,
+          initial: initial,
+          color: this.getRandomColor(), 
+        })
+      })
+    })
+  }
+
+
+
+  ngOnDestroy(): void {
+    this.taskServiceSubscription.unsubscribe();
+    this.userServiceSubscription.unsubscribe();
   }
 
   onCheckboxChange(checkbox: HTMLInputElement, contactContainer: HTMLElement, isHovering: boolean) {
@@ -54,7 +89,7 @@ export class FormComponent {
     const contactIcon = contactContainer.querySelector('.contact-icon') as HTMLElement;
 
     if (checkbox.checked) {
-      if(isHovering) {
+      if (isHovering) {
         contactContainer.style.backgroundColor = 'var(--third)';
       } else {
         contactContainer.style.backgroundColor = 'var(--primary)';
@@ -76,7 +111,7 @@ export class FormComponent {
   dueDate: Date | null = null;
 
   onSubmit(form: NgForm) {
-    const dueDateValue = this.date.value; 
+    const dueDateValue = this.date.value;
     const formattedDate = this.datePipe.transform(dueDateValue, 'dd/MM/YYYY');
     console.log('Selected Due Date:', formattedDate);
   }
@@ -89,7 +124,7 @@ export class FormComponent {
   toggleAssigneTo() {
     this.isAssignedTo = !this.isAssignedTo;
     const assignedToInput = document.getElementById('assignedTo') as HTMLInputElement;
-    if(assignedToInput && this.isAssignedTo) {
+    if (assignedToInput && this.isAssignedTo) {
       assignedToInput.value = '';
     } else {
       assignedToInput.value = 'Select contacts to assign';
@@ -101,7 +136,7 @@ export class FormComponent {
   }
 
   writingSubtask(input: HTMLInputElement) {
-    if(input.value.trim() === "") {
+    if (input.value.trim() === "") {
       this.isSubtask = false;
     } else {
       this.isSubtask = true;
@@ -114,5 +149,36 @@ export class FormComponent {
 
   setSubtaskNotEdit(subtaskitem: any) {
     subtaskitem.style.opacity = "0";
+  }
+
+  getInitial(name: string) {
+    if (name.length > 0) {
+      return name[0];
+    } else {
+      console.warn('No First/Lastname found');
+      return '';
+    }
+  }
+
+  readonly colors: string[] = [
+    '--orange',
+    '--pink',
+    '--purple',
+    '--purple-lighten',
+    '--turquoise',
+    '--salmon',
+    '--orange-lighten',
+    '--rosa',
+    '--yellow-orange',
+    '--neon-yellow',
+    '--yellow',
+    '--red',
+    '--orange-lighten',
+  ]
+
+
+  getRandomColor(): string {
+    const randomIndex = Math.floor(Math.random() * this.colors.length);
+    return this.colors[randomIndex];
   }
 }

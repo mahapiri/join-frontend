@@ -21,10 +21,12 @@
                     <div [style.display]="isAssignedTo ? 'flex' : 'none'" class="backlog-box">
                         <label class="contact-container" #contactContainer
                             (mouseover)="onCheckboxChange(checkbox, contactContainer, true)"
-                            (mouseout)="onCheckboxChange(checkbox, contactContainer, false)">
+                            (mouseout)="onCheckboxChange(checkbox, contactContainer, false)"
+                            *ngFor="let user of users"   
+                        >
                             <div class="contact-name">
-                                <div class="contact-icon">SM</div>
-                                <p>Sofia Müller</p>
+                                <div class="contact-icon" [ngStyle]="{'background-color': 'var(' + user.color + ')'}">{{ user.initial }}</div>
+                                <p>{{ user.name }}</p>
                             </div>
                             <div class="checkbox-container">
                                 <input type="checkbox" #checkbox
@@ -114,7 +116,7 @@
             </div>
 
             <!--  -->
-            <div class="field-layout">
+            <div class="field-layout field-layout-category">
                 <p>Subtasks</p>
                 <div class="select-container">
                     <input #subtaskInput (input)="writingSubtask(subtaskInput)" type="text"

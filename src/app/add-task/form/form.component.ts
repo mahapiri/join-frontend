@@ -10,6 +10,7 @@ import { TaskService } from '../../services/task.service';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { Task } from '../../models/task.model';
+import { User } from '../../models/user.model';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -52,7 +53,7 @@ export class FormComponent implements OnDestroy {
   taskServiceSubscription: Subscription = new Subscription();
   userServiceSubscription: Subscription = new Subscription();
 
-  users: any[] = [];
+  users: User[] = [];
   tasks: Task[] = [];
 
   constructor(private datePipe: DatePipe, private taskService: TaskService, private userService: UserService) {
@@ -65,15 +66,9 @@ export class FormComponent implements OnDestroy {
 
     this.userServiceSubscription = this.userService.users$.subscribe((users) => {
       this.users = [];
-      users.forEach((user, i) => {
-        const fullName = user.firstName + ' ' + user.lastName;
-        const initial = this.getInitial(user.firstName) + this.getInitial(user.lastName);
-        this.users.push({
-          name: fullName,
-          initial: initial,
-          color: this.getRandomColor(), 
-        })
-      })
+      users.forEach(user => {
+        this.users.push(user);
+      });
     })
   }
 
@@ -131,6 +126,19 @@ export class FormComponent implements OnDestroy {
     }
   }
 
+  selectedUser: User[] = [];
+
+  selectUser(user: User, checkbox: HTMLInputElement) {
+    const index = this.selectedUser.findIndex(u => u.userID === user.userID);
+    if(checkbox.checked) {
+      this.selectedUser.push(user);
+    } else {
+      this.selectedUser.splice(index, 1);
+    }
+    console.log(this.selectedUser);
+
+  }
+
   toggleCategory() {
     this.isCategory = !this.isCategory;
   }
@@ -151,34 +159,4 @@ export class FormComponent implements OnDestroy {
     subtaskitem.style.opacity = "0";
   }
 
-  getInitial(name: string) {
-    if (name.length > 0) {
-      return name[0];
-    } else {
-      console.warn('No First/Lastname found');
-      return '';
-    }
-  }
-
-  readonly colors: string[] = [
-    '--orange',
-    '--pink',
-    '--purple',
-    '--purple-lighten',
-    '--turquoise',
-    '--salmon',
-    '--orange-lighten',
-    '--rosa',
-    '--yellow-orange',
-    '--neon-yellow',
-    '--yellow',
-    '--red',
-    '--orange-lighten',
-  ]
-
-
-  getRandomColor(): string {
-    const randomIndex = Math.floor(Math.random() * this.colors.length);
-    return this.colors[randomIndex];
-  }
 }

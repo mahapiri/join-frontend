@@ -16,14 +16,15 @@
                         (click)="toggleAssigneTo()" id="assignedTo">
                     <img class="input-icon"
                         [src]="isAssignedTo ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
-                        alt="arrow" (click)="toggleAssigneTo()">
+                        alt="arrow" (click)="toggleAssigneTo()"    
+                    >
 
                     <div [style.display]="isAssignedTo ? 'flex' : 'none'" class="backlog-box">
                         <label class="contact-container" #contactContainer
                             (mouseover)="onCheckboxChange(checkbox, contactContainer, true)"
                             (mouseout)="onCheckboxChange(checkbox, contactContainer, false)"
-                            *ngFor="let user of users"   
-                        >
+                            *ngFor="let user of users"
+                            (change)="selectUser(user, checkbox)">
                             <div class="contact-name">
                                 <div class="contact-icon" [ngStyle]="{'background-color': 'var(' + user.color + ')'}">{{ user.initial }}</div>
                                 <p>{{ user.name }}</p>
@@ -37,7 +38,7 @@
                     </div>
 
                     <div class="assigned-container">
-                        <div class="contact-icon icon-border">SM</div>
+                        <div class="contact-icon icon-border" *ngFor="let selectUser of selectedUser" [ngStyle]="{'background-color': 'var(' + selectUser.color + ')'}">{{ selectUser.initial }}</div>
                     </div>
                 </div>
             </div>

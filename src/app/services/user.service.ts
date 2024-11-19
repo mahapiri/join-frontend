@@ -9,12 +9,10 @@ export class UserService {
   private _users = new BehaviorSubject<User[]>([]);
   users$ = this._users.asObservable();
 
-  users: User[] = [];
-
   constructor() {
     const exampleUser1 = new User(
       {
-        userID: '',
+        userID: '12235464',
         firstName: 'Piri',
         lastName: 'Maha',
         email: 'piri@hallo.de',
@@ -23,7 +21,7 @@ export class UserService {
     );
     const exampleUser2 = new User(
       {
-        userID: '',
+        userID: '546465631',
         firstName: 'Sara',
         lastName: 'Müller',
         email: 'sara@hallo.de',

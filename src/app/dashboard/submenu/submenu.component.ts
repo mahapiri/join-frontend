@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -9,5 +9,11 @@ import { RouterLink } from '@angular/router';
   styleUrl: './submenu.component.scss'
 })
 export class SubmenuComponent {
+  @Input() isSubmenu:boolean = false;
+  @Output() isSubmenuChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+  toggleSubmenu() {
+    this.isSubmenu = !this.isSubmenu;
+    this.isSubmenuChange.emit(this.isSubmenu); 
+  }
 }

@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnDestroy, HostListener, ElementRef } from '@angular/core';
 import { FormControl, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -11,16 +11,17 @@ import { Subscription } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { Task } from '../../models/task.model';
 import { User } from '../../models/user.model';
+import { ClickOutsideDirective } from '../../click-outside.directive';
 
 export const MY_DATE_FORMATS = {
   parse: {
-    dateInput: 'DD/MM/YYYY',  // Beim Parsen des Datums
+    dateInput: 'DD/MM/YYYY', 
   },
   display: {
-    dateInput: 'DD/MM/YYYY',  // Darstellung im Inputfeld
-    monthYearLabel: 'MMMM YYYY',  // Label für Monat und Jahr
-    dateA11yLabel: 'DD/MM/YYYY',  // Barrierefreiheit
-    monthYearA11yLabel: 'MMMM YYYY',  // Barrierefreiheit
+    dateInput: 'DD/MM/YYYY', 
+    monthYearLabel: 'MMMM YYYY', 
+    dateA11yLabel: 'DD/MM/YYYY', 
+    monthYearA11yLabel: 'MMMM YYYY', 
   },
 };
 
@@ -33,7 +34,7 @@ export const MY_DATE_FORMATS = {
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     DatePipe
   ],
-  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, ClickOutsideDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss'
@@ -55,8 +56,19 @@ export class FormComponent implements OnDestroy {
 
   users: User[] = [];
   tasks: Task[] = [];
+  selectedUser: User[] = [];
 
-  constructor(private datePipe: DatePipe, private taskService: TaskService, private userService: UserService) {
+
+  clickoutside() {
+    this.isAssignedTo = false;
+  }
+
+  clickOutsideCategory() {
+    this.isCategory = false;
+  }
+
+
+  constructor(private datePipe: DatePipe, private taskService: TaskService, private userService: UserService, private eRef: ElementRef) {
     this.taskServiceSubscription = this.taskService.tasks$.subscribe((tasks) => {
       this.tasks = [];
       tasks.forEach((task) => {
@@ -73,11 +85,11 @@ export class FormComponent implements OnDestroy {
   }
 
 
-
   ngOnDestroy(): void {
     this.taskServiceSubscription.unsubscribe();
     this.userServiceSubscription.unsubscribe();
   }
+
 
   onCheckboxChange(checkbox: HTMLInputElement, contactContainer: HTMLElement, isHovering: boolean) {
     const paragraph = contactContainer.querySelector('p') as HTMLElement;
@@ -126,17 +138,13 @@ export class FormComponent implements OnDestroy {
     }
   }
 
-  selectedUser: User[] = [];
-
   selectUser(user: User, checkbox: HTMLInputElement) {
     const index = this.selectedUser.findIndex(u => u.userID === user.userID);
-    if(checkbox.checked) {
+    if (checkbox.checked) {
       this.selectedUser.push(user);
     } else {
       this.selectedUser.splice(index, 1);
     }
-    console.log(this.selectedUser);
-
   }
 
   toggleCategory() {

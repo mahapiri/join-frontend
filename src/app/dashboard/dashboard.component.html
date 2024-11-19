@@ -48,8 +48,9 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="isSubmenu">
-            <app-submenu></app-submenu>
+        <div *ngIf="isSubmenu" >
+            <app-submenu appClickOutside
+            (clickOutside)="toggleSubmenu()" [(isSubmenu)]="isSubmenu"></app-submenu>
         </div>
     </div>
 </div>

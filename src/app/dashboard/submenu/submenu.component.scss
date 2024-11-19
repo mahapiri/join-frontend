@@ -1,3 +1,5 @@
+@import "../../../styles.scss";
+
 .submenu-container {
     width: max-content;
     display: flex;
@@ -8,6 +10,7 @@
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
     padding: 10px;
     background-color: var(--primary);
+    @include transition-100;
 
     a {
         width: 100%;

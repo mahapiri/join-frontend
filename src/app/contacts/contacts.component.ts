@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ContactListComponent } from './contact-list/contact-list.component';
 import { ContactOverviewComponent } from './contact-overview/contact-overview.component';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-contacts',
@@ -10,8 +11,12 @@ import { ContactOverviewComponent } from './contact-overview/contact-overview.co
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.scss'
 })
-export class ContactsComponent {
-  constructor(private titleService: Title) {
+export class ContactsComponent implements OnDestroy {
+  constructor(private titleService: Title, private userService: UserService) {
     this.titleService.setTitle("Join - Contacts");
+  }
+
+  ngOnDestroy(): void {
+      this.userService.selectedUser = undefined;
   }
 }

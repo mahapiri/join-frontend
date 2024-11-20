@@ -9,6 +9,9 @@ export class UserService {
   private _users = new BehaviorSubject<User[]>([]);
   users$ = this._users.asObservable();
 
+  isSelected: boolean = false;
+  selectedUser: number | undefined = undefined;
+
   constructor() {
     const exampleUser1 = new User(
       {
@@ -29,5 +32,16 @@ export class UserService {
       }
     );
     this._users.next([exampleUser1, exampleUser2]);
+  }
+
+  selectUser(i: number): void {
+    const div = document.getElementById(`userID${i}`);
+    const query = document.querySelector('.select-user');
+    query?.classList.remove('select-user');
+    if (div) {
+      div.classList.add('select-user');
+      this.selectedUser = i;
+      // this._users.value[i];
+    }
   }
 }

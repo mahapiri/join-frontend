@@ -1,5 +1,19 @@
 @import "../../../styles.scss";
 
+.select-user {
+    background-color: var(--primary)!important;
+    border-color: var(--primary)!important;
+
+    p {
+        color: var(--white);
+    }
+
+    &:hover {
+        background-color: var(--third) !important;
+        border-color: var(--third) !important;
+    }
+} 
+
 .contact-list-container {
     width: 456px;
     height: 100vh;

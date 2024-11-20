@@ -4,13 +4,13 @@
         <div class="divider"></div>
         <h5>Better with a team</h5>
     </header>
-    <div class="contact-container">
+    <div class="contact-container" *ngIf="userService.selectedUser != undefined">
         <div class="contact-title">
-            <div class="contact-icon">AM</div>
+            <div class="contact-icon" [ngStyle]="{'background-color': 'var(' + users[userService.selectedUser].color + ')'}">{{ users[userService.selectedUser].initial}}</div>
             <div class="contact-title-content">
-                <h4>Anton Mayer</h4>
+                <h4>{{ users[userService.selectedUser].name}}</h4>
                 <div class="edit-delete-section">
-                    <div class="edit-delete-content">
+                    <div class="edit-delete-content" (click)="editContact(userService.selectedUser)">
                         <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <mask id="mask0_75592_8413" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                                 width="33" height="33">
@@ -24,7 +24,7 @@
                         </svg>
                         <a>Edit</a>
                     </div>
-                    <div class="edit-delete-content">
+                    <div class="edit-delete-content" (click)="deleteContact(userService.selectedUser)">
                         <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <mask id="mask0_75601_14777" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                                 width="25" height="24">
@@ -45,11 +45,11 @@
         <div class="contact-infos">
             <div class="email-phone-section">
                 <a class="a-bold">Email</a>
-                <a class="email-text" href="mailto:andonm@gmail.com">antonm&#64;gmail.com</a>
+                <a class="email-text" href="mailto:{{ users[userService.selectedUser].email}}">{{ users[userService.selectedUser].email}}</a>
             </div>
             <div class="email-phone-section">
                 <a class="a-bold">Phone</a>
-                <a>+49 1111 11 11</a>
+                <a>{{ users[userService.selectedUser].phone}}</a>
             </div>
         </div>
     </div>

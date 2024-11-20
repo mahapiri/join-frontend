@@ -431,6 +431,7 @@ mat-datepicker {
         border-radius: 10px;
         cursor: pointer;
         position: relative;
+        @include transition-100;
 
         &::before {
             content: "";
@@ -470,6 +471,7 @@ mat-datepicker {
 
 .subtask-edit-container {
     position: relative;
+    @include transition-100;
 
     .input-icon-container {
         position: absolute;

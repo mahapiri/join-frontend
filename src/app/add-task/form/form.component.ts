@@ -15,13 +15,13 @@ import { ClickOutsideDirective } from '../../click-outside.directive';
 
 export const MY_DATE_FORMATS = {
   parse: {
-    dateInput: 'DD/MM/YYYY', 
+    dateInput: 'DD/MM/YYYY',
   },
   display: {
-    dateInput: 'DD/MM/YYYY', 
-    monthYearLabel: 'MMMM YYYY', 
-    dateA11yLabel: 'DD/MM/YYYY', 
-    monthYearA11yLabel: 'MMMM YYYY', 
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'DD/MM/YYYY',
+    monthYearA11yLabel: 'MMMM YYYY',
   },
 };
 
@@ -59,40 +59,19 @@ export class FormComponent implements OnDestroy {
   selectedUser: User[] = [];
   subtasks: string[] = [];
   allUsers: User[] = [];
-  searchText: string = '';
+  searchTextAssigned: string = '';
+  searchTextSubtasks: string = '';
+  isEditingSubtaskIndex: number | null = null;
 
-
-  selectCategory(category: string) {
-    const div = document.getElementById(`${category}`);
-    const input = document.getElementById('input-category') as HTMLInputElement;
-    if(div && input) {
-      div.className += ' select-category';
-
-    }
-
-    if(category === 'technicalTask') {
-      const userStory = document.getElementById('userStory');
-      userStory?.classList.remove('select-category');
-      input.value = 'Technical Task';
-    }
-
-    if(category === 'userStory') {
-      const technicalTask = document.getElementById('technicalTask');
-      technicalTask?.classList.remove('select-category');
-      input.value = 'User Story';
-    }
-
-
-  }
-
-  clickoutside() {
-    this.isAssignedTo = false;
-  }
-
-  clickOutsideCategory() {
-    this.isCategory = false;
-  }
-
+  newTask: Task = new Task({
+    title: '',
+    description: '',
+    assignedTo: [],
+    dueDate: new Date(),
+    prio: '',
+    category: '',
+    subtasks: [],
+  })
 
   constructor(private datePipe: DatePipe, private taskService: TaskService, private userService: UserService, private eRef: ElementRef) {
     this.taskServiceSubscription = this.taskService.tasks$.subscribe((tasks) => {
@@ -115,6 +94,38 @@ export class FormComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.taskServiceSubscription.unsubscribe();
     this.userServiceSubscription.unsubscribe();
+  }
+
+
+  selectCategory(category: string) {
+    const div = document.getElementById(`${category}`);
+    const input = document.getElementById('input-category') as HTMLInputElement;
+    if (div && input) {
+      div.className += ' select-category';
+
+    }
+
+    if (category === 'technicalTask') {
+      const userStory = document.getElementById('userStory');
+      userStory?.classList.remove('select-category');
+      input.value = 'Technical Task';
+    }
+
+    if (category === 'userStory') {
+      const technicalTask = document.getElementById('technicalTask');
+      technicalTask?.classList.remove('select-category');
+      input.value = 'User Story';
+    }
+
+
+  }
+
+  clickoutside() {
+    this.isAssignedTo = false;
+  }
+
+  clickOutsideCategory() {
+    this.isCategory = false;
   }
 
 
@@ -145,9 +156,16 @@ export class FormComponent implements OnDestroy {
   dueDate: Date | null = null;
 
   onSubmit(form: NgForm) {
-    const dueDateValue = this.date.value;
-    const formattedDate = this.datePipe.transform(dueDateValue, 'dd/MM/YYYY');
-    console.log('Selected Due Date:', formattedDate);
+    // const dueDateValue = this.date.value;
+    // const formattedDate = this.datePipe.transform(dueDateValue, 'dd/MM/YYYY');
+    // console.log('Selected Due Date:', formattedDate);
+    // console.log(form)
+
+    if(form.valid) {
+      console.log(this.newTask);
+    } else {
+      console.log('nicht alles ausgefüllt')
+    }
   }
 
   resetForm(form: any) {
@@ -183,26 +201,69 @@ export class FormComponent implements OnDestroy {
       this.isSubtask = false;
     } else {
       this.isSubtask = true;
+      this.searchTextSubtasks = input.value;
     }
   }
 
-  setSubtaskEdit(subtaskitem: any) {
-    subtaskitem.style.opacity = "1";
+  saveSubtask(input: HTMLInputElement) {
+    if (input.value.trim().length > 0) {
+      const text = this.searchTextSubtasks.trim();
+      this.subtasks.push(text);
+      this.searchTextSubtasks = '';
+      input.value = '';
+      this.isSubtask = false;
+    }
   }
 
-  setSubtaskNotEdit(subtaskitem: any) {
-    subtaskitem.style.opacity = "0";
+  deleteSubtask(input: HTMLInputElement) {
+    this.searchTextSubtasks = '';
+    input.value = '';
+  }
+
+  setSubtaskEdit(subtaskitem: string) {
+    const div = document.getElementById(subtaskitem);
+    if (div) {
+      div.style.opacity = '1';
+    }
+  }
+
+  setSubtaskNotEdit(subtaskitem: string) {
+    const div = document.getElementById(subtaskitem);
+    if (div) {
+      div.style.opacity = '0';
+    }
+  }
+
+  deletSavedSubtask(i: number) {
+    this.subtasks.splice(i, 1);
+    this.isEditingSubtaskIndex = null;
+  }
+
+  replaceSaveSubtask(i: number) {
+    const inputElement = document.getElementById(`subtaskEdit${i}`) as HTMLInputElement;
+
+    if (inputElement) {
+      const inputValue = inputElement.value;
+      this.subtasks[i] = inputValue;
+      this.isEditingSubtaskIndex = null;
+      console.log(this.subtasks);
+    }
   }
 
 
   searchKey(data: string) {
-    this.searchText = data;
+    this.searchTextAssigned = data;
     this.searchUser();
   }
 
 
+
+  editSubtask(i: number): void {
+    this.isEditingSubtaskIndex = i;
+  }
+
   searchUser() {
-    const filter = this.searchText.toUpperCase().trim();
+    const filter = this.searchTextAssigned.toUpperCase().trim();
     if (filter) {
       this.users = this.allUsers.filter(user =>
         user.name.toUpperCase().includes(filter)

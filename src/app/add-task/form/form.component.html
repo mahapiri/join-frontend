@@ -1,9 +1,9 @@
-<form #taskForm="ngForm" class="form-layout" (ngSubmit)="onSubmit(taskForm)">
+<form #taskForm="ngForm" class="form-layout" (keydown.enter)="$event.preventDefault()">
     <div class="form-container">
         <div class="field-container">
             <label class="field-layout">
                 <p>Title<span>*</span></p>
-                <input type="text" name="title" placeholder="Enter a title" required>
+                <input type="text" name="title" placeholder="Enter a title" required [(ngModel)]="newTask.title">
             </label>
             <label class="field-layout">
                 <p>Description</p>
@@ -14,10 +14,8 @@
                 <div appClickOutside (clickOutside)="clickoutside()">
                     <div class="select-container">
                         <input class="assigned-to-field" type="text" value="Select contacts to assign"
-                        [(ngModel)]="searchText" name="someting"
-                        (ngModelChange)="searchKey($event)"
-                        (click)="toggleAssigneTo()" id="assignedTo"
-                        >
+                            [(ngModel)]="searchTextAssigned" name="someting" (ngModelChange)="searchKey($event)"
+                            (click)="toggleAssigneTo()" id="assignedTo">
                         <img class="input-icon"
                             [src]="isAssignedTo ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
                             alt="arrow" (click)="toggleAssigneTo()">
@@ -97,19 +95,21 @@
             <div class="field-layout">
                 <p>Category<span>*</span></p>
                 <div class="select-container" appClickOutside (clickOutside)="clickOutsideCategory()">
-                    <input class="category-field" type="text" value="Select task category" readonly required
-                        (click)="toggleCategory()" id="input-category">
+                    <input class="category-field" type="text" value="Select task category" required
+                        (click)="toggleCategory()" id="input-category" name="category" [(ngModel)]="newTask.category">
                     <img class="input-icon"
                         [src]="isCategory ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
                         alt="arrow" (click)="toggleCategory()">
 
                     <div [style.display]="isCategory ? 'flex' : 'none'" class="backlog-box height-auto">
-                        <label class="contact-container width-100" #contactContainerCategory id="technicalTask" (click)="selectCategory('technicalTask')">
+                        <label class="contact-container width-100" #contactContainerCategory id="technicalTask"
+                            (click)="selectCategory('technicalTask')">
                             <div class="contact-name">
                                 <p>Technical Task</p>
                             </div>
                         </label>
-                        <label class="contact-container width-100" #contactContainerCategory id="userStory" (click)="selectCategory('userStory')">
+                        <label class="contact-container width-100" #contactContainerCategory id="userStory"
+                            (click)="selectCategory('userStory')">
                             <div class="contact-name">
                                 <p>User Story</p>
                             </div>
@@ -122,32 +122,38 @@
             <div class="field-layout field-layout-category">
                 <p>Subtasks</p>
                 <div class="select-container">
-                    <input #subtaskInput (input)="writingSubtask(subtaskInput)" type="text"
-                        placeholder="Add new subtask">
+                    <input #subtaskInput (input)="writingSubtask(subtaskInput)"
+                        (keydown.enter)="saveSubtask(subtaskInput)" type="text" [ngStyle]="{'padding-right': '80px'}"
+                        [placeholder]="subtaskInput.value.trim().length === 0 ? 'Add new subtask' : ''">
                     <div *ngIf="isSubtask" class="input-icon-container">
-                        <img src="assets/img/cancel/default.svg" alt="Cancel">
+                        <img src="assets/img/cancel/default.svg" alt="Cancel" (click)="deleteSubtask(subtaskInput)">
                         <div class="input-divider"></div>
-                        <img src="assets/img/check/default-subtask.svg" alt="Check">
+                        <img src="assets/img/check/default-subtask.svg" alt="Check" (click)="saveSubtask(subtaskInput)">
                     </div>
                     <img *ngIf="!isSubtask" class="input-icon" src="assets/img/add/default-subtask.svg" alt="Add">
                 </div>
                 <ul class="subtask-list">
-                    <li (mouseover)="setSubtaskEdit(subtaskitem0)" (mouseleave)="setSubtaskNotEdit(subtaskitem0)">
-                        <a>Contact Form</a>
-                        <div #subtaskitem0 class="input-icon-container">
-                            <img src="assets/img/edit/hover.svg" alt="Edit">
-                            <div class="input-divider"></div>
-                            <img src="assets/img/delete/default.svg" alt="Delete">
+                    <ng-container *ngFor="let subtask of subtasks; let i = index">
+                        <li (mouseover)="setSubtaskEdit('subtaskitem' + i)"
+                            (mouseleave)="setSubtaskNotEdit('subtaskitem' + i)" *ngIf="isEditingSubtaskIndex != i">
+                            <a>{{ subtask }}</a>
+                            <div [id]="'subtaskitem' + i" class="input-icon-container">
+                                <img src="assets/img/edit/hover.svg" alt="Edit" (click)="editSubtask(i)">
+                                <div class="input-divider"></div>
+                                <img src="assets/img/delete/default.svg" alt="Delete" (click)="deletSavedSubtask(i)">
+                            </div>
+                        </li>
+                        <div class="subtask-edit-container" *ngIf="isEditingSubtaskIndex === i">
+                            <input [id]="'subtaskEdit' + i" type="text" value="{{ subtask }}" class="input-subtask">
+                            <div class="input-icon-container">
+                                <img src="assets/img/delete/default.svg" alt="Delete" (click)="deletSavedSubtask(i)">
+                                <div class="input-divider"></div>
+                                <img src="assets/img/check/default-subtask.svg" alt="Check"
+                                    (click)="replaceSaveSubtask(i)">
+                            </div>
                         </div>
-                    </li>
-                    <div class="subtask-edit-container">
-                        <input type="text" value="Contact Form" class="input-subtask">
-                        <div class="input-icon-container">
-                            <img src="assets/img/delete/default.svg" alt="Delete">
-                            <div class="input-divider"></div>
-                            <img src="assets/img/check/default-subtask.svg" alt="Check">
-                        </div>
-                    </div>
+                    </ng-container>
+
                 </ul>
             </div>
             <!--  -->
@@ -162,7 +168,7 @@
                 <p>Clear</p>
                 <img class="clear-img" src="assets/img/clear/default.svg" alt="Clear">
             </button>
-            <button class="submit-btn" type="submit">
+            <button class="submit-btn" (click)="onSubmit(taskForm)">
                 <p class="p-bold">Create Task</p>
                 <img src="assets/img/check/default-create-task.svg" alt="Create">
             </button>

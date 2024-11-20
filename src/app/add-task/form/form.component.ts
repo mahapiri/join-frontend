@@ -57,7 +57,33 @@ export class FormComponent implements OnDestroy {
   users: User[] = [];
   tasks: Task[] = [];
   selectedUser: User[] = [];
+  subtasks: string[] = [];
+  allUsers: User[] = [];
+  searchText: string = '';
 
+
+  selectCategory(category: string) {
+    const div = document.getElementById(`${category}`);
+    const input = document.getElementById('input-category') as HTMLInputElement;
+    if(div && input) {
+      div.className += ' select-category';
+
+    }
+
+    if(category === 'technicalTask') {
+      const userStory = document.getElementById('userStory');
+      userStory?.classList.remove('select-category');
+      input.value = 'Technical Task';
+    }
+
+    if(category === 'userStory') {
+      const technicalTask = document.getElementById('technicalTask');
+      technicalTask?.classList.remove('select-category');
+      input.value = 'User Story';
+    }
+
+
+  }
 
   clickoutside() {
     this.isAssignedTo = false;
@@ -80,6 +106,7 @@ export class FormComponent implements OnDestroy {
       this.users = [];
       users.forEach(user => {
         this.users.push(user);
+        this.allUsers.push(user);
       });
     })
   }
@@ -166,5 +193,25 @@ export class FormComponent implements OnDestroy {
   setSubtaskNotEdit(subtaskitem: any) {
     subtaskitem.style.opacity = "0";
   }
+
+
+  searchKey(data: string) {
+    this.searchText = data;
+    this.searchUser();
+  }
+
+
+  searchUser() {
+    const filter = this.searchText.toUpperCase().trim();
+    if (filter) {
+      this.users = this.allUsers.filter(user =>
+        user.name.toUpperCase().includes(filter)
+      );
+    } else {
+      this.users = [...this.allUsers];
+    }
+  }
+
+
 
 }

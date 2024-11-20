@@ -96,20 +96,35 @@
             <div class="field-layout">
                 <p>Category<span>*</span></p>
                 <div class="select-container" appClickOutside (clickOutside)="clickOutsideCategory()">
-                    <input class="category-field" type="text" value="Select task category" required
-                        (click)="toggleCategory()" id="input-category" name="category" [(ngModel)]="newTask.category">
-                    <img class="input-icon"
-                        [src]="isCategory ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
-                        alt="arrow" (click)="toggleCategory()">
-
+                    <input 
+                        class="category-field" 
+                        type="text" 
+                        value="Select task category" 
+                        required 
+                        (click)="toggleCategory()" 
+                        id="input-category" 
+                        name="category" 
+                        [(ngModel)]="newTask.category">
+                    <img 
+                        class="input-icon" 
+                        [src]="isCategory ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'" 
+                        alt="arrow" 
+                        (click)="toggleCategory()">
+            
                     <div [style.display]="isCategory ? 'flex' : 'none'" class="backlog-box height-auto">
-                        <label class="contact-container width-100" id="technicalTask"
+                        <label 
+                            class="contact-container width-100" 
+                            [class.select-category]="newTask.category === 'technicalTask'"
+                            id="technicalTask"
                             (click)="selectCategory('technicalTask')">
                             <div class="contact-name">
                                 <p>Technical Task</p>
                             </div>
                         </label>
-                        <label class="contact-container width-100" id="userStory"
+                        <label 
+                            class="contact-container width-100" 
+                            [class.select-category]="newTask.category === 'userStory'"
+                            id="userStory"
                             (click)="selectCategory('userStory')">
                             <div class="contact-name">
                                 <p>User Story</p>
@@ -118,6 +133,7 @@
                     </div>
                 </div>
             </div>
+            
 
             <!-- Subtasks -->
             <div class="field-layout field-layout-category">

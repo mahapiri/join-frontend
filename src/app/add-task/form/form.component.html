@@ -1,14 +1,20 @@
 <form #taskForm="ngForm" class="form-layout" (keydown.enter)="$event.preventDefault()">
     <div class="form-container">
         <div class="field-container">
+
+            <!-- Title -->
             <label class="field-layout">
                 <p>Title<span>*</span></p>
                 <input type="text" name="title" placeholder="Enter a title" required [(ngModel)]="newTask.title">
             </label>
+
+            <!-- Description -->
             <label class="field-layout">
                 <p>Description</p>
-                <textarea type="text" name="description" placeholder="Enter a Description"></textarea>
+                <textarea type="text" name="description" placeholder="Enter a Description" [(ngModel)]="newTask.description"></textarea>
             </label>
+
+            <!-- Assigned To -->
             <div class="field-layout">
                 <p>Assigned To</p>
                 <div appClickOutside (clickOutside)="clickoutside()">
@@ -48,10 +54,11 @@
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="divider"></div>
         <div class="field-container">
+
+            <!-- Due Date -->
             <label class="field-layout">
                 <p>Due date<span>*</span></p>
                 <div class="datepicker-box">
@@ -63,23 +70,21 @@
                 </div>
             </label>
 
-            <!--  -->
-
-
+            <!-- Prio   -->
             <div class="field-layout">
                 <p>Prio</p>
                 <div class="prio-container">
-                    <input type="radio" id="urgent" name="prio" value="urgent" class="prio-radio">
+                    <input type="radio" id="urgent" name="prio" value="urgent" class="prio-radio" [(ngModel)]="newTask.prio">
                     <label for="urgent" class="prio-content">
                         <p>Urgent</p>
                         <img src="assets/img/prio/urgent-default.svg" alt="Urgent">
                     </label>
-                    <input type="radio" id="medium" name="prio" value="medium" class="prio-radio">
+                    <input type="radio" id="medium" name="prio" value="medium" class="prio-radio" [(ngModel)]="newTask.prio">
                     <label for="medium" class="prio-content">
                         <p>Medium</p>
                         <img src="assets/img/prio/medium-default.svg" alt="Medium">
                     </label>
-                    <input type="radio" id="low" name="prio" value="low" class="prio-radio">
+                    <input type="radio" id="low" name="prio" value="low" class="prio-radio" [(ngModel)]="newTask.prio">
                     <label for="low" class="prio-content">
                         <p>Low</p>
                         <img src="assets/img/prio/low-default.svg" alt="Low">
@@ -87,11 +92,7 @@
                 </div>
             </div>
 
-            <!--  -->
-
-
-
-
+            <!-- Category -->
             <div class="field-layout">
                 <p>Category<span>*</span></p>
                 <div class="select-container" appClickOutside (clickOutside)="clickOutsideCategory()">
@@ -102,13 +103,13 @@
                         alt="arrow" (click)="toggleCategory()">
 
                     <div [style.display]="isCategory ? 'flex' : 'none'" class="backlog-box height-auto">
-                        <label class="contact-container width-100" #contactContainerCategory id="technicalTask"
+                        <label class="contact-container width-100" id="technicalTask"
                             (click)="selectCategory('technicalTask')">
                             <div class="contact-name">
                                 <p>Technical Task</p>
                             </div>
                         </label>
-                        <label class="contact-container width-100" #contactContainerCategory id="userStory"
+                        <label class="contact-container width-100" id="userStory"
                             (click)="selectCategory('userStory')">
                             <div class="contact-name">
                                 <p>User Story</p>
@@ -118,7 +119,7 @@
                 </div>
             </div>
 
-            <!--  -->
+            <!-- Subtasks -->
             <div class="field-layout field-layout-category">
                 <p>Subtasks</p>
                 <div class="select-container">
@@ -153,10 +154,8 @@
                             </div>
                         </div>
                     </ng-container>
-
                 </ul>
             </div>
-            <!--  -->
         </div>
     </div>
     <div class="submit-container">
@@ -164,10 +163,14 @@
             <p><span>*</span>This field is required</p>
         </div>
         <div class="btn-content">
+
+            <!-- Clear -->
             <button class="clear-btn" type="button" (click)="resetForm(taskForm)">
                 <p>Clear</p>
                 <img class="clear-img" src="assets/img/clear/default.svg" alt="Clear">
             </button>
+
+            <!-- Create Task -->
             <button class="submit-btn" (click)="onSubmit(taskForm)">
                 <p class="p-bold">Create Task</p>
                 <img src="assets/img/check/default-create-task.svg" alt="Create">

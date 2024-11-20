@@ -1,9 +1,11 @@
+import { User } from "./user.model";
+
 export class Task {
     status?: string = '';
     title: string = '';
     description?: string = '';
-    assignedTo?: string[] = [];
-    dueDate: Date = new Date();
+    assignedTo?: User[] = [];
+    dueDate: Date;
     prio?: string = '';
     category: string = '';
     subtasks?: string[] = [];

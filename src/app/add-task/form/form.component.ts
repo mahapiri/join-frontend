@@ -62,15 +62,16 @@ export class FormComponent implements OnDestroy {
   searchTextAssigned: string = '';
   searchTextSubtasks: string = '';
   isEditingSubtaskIndex: number | null = null;
+  dueDate: Date = new Date();
 
   newTask: Task = new Task({
     title: '',
     description: '',
-    assignedTo: [],
-    dueDate: new Date(),
+    assignedTo: this.selectedUser,
+    dueDate: this.date.value,
     prio: '',
     category: '',
-    subtasks: [],
+    subtasks: this.subtasks,
   })
 
   constructor(private datePipe: DatePipe, private taskService: TaskService, private userService: UserService, private eRef: ElementRef) {
@@ -97,27 +98,9 @@ export class FormComponent implements OnDestroy {
   }
 
 
-  selectCategory(category: string) {
-    const div = document.getElementById(`${category}`);
-    const input = document.getElementById('input-category') as HTMLInputElement;
-    if (div && input) {
-      div.className += ' select-category';
-
-    }
-
-    if (category === 'technicalTask') {
-      const userStory = document.getElementById('userStory');
-      userStory?.classList.remove('select-category');
-      input.value = 'Technical Task';
-    }
-
-    if (category === 'userStory') {
-      const technicalTask = document.getElementById('technicalTask');
-      technicalTask?.classList.remove('select-category');
-      input.value = 'User Story';
-    }
-
-
+  selectCategory(category: string): void {
+    this.newTask.category = category;
+    this.isCategory = false;
   }
 
   clickoutside() {
@@ -153,23 +136,18 @@ export class FormComponent implements OnDestroy {
     }
   }
 
-  dueDate: Date | null = null;
-
   onSubmit(form: NgForm) {
     // const dueDateValue = this.date.value;
     // const formattedDate = this.datePipe.transform(dueDateValue, 'dd/MM/YYYY');
     // console.log('Selected Due Date:', formattedDate);
     // console.log(form)
-
-    if(form.valid) {
-      console.log(this.newTask);
-    } else {
-      console.log('nicht alles ausgefüllt')
-    }
+    console.log(this.newTask)
   }
 
-  resetForm(form: any) {
+
+  resetForm(form: NgForm) {
     form.reset();
+    this.newTask = new Task({});
   }
 
 

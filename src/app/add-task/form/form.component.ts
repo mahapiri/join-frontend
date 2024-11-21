@@ -224,7 +224,6 @@ export class FormComponent implements OnDestroy {
       const inputValue = inputElement.value;
       this.subtasks[i] = inputValue;
       this.isEditingSubtaskIndex = null;
-      console.log(this.subtasks);
     }
   }
 

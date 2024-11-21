@@ -13,7 +13,7 @@ import { SharedService } from '../../services/shared.service';
   templateUrl: './edit-contact.component.html',
   styleUrl: './edit-contact.component.scss'
 })
-export class EditContactComponent implements OnDestroy{
+export class EditContactComponent implements OnDestroy {
   userServiceSubscription: Subscription = new Subscription();
 
   users: User[] = [];
@@ -27,16 +27,48 @@ export class EditContactComponent implements OnDestroy{
   }
 
   ngOnDestroy(): void {
-      this.userServiceSubscription.unsubscribe();
+    this.userServiceSubscription.unsubscribe();
   }
 
   save() {
-    console.log('saved')
+    const firstName = this.getFullname().firstName;
+    const lastName = this.getFullname().lastName;
+    const mail = this.getMail();
+    const phone = this.getPhone();
+    const index = this.userService.selectedUser;
+    if(typeof index === 'number') {
+      this.userService.saveUser(index, firstName, lastName, mail, phone)
+    };
+    this.sharedService.closeAll();
+  }
+
+  getFullname() {
+    const div = document.getElementById('name') as HTMLInputElement;
+    const nameValue = div.value;
+    const split = nameValue.split(' ');
+    const firstName = split[0];
+    const lastName = split.slice(-1).toString();
+    return {
+      firstName: firstName,
+      lastName: lastName,
+    }
+  }
+
+  getMail() {
+    const div = document.getElementById('mail') as HTMLInputElement;
+    const mailValue = div.value;
+    return mailValue;
+  }
+
+  getPhone() {
+    const div = document.getElementById('phone') as HTMLInputElement;
+    const phoneValue = div.value;
+    return phoneValue;
   }
 
   delete() {
     const index = this.userService.selectedUser;
-    if(typeof index === 'number') {
+    if (typeof index === 'number') {
       this.userService.deleteUser(index);
     }
     this.sharedService.closeAll();

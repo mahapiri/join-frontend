@@ -15,7 +15,6 @@ export class UserService {
   constructor() {
     const exampleUser1 = new User(
       {
-        userID: '12235464',
         firstName: 'Piri',
         lastName: 'Maha',
         email: 'piri@hallo.de',
@@ -24,7 +23,6 @@ export class UserService {
     );
     const exampleUser2 = new User(
       {
-        userID: '546465631',
         firstName: 'Sara',
         lastName: 'Müller',
         email: 'sara@hallo.de',
@@ -46,10 +44,28 @@ export class UserService {
 
   deleteUser(index: number): void {
     const users = this._users.getValue();
-    if(index >= 0 && index < users.length) {
+    if (index >= 0 && index < users.length) {
       users.splice(index, 1);
       this._users.next(users);
     }
     this.selectedUser = undefined;
+  }
+
+  saveUser(index: number, firstName: string, lastName: string, mail: string, phone: string): void {
+    const users = this._users.getValue();
+    if (index >= 0 && index < users.length) {
+      const userID = users[index].userID;
+      const color = users[index].color;
+      console.log(color)
+      users[index] = new User({
+        userID: userID,
+        firstName: firstName,
+        lastName: lastName,
+        color: color,
+        email: mail,
+        phone: phone,
+      })
+      console.log(users[index]);
+    }
   }
 }

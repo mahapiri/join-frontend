@@ -24,6 +24,6 @@ export class AppComponent {
 
 
   close() {
-    this.sharedService.isPopup = false;
+    this.sharedService.closeAll();
   }
 }

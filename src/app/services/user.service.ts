@@ -32,7 +32,7 @@ export class UserService {
     this._users.next([exampleUser1, exampleUser2]);
   }
 
-  selectUser(i: number): void {
+ selectUser(i: number) {
     const div = document.getElementById(`userID${i}`);
     const query = document.querySelector('.select-user');
     query?.classList.remove('select-user');
@@ -68,4 +68,27 @@ export class UserService {
       console.log(users[index]);
     }
   }
+
+
+newUser(firstName: string,lastName: string, mail: string, phone: string) {
+    const users = this._users.getValue();
+
+    const newUser = new User({
+      firstName: firstName,
+      lastName: lastName,
+      email: mail,
+      phone: phone,
+    })
+    users.push(newUser);
+    this.selectedUser = users.length - 1;
+    this._users.next(users);
+    
+    setTimeout(() => {
+      this.selectUser(users.length - 1);
+    }, 1);
+
+    console.log(this._users.getValue())
+
+  }
+
 }

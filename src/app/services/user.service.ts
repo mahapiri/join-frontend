@@ -41,7 +41,15 @@ export class UserService {
     if (div) {
       div.classList.add('select-user');
       this.selectedUser = i;
-      // this._users.value[i];
     }
+  }
+
+  deleteUser(index: number): void {
+    const users = this._users.getValue();
+    if(index >= 0 && index < users.length) {
+      users.splice(index, 1);
+      this._users.next(users);
+    }
+    this.selectedUser = undefined;
   }
 }

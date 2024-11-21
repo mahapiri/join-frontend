@@ -12,19 +12,12 @@ import { Subscription } from 'rxjs';
   styleUrl: './contact-list.component.scss'
 })
 export class ContactListComponent implements OnDestroy {
-  userServiceSubscription: Subscription = new Subscription();
-  users: User[] = [];
 
   constructor(public userService: UserService) {
-    this.userServiceSubscription = this.userService.users$.subscribe((user) => {
-      user.forEach((u) => {
-        this.users.push(u);
-      })
-    })
+
   }
 
   ngOnDestroy(): void {
-      this.userServiceSubscription.unsubscribe();
   }
 
 

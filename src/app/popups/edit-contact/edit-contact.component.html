@@ -1,4 +1,4 @@
-<div class="popup-contact">
+<div class="popup-contact" onload="currentUser()" *ngIf="userService.selectedUser != undefined">
     <div class="left-section">
         <div class="left-content">
             <img src="assets/img/logo/white.svg" alt="Join Logo">
@@ -12,20 +12,20 @@
         <div class="right-content">
             <form (submit)="save()">
                 <div class="input-contact-field">
-                    <div class="contact-icon">
-                        <h4>AM</h4>
+                    <div class="contact-icon" [ngStyle]="{'background-color': 'var(' + users[userService.selectedUser].color + ')'}">
+                        <h4>{{ users[userService.selectedUser].initial}}</h4>
                     </div>
                     <div class="inputfield-container">
                         <div class="inputfield">
-                            <input type="text" placeholder="Name">
+                            <input type="text" placeholder="Name" value="{{ users[userService.selectedUser].name}}">
                             <img class="input-icon" src="assets/img/contact-form/person.svg" alt="Name">
                         </div>
                         <div class="inputfield">
-                            <input type="text" placeholder="Mail">
+                            <input type="text" placeholder="Mail" value="{{ users[userService.selectedUser].email}}">
                             <img class="input-icon" src="assets/img/contact-form/mail.svg" alt="Mail">
                         </div>
                         <div class="inputfield">
-                            <input type="text" placeholder="Phone">
+                            <input type="text" placeholder="Phone" value="{{ users[userService.selectedUser].phone}}">
                             <img class="input-icon" src="assets/img/contact-form/call.svg" alt="Phone">
                         </div>
                     </div>
@@ -33,7 +33,7 @@
                 <div class="btn-content">
                     <div class="empty-div"></div>
                     <div class="btn-div">
-                        <button class="delete-btn" type="button">
+                        <button class="delete-btn" type="button" (click)="delete()">
                             <p>Delete</p>
                         </button>
                         <button class="save-btn" type="submit">

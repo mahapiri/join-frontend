@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-contact-overview',
@@ -12,31 +13,24 @@ import { CommonModule } from '@angular/common';
   styleUrl: './contact-overview.component.scss'
 })
 export class ContactOverviewComponent {
-  userServiceSubscription: Subscription = new Subscription();
-  users: User[] = [];
 
+  constructor(public userService: UserService, private sharedService: SharedService) {
 
-  constructor(public userService: UserService) {
-    this.userServiceSubscription = this.userService.users$.subscribe((user) => {
-      user.forEach((u) => {
-        this.users.push(u);
-      })
-    })
-
-    if(this.users.length > -1) {
-
-    }
   }
 
   ngOnDestroy(): void {
-    this.userServiceSubscription.unsubscribe();
   }
 
-  editContact(i: number) {
-    console.log(i);
+  editContact() {
+    this.sharedService.isPopup = true;
+    this.sharedService.isEditContact = true;
   }
 
-  deleteContact(i: number) {
-    console.log(i);
+  deleteContact() {
+    const index = this.userService.selectedUser;
+    if(typeof index === 'number') {
+      this.userService.deleteUser(index);
+    }
+    this.sharedService.closeAll();
   }
 }

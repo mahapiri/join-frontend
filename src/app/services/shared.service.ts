@@ -7,6 +7,7 @@ export class SharedService {
   isPopup: boolean = false;
   isAddTask: boolean = false;
   isCard: boolean = false;
+  isCardEditing: boolean = false;
   isAdding: boolean = false;
   isAddContact: boolean = false;
   isEditContact: boolean = false;
@@ -17,6 +18,7 @@ export class SharedService {
     this.isPopup = false;
     this.isAddTask = false;
     this.isCard = false;
+    this.isCardEditing = false;
     this.isAdding = false;
     this.isAddContact = false;
     this.isEditContact = false;

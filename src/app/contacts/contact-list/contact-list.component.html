@@ -13,7 +13,7 @@
                 <p>A</p>
               </div>
               <div class="divider"></div>
-              <div [attr.id]="'userID' + i" class="contact-container" (click)="userService.selectUser(i)">
+              <div [attr.id]="'userID' + user.userID" class="contact-container" (click)="userService.selectUser(user.userID)">
                 <div class="contact-icon" [ngStyle]="{'background-color': 'var(' + user.color + ')'}">
                   {{ user.initial }}
                 </div>

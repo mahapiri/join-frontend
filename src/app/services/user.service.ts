@@ -9,10 +9,16 @@ export class UserService {
   private _users = new BehaviorSubject<User[]>([]);
   users$ = this._users.asObservable();
 
-  isSelected: boolean = false;
-  selectedUser: number | undefined = undefined;
+  private _selectedUser = new BehaviorSubject<string | null>('');
+  selectedUser$ = this._selectedUser.asObservable();
+
+
+  private _currentUser = new BehaviorSubject<(User | null)>(null);
+  currentUser$ = this._currentUser.asObservable();
+
 
   constructor() {
+    const users = [];
     const exampleUser1 = new User(
       {
         firstName: 'Piri',
@@ -29,34 +35,74 @@ export class UserService {
         phone: '07645945212',
       }
     );
-    this._users.next([exampleUser1, exampleUser2]);
+    users.push(exampleUser1, exampleUser2);
+    users.sort(this.sortUsersByName);
+    this._users.next(users);
   }
 
- selectUser(i: number) {
-    const div = document.getElementById(`userID${i}`);
+
+  private sortUsersByName(a: User, b: User): number {
+    const nameA = `${a.firstName} ${a.lastName}`.toLowerCase();
+    const nameB = `${b.firstName} ${b.lastName}`.toLowerCase();
+    return nameA.localeCompare(nameB);
+  }
+
+
+  saveSelectedUser(userID: string) {
+    let id = userID;
+    this._selectedUser.next(id);
+  }
+
+
+  deleteContact(id: string | null) {
+    const users = this._users.getValue();
+    users.forEach(user => {
+      if (user.userID === id) {
+        users.splice(1, 1);
+        this._users.next(users);
+        this.saveSelectedUser('0');
+      }
+    })
+  }
+
+
+  resetSelectedUser() {
+    this._selectedUser.next('0');
+  }
+
+
+  selectUser(userID: string) {
+    const div = document.getElementById(`userID${userID}`);
     const query = document.querySelector('.select-user');
     query?.classList.remove('select-user');
     if (div) {
       div.classList.add('select-user');
-      this.selectedUser = i;
+      this.saveSelectedUser(userID);
+      this.findUser();
     }
   }
 
-  deleteUser(index: number): void {
+
+  findUser() {
     const users = this._users.getValue();
-    if (index >= 0 && index < users.length) {
-      users.splice(index, 1);
-      this._users.next(users);
-    }
-    this.selectedUser = undefined;
+    const selectedUser = this._selectedUser.getValue();
+    users.forEach((user) => {
+      if (user.userID === selectedUser) {
+        this._currentUser.next(user);
+      }
+    })
   }
+
+  resetCurrentUser() {
+    this._currentUser.next(null);
+  }
+
 
   saveUser(index: number, firstName: string, lastName: string, mail: string, phone: string): void {
     const users = this._users.getValue();
     if (index >= 0 && index < users.length) {
       const userID = users[index].userID;
       const color = users[index].color;
-      console.log(color)
       users[index] = new User({
         userID: userID,
         firstName: firstName,
@@ -64,13 +110,14 @@ export class UserService {
         color: color,
         email: mail,
         phone: phone,
-      })
-      console.log(users[index]);
+      });
+      users.sort(this.sortUsersByName);
+      this._users.next(users);
     }
   }
 
 
-newUser(firstName: string,lastName: string, mail: string, phone: string) {
+  newUser(firstName: string, lastName: string, mail: string, phone: string) {
     const users = this._users.getValue();
 
     const newUser = new User({
@@ -80,15 +127,12 @@ newUser(firstName: string,lastName: string, mail: string, phone: string) {
       phone: phone,
     })
     users.push(newUser);
-    this.selectedUser = users.length - 1;
+    users.sort(this.sortUsersByName);
+
     this._users.next(users);
-    
+
     setTimeout(() => {
-      this.selectUser(users.length - 1);
+      this.saveSelectedUser(newUser.userID);
     }, 1);
-
-    console.log(this._users.getValue())
-
   }
-
 }

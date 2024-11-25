@@ -25,6 +25,4 @@ export class ContactListComponent implements OnDestroy {
     this.sharedService.isPopup = true;
     this.sharedService.isAddContact = true;
   }
-
-
 }

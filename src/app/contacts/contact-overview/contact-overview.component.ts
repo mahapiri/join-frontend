@@ -13,24 +13,32 @@ import { SharedService } from '../../services/shared.service';
   styleUrl: './contact-overview.component.scss'
 })
 export class ContactOverviewComponent {
+  users: User[] = [];
+  currentUser: User | null = null;
+  selectedUser: string | null = null;
 
   constructor(public userService: UserService, private sharedService: SharedService) {
-
+    this.userService.selectedUser$.subscribe((user) => {
+      this.selectedUser = user;
+    })
+    this.userService.users$.subscribe((users) => {
+      users.forEach((user) => {
+        this.users.push(user);
+      })
+    })
+    this.userService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+    })
   }
+
 
   ngOnDestroy(): void {
+    this.userService.resetCurrentUser();
   }
+
 
   editContact() {
     this.sharedService.isPopup = true;
     this.sharedService.isEditContact = true;
-  }
-
-  deleteContact() {
-    const index = this.userService.selectedUser;
-    if(typeof index === 'number') {
-      this.userService.deleteUser(index);
-    }
-    this.sharedService.closeAll();
   }
 }

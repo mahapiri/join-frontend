@@ -17,6 +17,8 @@ export class EditContactComponent implements OnDestroy {
   userServiceSubscription: Subscription = new Subscription();
 
   users: User[] = [];
+  selectedUser: string | null = null;
+  currentUser: User | null = null;
 
   constructor(public userService: UserService, private sharedService: SharedService) {
     this.userService.users$.subscribe((user) => {
@@ -24,23 +26,30 @@ export class EditContactComponent implements OnDestroy {
         this.users.push(u);
       })
     })
+
+    this.userService.selectedUser$.subscribe((user) => {
+      this.selectedUser = user;
+    })
   }
+
 
   ngOnDestroy(): void {
     this.userServiceSubscription.unsubscribe();
   }
+
 
   save() {
     const firstName = this.getFullname().firstName;
     const lastName = this.getFullname().lastName;
     const mail = this.getMail();
     const phone = this.getPhone();
-    const index = this.userService.selectedUser;
-    if(typeof index === 'number') {
+    const index = this.selectedUser;
+    if (typeof index === 'number') {
       this.userService.saveUser(index, firstName, lastName, mail, phone)
     };
     this.sharedService.closeAll();
   }
+
 
   getFullname() {
     const div = document.getElementById('name') as HTMLInputElement;
@@ -54,11 +63,13 @@ export class EditContactComponent implements OnDestroy {
     }
   }
 
+
   getMail() {
     const div = document.getElementById('mail') as HTMLInputElement;
     const mailValue = div.value;
     return mailValue;
   }
+
 
   getPhone() {
     const div = document.getElementById('phone') as HTMLInputElement;
@@ -66,11 +77,9 @@ export class EditContactComponent implements OnDestroy {
     return phoneValue;
   }
 
+  
   delete() {
-    const index = this.userService.selectedUser;
-    if (typeof index === 'number') {
-      this.userService.deleteUser(index);
-    }
+    this.userService.deleteContact(this.selectedUser)
     this.sharedService.closeAll();
   }
 }

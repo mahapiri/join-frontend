@@ -1,4 +1,4 @@
-<div class="popup-contact" onload="currentUser()" *ngIf="userService.selectedUser != undefined">
+<div class="popup-contact" onload="currentUser()" *ngIf="currentUser != null">
     <div class="left-section">
         <div class="left-content">
             <img src="assets/img/logo/white.svg" alt="Join Logo">
@@ -12,20 +12,20 @@
         <div class="right-content">
             <form (submit)="save()">
                 <div class="input-contact-field">
-                    <div class="contact-icon" [ngStyle]="{'background-color': 'var(' + users[userService.selectedUser].color + ')'}">
-                        <h4>{{ users[userService.selectedUser].initial}}</h4>
+                    <div class="contact-icon" [ngStyle]="{'background-color': 'var(' + currentUser.color + ')'}">
+                        <h4>{{ currentUser.initial}}</h4>
                     </div>
                     <div class="inputfield-container">
                         <div class="inputfield">
-                            <input id="name" type="text" placeholder="Name" value="{{ users[userService.selectedUser].name}}">
+                            <input id="name" type="text" placeholder="Name" value="{{ currentUser.name}}">
                             <img class="input-icon" src="assets/img/contact-form/person.svg" alt="Name">
                         </div>
                         <div class="inputfield">
-                            <input id="mail" type="text" placeholder="Mail" value="{{ users[userService.selectedUser].email}}">
+                            <input id="mail" type="text" placeholder="Mail" value="{{ currentUser.email}}">
                             <img class="input-icon" src="assets/img/contact-form/mail.svg" alt="Mail">
                         </div>
                         <div class="inputfield">
-                            <input id="phone" type="text" placeholder="Phone" value="{{ users[userService.selectedUser].phone}}">
+                            <input id="phone" type="text" placeholder="Phone" value="{{ currentUser.phone}}">
                             <img class="input-icon" src="assets/img/contact-form/call.svg" alt="Phone">
                         </div>
                     </div>

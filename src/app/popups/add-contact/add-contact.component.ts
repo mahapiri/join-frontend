@@ -39,6 +39,7 @@ export class AddContactComponent {
     }
   }
 
+
   cancel() {
     this.sharedService.closeAll();
   }

@@ -176,6 +176,16 @@ a {
     line-height: 19.2px;
 }
 
+.errormsg {
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 15.6px;
+    color: rgba(255, 129, 144, 1);
+    position: absolute;
+    margin-top: 8px;
+}
+
 .inside-app {
     width: 100vw;
     height: 100vh;

@@ -14,7 +14,24 @@ import { SharedService } from '../../services/shared.service';
 })
 export class ContactListComponent implements OnDestroy {
 
+  groupedUsers: { [key: string]: User[] } = {};
+
   constructor(public userService: UserService, private sharedService: SharedService) {
+    this.userService.users$.subscribe(users => {
+      this.groupedUsers = this.groupUsersByAlphabet(users);
+      
+    });
+  }
+
+  groupUsersByAlphabet(users: User[]): { [key: string]: User[] } {
+    return users.reduce((groups: { [key: string]: User[] }, user: User) => {
+      const initial = user.name.charAt(0).toUpperCase();
+      if (!groups[initial]) {
+        groups[initial] = [];
+      }
+      groups[initial].push(user);
+      return groups;
+    }, {});
   }
 
   ngOnDestroy(): void {

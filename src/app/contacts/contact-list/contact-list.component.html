@@ -1,37 +1,38 @@
 <div class="contact-list-container">
-    <div class="list-container">
-      <div class="list-content">
-        <div class="add-btn" (click)="addNewContact()">
-          <p class="p-bold">Add new contact</p>
-          <img src="../../../assets/img/person-add/default.svg" alt="Contact">
-        </div>
-  
-        <ng-container *ngIf="(userService.users$ | async) as users">
-          <div *ngIf="users.length > 0; else noContacts">
-            <div class="contact-list" *ngFor="let user of users; let i = index;">
-              <div class="alphabet">
-                <p>A</p>
+  <div class="list-container">
+    <div class="list-content">
+      <div class="add-btn" (click)="addNewContact()">
+        <p class="p-bold">Add new contact</p>
+        <img src="../../../assets/img/person-add/default.svg" alt="Contact">
+      </div>
+
+      <ng-container *ngIf="groupedUsers | keyvalue as grouped">
+        <div *ngFor="let group of grouped">
+          <div class="alphabet">
+            <p>{{ group.key }}</p>
+          </div>
+          <div class="divider"></div>
+          <div class="contact-list" *ngFor="let user of group.value">
+            <div [attr.id]="'userID' + user.userID" class="contact-container"
+              (click)="userService.selectUser(user.userID)"
+              [ngClass]="{'select-user': (userService.selectedUser$ | async) === user.userID}">
+              <div class="contact-icon" [ngStyle]="{'background-color': 'var(' + user.color + ')'}">
+                {{ user.initial }}
               </div>
-              <div class="divider"></div>
-              <div [attr.id]="'userID' + user.userID" class="contact-container" (click)="userService.selectUser(user.userID)"   [ngClass]="{'select-user': (userService.selectedUser$ | async) === user.userID}">
-                <div class="contact-icon" [ngStyle]="{'background-color': 'var(' + user.color + ')'}">
-                  {{ user.initial }}
-                </div>
-                <div>
-                  <p>{{ user.name }}</p>
-                  <a>{{ user.email }}</a>
-                </div>
+              <div>
+                <p>{{ user.name }}</p>
+                <a>{{ user.email }}</a>
               </div>
             </div>
           </div>
-        </ng-container>
-  
-        <ng-template #noContacts>
-          <div class="no-contacts">
-            <p>No contacts available</p>
-          </div>
-        </ng-template>
-      </div>
+        </div>
+      </ng-container>
+
+      <ng-template #noContacts>
+        <div class="no-contacts">
+          <p>No contacts available</p>
+        </div>
+      </ng-template>
     </div>
   </div>
-  
+</div>

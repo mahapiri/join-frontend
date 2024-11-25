@@ -28,7 +28,7 @@ export class User {
         this.lastName = obj.lastName;
         this.name = obj.firstName + ' ' + obj.lastName;
         this.userID = obj.userID || this.getRandomUserID(obj.firstName);
-        this.initial = this.getInitial(obj.firstName) + this.getInitial(obj.lastName);
+        this.initial = (this.getInitial(obj.firstName) + this.getInitial(obj.lastName)).toUpperCase();
         this.color = obj.color || this.getRandomColor();
         this.email = obj.email;
         this.phone = obj.phone || '';

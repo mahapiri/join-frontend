@@ -30,9 +30,17 @@ export class AddContactComponent {
   getFullname() {
     const div = document.getElementById('name') as HTMLInputElement;
     const nameValue = div.value;
-    const split = nameValue.split(' ');
-    const firstName = split[0];
-    const lastName = split.slice(-1).toString();
+    let firstName = '';
+    let lastName = '';
+    if(nameValue.includes(' ')) {
+      const split = nameValue.split(' ');
+      firstName = split[0];
+      lastName = split.slice(-1).toString();
+    } else {
+      firstName = nameValue.charAt(0).toUpperCase() + nameValue.slice(1).toLowerCase();
+      lastName = '';
+    }
+
     return {
       firstName: firstName,
       lastName: lastName,

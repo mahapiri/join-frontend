@@ -30,6 +30,10 @@ export class EditContactComponent implements OnDestroy {
     this.userService.selectedUser$.subscribe((user) => {
       this.selectedUser = user;
     })
+
+    this.userService.currentUser$.subscribe((user) => {
+      this.currentUser = user;
+    })
   }
 
 
@@ -43,10 +47,10 @@ export class EditContactComponent implements OnDestroy {
     const lastName = this.getFullname().lastName;
     const mail = this.getMail();
     const phone = this.getPhone();
-    const index = this.selectedUser;
-    if (typeof index === 'number') {
-      this.userService.saveUser(index, firstName, lastName, mail, phone)
-    };
+    const userID = this.currentUser?.userID;
+    if(userID) {
+      this.userService.saveUser(userID, firstName, lastName, mail, phone)
+    }
     this.sharedService.closeAll();
   }
 
@@ -77,7 +81,7 @@ export class EditContactComponent implements OnDestroy {
     return phoneValue;
   }
 
-  
+
   delete() {
     this.userService.deleteContact(this.selectedUser)
     this.sharedService.closeAll();

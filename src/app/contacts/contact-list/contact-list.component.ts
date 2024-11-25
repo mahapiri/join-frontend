@@ -15,7 +15,6 @@ import { SharedService } from '../../services/shared.service';
 export class ContactListComponent implements OnDestroy {
 
   constructor(public userService: UserService, private sharedService: SharedService) {
-
   }
 
   ngOnDestroy(): void {

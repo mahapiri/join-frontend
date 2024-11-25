@@ -56,18 +56,16 @@ export class UserService {
 
   deleteContact(id: string | null) {
     const users = this._users.getValue();
+    let i = 0;
     users.forEach(user => {
+      i++;
       if (user.userID === id) {
-        users.splice(1, 1);
+        users.splice(i - 1, 1);
         this._users.next(users);
         this.saveSelectedUser('0');
+        this.resetCurrentUser();
       }
     })
-  }
-
-
-  resetSelectedUser() {
-    this._selectedUser.next('0');
   }
 
 
@@ -98,22 +96,27 @@ export class UserService {
   }
 
 
-  saveUser(index: number, firstName: string, lastName: string, mail: string, phone: string): void {
+  saveUser(userID: string, firstName: string, lastName: string, mail: string, phone: string): void {
     const users = this._users.getValue();
-    if (index >= 0 && index < users.length) {
-      const userID = users[index].userID;
-      const color = users[index].color;
-      users[index] = new User({
-        userID: userID,
+    const userIndex = users.findIndex((user) => user.userID === userID);
+
+    if (userIndex !== -1) {
+      const updatedUser = new User({
+        userID: users[userIndex].userID,
         firstName: firstName,
         lastName: lastName,
-        color: color,
         email: mail,
         phone: phone,
+        color: users[userIndex].color,
       });
-      users.sort(this.sortUsersByName);
-      this._users.next(users);
+      users[userIndex] = updatedUser;
+      this._currentUser.next(users[userIndex]);
+      this.selectUser(userID);
     }
+    users.sort(this.sortUsersByName);
+    this._users.next(users);
+
+    
   }
 
 
@@ -133,6 +136,7 @@ export class UserService {
 
     setTimeout(() => {
       this.saveSelectedUser(newUser.userID);
+      this.selectUser(newUser.userID);
     }, 1);
   }
 }

@@ -35,6 +35,7 @@ export class ContactListComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.userService.deselectUser();
   }
 
   addNewContact() {

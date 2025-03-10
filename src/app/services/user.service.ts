@@ -80,6 +80,10 @@ export class UserService {
     }
   }
 
+  deselectUser() {
+    this._selectedUser.next(null);
+  }
+
 
   findUser() {
     const users = this._users.getValue();

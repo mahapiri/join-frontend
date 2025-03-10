@@ -1,6 +1,7 @@
 @import "../../../styles.scss";
 
 .layout-container {
+    height: inherit;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -26,6 +27,12 @@
     }
 }
 
+.task-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 .task-content {
     display: flex;
     flex-direction: column;
@@ -41,6 +48,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    @include transition-100;
 
     a {
         color: var(--input-divider);
@@ -56,6 +64,9 @@
     height: 200px;
     border-radius: 10px;
     border: 1px dashed var(--input-divider);
+    // background-color: rgba(249, 249, 249, 0.1);
+    // margin-top: 20px;
+    // padding: 10px;
 }
 
 .rotate {

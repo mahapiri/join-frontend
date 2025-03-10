@@ -1,26 +1,37 @@
-<div class="layout-container">
-    <div class="column" *ngFor="let status of taskStatuses">
+<div class="layout-container" cdkDropListGroup>
+    <div class="column" *ngFor="let status of taskStatuses" 
+        cdkDropList 
+        [cdkDropListData]="status.tasks"
+        [cdkDropListConnectedTo]="connectedToIds"
+        (cdkDropListDropped)="drop($event)">
+        
         <div class="header">
             <p class="p-bold">{{ status.label }}</p>
             <ng-container *ngIf="status.label !== 'Done'">
-                <img *ngIf="!status.isAdding" (mouseover)="onMouseOver(status)" (mouseout)="onMouseLeave(status)"
+                <img *ngIf="!status.isAdding" 
+                    (mouseover)="onMouseOver(status)" 
+                    (mouseout)="onMouseLeave(status)"
                     (click)="toggleAddTask(status)"
                     [src]="status.isHovered ? 'assets/img/plus/hover.svg' : 'assets/img/plus/default.svg'"
                     alt="Add Task">
-                <img *ngIf="status.isAdding" (click)="toggleAddTask(status)" src="assets/img/plus/active.svg"
+                <img *ngIf="status.isAdding" 
+                    (click)="toggleAddTask(status)" 
+                    src="assets/img/plus/active.svg"
                     alt="Add Task">
             </ng-container>
         </div>
+
         <div class="task-container">
             <div class="no-task-content" *ngIf="!status.tasks.length">
                 <a>No tasks To do</a>
             </div>
-            <div class="task-content" *ngFor="let task of status.tasks">
-                <!-- {{ task }} -->
-                <div (click)="startDragging()" class="card" [class.rotate]="isDragging">
-                    <app-card></app-card>
+
+            <div class="task-content" *ngFor="let task of status.tasks" cdkDrag>
+                <div class="list-container">
+                    <div class="list-content">
+                        <app-card></app-card>
+                    </div>
                 </div>
-                <div class="dragbox" *ngIf="isDragging"></div>
             </div>
         </div>
     </div>

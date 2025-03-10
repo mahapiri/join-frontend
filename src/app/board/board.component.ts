@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { DistributionComponent } from "./distribution/distribution.component";
 import { CommonModule } from '@angular/common';
@@ -8,13 +8,14 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [DistributionComponent, CommonModule],
   templateUrl: './board.component.html',
-  styleUrl: './board.component.scss'
+  styleUrl: './board.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BoardComponent {
   searchTerm: string = '';
   isSearching: boolean = false;
   noTaskFound: boolean = false;
-  constructor(private titleService: Title) {
+  constructor(private titleService: Title, private cdr: ChangeDetectorRef ) {
     this.titleService.setTitle("Join - Board");
   }
 
@@ -25,9 +26,11 @@ export class BoardComponent {
     if (!this.isSearching) {
       this.noTaskFound = false;
     }
+    this.cdr.markForCheck();
   }
 
   noTasksFound(noTasks: boolean) {
     this.noTaskFound = noTasks;
+    this.cdr.markForCheck();
   }
 }

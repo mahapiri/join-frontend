@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { TaskService } from '../../services/task.service';
-import { CdkDragDrop, CdkDrag, CdkDropList, moveItemInArray, transferArrayItem, DragDropModule } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDrag, moveItemInArray, transferArrayItem, DragDropModule, CdkDragStart } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-distribution',
@@ -13,19 +13,17 @@ import { CdkDragDrop, CdkDrag, CdkDropList, moveItemInArray, transferArrayItem, 
 })
 export class DistributionComponent {
   taskStatuses = [
-    { id: 'to-do', label: 'To do', isHovered: false, isAdding: false, tasks: ['Task 1', 'Task 2'] },
-    { id: 'in-progress', label: 'In progress', isHovered: false, isAdding: false, tasks: ['Task 3'] },
-    { id: 'await-feedback', label: 'Await feedback', isHovered: false, isAdding: false, tasks: [] },
-    { id: 'done', label: 'Done', isHovered: false, isAdding: false, tasks: [] },
+    { id: 'to-do', label: 'To do', isHovered: false, isAdding: false, isDraggingOver: false, tasks: ['Task 1', 'Task 2'] },
+    { id: 'in-progress', label: 'In progress', isHovered: false, isAdding: false, isDraggingOver: false, tasks: ['Task 3'] },
+    { id: 'await-feedback', label: 'Await feedback', isHovered: false, isAdding: false, isDraggingOver: false, tasks: [] },
+    { id: 'done', label: 'Done', isHovered: false, isAdding: false, isDraggingOver: false, tasks: [] },
   ];
   connectedToIds = this.taskStatuses.map(s => s.id);
   isDragging: boolean = false;
+  dragSizeHeight: number = 200;
 
   constructor(private task: TaskService) {
-
   }
-
-
 
 
   drop(event: CdkDragDrop<string[]>) {
@@ -42,6 +40,11 @@ export class DistributionComponent {
     }
   }
 
+  setDragSize(event: CdkDragStart) {
+    const element = event.source.element.nativeElement;
+    this.dragSizeHeight = element.offsetHeight + 32;
+  }
+
 
   onMouseOver(status: any) {
     status.isHovered = true;
@@ -56,4 +59,13 @@ export class DistributionComponent {
   toggleAddTask(status: any) {
     status.isAdding = !status.isAdding;
   }
+
+  dragEntered(status: any) {
+    status.isDraggingOver = true;
+  }
+  
+  dragExited(status: any) {
+    status.isDraggingOver = false;
+  }
 }
+

@@ -3,7 +3,12 @@
         <h3>Board</h3>
         <div class="search-add-container">
             <div class="search-container">
-                <input type="text" placeholder="Find Task">
+                <div>
+                    <input type="text" placeholder="Find Task" (input)="searchTask($event)">
+                    <p class="errormsg" *ngIf="noTaskFound">
+                        No results found
+                    </p>
+                </div>
                 <div class="icon-content">
                     <div class="divider-line"></div>
                     <img class="search-icon" src="assets/img/search/default.svg" alt="Search">
@@ -15,5 +20,5 @@
             </button>
         </div>
     </div>
-    <app-distribution></app-distribution>
+    <app-distribution [searchTerm]="searchTerm" [isSearching]="isSearching" (noTasksFoundEvent)="noTasksFound($event)"></app-distribution>
 </div>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component} from '@angular/core';
+import { Component, Input, Output, EventEmitter} from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { TaskService } from '../../services/task.service';
 import { CdkDragDrop, CdkDrag, moveItemInArray, transferArrayItem, DragDropModule, CdkDragStart } from '@angular/cdk/drag-drop';
@@ -12,6 +12,11 @@ import { CdkDragDrop, CdkDrag, moveItemInArray, transferArrayItem, DragDropModul
   styleUrls: ['./distribution.component.scss']
 })
 export class DistributionComponent {
+  @Input() searchTerm: string = '';
+  @Input() isSearching: boolean = false;
+
+  @Output() noTasksFoundEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
+    
   taskStatuses = [
     { id: 'to-do', label: 'To do', isHovered: false, isAdding: false, isDraggingOver: false, tasks: ['Task 1', 'Task 2'] },
     { id: 'in-progress', label: 'In progress', isHovered: false, isAdding: false, isDraggingOver: false, tasks: ['Task 3'] },
@@ -22,7 +27,24 @@ export class DistributionComponent {
   isDragging: boolean = false;
   dragSizeHeight: number = 200;
 
-  constructor(private task: TaskService) {
+  constructor(private task: TaskService ) {
+  }
+
+  getFilteredTasks(tasks: string[]) {
+    if (!this.searchTerm) {
+      this.noTasksFoundEvent.emit(false);
+      return tasks;
+    }
+  
+    const filteredTasks = tasks.filter(task =>
+      task.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  
+    const noTasks = filteredTasks.length === 0;
+  
+    this.noTasksFoundEvent.emit(noTasks);
+  
+    return filteredTasks;
   }
 
 

@@ -33,8 +33,8 @@ export class DistributionComponent {
 
   getFilteredTasks(tasks: string[]) {
     if (!this.searchTerm) {
-      this.noTasksFoundEvent.emit(false); // Keine Suche, also keine "No Tasks Found"-Meldung
-      this.cdr.markForCheck(); // Änderungserkennung manuell auslösen
+      this.noTasksFoundEvent.emit(false);
+      this.cdr.markForCheck();
       return tasks;
     }
 
@@ -43,8 +43,8 @@ export class DistributionComponent {
     );
 
     const noTasks = filteredTasks.length === 0;
-    this.noTasksFoundEvent.emit(noTasks); // "No Tasks Found"-Meldung auslösen
-    this.cdr.markForCheck(); // Änderungserkennung manuell auslösen
+    this.noTasksFoundEvent.emit(noTasks);
+    this.cdr.markForCheck();
 
     return filteredTasks;
   }

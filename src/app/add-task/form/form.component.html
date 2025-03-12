@@ -139,7 +139,7 @@
             <div class="field-layout field-layout-category">
                 <p>Subtasks</p>
                 <div class="select-container">
-                    <input #subtaskInput id="subtaskInput" (input)="writingSubtask(subtaskInput)"
+                    <input #subtaskInput id="subtaskInput  " (input)="writingSubtask(subtaskInput)"
                         (keydown.enter)="saveSubtask(subtaskInput)" type="text" [ngStyle]="{'padding-right': '80px'}"
                         [placeholder]="subtaskInput.value.trim().length === 0 ? 'Add new subtask' : ''">
                     <div *ngIf="isSubtask" class="input-icon-container">

@@ -12,6 +12,7 @@ import { UserService } from '../../services/user.service';
 import { Task } from '../../models/task.model';
 import { User } from '../../models/user.model';
 import { ClickOutsideDirective } from '../../click-outside.directive';
+import { ApiService } from '../../services/api.service';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -74,7 +75,7 @@ export class FormComponent implements OnDestroy {
     subtasks: this.subtasks,
   })
 
-  constructor(private datePipe: DatePipe, private taskService: TaskService, private userService: UserService, private eRef: ElementRef) {
+  constructor(private datePipe: DatePipe, private taskService: TaskService, private userService: UserService, private eRef: ElementRef, private apiService: ApiService) {
     this.taskServiceSubscription = this.taskService.tasks$.subscribe((tasks) => {
       this.tasks = [];
       tasks.forEach((task) => {
@@ -115,7 +116,6 @@ export class FormComponent implements OnDestroy {
   onCheckboxChange(checkbox: HTMLInputElement, contactContainer: HTMLElement, isHovering: boolean) {
     const paragraph = contactContainer.querySelector('p') as HTMLElement;
     const contactIcon = contactContainer.querySelector('.contact-icon') as HTMLElement;
-
     if (checkbox.checked) {
       if (isHovering) {
         contactContainer.style.backgroundColor = 'var(--third)';
@@ -137,17 +137,24 @@ export class FormComponent implements OnDestroy {
   }
 
   onSubmit(form: NgForm) {
-    // const dueDateValue = this.date.value;
-    // const formattedDate = this.datePipe.transform(dueDateValue, 'dd/MM/YYYY');
-    // console.log('Selected Due Date:', formattedDate);
-    // console.log(form)
     console.log(this.newTask)
+    this.apiService.createNewTask(this.newTask);
   }
 
 
   resetForm(form: NgForm) {
-    form.reset();
     this.newTask = new Task({});
+    this.subtasks = [];
+    this.selectedUser = [];
+    form.resetForm();
+
+    const subtaskInput = document.getElementById('subtaskInput') as HTMLInputElement;
+    if (subtaskInput) {
+      subtaskInput.value = '';
+    }
+
+    const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => checkbox.checked = false);
   }
 
 
@@ -239,16 +246,20 @@ export class FormComponent implements OnDestroy {
     this.isEditingSubtaskIndex = i;
   }
 
+  filteredUsers: User[] = [];
   searchUser() {
-    const filter = this.searchTextAssigned.toUpperCase().trim();
-    if (filter) {
-      this.users = this.allUsers.filter(user =>
-        user.name.toUpperCase().includes(filter)
-      );
-    } else {
-      this.users = [...this.allUsers];
+    if (!this.searchTextAssigned) {
+      this.filteredUsers = this.users;
+      return;
     }
+  
+    const searchValue = this.searchTextAssigned.toUpperCase();
+    this.filteredUsers = this.users.filter(user => 
+      user.name.toUpperCase().includes(searchValue)
+    );
   }
+  
+  
 
 
 

@@ -12,7 +12,7 @@ export class Task {
     createDate: Date;
 
     constructor(obj: any) {
-        this.status = obj.status || 'todo';
+        this.status = obj.status || 'to_do';
         this.title = obj.title;
         this.description = obj.description || '';
         this.assignedTo = obj.assignedTo || [];
@@ -35,6 +35,10 @@ export class Task {
             subtasks: this.subtasks,
             createDate: this.createDate
         }
+    }
+
+    formatDateForDjango(date: Date): string {
+        return `${date.getFullYear()}-${this.padZero(date.getMonth() + 1)}-${this.padZero(date.getDate())}`;
     }
 
     formatDate(date: Date): string {

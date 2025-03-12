@@ -114,18 +114,18 @@
                     <div [style.display]="isCategory ? 'flex' : 'none'" class="backlog-box height-auto">
                         <label 
                             class="contact-container width-100" 
-                            [class.select-category]="newTask.category === 'technicalTask'"
-                            id="technicalTask"
-                            (click)="selectCategory('technicalTask')">
+                            [class.select-category]="newTask.category === 'technical_task'"
+                            id="technical_task"
+                            (click)="selectCategory('technical_task')">
                             <div class="contact-name">
                                 <p>Technical Task</p>
                             </div>
                         </label>
                         <label 
                             class="contact-container width-100" 
-                            [class.select-category]="newTask.category === 'userStory'"
-                            id="userStory"
-                            (click)="selectCategory('userStory')">
+                            [class.select-category]="newTask.category === 'user_story'"
+                            id="user_story"
+                            (click)="selectCategory('user_story')">
                             <div class="contact-name">
                                 <p>User Story</p>
                             </div>
@@ -139,7 +139,7 @@
             <div class="field-layout field-layout-category">
                 <p>Subtasks</p>
                 <div class="select-container">
-                    <input #subtaskInput (input)="writingSubtask(subtaskInput)"
+                    <input #subtaskInput id="subtaskInput" (input)="writingSubtask(subtaskInput)"
                         (keydown.enter)="saveSubtask(subtaskInput)" type="text" [ngStyle]="{'padding-right': '80px'}"
                         [placeholder]="subtaskInput.value.trim().length === 0 ? 'Add new subtask' : ''">
                     <div *ngIf="isSubtask" class="input-icon-container">

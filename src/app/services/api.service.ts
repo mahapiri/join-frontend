@@ -50,7 +50,7 @@ export class ApiService {
       "title": task.title,
       "description": task.description,
       "due_date": task.formatDateForDjango(task.dueDate),
-      "prio": task.prio,
+      "prio": task.prio || "",
       "category": task.category
     };
   

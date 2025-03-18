@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, ChangeDetectionStrategy, OnDestroy, HostListener, ElementRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnDestroy, ElementRef } from '@angular/core';
 import { FormControl, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -42,7 +42,7 @@ export const MY_DATE_FORMATS = {
 
 })
 export class FormComponent implements OnDestroy {
-  readonly date = new FormControl(new Date());
+  readonly date = new FormControl();
   isAssignedTo: boolean = false;
   isCategory: boolean = false;
   isHoverContact: boolean = false;
@@ -54,6 +54,7 @@ export class FormComponent implements OnDestroy {
 
   taskServiceSubscription: Subscription = new Subscription();
   userServiceSubscription: Subscription = new Subscription();
+  datepickerSubscription: Subscription = new Subscription();
 
   users: User[] = [];
   tasks: Task[] = [];
@@ -63,7 +64,6 @@ export class FormComponent implements OnDestroy {
   searchTextAssigned: string = '';
   searchTextSubtasks: string = '';
   isEditingSubtaskIndex: number | null = null;
-  dueDate: Date = new Date();
 
   newTask: Task = new Task({
     title: '',
@@ -75,7 +75,7 @@ export class FormComponent implements OnDestroy {
     subtasks: this.subtasks,
   })
 
-  constructor(private datePipe: DatePipe, private taskService: TaskService, private userService: UserService, private eRef: ElementRef, private apiService: ApiService) {
+  constructor(private taskService: TaskService, private userService: UserService, private eRef: ElementRef, private apiService: ApiService) {
     this.taskServiceSubscription = this.taskService.tasks$.subscribe((tasks) => {
       this.tasks = [];
       tasks.forEach((task) => {
@@ -90,12 +90,18 @@ export class FormComponent implements OnDestroy {
         this.allUsers.push(user);
       });
     })
+    this.datepickerSubscription = this.date.valueChanges.subscribe(value => {
+      this.newTask.dueDate = value;
+    });
+
+    this.date.setValue(new Date());
   }
 
 
   ngOnDestroy(): void {
     this.taskServiceSubscription.unsubscribe();
     this.userServiceSubscription.unsubscribe();
+    this.datepickerSubscription.unsubscribe();
   }
 
 
@@ -138,7 +144,11 @@ export class FormComponent implements OnDestroy {
 
   onSubmit(form: NgForm) {
     console.log(this.newTask)
-    this.apiService.createNewTask(this.newTask);
+    if (this.newTask.dueDate !== null) {
+      this.apiService.createNewTask(this.newTask);
+    } else {
+      console.log("Fehler");
+    }
   }
 
 
@@ -147,6 +157,7 @@ export class FormComponent implements OnDestroy {
     this.subtasks = [];
     this.selectedUser = [];
     form.resetForm();
+    this.date.reset();
 
     const subtaskInput = document.getElementById('subtaskInput') as HTMLInputElement;
     if (subtaskInput) {
@@ -252,14 +263,14 @@ export class FormComponent implements OnDestroy {
       this.filteredUsers = this.users;
       return;
     }
-  
+
     const searchValue = this.searchTextAssigned.toUpperCase();
-    this.filteredUsers = this.users.filter(user => 
+    this.filteredUsers = this.users.filter(user =>
       user.name.toUpperCase().includes(searchValue)
     );
   }
-  
-  
+
+
 
 
 

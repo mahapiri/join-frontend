@@ -11,7 +11,8 @@
             <!-- Description -->
             <label class="field-layout">
                 <p>Description</p>
-                <textarea type="text" name="description" placeholder="Enter a Description" [(ngModel)]="newTask.description"></textarea>
+                <textarea type="text" name="description" placeholder="Enter a Description"
+                    [(ngModel)]="newTask.description"></textarea>
             </label>
 
             <!-- Assigned To -->
@@ -21,7 +22,7 @@
                     <div class="select-container">
                         <input class="assigned-to-field" type="text" value="Select contacts to assign"
                             [(ngModel)]="searchTextAssigned" name="someting" (ngModelChange)="searchKey($event)"
-                            (click)="toggleAssigneTo()" id="assignedTo">
+                            (click)="toggleAssigneTo()" id="assignedTo" placeholder="Select contacts to assign">
                         <img class="input-icon"
                             [src]="isAssignedTo ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
                             alt="arrow" (click)="toggleAssigneTo()">
@@ -64,7 +65,7 @@
                 <div class="datepicker-box">
                     <span class="datepicker-btn"></span>
                     <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" [formControl]="date"
-                        class="datepicker-input" name="dueDate">
+                        class="datepicker-input" name="dueDate" placeholder="dd/mm/yyyy">
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </div>
@@ -74,12 +75,14 @@
             <div class="field-layout">
                 <p>Prio</p>
                 <div class="prio-container">
-                    <input type="radio" id="urgent" name="prio" value="urgent" class="prio-radio" [(ngModel)]="newTask.prio">
+                    <input type="radio" id="urgent" name="prio" value="urgent" class="prio-radio"
+                        [(ngModel)]="newTask.prio">
                     <label for="urgent" class="prio-content">
                         <p>Urgent</p>
                         <img src="assets/img/prio/urgent-default.svg" alt="Urgent">
                     </label>
-                    <input type="radio" id="medium" name="prio" value="medium" class="prio-radio" [(ngModel)]="newTask.prio">
+                    <input type="radio" id="medium" name="prio" value="medium" class="prio-radio"
+                        [(ngModel)]="newTask.prio">
                     <label for="medium" class="prio-content">
                         <p>Medium</p>
                         <img src="assets/img/prio/medium-default.svg" alt="Medium">
@@ -96,35 +99,23 @@
             <div class="field-layout">
                 <p>Category<span>*</span></p>
                 <div class="select-container" appClickOutside (clickOutside)="clickOutsideCategory()">
-                    <input 
-                        class="category-field" 
-                        type="text" 
-                        value="Select task category" 
-                        required 
-                        (click)="toggleCategory()" 
-                        id="input-category" 
-                        name="category" 
-                        [(ngModel)]="newTask.category">
-                    <img 
-                        class="input-icon" 
-                        [src]="isCategory ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'" 
-                        alt="arrow" 
-                        (click)="toggleCategory()">
-            
+                    <input class="category-field" type="text" value="Select task category" required
+                        (click)="toggleCategory()" id="input-category" name="category" [(ngModel)]="newTask.category"
+                        placeholder="Select a category">
+                    <img class="input-icon"
+                        [src]="isCategory ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
+                        alt="arrow" (click)="toggleCategory()">
+
                     <div [style.display]="isCategory ? 'flex' : 'none'" class="backlog-box height-auto">
-                        <label 
-                            class="contact-container width-100" 
-                            [class.select-category]="newTask.category === 'technical_task'"
-                            id="technical_task"
+                        <label class="contact-container width-100"
+                            [class.select-category]="newTask.category === 'technical_task'" id="technical_task"
                             (click)="selectCategory('technical_task')">
                             <div class="contact-name">
                                 <p>Technical Task</p>
                             </div>
                         </label>
-                        <label 
-                            class="contact-container width-100" 
-                            [class.select-category]="newTask.category === 'user_story'"
-                            id="user_story"
+                        <label class="contact-container width-100"
+                            [class.select-category]="newTask.category === 'user_story'" id="user_story"
                             (click)="selectCategory('user_story')">
                             <div class="contact-name">
                                 <p>User Story</p>
@@ -133,7 +124,7 @@
                     </div>
                 </div>
             </div>
-            
+
 
             <!-- Subtasks -->
             <div class="field-layout field-layout-category">

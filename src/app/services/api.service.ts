@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Task } from '../models/task.model';
+import { BehaviorSubject, catchError, Observable } from 'rxjs';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +10,9 @@ import { Task } from '../models/task.model';
 export class ApiService {
 
   apiUrl = "http://127.0.0.1:8000/api"
+
+
+  private usersSubject = new BehaviorSubject<User[]>([]);
 
   constructor(private http: HttpClient) { }
 
@@ -21,7 +26,6 @@ export class ApiService {
   async createNewTask(task: Task) {
     const headers = this.getHeaders();
     const subtasks = task.subtasks;
-    console.log(subtasks)
 
     const newTask = {
       "title": task.title,
@@ -35,17 +39,13 @@ export class ApiService {
       const data = await this.http.post<{ id: number }>(`${this.apiUrl}/tasks/`, newTask, { headers }).subscribe({
         next: (response) => {
           console.log('Task erfolgreich erstellt:', response);
-          console.log(response.id)
           if (response) {
-            if (!subtasks || !Array.isArray(subtasks) || subtasks.length === 0) { 
+            if (!subtasks || !Array.isArray(subtasks) || subtasks.length === 0) {
               console.log("Keine Subtasks vorhanden.");
               return;
-            }
-
-            if(subtasks.length > 0) {
+            } else {
               this.createNewSubtask(response.id, subtasks);
             }
-
           }
         }
       });
@@ -53,6 +53,7 @@ export class ApiService {
       console.error('Fehler beim Erstellen des Tasks:', err);
     }
   }
+
 
   createNewSubtask(id: number, subtasks: string[]) {
     const headers = this.getHeaders();
@@ -68,5 +69,29 @@ export class ApiService {
         }
       })
     });
+  }
+
+  getAllContacts() {
+    const headers = this.getHeaders();
+
+    this.http.get<User[]>(`${this.apiUrl}/contacts/`, { headers })
+    .pipe(
+      catchError((err) => {
+        console.error('Fehler beim Laden der Kontakte', err);
+        throw err;
+      })
+    )
+    .subscribe({
+      next: (response) => {
+        console.log("all contacts", response)
+        this.usersSubject.next(response);
+      }, error: (err) => {
+        console.log("Fehler beim Laden der Kontakte", err);
+      }
+    })
+  }
+
+  get users$(): Observable<User[]> {
+    return this.usersSubject.asObservable();
   }
 }

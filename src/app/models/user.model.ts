@@ -1,8 +1,8 @@
 export class User {
-    firstName: string = '';
-    lastName: string = '';
+    first_name: string = '';
+    last_name: string = '';
     name: string = '';
-    userID: string = '';
+    id: string = '';
     initial: string = '';
     color: string = '';
     email: string = '';
@@ -24,11 +24,11 @@ export class User {
     ]
 
     constructor(obj: any) {
-        this.firstName = obj.firstName;
-        this.lastName = obj.lastName;
-        this.name = obj.firstName + ' ' + obj.lastName;
-        this.userID = obj.userID || this.getRandomUserID(obj.firstName);
-        this.initial = (this.getInitial(obj.firstName) + this.getInitial(obj.lastName)).toUpperCase();
+        this.first_name = obj.first_name;
+        this.last_name = obj.last_name;
+        this.name = obj.first_name + ' ' + obj.last_name;
+        this.id = obj.id || this.getRandomUserID(obj.first_name);
+        this.initial = (this.getInitial(obj.first_name) + this.getInitial(obj.last_name)).toUpperCase();
         this.color = obj.color || this.getRandomColor();
         this.email = obj.email;
         this.phone = obj.phone || '';
@@ -37,10 +37,10 @@ export class User {
 
     getJson() {
         return {
-            firstName: this.firstName,
-            lastName: this.lastName,
+            first_name: this.first_name,
+            last_name: this.last_name,
             name: this.name,
-            userID: this.userID,
+            id: this.id,
             initial: this.initial,
             color: this.color,
             email: this.email,

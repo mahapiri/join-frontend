@@ -56,6 +56,7 @@ export class FormComponent implements OnDestroy {
   taskServiceSubscription: Subscription = new Subscription();
   userServiceSubscription: Subscription = new Subscription();
   datepickerSubscription: Subscription = new Subscription();
+  contactSubscription: Subscription = new Subscription();
 
   users: User[] = [];
   tasks: Task[] = [];
@@ -102,6 +103,8 @@ export class FormComponent implements OnDestroy {
       this.newTask.dueDate = value;
     });
 
+    // this.contactSubscription = 
+
     this.date.setValue(new Date());
   }
 
@@ -112,14 +115,12 @@ export class FormComponent implements OnDestroy {
     this.datepickerSubscription.unsubscribe();
   }
 
-  alreadyWrongFormat: boolean = false;
 
   onDateInput(event: Event) {
     let input = event.target as HTMLInputElement;
     let inputValue = input.value;
     let dateparts = inputValue.split("/");
     this.dateFormatInvalid = false;
-    this.alreadyWrongFormat = false;
 
     if (dateparts.length == 3) {
       let day = parseInt(dateparts[0], 10);
@@ -131,14 +132,11 @@ export class FormComponent implements OnDestroy {
       if (!isNaN(newDate.getTime())) {
         this.newTask.dueDate = newDate;
         this.dateFormatInvalid = false;
-        this.alreadyWrongFormat = false;
       } else {
         this.dateFormatInvalid = true;
-        this.alreadyWrongFormat = true
       }
     } else {
       this.dateFormatInvalid = false;
-      this.alreadyWrongFormat = false;
     }
   }
 
@@ -218,7 +216,6 @@ export class FormComponent implements OnDestroy {
     this.dateInvalid = false;
     this.dateFormatInvalid = false;
     this.categoryInvalid = false;
-    this.alreadyWrongFormat = false;
   }
 
 
@@ -229,15 +226,8 @@ export class FormComponent implements OnDestroy {
       isValid = false;
     }
 
-    if (this.newTask.dueDate === null || !this.alreadyWrongFormat) {
-      console.log(this.newTask.dueDate)
-      this.dateInvalid = true;
-      isValid = false;
-    }
-
     if (this.newTask.dueDate !== null && isNaN(this.newTask.dueDate.getTime())) {
-      this.dateFormatInvalid = true;
-      this.alreadyWrongFormat = true;
+      this.dateInvalid = true;
       isValid = false;
     }
 
@@ -255,21 +245,32 @@ export class FormComponent implements OnDestroy {
     form.resetForm();
     this.date.reset();
     this.resetErrorMsg();
-    this.newTask = new Task({
+    this.deleteSubtaskInput();
+    this.uncheckCheckboxes();
+    this.resetNewTask();
+  }
+
+  resetNewTask() {
+    return this.newTask = new Task({
       title: '',
       description: '',
       assignedTo: this.selectedUser,
-      dueDate: this.date.reset(),
+      dueDate: this.date,
       prio: '',
       category: '',
       subtasks: this.subtasks,
     })
+  }
 
+  deleteSubtaskInput() {
     const subtaskInput = document.getElementById('subtaskInput') as HTMLInputElement;
     if (subtaskInput) {
       subtaskInput.value = '';
     }
+  }
 
+
+  uncheckCheckboxes() {
     const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
     checkboxes.forEach(checkbox => checkbox.checked = false);
   }
@@ -287,7 +288,7 @@ export class FormComponent implements OnDestroy {
 
 
   selectUser(user: User, checkbox: HTMLInputElement) {
-    const index = this.selectedUser.findIndex(u => u.userID === user.userID);
+    const index = this.selectedUser.findIndex(u => u.id === user.id);
     if (checkbox.checked) {
       this.selectedUser.push(user);
     } else {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,33 +18,24 @@ export class UserService {
   currentUser$ = this._currentUser.asObservable();
 
 
-  constructor() {
-    const users = [];
-    const exampleUser1 = new User(
-      {
-        firstName: 'Piri',
-        lastName: 'Maha',
-        email: 'piri@hallo.de',
-        phone: '0764334992',
-      }
-    );
-    const exampleUser2 = new User(
-      {
-        firstName: 'Sara',
-        lastName: 'Müller',
-        email: 'sara@hallo.de',
-        phone: '07645945212',
-      }
-    );
-    users.push(exampleUser1, exampleUser2);
+  constructor(private apiService: ApiService) {
+    this.apiService.users$.subscribe((newUsers) => {
+      this.sortAndSetUsers(newUsers);
+    })
+
+    this.apiService.getAllContacts();
+  }
+
+
+  private sortAndSetUsers(users: User[]): void {
     users.sort(this.sortUsersByName);
     this._users.next(users);
   }
 
 
   private sortUsersByName(a: User, b: User): number {
-    const nameA = `${a.firstName} ${a.lastName}`.toLowerCase();
-    const nameB = `${b.firstName} ${b.lastName}`.toLowerCase();
+    const nameA = `${a.first_name} ${a.last_name}`.toLowerCase();
+    const nameB = `${b.first_name} ${b.last_name}`.toLowerCase();
     return nameA.localeCompare(nameB);
   }
 
@@ -59,7 +51,7 @@ export class UserService {
     let i = 0;
     users.forEach(user => {
       i++;
-      if (user.userID === id) {
+      if (user.id === id) {
         users.splice(i - 1, 1);
         this._users.next(users);
         this.saveSelectedUser('0');
@@ -89,7 +81,7 @@ export class UserService {
     const users = this._users.getValue();
     const selectedUser = this._selectedUser.getValue();
     users.forEach((user) => {
-      if (user.userID === selectedUser) {
+      if (user.id === selectedUser) {
         this._currentUser.next(user);
       }
     })
@@ -102,11 +94,11 @@ export class UserService {
 
   saveUser(userID: string, firstName: string, lastName: string, mail: string, phone: string): void {
     const users = this._users.getValue();
-    const userIndex = users.findIndex((user) => user.userID === userID);
+    const userIndex = users.findIndex((user) => user.id === userID);
 
     if (userIndex !== -1) {
       const updatedUser = new User({
-        userID: users[userIndex].userID,
+        userID: users[userIndex].id,
         firstName: firstName,
         lastName: lastName,
         email: mail,
@@ -118,7 +110,7 @@ export class UserService {
       this.selectUser(userID);
     }
     users.sort(this.sortUsersByName);
-    this._users.next(users);
+    this._users.next([...users]);
 
     
   }
@@ -134,13 +126,13 @@ export class UserService {
       phone: phone,
     })
     users.push(newUser);
-    users.sort(this.sortUsersByName);
+    this.sortAndSetUsers(users);
 
     this._users.next(users);
 
     setTimeout(() => {
-      this.saveSelectedUser(newUser.userID);
-      this.selectUser(newUser.userID);
+      this.saveSelectedUser(newUser.id);
+      this.selectUser(newUser.id);
     }, 1);
   }
 }

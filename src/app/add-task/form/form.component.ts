@@ -64,6 +64,10 @@ export class FormComponent implements OnDestroy {
   searchTextAssigned: string = '';
   searchTextSubtasks: string = '';
   isEditingSubtaskIndex: number | null = null;
+  selectedCategoryLabel: string = "Select task category";
+  dateInvalid: boolean = false;
+  titleInvalid: boolean = false;
+  categoryInvalid: boolean = false;
 
   newTask: Task = new Task({
     title: '',
@@ -108,6 +112,20 @@ export class FormComponent implements OnDestroy {
   selectCategory(category: string): void {
     this.newTask.category = category;
     this.isCategory = false;
+    this.updateCategoryLabel();
+  }
+
+  updateCategoryLabel(): void {
+    switch (this.newTask.category) {
+      case 'technical_task':
+        this.selectedCategoryLabel = 'Technical Task';
+        break;
+      case 'user_story':
+        this.selectedCategoryLabel = 'User Story';
+        break;
+      default:
+        this.selectedCategoryLabel = 'Select task category';
+    }
   }
 
   clickoutside() {
@@ -143,12 +161,37 @@ export class FormComponent implements OnDestroy {
   }
 
   onSubmit(form: NgForm) {
+
     console.log(this.newTask)
-    if (this.newTask.dueDate !== null) {
+    if (this.validateInputFields()) {
       this.apiService.createNewTask(this.newTask);
+      this.titleInvalid = false;
+      this.dateInvalid = false;
+      this.categoryInvalid = false;
     } else {
-      console.log("Fehler");
+      console.log("Task wurde nicht erstellt")
     }
+  }
+
+  validateInputFields() {
+    let isValid = true;
+    if (this.newTask.title === "" || this.newTask.title === null) {
+      console.log("title mising")
+      this.titleInvalid = true;
+      isValid = false;
+    }
+    if (this.newTask.dueDate === null) {
+      console.log("duedate missing")
+      this.dateInvalid = true;
+      isValid = false;
+    }
+    if (this.newTask.category === undefined || this.newTask.category === "") {
+      console.log("category missing");
+      this.categoryInvalid = true;
+      isValid = false;
+    }
+
+    return isValid;
   }
 
 
@@ -158,6 +201,7 @@ export class FormComponent implements OnDestroy {
     this.selectedUser = [];
     form.resetForm();
     this.date.reset();
+    this.validateInputFields();
 
     const subtaskInput = document.getElementById('subtaskInput') as HTMLInputElement;
     if (subtaskInput) {
@@ -270,8 +314,11 @@ export class FormComponent implements OnDestroy {
     );
   }
 
-
-
-
-
+  handleTitleInputEvent() {
+    if(this.newTask.title && this.newTask.title.trim() === "") {
+      this.titleInvalid = true;
+    } else {
+      this.titleInvalid = false;
+    }
+  }
 }

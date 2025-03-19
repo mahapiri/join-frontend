@@ -5,7 +5,8 @@
             <!-- Title -->
             <label class="field-layout">
                 <p>Title<span>*</span></p>
-                <input type="text" name="title" placeholder="Enter a title" required [(ngModel)]="newTask.title">
+                <input type="text" name="title" placeholder="Enter a title" required [(ngModel)]="newTask.title" (click)="handleTitleInputEvent()" (ngModelChange)="handleTitleInputEvent()">
+                <div class="errormsg" *ngIf="titleInvalid">This field is required</div>
             </label>
 
             <!-- Description -->
@@ -69,6 +70,7 @@
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </div>
+                <div class="errormsg" *ngIf="dateInvalid">This field is required</div>
             </label>
 
             <!-- Prio   -->
@@ -100,8 +102,8 @@
                 <p>Category<span>*</span></p>
                 <div class="select-container" appClickOutside (clickOutside)="clickOutsideCategory()">
                     <input class="category-field" type="text" value="Select task category" required
-                        (click)="toggleCategory()" id="input-category" name="category" [(ngModel)]="newTask.category"
-                        placeholder="Select a category">
+                        (click)="toggleCategory()" id="input-category" name="category" [(ngModel)]="selectedCategoryLabel"
+                        placeholder="Select a category" readonly>
                     <img class="input-icon"
                         [src]="isCategory ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
                         alt="arrow" (click)="toggleCategory()">
@@ -123,6 +125,7 @@
                         </label>
                     </div>
                 </div>
+                <div class="errormsg" *ngIf="categoryInvalid">This field is required</div>
             </div>
 
 

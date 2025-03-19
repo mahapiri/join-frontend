@@ -66,7 +66,7 @@
                 <div class="datepicker-box">
                     <span class="datepicker-btn"></span>
                     <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" [formControl]="date"
-                        class="datepicker-input" name="dueDate" placeholder="DD/MM/YYYY" (input)="onDateInput($event)" readonly>
+                        class="datepicker-input" name="dueDate" placeholder="DD/MM/YYYY" (input)="onDateInput($event)" (ngModelChange)="selectDate()" readonly>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </div>

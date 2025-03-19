@@ -147,6 +147,12 @@ export class FormComponent implements OnDestroy {
     this.newTask.category = category;
     this.isCategory = false;
     this.updateCategoryLabel();
+    this.categoryInvalid = false;
+  }
+
+
+  selectDate() {
+    this.dateInvalid = false;
   }
 
 
@@ -201,12 +207,17 @@ export class FormComponent implements OnDestroy {
   onSubmit(form: NgForm) {
     if (this.validateInputFields()) {
       this.apiService.createNewTask(this.newTask);
-      this.titleInvalid = false;
-      this.dateInvalid = false;
-      this.dateFormatInvalid = false;
-      this.categoryInvalid = false;
-      this.alreadyWrongFormat = false;
+      this.resetErrorMsg();
+      this.resetForm(form);
     }    
+  }
+
+  resetErrorMsg() {
+    this.titleInvalid = false;
+    this.dateInvalid = false;
+    this.dateFormatInvalid = false;
+    this.categoryInvalid = false;
+    this.alreadyWrongFormat = false;
   }
 
 
@@ -242,11 +253,7 @@ export class FormComponent implements OnDestroy {
     this.selectedUser = [];
     form.resetForm();
     this.date.reset();
-    this.categoryInvalid = false;
-    this.dateInvalid = false;
-    this.titleInvalid = false;
-    this.dateFormatInvalid = false;
-    this.alreadyWrongFormat = false;
+    this.resetErrorMsg();
 
     const subtaskInput = document.getElementById('subtaskInput') as HTMLInputElement;
     if (subtaskInput) {

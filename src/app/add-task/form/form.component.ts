@@ -39,8 +39,9 @@ export const MY_DATE_FORMATS = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss'
-
 })
+
+
 export class FormComponent implements OnDestroy {
   readonly date = new FormControl();
   isAssignedTo: boolean = false;
@@ -68,6 +69,8 @@ export class FormComponent implements OnDestroy {
   dateInvalid: boolean = false;
   titleInvalid: boolean = false;
   categoryInvalid: boolean = false;
+  dateFormatInvalid: boolean = false;
+  filteredUsers: User[] = [];
 
   newTask: Task = new Task({
     title: '',
@@ -78,6 +81,7 @@ export class FormComponent implements OnDestroy {
     category: '',
     subtasks: this.subtasks,
   })
+
 
   constructor(private taskService: TaskService, private userService: UserService, private eRef: ElementRef, private apiService: ApiService) {
     this.taskServiceSubscription = this.taskService.tasks$.subscribe((tasks) => {
@@ -108,12 +112,43 @@ export class FormComponent implements OnDestroy {
     this.datepickerSubscription.unsubscribe();
   }
 
+  alreadyWrongFormat: boolean = false;
+
+  onDateInput(event: Event) {
+    let input = event.target as HTMLInputElement;
+    let inputValue = input.value;
+    let dateparts = inputValue.split("/");
+    this.dateFormatInvalid = false;
+    this.alreadyWrongFormat = false;
+
+    if (dateparts.length == 3) {
+      let day = parseInt(dateparts[0], 10);
+      let month = parseInt(dateparts[1], 10) - 1;
+      let year = parseInt(dateparts[2], 10);
+
+      let newDate = new Date(year, month, day);
+
+      if (!isNaN(newDate.getTime())) {
+        this.newTask.dueDate = newDate;
+        this.dateFormatInvalid = false;
+        this.alreadyWrongFormat = false;
+      } else {
+        this.dateFormatInvalid = true;
+        this.alreadyWrongFormat = true
+      }
+    } else {
+      this.dateFormatInvalid = false;
+      this.alreadyWrongFormat = false;
+    }
+  }
+
 
   selectCategory(category: string): void {
     this.newTask.category = category;
     this.isCategory = false;
     this.updateCategoryLabel();
   }
+
 
   updateCategoryLabel(): void {
     switch (this.newTask.category) {
@@ -128,9 +163,11 @@ export class FormComponent implements OnDestroy {
     }
   }
 
+
   clickoutside() {
     this.isAssignedTo = false;
   }
+
 
   clickOutsideCategory() {
     this.isCategory = false;
@@ -160,37 +197,41 @@ export class FormComponent implements OnDestroy {
     }
   }
 
-  onSubmit(form: NgForm) {
 
-    console.log(this.newTask)
+  onSubmit(form: NgForm) {
     if (this.validateInputFields()) {
       this.apiService.createNewTask(this.newTask);
       this.titleInvalid = false;
       this.dateInvalid = false;
+      this.dateFormatInvalid = false;
       this.categoryInvalid = false;
-    } else {
-      console.log("Task wurde nicht erstellt")
-    }
+      this.alreadyWrongFormat = false;
+    }    
   }
+
 
   validateInputFields() {
     let isValid = true;
     if (this.newTask.title === "" || this.newTask.title === null) {
-      console.log("title mising")
       this.titleInvalid = true;
       isValid = false;
     }
-    if (this.newTask.dueDate === null) {
-      console.log("duedate missing")
+    if (this.newTask.dueDate === null && !this.alreadyWrongFormat) {
+      console.log(this.newTask.dueDate)
       this.dateInvalid = true;
       isValid = false;
     }
-    if (this.newTask.category === undefined || this.newTask.category === "") {
-      console.log("category missing");
-      this.categoryInvalid = true;
+
+    if (this.newTask.dueDate !== null && isNaN(this.newTask.dueDate.getTime())) {
+      this.dateFormatInvalid = true;
+      this.alreadyWrongFormat = true;
       isValid = false;
     }
 
+    if (this.newTask.category === undefined || this.newTask.category === "") {
+      this.categoryInvalid = true;
+      isValid = false;
+    }
     return isValid;
   }
 
@@ -201,7 +242,11 @@ export class FormComponent implements OnDestroy {
     this.selectedUser = [];
     form.resetForm();
     this.date.reset();
-    this.validateInputFields();
+    this.categoryInvalid = false;
+    this.dateInvalid = false;
+    this.titleInvalid = false;
+    this.dateFormatInvalid = false;
+    this.alreadyWrongFormat = false;
 
     const subtaskInput = document.getElementById('subtaskInput') as HTMLInputElement;
     if (subtaskInput) {
@@ -223,6 +268,7 @@ export class FormComponent implements OnDestroy {
     }
   }
 
+
   selectUser(user: User, checkbox: HTMLInputElement) {
     const index = this.selectedUser.findIndex(u => u.userID === user.userID);
     if (checkbox.checked) {
@@ -232,9 +278,11 @@ export class FormComponent implements OnDestroy {
     }
   }
 
+
   toggleCategory() {
     this.isCategory = !this.isCategory;
   }
+
 
   writingSubtask(input: HTMLInputElement) {
     if (input.value.trim() === "") {
@@ -244,6 +292,7 @@ export class FormComponent implements OnDestroy {
       this.searchTextSubtasks = input.value;
     }
   }
+
 
   saveSubtask(input: HTMLInputElement) {
     if (input.value.trim().length > 0) {
@@ -255,10 +304,12 @@ export class FormComponent implements OnDestroy {
     }
   }
 
+
   deleteSubtask(input: HTMLInputElement) {
     this.searchTextSubtasks = '';
     input.value = '';
   }
+
 
   setSubtaskEdit(subtaskitem: string) {
     const div = document.getElementById(subtaskitem);
@@ -267,6 +318,7 @@ export class FormComponent implements OnDestroy {
     }
   }
 
+
   setSubtaskNotEdit(subtaskitem: string) {
     const div = document.getElementById(subtaskitem);
     if (div) {
@@ -274,10 +326,12 @@ export class FormComponent implements OnDestroy {
     }
   }
 
+
   deletSavedSubtask(i: number) {
     this.subtasks.splice(i, 1);
     this.isEditingSubtaskIndex = null;
   }
+
 
   replaceSaveSubtask(i: number) {
     const inputElement = document.getElementById(`subtaskEdit${i}`) as HTMLInputElement;
@@ -296,12 +350,11 @@ export class FormComponent implements OnDestroy {
   }
 
 
-
   editSubtask(i: number): void {
     this.isEditingSubtaskIndex = i;
   }
 
-  filteredUsers: User[] = [];
+
   searchUser() {
     if (!this.searchTextAssigned) {
       this.filteredUsers = this.users;
@@ -314,8 +367,9 @@ export class FormComponent implements OnDestroy {
     );
   }
 
+
   handleTitleInputEvent() {
-    if(this.newTask.title && this.newTask.title.trim() === "") {
+    if (this.newTask.title && this.newTask.title.trim() === "") {
       this.titleInvalid = true;
     } else {
       this.titleInvalid = false;

@@ -66,11 +66,12 @@
                 <div class="datepicker-box">
                     <span class="datepicker-btn"></span>
                     <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" [formControl]="date"
-                        class="datepicker-input" name="dueDate" placeholder="dd/mm/yyyy">
+                        class="datepicker-input" name="dueDate" placeholder="DD/MM/YYYY" (input)="onDateInput($event)" readonly>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </div>
                 <div class="errormsg" *ngIf="dateInvalid">This field is required</div>
+                <div class="errormsg" *ngIf="dateFormatInvalid">Invalid date format. Please use DD/MM/YYYY.</div>
             </label>
 
             <!-- Prio   -->

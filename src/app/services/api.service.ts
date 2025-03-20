@@ -26,6 +26,7 @@ export class ApiService {
   async createNewTask(task: Task) {
     const headers = this.getHeaders();
     const subtasks = task.subtasks;
+    const assignments = task.assignedTo;
 
     const newTask = {
       "title": task.title,
@@ -42,9 +43,13 @@ export class ApiService {
           if (response) {
             if (!subtasks || !Array.isArray(subtasks) || subtasks.length === 0) {
               console.log("Keine Subtasks vorhanden.");
-              return;
             } else {
               this.createNewSubtask(response.id, subtasks);
+            }
+            if (!assignments || !Array.isArray(assignments) || assignments.length === 0) {
+              console.log("Keine AssignedTo vorhanden.");
+            } else {
+              this.createAssignedTo(response.id, assignments);
             }
           }
         }
@@ -69,6 +74,24 @@ export class ApiService {
         }
       })
     });
+  }
+
+  createAssignedTo(id: number, assignments: User[]) {
+    const headers = this.getHeaders();
+
+    assignments.forEach((user) => {
+      let newAssignement = {
+        "contact": user.id,
+        "task": id
+      }
+      this.http.post(`${this.apiUrl}/tasks/${id}/assignedto/`, newAssignement, { headers }).subscribe({
+        next: (response) => {
+          console.log("assignedto erstellt", response)
+        }, error: (err) => {
+          console.log("assign konnte nicht erstellt werden", err)
+        }
+      })
+    })
   }
 
   getAllContacts() {

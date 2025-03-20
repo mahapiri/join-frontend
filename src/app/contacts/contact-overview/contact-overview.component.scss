@@ -41,6 +41,10 @@ header {
     display: flex;
     flex-direction: column;
     gap: 8px;
+
+    h4 {
+        text-wrap-mode: nowrap;
+    }
 }
 
 .edit-delete-section {

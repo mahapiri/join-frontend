@@ -22,6 +22,12 @@ export class ApiService {
     }
   }
 
+  async getContact() {
+    const response = await fetch(`${this.apiUrl}/api/contacts/`)
+  }
+
+
+
 
   async createNewTask(task: Task) {
     const headers = this.getHeaders();
@@ -60,20 +66,45 @@ export class ApiService {
   }
 
 
-  createNewSubtask(id: number, subtasks: string[]) {
-    const headers = this.getHeaders();
+  // createNewSubtask(id: number, subtasks: string[]) {
+  //   const headers = this.getHeaders();
 
-    subtasks.forEach(subtask => {
-      let newSubtask = {
+  //   subtasks.forEach(subtask => {
+  //     let newSubtask = {
+  //       "task": id,
+  //       "title": subtask
+  //     }
+  //     const data = this.http.post(`${this.apiUrl}/tasks/${id}/subtasks/`, newSubtask, { headers }).subscribe({
+  //       next: (response) => {
+  //         console.log("subtask erstellt", response);
+  //       }
+  //     })
+  //   });
+  // }
+
+  async createNewSubtask(id: number, subtasks: string[]) {
+    for (const subtask of subtasks) {
+      let payload = {
         "task": id,
         "title": subtask
       }
-      const data = this.http.post(`${this.apiUrl}/tasks/${id}/subtasks/`, newSubtask, { headers }).subscribe({
-        next: (response) => {
-          console.log("subtask erstellt", response);
+      try {
+        const res = await fetch(`${this.apiUrl}/tasks/${id}/subtasks/`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+  
+        if (!res.ok) {
+          throw new Error('Fehler bei der Anfrage');
         }
-      })
-    });
+  
+        const data = await res.json();
+        console.log(data);
+      } catch (err) {
+        console.log("Fehler:", err);
+      }
+    }
   }
 
   createAssignedTo(id: number, assignments: User[]) {

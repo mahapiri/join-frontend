@@ -40,8 +40,7 @@ export class UserService {
   }
 
 
-  saveSelectedUser(userID: string) {
-    let id = userID;
+  saveSelectedUser(id: string) {
     this._selectedUser.next(id);
   }
 
@@ -61,13 +60,13 @@ export class UserService {
   }
 
 
-  selectUser(userID: string) {
-    const div = document.getElementById(`userID${userID}`);
+  selectUser(id: string) {
+    const div = document.getElementById(`id${id}`);
     const query = document.querySelector('.select-user');
     query?.classList.remove('select-user');
     if (div) {
       div.classList.add('select-user');
-      this.saveSelectedUser(userID);
+      this.saveSelectedUser(id);
       this.findUser();
     }
   }
@@ -92,13 +91,13 @@ export class UserService {
   }
 
 
-  saveUser(userID: string, firstName: string, lastName: string, mail: string, phone: string): void {
+  saveUser(id: string, firstName: string, lastName: string, mail: string, phone: string): void {
     const users = this._users.getValue();
-    const userIndex = users.findIndex((user) => user.id === userID);
+    const userIndex = users.findIndex((user) => user.id === id);
 
     if (userIndex !== -1) {
       const updatedUser = new User({
-        userID: users[userIndex].id,
+        id: users[userIndex].id,
         firstName: firstName,
         lastName: lastName,
         email: mail,
@@ -107,7 +106,7 @@ export class UserService {
       });
       users[userIndex] = updatedUser;
       this._currentUser.next(users[userIndex]);
-      this.selectUser(userID);
+      this.selectUser(id);
     }
     users.sort(this.sortUsersByName);
     this._users.next([...users]);

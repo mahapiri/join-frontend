@@ -27,7 +27,7 @@ export class User {
         this.first_name = obj.first_name;
         this.last_name = obj.last_name;
         this.name = obj.first_name + ' ' + obj.last_name;
-        this.id = obj.id || this.getRandomUserID(obj.first_name);
+        this.id = obj.id || this.getRandomId(obj.first_name);
         this.initial = (this.getInitial(obj.first_name) + this.getInitial(obj.last_name)).toUpperCase();
         this.color = obj.color || this.getRandomColor();
         this.email = obj.email;
@@ -64,7 +64,7 @@ export class User {
         }
     }
 
-    getRandomUserID(firstName: string): string {
+    getRandomId(firstName: string): string {
         const randomIndex = Math.floor(Math.random() * 1000000000000000);
         return firstName.toLocaleLowerCase() + randomIndex.toString();
     }

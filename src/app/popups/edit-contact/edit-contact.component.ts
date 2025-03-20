@@ -47,9 +47,9 @@ export class EditContactComponent implements OnDestroy {
     const lastName = this.getFullname().lastName;
     const mail = this.getMail();
     const phone = this.getPhone();
-    const userID = this.currentUser?.id;
-    if(userID) {
-      this.userService.saveUser(userID, firstName, lastName, mail, phone)
+    const id = this.currentUser?.id;
+    if(id) {
+      this.userService.saveUser(id, firstName, lastName, mail, phone)
     }
     this.sharedService.closeAll();
   }

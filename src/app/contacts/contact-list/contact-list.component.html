@@ -13,9 +13,9 @@
           </div>
           <div class="divider"></div>
           <div class="contact-list" *ngFor="let user of group.value">
-            <div [attr.id]="'userID' + user.userID" class="contact-container"
-              (click)="userService.selectUser(user.userID)"
-              [ngClass]="{'select-user': (userService.selectedUser$ | async) === user.userID}">
+            <div [attr.id]="'id' + user.id" class="contact-container"
+              (click)="userService.selectUser(user.id)"
+              [ngClass]="{'select-user': (userService.selectedUser$ | async) === user.id}">
               <div class="contact-icon" [ngStyle]="{'background-color': 'var(' + user.color + ')'}">
                 {{ user.initial }}
               </div>

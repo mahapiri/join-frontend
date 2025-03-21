@@ -1,32 +1,49 @@
-<form #taskForm="ngForm" class="form-layout" (keydown.enter)="$event.preventDefault()">
+<form [formGroup]="taskForm" class="form-layout" (keydown.enter)="$event.preventDefault()">
     <div class="form-container">
         <div class="field-container">
 
             <!-- Title -->
             <label class="field-layout">
                 <p>Title<span>*</span></p>
-                <input type="text" name="title" placeholder="Enter a title" required [(ngModel)]="newTask.title" (click)="handleTitleInputEvent()" (ngModelChange)="handleTitleInputEvent()">
-                <div class="errormsg" *ngIf="titleInvalid">This field is required</div>
+                <input 
+                    type="text" 
+                    placeholder="Enter a title" 
+                    formControlName="title"
+                >
+                <div class="errormsg">This field is required</div>
             </label>
 
             <!-- Description -->
             <label class="field-layout">
                 <p>Description</p>
-                <textarea type="text" name="description" placeholder="Enter a Description"
-                    [(ngModel)]="newTask.description"></textarea>
+                <textarea 
+                    type="text" 
+                    placeholder="Enter a Description" 
+                    formControlName="description"
+                ></textarea>
             </label>
 
             <!-- Assigned To -->
-            <div class="field-layout">
+            <label class="field-layout">
                 <p>Assigned To</p>
                 <div appClickOutside (clickOutside)="clickoutside()">
                     <div class="select-container">
-                        <input class="assigned-to-field" type="text" value="Select contacts to assign"
-                            [(ngModel)]="searchTextAssigned" name="someting" (ngModelChange)="searchKey($event)"
-                            (click)="toggleAssigneTo()" id="assignedTo" placeholder="Select contacts to assign">
+                        <input 
+                            class="assigned-to-field" 
+                            id="assignedTo" 
+                            placeholder="Select contacts to assign"
+                            type="text" 
+                            value="Select contacts to assign"
+                            [(ngModel)]="searchTextAssigned" 
+                            name="someting" 
+                            (ngModelChange)="searchKey($event)"
+                            (click)="toggleAssigneTo()" 
+                        >
                         <img class="input-icon"
                             [src]="isAssignedTo ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
-                            alt="arrow" (click)="toggleAssigneTo()">
+                            alt="arrow" 
+                            (click)="toggleAssigneTo()"
+                        >
 
                         <div [style.display]="isAssignedTo ? 'flex' : 'none'" class="backlog-box">
                             <label class="contact-container" #contactContainer
@@ -55,7 +72,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </label>
         </div>
         <div class="divider"></div>
         <div class="field-container">
@@ -65,8 +82,19 @@
                 <p>Due date<span>*</span></p>
                 <div class="datepicker-box">
                     <span class="datepicker-btn"></span>
-                    <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" [formControl]="date"
-                        class="datepicker-input" name="dueDate" placeholder="DD/MM/YYYY" (input)="onDateInput($event)" (ngModelChange)="selectDate()" readonly>
+                    <input 
+                        matInput 
+                        [min]="minDate" 
+                        [max]="maxDate" 
+                        [matDatepicker]="picker" 
+                        formControlName="date"
+                        class="datepicker-input" 
+                        name="dueDate" 
+                        placeholder="DD/MM/YYYY" 
+                        (input)="onDateInput($event)" 
+                        (ngModelChange)="selectDate()" 
+                        readonly
+                    >
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </div>

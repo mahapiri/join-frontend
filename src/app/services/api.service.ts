@@ -128,4 +128,14 @@ export class ApiService {
       console.log("Fehler beim Aufruf aller Kontakte", error);
     }
   }
+
+
+  formatDateForDjango(date: Date): string {
+    return `${date.getFullYear()}-${this.padZero(date.getMonth() + 1)}-${this.padZero(date.getDate())}`;
+  }
+
+  
+  padZero(value: number): string {
+    return value < 10 ? '0' + value : value.toString();
+  }
 }

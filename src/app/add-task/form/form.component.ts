@@ -91,7 +91,7 @@ export class FormComponent implements OnDestroy {
       description: new FormControl(''),
       assignments: new FormControl([]),
       date: new FormControl(new Date(), Validators.required),
-      prio: new FormControl(''),
+      prio: new FormControl(null),
       category: new FormControl('', Validators.required),
       subtasks: new FormControl([]),
     })
@@ -163,22 +163,11 @@ export class FormComponent implements OnDestroy {
 
 
   async onSubmit() {
-    console.log(this.taskForm.value)
     const formValue = this.taskForm.value
     if (formValue.date) {
-      formValue.date = this.formatDateForDjango(new Date(formValue.date));
+      formValue.date = this.apiService.formatDateForDjango(new Date(formValue.date));
     }
-    console.log(formValue);
     await this.apiService.createNewTask(formValue);
-  }
-
-
-  formatDateForDjango(date: Date): string {
-    return `${date.getFullYear()}-${this.padZero(date.getMonth() + 1)}-${this.padZero(date.getDate())}`;
-  }
-
-  padZero(value: number): string {
-    return value < 10 ? '0' + value : value.toString();
   }
 
 

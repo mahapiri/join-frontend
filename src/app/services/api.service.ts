@@ -23,58 +23,31 @@ export class ApiService {
   }
 
 
-  async createNewTask(task: Task) {
-    const headers = this.getHeaders();
-    const subtasks = task.subtasks;
-    const assignments = task.assignedTo;
-
-    const newTask = {
-      "title": task.title,
-      "description": task.description,
-      "due_date": task.formatDateForDjango(task.dueDate),
-      "prio": task.prio || "",
-      "category": task.category
-    };
-
+  async createNewTask(taskForm: Task) {
     try {
-      const data = await this.http.post<{ id: number }>(`${this.apiUrl}/tasks/`, newTask, { headers }).subscribe({
-        next: (response) => {
-          console.log('Task erfolgreich erstellt:', response);
-          if (response) {
-            if (!subtasks || !Array.isArray(subtasks) || subtasks.length === 0) {
-              console.log("Keine Subtasks vorhanden.");
-            } else {
-              this.createNewSubtask(response.id, subtasks);
-            }
-            if (!assignments || !Array.isArray(assignments) || assignments.length === 0) {
-              console.log("Keine AssignedTo vorhanden.");
-            } else {
-              this.createAssignedTo(response.id, assignments);
-            }
-          }
-        }
+      const response = await fetch(`${this.apiUrl}/tasks/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(taskForm)
       });
-    } catch (err) {
-      console.error('Fehler beim Erstellen des Tasks:', err);
+
+      if (!response.ok) {
+        throw new Error('Fehler bei der Anfrage (NewTask)');
+      }
+
+      const data = await response.json();
+      console.log('Neuer Task', data);
+      if (data) {
+        // subtask muss erstellt werden
+        // this.createNewSubtask(response.id, subtasks);
+        // assignedto muss erstellt werden
+        // this.createAssignedTo(response.id, assignments);
+      }
+    } catch (error) {
+      console.log('Fehler beim erstellen der neuen Task', error)
     }
   }
-
-
-  // createNewSubtask(id: number, subtasks: string[]) {
-  //   const headers = this.getHeaders();
-
-  //   subtasks.forEach(subtask => {
-  //     let newSubtask = {
-  //       "task": id,
-  //       "title": subtask
-  //     }
-  //     const data = this.http.post(`${this.apiUrl}/tasks/${id}/subtasks/`, newSubtask, { headers }).subscribe({
-  //       next: (response) => {
-  //         console.log("subtask erstellt", response);
-  //       }
-  //     })
-  //   });
-  // }
+  
 
   async createNewSubtask(id: number, subtasks: string[]) {
     for (const subtask of subtasks) {
@@ -94,9 +67,9 @@ export class ApiService {
         }
 
         const data = await res.json();
-        console.log(data);
-      } catch (err) {
-        console.log("Fehler:", err);
+        console.log('Neue Subtask wurde erstellt', data);
+      } catch (error) {
+        console.log("Fehler:", error);
       }
     }
   }
@@ -119,7 +92,7 @@ export class ApiService {
     })
   }
 
-  
+
   async getAllContacts() {
     try {
       const response = await fetch(`${this.apiUrl}/contacts/`, {

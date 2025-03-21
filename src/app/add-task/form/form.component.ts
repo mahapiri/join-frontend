@@ -89,7 +89,7 @@ export class FormComponent implements OnDestroy {
     category: '',
     subtasks: this.subtasks,
   })
-  
+
   taskForm: FormGroup;
 
 
@@ -211,15 +211,7 @@ export class FormComponent implements OnDestroy {
   onSubmit() {
     if (this.validateInputFields()) {
       this.apiService.createNewTask(this.newTask);
-      console.log(this.subtasks)
-      this.resetErrorMsg();
     }
-  }
-
-  resetErrorMsg() {
-    this.dateInvalid = false;
-    this.dateFormatInvalid = false;
-    this.categoryInvalid = false;
   }
 
 
@@ -243,10 +235,11 @@ export class FormComponent implements OnDestroy {
 
 
   resetForm() {
+    this.taskForm.reset();
+
     this.subtasks = [];
     this.selectedUser = [];
     this.date.reset();
-    this.resetErrorMsg();
     this.deleteSubtaskInput();
     this.uncheckCheckboxes();
     this.resetNewTask();

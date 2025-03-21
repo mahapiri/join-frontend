@@ -16,13 +16,12 @@ import { CommonModule } from '@angular/common';
 })
 export class AddTaskComponent implements OnInit {
 
+  
   isLoading: boolean = true;
 
 
   constructor(private titleService: Title, private apiService: ApiService) {
     this.titleService.setTitle("Join - Add Task");
-    
-    
   }
 
   async ngOnInit() {

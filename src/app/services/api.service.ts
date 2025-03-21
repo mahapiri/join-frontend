@@ -22,12 +22,6 @@ export class ApiService {
     }
   }
 
-  async getContact() {
-    const response = await fetch(`${this.apiUrl}/api/contacts/`)
-  }
-
-
-
 
   async createNewTask(task: Task) {
     const headers = this.getHeaders();
@@ -125,6 +119,7 @@ export class ApiService {
     })
   }
 
+  
   async getAllContacts() {
     try {
       const response = await fetch(`${this.apiUrl}/contacts/`, {
@@ -137,7 +132,7 @@ export class ApiService {
       }
 
       const data = await response.json();
-      console.log(data);
+      this.usersSubject.next(data)
     } catch (error) {
       console.log("Fehler beim Aufruf aller Kontakte", error);
     }

@@ -1,7 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Task } from '../models/task.model';
-import { BehaviorSubject, catchError, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user.model';
 
 @Injectable({
@@ -14,7 +12,7 @@ export class ApiService {
   private usersSubject = new BehaviorSubject<User[]>([]);
 
 
-  constructor(private http: HttpClient) { }
+  constructor() { }
 
 
   get users$(): Observable<User[]> {
@@ -28,6 +26,7 @@ export class ApiService {
       "description": taskForm.description,
       "due_date": taskForm.date,
       "category": taskForm.category,
+      "prio": taskForm.prio,
     }
     const assignments = taskForm.assignments;
     const subtasks = taskForm.subtasks;

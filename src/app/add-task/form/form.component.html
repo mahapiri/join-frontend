@@ -34,23 +34,23 @@ class="form-layout"
         <!-- Assigned To -->
         <label class="field-layout">
             <p>Assigned To</p>
-            <div appClickOutside (clickOutside)="clickoutside()">
+            <div appClickOutside (clickOutside)="clickoutsideAssignedTo()">
                 <div class="select-container">
                     <input 
                         class="assigned-to-field" 
                         id="assignedTo" 
                         placeholder="Select contacts to assign"
                         type="text" 
-                        [(ngModel)]="searchTextAssigned" 
-                        (click)="toggleAssigneTo()" 
+                        (click)="toggleAssigneTo()"
+                        autocomplete="off"
                     >
                     <img class="input-icon"
-                        [src]="isAssignedTo ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
+                        [src]="openedAssignmentsList ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
                         alt="arrow" 
                         (click)="toggleAssigneTo()"
                     >
 
-                    <div [style.display]="isAssignedTo ? 'flex' : 'none'" class="backlog-box">
+                    <div [style.display]="openedAssignmentsList ? 'flex' : 'none'" class="backlog-box">
                         <label class="contact-container" #contactContainer
                             (mouseover)="onCheckboxChange(checkbox, contactContainer, true)"
                             (mouseout)="onCheckboxChange(checkbox, contactContainer, false)"
@@ -72,8 +72,10 @@ class="form-layout"
                 </div>
 
                 <div class="assigned-container">
-                    <div class="contact-icon icon-border" *ngFor="let selectUser of selectedUser"
-                        [ngStyle]="{'background-color': 'var(' + selectUser.color + ')'}">{{ selectUser.initial }}
+                    <div 
+                        class="contact-icon icon-border"
+                         *ngFor="let assignedUser of taskForm.get('assignments')?.value"
+                        [ngStyle]="{'background-color': 'var(' + assignedUser.color + ')'}">{{ assignedUser.initial }}
                     </div>
                 </div>
             </div>
@@ -115,7 +117,6 @@ class="form-layout"
                     name="prio" 
                     value="urgent" 
                     class="prio-radio"
-                    [(ngModel)]="newTask.prio"
                 >
                 <label for="urgent" class="prio-content">
                     <p>Urgent</p>
@@ -127,7 +128,6 @@ class="form-layout"
                     name="prio" 
                     value="medium" 
                     class="prio-radio"
-                    [(ngModel)]="newTask.prio"
                 >
                 <label for="medium" class="prio-content">
                     <p>Medium</p>
@@ -139,7 +139,6 @@ class="form-layout"
                     name="prio" 
                     value="low" 
                     class="prio-radio" 
-                    [(ngModel)]="newTask.prio"
                 >
                 <label for="low" class="prio-content">
                     <p>Low</p>
@@ -170,7 +169,6 @@ class="form-layout"
                 <div [style.display]="openedCategoryList ? 'flex' : 'none'" class="backlog-box height-auto">
                     <label 
                         class="contact-container width-100"
-                        [class.select-category]="newTask.category === 'technical_task'" 
                         id="technical_task"
                         (click)="selectCategory('Technical Task')"
                     >
@@ -180,7 +178,6 @@ class="form-layout"
                     </label>
                     <label 
                         class="contact-container width-100"
-                        [class.select-category]="newTask.category === 'user_story'" 
                         id="user_story"
                         (click)="selectCategory('User Story')"
                     >

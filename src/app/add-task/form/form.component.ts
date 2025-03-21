@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -36,12 +36,12 @@ export const MY_DATE_FORMATS = {
     DatePipe
   ],
   imports: [
-    CommonModule, 
-    FormsModule, 
-    MatFormFieldModule, 
-    MatInputModule, 
-    MatDatepickerModule, 
-    ReactiveFormsModule, 
+    CommonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    ReactiveFormsModule,
     ClickOutsideDirective
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -52,7 +52,7 @@ export const MY_DATE_FORMATS = {
 
 export class FormComponent implements OnDestroy {
   readonly date = new FormControl();
-  isAssignedTo: boolean = false;
+  openedAssignmentsList: boolean = false;
   openedCategoryList: boolean = false;
   isHoverContact: boolean = false;
   isSubtask: boolean = false;
@@ -68,44 +68,46 @@ export class FormComponent implements OnDestroy {
 
   users: User[] = [];
   tasks: Task[] = [];
-  selectedUser: User[] = [];
   subtasks: string[] = [];
   allUsers: User[] = [];
   searchTextAssigned: string = '';
   searchTextSubtasks: string = '';
   isEditingSubtaskIndex: number | null = null;
-  selectedCategoryLabel: string = "Select task category";
   dateInvalid: boolean = false;
   categoryInvalid: boolean = false;
   dateFormatInvalid: boolean = false;
   filteredUsers: User[] = [];
 
-  newTask: Task = new Task({
-    title: '',
-    description: '',
-    assignedTo: this.selectedUser,
-    dueDate: this.date.value,
-    prio: '',
-    category: '',
-    subtasks: this.subtasks,
-  })
+  // newTask: Task = new Task({
+  //   title: '',
+  //   description: '',
+  //   assignedTo: this.selectedUser,
+  //   dueDate: this.date.value,
+  //   prio: '',
+  //   category: '',
+  //   subtasks: this.subtasks,
+  // })
 
   taskForm: FormGroup;
 
 
   constructor(
-    private taskService: TaskService, 
-    private userService: UserService, 
+    private taskService: TaskService,
+    private userService: UserService,
     private apiService: ApiService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {
     this.taskForm = this.fb.group({
       title: new FormControl('', Validators.required),
       description: new FormControl(''),
+      assignments: new FormControl([]),
       date: new FormControl('', Validators.required),
+      prio: new FormControl(''),
       category: new FormControl('', Validators.required),
+      subtasks: new FormControl([]),
     })
-    
+
     this.taskServiceSubscription = this.taskService.tasks$.subscribe((tasks) => {
       this.tasks = [];
       tasks.forEach((task) => {
@@ -121,7 +123,7 @@ export class FormComponent implements OnDestroy {
       });
     })
     this.datepickerSubscription = this.date.valueChanges.subscribe(value => {
-      this.newTask.dueDate = value;
+      // this.newTask.dueDate = value;
     });
 
 
@@ -151,7 +153,7 @@ export class FormComponent implements OnDestroy {
       let newDate = new Date(year, month, day);
 
       if (!isNaN(newDate.getTime())) {
-        this.newTask.dueDate = newDate;
+        // this.newTask.dueDate = newDate;
         this.dateFormatInvalid = false;
       } else {
         this.dateFormatInvalid = true;
@@ -174,8 +176,10 @@ export class FormComponent implements OnDestroy {
 
 
 
-  clickoutside() {
-    this.isAssignedTo = false;
+  clickoutsideAssignedTo() {
+    if (this.openedAssignmentsList) {
+      this.openedAssignmentsList = false; // Schließt die Liste, wenn außerhalb geklickt wird
+    }
   }
 
 
@@ -210,51 +214,50 @@ export class FormComponent implements OnDestroy {
 
   async onSubmit() {
     await this.apiService.createNewTask(this.taskForm.value);
-    
   }
 
 
-  validateInputFields() {
-    let isValid = true;
-    if (this.newTask.title === "" || this.newTask.title === null) {
-      isValid = false;
-    }
+  // validateInputFields() {
+  //   let isValid = true;
+  //   if (this.newTask.title === "" || this.newTask.title === null) {
+  //     isValid = false;
+  //   }
 
-    if (this.newTask.dueDate !== null && isNaN(this.newTask.dueDate.getTime())) {
-      this.dateInvalid = true;
-      isValid = false;
-    }
+  //   if (this.newTask.dueDate !== null && isNaN(this.newTask.dueDate.getTime())) {
+  //     this.dateInvalid = true;
+  //     isValid = false;
+  //   }
 
-    if (this.newTask.category === undefined || this.newTask.category === "") {
-      this.categoryInvalid = true;
-      isValid = false;
-    }
-    return isValid;
-  }
+  //   if (this.newTask.category === undefined || this.newTask.category === "") {
+  //     this.categoryInvalid = true;
+  //     isValid = false;
+  //   }
+  //   return isValid;
+  // }
 
 
   resetForm() {
     this.taskForm.reset();
 
     this.subtasks = [];
-    this.selectedUser = [];
+    // this.selectedUser = [];
     this.date.reset();
     this.deleteSubtaskInput();
     this.uncheckCheckboxes();
-    this.resetNewTask();
+    // this.resetNewTask();
   }
 
-  resetNewTask() {
-    return this.newTask = new Task({
-      title: '',
-      description: '',
-      assignedTo: this.selectedUser,
-      dueDate: this.date,
-      prio: '',
-      category: '',
-      subtasks: this.subtasks,
-    })
-  }
+  // resetNewTask() {
+  //   return this.newTask = new Task({
+  //     title: '',
+  //     description: '',
+  //     assignedTo: this.selectedUser,
+  //     dueDate: this.date,
+  //     prio: '',
+  //     category: '',
+  //     subtasks: this.subtasks,
+  //   })
+  // }
 
   deleteSubtaskInput() {
     const subtaskInput = document.getElementById('subtaskInput') as HTMLInputElement;
@@ -271,22 +274,24 @@ export class FormComponent implements OnDestroy {
 
 
   toggleAssigneTo() {
-    this.isAssignedTo = !this.isAssignedTo;
+    this.openedAssignmentsList = !this.openedAssignmentsList;
     const assignedToInput = document.getElementById('assignedTo') as HTMLInputElement;
-    if (assignedToInput && this.isAssignedTo) {
-      assignedToInput.value = '';
-    } else {
-      assignedToInput.value = 'Select contacts to assign';
-    }
+    if (assignedToInput && this.openedAssignmentsList) assignedToInput.value ? '' : 'Select contacts to assign';
+    this.cdr.detectChanges();
   }
 
 
   selectUser(user: User, checkbox: HTMLInputElement) {
-    const index = this.selectedUser.findIndex(u => u.id === user.id);
+    const assignments = this.taskForm.get('assignments') as FormControl;
+    const currentAssignments: User[] = assignments.value || [];
+
     if (checkbox.checked) {
-      this.selectedUser.push(user);
+      if (!currentAssignments.some(u => u.id === user.id)) {
+        assignments.setValue([...currentAssignments, user]);
+      }
     } else {
-      this.selectedUser.splice(index, 1);
+      const updatedAssignments = currentAssignments.filter(u => u.id !== user.id);
+      assignments.setValue(updatedAssignments);
     }
   }
 
@@ -380,11 +385,11 @@ export class FormComponent implements OnDestroy {
   }
 
 
-  handleTitleInputEvent() {
-    if (this.newTask.title && this.newTask.title.trim() === "") {
-      // this.titleInvalid = true;
-    } else {
-      // this.titleInvalid = false;
-    }
-  }
+  // handleTitleInputEvent() {
+  //   if (this.newTask.title && this.newTask.title.trim() === "") {
+  //     // this.titleInvalid = true;
+  //   } else {
+  //     // this.titleInvalid = false;
+  //   }
+  // }
 }

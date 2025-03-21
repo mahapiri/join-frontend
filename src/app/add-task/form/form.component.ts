@@ -68,7 +68,6 @@ export class FormComponent implements OnDestroy {
   isEditingSubtaskIndex: number | null = null;
   selectedCategoryLabel: string = "Select task category";
   dateInvalid: boolean = false;
-  titleInvalid: boolean = false;
   categoryInvalid: boolean = false;
   dateFormatInvalid: boolean = false;
   filteredUsers: User[] = [];

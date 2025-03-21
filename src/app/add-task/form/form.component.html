@@ -102,11 +102,17 @@
             </label>
 
             <!-- Prio   -->
-            <div class="field-layout">
+            <label class="field-layout">
                 <p>Prio</p>
                 <div class="prio-container">
-                    <input type="radio" id="urgent" name="prio" value="urgent" class="prio-radio"
-                        [(ngModel)]="newTask.prio">
+                    <input 
+                        type="radio" 
+                        id="urgent" 
+                        name="prio" 
+                        value="urgent" 
+                        class="prio-radio"
+                        [(ngModel)]="newTask.prio"
+                    >
                     <label for="urgent" class="prio-content">
                         <p>Urgent</p>
                         <img src="assets/img/prio/urgent-default.svg" alt="Urgent">
@@ -123,7 +129,7 @@
                         <img src="assets/img/prio/low-default.svg" alt="Low">
                     </label>
                 </div>
-            </div>
+            </label>
 
             <!-- Category -->
             <div class="field-layout">

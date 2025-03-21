@@ -9,21 +9,20 @@ import { User } from '../models/user.model';
 })
 export class ApiService {
 
+
   apiUrl = "http://127.0.0.1:8000/api"
-
-
   private usersSubject = new BehaviorSubject<User[]>([]);
+
 
   constructor(private http: HttpClient) { }
 
-  getHeaders() {
-    return {
-      'Content-Type': 'application/json'
-    }
+
+  get users$(): Observable<User[]> {
+    return this.usersSubject.asObservable();
   }
 
 
-  async createNewTask(taskForm: Task) {
+  async createNewTask(taskForm: any) {
     try {
       const response = await fetch(`${this.apiUrl}/tasks/`, {
         method: 'POST',
@@ -47,7 +46,7 @@ export class ApiService {
       console.log('Fehler beim erstellen der neuen Task', error)
     }
   }
-  
+
 
   async createNewSubtask(id: number, subtasks: string[]) {
     for (const subtask of subtasks) {
@@ -74,22 +73,30 @@ export class ApiService {
     }
   }
 
-  createAssignedTo(id: number, assignments: User[]) {
-    const headers = this.getHeaders();
-
-    assignments.forEach((user) => {
-      let newAssignement = {
-        "contact": user.id,
+  
+  async createAssignedTo(id: number, assignments: User[]) {
+    for (const assignment of assignments) {
+      let payload = {
+        "contact": assignment.id,
         "task": id
       }
-      this.http.post(`${this.apiUrl}/tasks/${id}/assignedto/`, newAssignement, { headers }).subscribe({
-        next: (response) => {
-          console.log("assignedto erstellt", response)
-        }, error: (err) => {
-          console.log("assign konnte nicht erstellt werden", err)
+      try {
+        const response = await fetch(`${this.apiUrl}/${id}/assignedto/`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+
+        if (!response.ok) {
+          throw new Error('Fehler bei der Anfrage (AssignedTo)');
         }
-      })
-    })
+
+        const data = response.json();
+        console.log("Neue Assignement wurde erstellt", data)
+      } catch (error) {
+        console.log('Fehler beim erstellen der Assignments', error)
+      }
+    }
   }
 
 
@@ -109,9 +116,5 @@ export class ApiService {
     } catch (error) {
       console.log("Fehler beim Aufruf aller Kontakte", error);
     }
-  }
-
-  get users$(): Observable<User[]> {
-    return this.usersSubject.asObservable();
   }
 }

@@ -208,10 +208,9 @@ export class FormComponent implements OnDestroy {
   }
 
 
-  onSubmit() {
-    if (this.validateInputFields()) {
-      this.apiService.createNewTask(this.newTask);
-    }
+  async onSubmit() {
+    await this.apiService.createNewTask(this.taskForm.value);
+    
   }
 
 

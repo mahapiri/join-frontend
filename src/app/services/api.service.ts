@@ -94,11 +94,11 @@ export class ApiService {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-  
+
         if (!res.ok) {
           throw new Error('Fehler bei der Anfrage');
         }
-  
+
         const data = await res.json();
         console.log(data);
       } catch (err) {
@@ -125,24 +125,22 @@ export class ApiService {
     })
   }
 
-  getAllContacts() {
-    const headers = this.getHeaders();
+  async getAllContacts() {
+    try {
+      const response = await fetch(`${this.apiUrl}/contacts/`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
 
-    this.http.get<User[]>(`${this.apiUrl}/contacts/`, { headers })
-    .pipe(
-      catchError((err) => {
-        console.error('Fehler beim Laden der Kontakte', err);
-        throw err;
-      })
-    )
-    .subscribe({
-      next: (response) => {
-        console.log("all contacts", response)
-        this.usersSubject.next(response);
-      }, error: (err) => {
-        console.log("Fehler beim Laden der Kontakte", err);
+      if (!response.ok) {
+        throw new Error('Fehler bei der Anfrage (Contacts)');
       }
-    })
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log("Fehler beim Aufruf aller Kontakte", error);
+    }
   }
 
   get users$(): Observable<User[]> {

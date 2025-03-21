@@ -106,11 +106,19 @@ textarea {
 
 .assigned-to-field {
     cursor: text;
+
+    &::placeholder {
+        color: black;
+    }
 }
 
 .category-field {
-    cursor:default;
+    cursor: default;
     user-select: none;
+
+    &::placeholder {
+        color: black;
+    }
 }
 
 .backlog-box {

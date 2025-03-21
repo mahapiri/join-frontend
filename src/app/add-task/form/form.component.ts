@@ -1,6 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, ChangeDetectionStrategy, OnDestroy, ElementRef } from '@angular/core';
-import { FormControl, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
+import { Component, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,7 +35,15 @@ export const MY_DATE_FORMATS = {
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     DatePipe
   ],
-  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, ClickOutsideDirective],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    MatFormFieldModule, 
+    MatInputModule, 
+    MatDatepickerModule, 
+    ReactiveFormsModule, 
+    ClickOutsideDirective
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss'
@@ -45,7 +53,7 @@ export const MY_DATE_FORMATS = {
 export class FormComponent implements OnDestroy {
   readonly date = new FormControl();
   isAssignedTo: boolean = false;
-  isCategory: boolean = false;
+  openedCategoryList: boolean = false;
   isHoverContact: boolean = false;
   isSubtask: boolean = false;
 
@@ -81,9 +89,23 @@ export class FormComponent implements OnDestroy {
     category: '',
     subtasks: this.subtasks,
   })
+  
+  taskForm: FormGroup;
 
 
-  constructor(private taskService: TaskService, private userService: UserService, private eRef: ElementRef, private apiService: ApiService) {
+  constructor(
+    private taskService: TaskService, 
+    private userService: UserService, 
+    private apiService: ApiService,
+    private fb: FormBuilder
+  ) {
+    this.taskForm = this.fb.group({
+      title: new FormControl('', Validators.required),
+      description: new FormControl(''),
+      date: new FormControl('', Validators.required),
+      category: new FormControl('', Validators.required),
+    })
+    
     this.taskServiceSubscription = this.taskService.tasks$.subscribe((tasks) => {
       this.tasks = [];
       tasks.forEach((task) => {
@@ -102,7 +124,7 @@ export class FormComponent implements OnDestroy {
       this.newTask.dueDate = value;
     });
 
-    // this.contactSubscription = 
+
 
     this.date.setValue(new Date());
   }
@@ -141,10 +163,8 @@ export class FormComponent implements OnDestroy {
 
 
   selectCategory(category: string): void {
-    this.newTask.category = category;
-    this.isCategory = false;
-    this.updateCategoryLabel();
-    this.categoryInvalid = false;
+    this.taskForm.get('category')?.setValue([category]);
+    this.openedCategoryList = false;
   }
 
 
@@ -153,19 +173,6 @@ export class FormComponent implements OnDestroy {
   }
 
 
-  updateCategoryLabel(): void {
-    switch (this.newTask.category) {
-      case 'technical_task':
-        this.selectedCategoryLabel = 'Technical Task';
-        break;
-      case 'user_story':
-        this.selectedCategoryLabel = 'User Story';
-        break;
-      default:
-        this.selectedCategoryLabel = 'Select task category';
-    }
-  }
-
 
   clickoutside() {
     this.isAssignedTo = false;
@@ -173,7 +180,7 @@ export class FormComponent implements OnDestroy {
 
 
   clickOutsideCategory() {
-    this.isCategory = false;
+    this.openedCategoryList = false;
   }
 
 
@@ -201,17 +208,15 @@ export class FormComponent implements OnDestroy {
   }
 
 
-  onSubmit(form: NgForm) {
+  onSubmit() {
     if (this.validateInputFields()) {
       this.apiService.createNewTask(this.newTask);
       console.log(this.subtasks)
       this.resetErrorMsg();
-      this.resetForm(form);
     }
   }
 
   resetErrorMsg() {
-    this.titleInvalid = false;
     this.dateInvalid = false;
     this.dateFormatInvalid = false;
     this.categoryInvalid = false;
@@ -221,7 +226,6 @@ export class FormComponent implements OnDestroy {
   validateInputFields() {
     let isValid = true;
     if (this.newTask.title === "" || this.newTask.title === null) {
-      this.titleInvalid = true;
       isValid = false;
     }
 
@@ -238,10 +242,9 @@ export class FormComponent implements OnDestroy {
   }
 
 
-  resetForm(form: NgForm) {
+  resetForm() {
     this.subtasks = [];
     this.selectedUser = [];
-    form.resetForm();
     this.date.reset();
     this.resetErrorMsg();
     this.deleteSubtaskInput();
@@ -297,7 +300,7 @@ export class FormComponent implements OnDestroy {
 
 
   toggleCategory() {
-    this.isCategory = !this.isCategory;
+    this.openedCategoryList = !this.openedCategoryList;
   }
 
 
@@ -387,9 +390,9 @@ export class FormComponent implements OnDestroy {
 
   handleTitleInputEvent() {
     if (this.newTask.title && this.newTask.title.trim() === "") {
-      this.titleInvalid = true;
+      // this.titleInvalid = true;
     } else {
-      this.titleInvalid = false;
+      // this.titleInvalid = false;
     }
   }
 }

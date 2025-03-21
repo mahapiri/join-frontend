@@ -81,7 +81,9 @@ class="form-layout"
             </div>
         </label>
     </div>
+
     <div class="divider"></div>
+
     <div class="field-container">
 
         <!-- Due Date -->
@@ -96,15 +98,13 @@ class="form-layout"
                     [matDatepicker]="picker" 
                     formControlName="date"
                     class="datepicker-input" 
-                    name="dueDate" 
                     placeholder="DD/MM/YYYY" 
-                    (input)="onDateInput($event)" 
                     readonly
                 >
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </div>
-            <div class="errormsg" *ngIf="dateInvalid">This field is required</div>
+            <div class="errormsg" *ngIf="taskForm.get('date')?.invalid && taskForm.get('date')?.touched">This field is required</div>
         </label>
 
         <!-- Prio   -->

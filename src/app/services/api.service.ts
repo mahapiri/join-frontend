@@ -23,11 +23,23 @@ export class ApiService {
 
 
   async createNewTask(taskForm: any) {
+    const newTask = {
+      "title": taskForm.title,
+      "description": taskForm.description,
+      "due_date": taskForm.date,
+      "category": taskForm.category,
+    }
+    const assignments = taskForm.assignments;
+    const subtasks = taskForm.subtasks;
+
+    console.log(JSON.stringify(newTask))
+    console.log(assignments)
+    console.log(subtasks)
     try {
       const response = await fetch(`${this.apiUrl}/tasks/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(taskForm)
+        body: JSON.stringify(newTask)
       });
 
       if (!response.ok) {

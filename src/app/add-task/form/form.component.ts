@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -51,9 +51,9 @@ export const MY_DATE_FORMATS = {
 
 
 export class FormComponent implements OnDestroy {
-  readonly date = new FormControl();
   openedAssignmentsList: boolean = false;
   openedCategoryList: boolean = false;
+
   isHoverContact: boolean = false;
   isSubtask: boolean = false;
 
@@ -73,20 +73,9 @@ export class FormComponent implements OnDestroy {
   searchTextAssigned: string = '';
   searchTextSubtasks: string = '';
   isEditingSubtaskIndex: number | null = null;
-  dateInvalid: boolean = false;
   categoryInvalid: boolean = false;
-  dateFormatInvalid: boolean = false;
   filteredUsers: User[] = [];
 
-  // newTask: Task = new Task({
-  //   title: '',
-  //   description: '',
-  //   assignedTo: this.selectedUser,
-  //   dueDate: this.date.value,
-  //   prio: '',
-  //   category: '',
-  //   subtasks: this.subtasks,
-  // })
 
   taskForm: FormGroup;
 
@@ -95,14 +84,13 @@ export class FormComponent implements OnDestroy {
     private taskService: TaskService,
     private userService: UserService,
     private apiService: ApiService,
-    private fb: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private fb: FormBuilder
   ) {
     this.taskForm = this.fb.group({
       title: new FormControl('', Validators.required),
       description: new FormControl(''),
       assignments: new FormControl([]),
-      date: new FormControl('', Validators.required),
+      date: new FormControl(new Date(), Validators.required),
       prio: new FormControl(''),
       category: new FormControl('', Validators.required),
       subtasks: new FormControl([]),
@@ -122,13 +110,6 @@ export class FormComponent implements OnDestroy {
         this.allUsers.push(user);
       });
     })
-    this.datepickerSubscription = this.date.valueChanges.subscribe(value => {
-      // this.newTask.dueDate = value;
-    });
-
-
-
-    this.date.setValue(new Date());
   }
 
 
@@ -139,46 +120,15 @@ export class FormComponent implements OnDestroy {
   }
 
 
-  onDateInput(event: Event) {
-    let input = event.target as HTMLInputElement;
-    let inputValue = input.value;
-    let dateparts = inputValue.split("/");
-    this.dateFormatInvalid = false;
-
-    if (dateparts.length == 3) {
-      let day = parseInt(dateparts[0], 10);
-      let month = parseInt(dateparts[1], 10) - 1;
-      let year = parseInt(dateparts[2], 10);
-
-      let newDate = new Date(year, month, day);
-
-      if (!isNaN(newDate.getTime())) {
-        // this.newTask.dueDate = newDate;
-        this.dateFormatInvalid = false;
-      } else {
-        this.dateFormatInvalid = true;
-      }
-    } else {
-      this.dateFormatInvalid = false;
-    }
-  }
-
-
   selectCategory(category: string): void {
-    this.taskForm.get('category')?.setValue([category]);
+    this.taskForm.get('category')?.setValue(category);
     this.openedCategoryList = false;
   }
 
 
-  selectDate() {
-    this.dateInvalid = false;
-  }
-
-
-
   clickoutsideAssignedTo() {
     if (this.openedAssignmentsList) {
-      this.openedAssignmentsList = false; // Schließt die Liste, wenn außerhalb geklickt wird
+      this.openedAssignmentsList = false;
     }
   }
 
@@ -213,51 +163,33 @@ export class FormComponent implements OnDestroy {
 
 
   async onSubmit() {
-    await this.apiService.createNewTask(this.taskForm.value);
+    console.log(this.taskForm.value)
+    const formValue = this.taskForm.value
+    if (formValue.date) {
+      formValue.date = this.formatDateForDjango(new Date(formValue.date));
+    }
+    console.log(formValue);
+    await this.apiService.createNewTask(formValue);
   }
 
 
-  // validateInputFields() {
-  //   let isValid = true;
-  //   if (this.newTask.title === "" || this.newTask.title === null) {
-  //     isValid = false;
-  //   }
+  formatDateForDjango(date: Date): string {
+    return `${date.getFullYear()}-${this.padZero(date.getMonth() + 1)}-${this.padZero(date.getDate())}`;
+  }
 
-  //   if (this.newTask.dueDate !== null && isNaN(this.newTask.dueDate.getTime())) {
-  //     this.dateInvalid = true;
-  //     isValid = false;
-  //   }
-
-  //   if (this.newTask.category === undefined || this.newTask.category === "") {
-  //     this.categoryInvalid = true;
-  //     isValid = false;
-  //   }
-  //   return isValid;
-  // }
+  padZero(value: number): string {
+    return value < 10 ? '0' + value : value.toString();
+  }
 
 
   resetForm() {
     this.taskForm.reset();
 
     this.subtasks = [];
-    // this.selectedUser = [];
-    this.date.reset();
     this.deleteSubtaskInput();
     this.uncheckCheckboxes();
-    // this.resetNewTask();
   }
 
-  // resetNewTask() {
-  //   return this.newTask = new Task({
-  //     title: '',
-  //     description: '',
-  //     assignedTo: this.selectedUser,
-  //     dueDate: this.date,
-  //     prio: '',
-  //     category: '',
-  //     subtasks: this.subtasks,
-  //   })
-  // }
 
   deleteSubtaskInput() {
     const subtaskInput = document.getElementById('subtaskInput') as HTMLInputElement;
@@ -277,7 +209,6 @@ export class FormComponent implements OnDestroy {
     this.openedAssignmentsList = !this.openedAssignmentsList;
     const assignedToInput = document.getElementById('assignedTo') as HTMLInputElement;
     if (assignedToInput && this.openedAssignmentsList) assignedToInput.value ? '' : 'Select contacts to assign';
-    this.cdr.detectChanges();
   }
 
 
@@ -383,13 +314,4 @@ export class FormComponent implements OnDestroy {
       user.name.toUpperCase().includes(searchValue)
     );
   }
-
-
-  // handleTitleInputEvent() {
-  //   if (this.newTask.title && this.newTask.title.trim() === "") {
-  //     // this.titleInvalid = true;
-  //   } else {
-  //     // this.titleInvalid = false;
-  //   }
-  // }
 }

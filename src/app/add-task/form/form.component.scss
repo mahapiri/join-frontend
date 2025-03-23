@@ -239,6 +239,15 @@ input[type=checkbox] {
     }
 }
 
+.contact-container.selected {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+.contact-container.selected .contact-icon {
+    border-color: var(--white);
+}
+
 .checkmark {
     width: 16px;
     height: 16px;

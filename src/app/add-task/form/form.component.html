@@ -48,6 +48,7 @@ class="form-layout"
                         <label class="contact-container" #contactContainer
                             (mouseover)="onCheckboxChange(checkbox, contactContainer, true)"
                             (mouseout)="onCheckboxChange(checkbox, contactContainer, false)"
+                            [ngClass]="{'selected': isUserAssigned(contact)}"
                             *ngFor="let contact of (searchAssignment ? filteredContacts : contacts)" (change)="selectUser(contact, checkbox)">
                             <div class="contact-name">
                                 <div class="contact-icon"

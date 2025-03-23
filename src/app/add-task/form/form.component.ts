@@ -6,12 +6,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { NativeDateAdapter } from '@angular/material/core';
-import { TaskService } from '../../services/task.service';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { ClickOutsideDirective } from '../../click-outside.directive';
 import { ApiService } from '../../services/api.service';
+import { SharedService } from '../../services/shared.service';
+import { Router } from '@angular/router';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -69,10 +70,11 @@ export class FormComponent implements OnDestroy {
 
 
   constructor(
-    private taskService: TaskService,
     private userService: UserService,
     private apiService: ApiService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public sharedService: SharedService,
+    private router: Router
   ) {
     this.taskForm = this.fb.group({
       title: new FormControl('', Validators.required),
@@ -148,6 +150,16 @@ export class FormComponent implements OnDestroy {
       formValue.date = this.apiService.formatDateForDjango(new Date(formValue.date));
     }
     await this.apiService.createNewTask(formValue);
+    this.resetForm();
+    this.sharedService.isAdding = true;
+    setTimeout(() => {
+      this.navigateToBoard();
+      this.sharedService.isAdding = false;
+    }, 1000);
+  }
+
+  navigateToBoard() {
+    this.router.navigate(['/', 'board']);
   }
 
 

@@ -1,6 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,7 +9,6 @@ import { NativeDateAdapter } from '@angular/material/core';
 import { TaskService } from '../../services/task.service';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../services/user.service';
-import { Task } from '../../models/task.model';
 import { User } from '../../models/user.model';
 import { ClickOutsideDirective } from '../../click-outside.directive';
 import { ApiService } from '../../services/api.service';
@@ -51,33 +50,22 @@ export const MY_DATE_FORMATS = {
 
 
 export class FormComponent implements OnDestroy {
-  openedAssignmentsList: boolean = false;
-  openedCategoryList: boolean = false;
-
-  isHoverContact: boolean = false;
-  isSubtask: boolean = false;
-
   private readonly _currentYear = new Date().getFullYear();
   readonly minDate = new Date(this._currentYear, 0, 1);
   readonly maxDate = new Date(this._currentYear + 5, 11, 31);
 
-  taskServiceSubscription: Subscription = new Subscription();
-  userServiceSubscription: Subscription = new Subscription();
-  datepickerSubscription: Subscription = new Subscription();
-  contactSubscription: Subscription = new Subscription();
-
-  users: User[] = [];
-  tasks: Task[] = [];
-  subtasks: string[] = [];
-  allUsers: User[] = [];
-  searchTextAssigned: string = '';
-  searchTextSubtasks: string = '';
-  isEditingSubtaskIndex: number | null = null;
-  categoryInvalid: boolean = false;
-  filteredUsers: User[] = [];
-
+  allSubscription: Subscription = new Subscription();
 
   taskForm: FormGroup;
+  contacts: User[] = [];
+  filteredContacts: User[] = [];
+  searchAssignment: boolean = false;
+  openedAssignmentsList: boolean = false;
+  openedCategoryList: boolean = false;
+  searchTextSubtasks: string = '';
+  isEditingSubtaskIndex: number | null = null;
+  isHoverContact: boolean = false;
+  isWritingSubtask: boolean = false;
 
 
   constructor(
@@ -93,30 +81,22 @@ export class FormComponent implements OnDestroy {
       date: new FormControl(new Date(), Validators.required),
       prio: new FormControl(null),
       category: new FormControl('', Validators.required),
-      subtasks: new FormControl([]),
+      subtasks: this.fb.array([])
     })
 
-    this.taskServiceSubscription = this.taskService.tasks$.subscribe((tasks) => {
-      this.tasks = [];
-      tasks.forEach((task) => {
-        this.tasks.push(task);
-      })
-    })
-
-    this.userServiceSubscription = this.userService.users$.subscribe((users) => {
-      this.users = [];
-      users.forEach(user => {
-        this.users.push(user);
-        this.allUsers.push(user);
+    this.allSubscription.add(this.userService.users$.subscribe((contacts) => {
+      this.contacts = [];
+      this.filteredContacts = [];
+      contacts.forEach(contact => {
+        this.contacts.push(contact);
+        this.filteredContacts.push(contact);
       });
-    })
+    }))
   }
 
 
   ngOnDestroy(): void {
-    this.taskServiceSubscription.unsubscribe();
-    this.userServiceSubscription.unsubscribe();
-    this.datepickerSubscription.unsubscribe();
+    this.allSubscription.unsubscribe();
   }
 
 
@@ -173,38 +153,62 @@ export class FormComponent implements OnDestroy {
 
   resetForm() {
     this.taskForm.reset();
-
-    this.subtasks = [];
-    this.deleteSubtaskInput();
     this.uncheckCheckboxes();
+    this.deleteSubtaskArray();
+    this.deleteAssignmentInputField();
   }
 
 
-  deleteSubtaskInput() {
-    const subtaskInput = document.getElementById('subtaskInput') as HTMLInputElement;
-    if (subtaskInput) {
-      subtaskInput.value = '';
-    }
+  deleteAssignmentInputField() {
+    const input = document.getElementById('assignedTo') as HTMLInputElement;
+    input.value = "";
+    this.searchAssignment = false;
   }
 
-
+  
   uncheckCheckboxes() {
     const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
     checkboxes.forEach(checkbox => checkbox.checked = false);
   }
 
 
-  toggleAssigneTo() {
+  openAssignedToList() {
+    this.openedAssignmentsList = true
+  }
+
+  toggleAssignedTo(event: Event) {
+    event.preventDefault();
     this.openedAssignmentsList = !this.openedAssignmentsList;
     const assignedToInput = document.getElementById('assignedTo') as HTMLInputElement;
     if (assignedToInput && this.openedAssignmentsList) assignedToInput.value ? '' : 'Select contacts to assign';
   }
 
 
+  searchAssignments() {
+    this.openAssignedToList();
+    this.searchAssignment = true;
+    const inputValue = document.getElementById('assignedTo') as HTMLInputElement;
+    if (inputValue.value.trim().length <= 0) {
+      this.searchAssignment = false;
+      this.filteredContacts = [...this.contacts];
+    } else {
+      const searchValue = inputValue.value.trim().toUpperCase();
+      this.filteredContacts = this.contacts.filter(contact =>
+        contact.name.trim().toUpperCase().includes(searchValue)
+      );
+    }
+  }
+
+  isUserAssigned(contact: User): boolean {
+    const assignments = this.taskForm.get('assignments')?.value || [];
+    return assignments.some((user: User) => user.id === contact.id);
+  }
+
+
   selectUser(user: User, checkbox: HTMLInputElement) {
     const assignments = this.taskForm.get('assignments') as FormControl;
     const currentAssignments: User[] = assignments.value || [];
-
+  
     if (checkbox.checked) {
       if (!currentAssignments.some(u => u.id === user.id)) {
         assignments.setValue([...currentAssignments, user]);
@@ -221,11 +225,13 @@ export class FormComponent implements OnDestroy {
   }
 
 
-  writingSubtask(input: HTMLInputElement) {
+  writingSubtask(event: Event) {
+    const input = event.target as HTMLInputElement;
+
     if (input.value.trim() === "") {
-      this.isSubtask = false;
+      this.isWritingSubtask = false;
     } else {
-      this.isSubtask = true;
+      this.isWritingSubtask = true;
       this.searchTextSubtasks = input.value;
     }
   }
@@ -234,10 +240,11 @@ export class FormComponent implements OnDestroy {
   saveSubtask(input: HTMLInputElement) {
     if (input.value.trim().length > 0) {
       const text = this.searchTextSubtasks.trim();
-      this.subtasks.push(text);
+      const subtasks = this.taskForm.get('subtasks') as FormArray;
+      subtasks.push(new FormControl(text));
       this.searchTextSubtasks = '';
       input.value = '';
-      this.isSubtask = false;
+      this.isWritingSubtask = false;
     }
   }
 
@@ -264,26 +271,26 @@ export class FormComponent implements OnDestroy {
   }
 
 
-  deletSavedSubtask(i: number) {
-    this.subtasks.splice(i, 1);
+  deleteSavedSubtask(i: number) {
+    const subtasks = this.taskForm.get('subtasks') as FormArray;
+    if (subtasks) {
+      subtasks.removeAt(i);
+    }
     this.isEditingSubtaskIndex = null;
   }
 
 
   replaceSaveSubtask(i: number) {
     const inputElement = document.getElementById(`subtaskEdit${i}`) as HTMLInputElement;
+    const subtasks = this.taskForm.get('subtasks') as FormArray;
 
-    if (inputElement) {
-      const inputValue = inputElement.value;
-      this.subtasks[i] = inputValue;
+    if (inputElement && subtasks) {
+      const inputValue = inputElement.value.trim();
+      if (inputValue.length > 0) {
+        subtasks.at(i).setValue(inputValue);
+      }
       this.isEditingSubtaskIndex = null;
     }
-  }
-
-
-  searchKey(data: string) {
-    this.searchTextAssigned = data;
-    this.searchUser();
   }
 
 
@@ -291,16 +298,10 @@ export class FormComponent implements OnDestroy {
     this.isEditingSubtaskIndex = i;
   }
 
-
-  searchUser() {
-    if (!this.searchTextAssigned) {
-      this.filteredUsers = this.users;
-      return;
+  deleteSubtaskArray() {
+    const subtasks = this.taskForm.get('subtasks') as FormArray;
+    if (subtasks) {
+      subtasks.clear();
     }
-
-    const searchValue = this.searchTextAssigned.toUpperCase();
-    this.filteredUsers = this.users.filter(user =>
-      user.name.toUpperCase().includes(searchValue)
-    );
   }
 }

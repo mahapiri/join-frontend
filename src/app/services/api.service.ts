@@ -48,10 +48,8 @@ export class ApiService {
       const data = await response.json();
       console.log('Neuer Task', data);
       if (data) {
-        // subtask muss erstellt werden
-        // this.createNewSubtask(response.id, subtasks);
-        // assignedto muss erstellt werden
-        // this.createAssignedTo(response.id, assignments);
+        this.createNewSubtask(data.id, subtasks);
+        this.createAssignedTo(data.id, assignments);
       }
     } catch (error) {
       console.log('Fehler beim erstellen der neuen Task', error)
@@ -86,13 +84,14 @@ export class ApiService {
 
   
   async createAssignedTo(id: number, assignments: User[]) {
+    console.log(assignments);
     for (const assignment of assignments) {
       let payload = {
         "contact": assignment.id,
         "task": id
       }
       try {
-        const response = await fetch(`${this.apiUrl}/${id}/assignedto/`, {
+        const response = await fetch(`${this.apiUrl}/tasks/${id}/assignedto/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -102,7 +101,7 @@ export class ApiService {
           throw new Error('Fehler bei der Anfrage (AssignedTo)');
         }
 
-        const data = response.json();
+        const data = await response.json();
         console.log("Neue Assignement wurde erstellt", data)
       } catch (error) {
         console.log('Fehler beim erstellen der Assignments', error)

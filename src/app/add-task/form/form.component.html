@@ -6,8 +6,6 @@ class="form-layout"
 >
 <div class="form-container">
     <div class="field-container">
-
-        <!-- Title -->
         <label class="field-layout">
             <p>Title<span>*</span></p>
             <input 
@@ -20,8 +18,6 @@ class="form-layout"
                 *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched"
             >This field is required</div>
         </label>
-
-        <!-- Description -->
         <label class="field-layout">
             <p>Description</p>
             <textarea 
@@ -30,8 +26,6 @@ class="form-layout"
                 formControlName="description"
             ></textarea>
         </label>
-
-        <!-- Assigned To -->
         <label class="field-layout">
             <p>Assigned To</p>
             <div appClickOutside (clickOutside)="clickoutsideAssignedTo()">
@@ -41,36 +35,36 @@ class="form-layout"
                         id="assignedTo" 
                         placeholder="Select contacts to assign"
                         type="text" 
-                        (click)="toggleAssigneTo()"
+                        (click)="openAssignedToList()"
+                        (input)="searchAssignments()"
                         autocomplete="off"
                     >
                     <img class="input-icon"
                         [src]="openedAssignmentsList ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
                         alt="arrow" 
-                        (click)="toggleAssigneTo()"
+                        (click)="toggleAssignedTo($event)"
                     >
-
                     <div [style.display]="openedAssignmentsList ? 'flex' : 'none'" class="backlog-box">
                         <label class="contact-container" #contactContainer
                             (mouseover)="onCheckboxChange(checkbox, contactContainer, true)"
                             (mouseout)="onCheckboxChange(checkbox, contactContainer, false)"
-                            *ngFor="let user of users" (change)="selectUser(user, checkbox)">
+                            *ngFor="let contact of (searchAssignment ? filteredContacts : contacts)" (change)="selectUser(contact, checkbox)">
                             <div class="contact-name">
                                 <div class="contact-icon"
-                                    [ngStyle]="{'background-color': 'var(' + user.color + ')'}">{{ user.initial }}
+                                    [ngStyle]="{'background-color': 'var(' + contact.color + ')'}">{{ contact.initial }}
                                 </div>
-                                <p>{{ user.name }}</p>
+                                <p>{{ contact.name }}</p>
                             </div>
                             <div class="checkbox-container">
                                 <input type="checkbox" #checkbox
+                                    [checked]="isUserAssigned(contact)"
                                     (change)="onCheckboxChange(checkbox, contactContainer, true)">
                                 <span class="checkmark checkmark-font"></span>
                             </div>
                         </label>
-                        <p class="not-found" *ngIf="users.length === 0">No results was found.</p>
+                        <p class="not-found" *ngIf="(searchAssignment ? filteredContacts : contacts).length === 0">No result was found.</p>
                     </div>
                 </div>
-
                 <div class="assigned-container">
                     <div 
                         class="contact-icon icon-border"
@@ -81,12 +75,8 @@ class="form-layout"
             </div>
         </label>
     </div>
-
     <div class="divider"></div>
-
     <div class="field-container">
-
-        <!-- Due Date -->
         <label class="field-layout">
             <p>Due date<span>*</span></p>
             <div class="datepicker-box">
@@ -106,8 +96,6 @@ class="form-layout"
             </div>
             <div class="errormsg" *ngIf="taskForm.get('date')?.invalid && taskForm.get('date')?.touched">This field is required</div>
         </label>
-
-        <!-- Prio   -->
         <label class="field-layout">
             <p>Prio</p>
             <div class="prio-container">
@@ -149,8 +137,6 @@ class="form-layout"
                 </label>
             </div>
         </label>
-
-        <!-- Category -->
         <label class="field-layout">
             <p>Category<span>*</span></p>
             <div class="select-container" appClickOutside (clickOutside)="clickOutsideCategory()">
@@ -168,7 +154,6 @@ class="form-layout"
                 <img class="input-icon"
                     [src]="openedCategoryList ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
                     alt="arrow" (click)="toggleCategory()">
-
                 <div [style.display]="openedCategoryList ? 'flex' : 'none'" class="backlog-box height-auto">
                     <label 
                         class="contact-container width-100"
@@ -192,30 +177,39 @@ class="form-layout"
             </div>
             <div class="errormsg" *ngIf="taskForm.get('category')?.invalid && taskForm.get('category')?.touched">This field is required</div>
         </label>
-
-
-        <!-- Subtasks -->
         <div class="field-layout field-layout-category">
             <p>Subtasks</p>
             <div class="select-container">
                 <input 
                     #subtaskInput 
                     id="subtaskInput" 
-                    (input)="writingSubtask(subtaskInput)"
+                    (input)="writingSubtask($event)"
                     (keydown.enter)="saveSubtask(subtaskInput)" 
                     type="text" 
                     [ngStyle]="{'padding-right': '80px'}"
                     [placeholder]="subtaskInput.value.trim().length === 0 ? 'Add new subtask' : ''"
                 >
-                <div *ngIf="isSubtask" class="input-icon-container">
-                    <img src="assets/img/cancel/default.svg" alt="Cancel" (click)="deleteSubtask(subtaskInput)">
+                <div *ngIf="isWritingSubtask" class="input-icon-container">
+                    <img 
+                        src="assets/img/cancel/default.svg" 
+                        alt="Cancel" (click)="deleteSubtask(subtaskInput)"
+                    >
                     <div class="input-divider"></div>
-                    <img src="assets/img/check/default-subtask.svg" alt="Check" (click)="saveSubtask(subtaskInput)">
+                    <img 
+                        src="assets/img/check/default-subtask.svg" 
+                        alt="Check" 
+                        (click)="saveSubtask(subtaskInput)"
+                    >
                 </div>
-                <img *ngIf="!isSubtask" class="input-icon" src="assets/img/add/default-subtask.svg" alt="Add">
+                <img 
+                    *ngIf="!isWritingSubtask" 
+                    class="input-icon" 
+                    src="assets/img/add/default-subtask.svg" 
+                    alt="Add"
+                >
             </div>
             <ul class="subtask-list">
-                <ng-container *ngFor="let subtask of subtasks; let i = index">
+                <ng-container *ngFor="let subtask of this.taskForm.get('subtasks')?.value; let i = index">
                     <li (mouseover)="setSubtaskEdit('subtaskitem' + i)"
                         (mouseleave)="setSubtaskNotEdit('subtaskitem' + i)" 
                         *ngIf="isEditingSubtaskIndex != i"
@@ -224,13 +218,13 @@ class="form-layout"
                         <div [id]="'subtaskitem' + i" class="input-icon-container">
                             <img src="assets/img/edit/hover.svg" alt="Edit" (click)="editSubtask(i)">
                             <div class="input-divider"></div>
-                            <img src="assets/img/delete/default.svg" alt="Delete" (click)="deletSavedSubtask(i)">
+                            <img src="assets/img/delete/default.svg" alt="Delete" (click)="deleteSavedSubtask(i)">
                         </div>
                     </li>
                     <div class="subtask-edit-container" *ngIf="isEditingSubtaskIndex === i">
                         <input [id]="'subtaskEdit' + i" type="text" value="{{ subtask }}" class="input-subtask">
                         <div class="input-icon-container">
-                            <img src="assets/img/delete/default.svg" alt="Delete" (click)="deletSavedSubtask(i)">
+                            <img src="assets/img/delete/default.svg" alt="Delete" (click)="deleteSavedSubtask(i)">
                             <div class="input-divider"></div>
                             <img src="assets/img/check/default-subtask.svg" alt="Check"
                                 (click)="replaceSaveSubtask(i)">
@@ -246,19 +240,14 @@ class="form-layout"
         <p><span>*</span>This field is required</p>
     </div>
     <div class="btn-content">
-
-        <!-- Clear -->
         <button class="clear-btn" type="button" (click)="resetForm()">
             <p>Clear</p>
             <img class="clear-img" src="assets/img/clear/default.svg" alt="Clear">
         </button>
-
-        <!-- Create Task -->
         <button class="submit-btn" type="submit" [disabled]="taskForm.invalid">
             <p class="p-bold">Create Task</p>
             <img src="assets/img/check/default-create-task.svg" alt="Create">
         </button>
     </div>
 </div>
-
 </form>

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -8,27 +9,46 @@ export class ValidationService {
   constructor() { }
 
 
-  validateEmail(email: string): boolean {
+  validateEmail(control: AbstractControl): ValidationErrors | null {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    
+    if (!control.value) {
+      return null; // Falls das Feld leer ist, greift Validators.required
+    }
+  
+    return emailRegex.test(control.value) ? null : { invalidEmail: true };
   }
+  
 
 
-  validatePhone(phone: string): boolean {
-    const phoneRegex = /^\+?[0-9 ]+$/; 
+  validatePhone(control: AbstractControl): ValidationErrors | null {
+    const phoneRegex = /^\+?[0-9 ]+$/;
     const minDigits = 7;
     const maxDigits = 15;
   
-    const digitCount = phone.replace(/\D/g, "").length;
+    if (!control.value) {
+      return null;
+    }
   
-    return phoneRegex.test(phone) && digitCount >= minDigits && digitCount <= maxDigits;
+    const digitCount = control.value.replace(/\D/g, "").length;
+  
+    if (!phoneRegex.test(control.value) || digitCount < minDigits || digitCount > maxDigits) {
+      return { invalidPhone: true };
+    }
+  
+    return null;
   }
   
 
 
-  validateName(name: string): boolean {
+  validateName(control: AbstractControl): ValidationErrors | null {
     const nameRegex = /^[a-zA-ZäöüßÄÖÜ ]+$/;
-    return name.trim().length > 0 && nameRegex.test(name);
+    
+    if (!control.value || control.value.trim().length === 0) {
+      return { required: true };
+    }
+  
+    return nameRegex.test(control.value) ? null : { invalidName: true };
   }
 
 

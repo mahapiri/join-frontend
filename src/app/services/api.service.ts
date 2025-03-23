@@ -82,7 +82,7 @@ export class ApiService {
     }
   }
 
-  
+
   async createAssignedTo(id: number, assignments: User[]) {
     console.log(assignments);
     for (const assignment of assignments) {
@@ -110,6 +110,16 @@ export class ApiService {
   }
 
 
+  formatDateForDjango(date: Date): string {
+    return `${date.getFullYear()}-${this.padZero(date.getMonth() + 1)}-${this.padZero(date.getDate())}`;
+  }
+
+
+  padZero(value: number): string {
+    return value < 10 ? '0' + value : value.toString();
+  }
+
+
   async getAllContacts() {
     try {
       const response = await fetch(`${this.apiUrl}/contacts/`, {
@@ -129,12 +139,50 @@ export class ApiService {
   }
 
 
-  formatDateForDjango(date: Date): string {
-    return `${date.getFullYear()}-${this.padZero(date.getMonth() + 1)}-${this.padZero(date.getDate())}`;
+  async createContact(contact: User) {
+    try {
+      const newContact = {
+        "name": contact.name,
+        "email": contact.email,
+        "phone": contact.phone,
+        "color": this.getRandomColor(),
+      }
+
+      console.log(newContact)
+      const response = await fetch(`${this.apiUrl}/contacts/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newContact)
+      });
+
+      if (!response.ok) {
+        throw new Error('Fehler bei der Anfrage (Create Contact)');
+      }
+
+      // const data = await response.json();
+    } catch (error) {
+      console.log("Fehler beim erstellen des neuen Kontakts: ", error)
+    }
   }
 
-  
-  padZero(value: number): string {
-    return value < 10 ? '0' + value : value.toString();
+  readonly colors: string[] = [
+    '--orange',
+    '--pink',
+    '--purple',
+    '--purple-lighten',
+    '--turquoise',
+    '--salmon',
+    '--orange-lighten',
+    '--rosa',
+    '--yellow-orange',
+    '--neon-yellow',
+    '--yellow',
+    '--red',
+    '--orange-lighten',
+  ]
+
+  getRandomColor(): string {
+    const randomIndex = Math.floor(Math.random() * this.colors.length);
+    return this.colors[randomIndex];
   }
 }

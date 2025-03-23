@@ -242,10 +242,10 @@ input[type=checkbox] {
 .contact-container.selected {
     background-color: var(--primary);
     color: var(--white);
-}
 
-.contact-container.selected .contact-icon {
-    border-color: var(--white);
+    p {
+        color: var(--white);
+    }
 }
 
 .checkmark {

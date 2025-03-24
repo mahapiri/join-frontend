@@ -67,7 +67,7 @@
                             <p>Cancel</p>
                             <img class="clear-img" src="assets/img/clear/default.svg" alt="Clear">
                         </button>
-                        <button class="save-btn" type="submit">
+                        <button class="save-btn" type="submit" [disabled]="contactForm.invalid">
                             <p class="p-bold">Create contact</p>
                             <img src="assets/img/check/default-create-task.svg" alt="Save">
                         </button>

@@ -9,14 +9,14 @@ export class ApiService {
 
 
   apiUrl = "http://127.0.0.1:8000/api"
-  private usersSubject = new BehaviorSubject<User[]>([]);
+  private contactsSubject = new BehaviorSubject<User[]>([]);
 
 
   constructor() { }
 
 
-  get users$(): Observable<User[]> {
-    return this.usersSubject.asObservable();
+  get contacts$(): Observable<User[]> {
+    return this.contactsSubject.asObservable();
   }
 
 
@@ -132,7 +132,7 @@ export class ApiService {
       }
 
       const data = await response.json();
-      this.usersSubject.next(data)
+      this.contactsSubject.next(data)
     } catch (error) {
       console.log("Fehler beim Aufruf aller Kontakte", error);
     }
@@ -147,21 +147,24 @@ export class ApiService {
         "phone": contact.phone,
         "color": this.getRandomColor(),
       }
-
-      console.log(newContact)
       const response = await fetch(`${this.apiUrl}/contacts/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newContact)
-      });
+      })
 
       if (!response.ok) {
         throw new Error('Fehler bei der Anfrage (Create Contact)');
       }
+      
+      const data = await response.json();
+      await this.getAllContacts();
 
-      // const data = await response.json();
+      return data.id;
+
     } catch (error) {
       console.log("Fehler beim erstellen des neuen Kontakts: ", error)
+      return null;
     }
   }
 

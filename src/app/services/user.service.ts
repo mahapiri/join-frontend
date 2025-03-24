@@ -19,8 +19,8 @@ export class UserService {
 
 
   constructor(private apiService: ApiService) {
-    this.apiService.users$.subscribe((newUsers) => {
-      this.sortAndSetUsers(newUsers);
+    this.apiService.contacts$.subscribe((contact) => {
+      this.sortAndSetUsers(contact);
     })
 
     this.apiService.getAllContacts();
@@ -68,8 +68,10 @@ export class UserService {
       div.classList.add('select-user');
       this.saveSelectedUser(id);
       this.findUser();
+      div.scrollIntoView();
     }
   }
+
 
   deselectUser() {
     this._selectedUser.next(null);

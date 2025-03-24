@@ -5,7 +5,7 @@ export class Task {
     title: string = '';
     description?: string = '';
     assignedTo?: User[] = [];
-    dueDate: Date;
+    due_date: Date;
     prio?: string = '';
     category: string = '';
     subtasks?: string[] = [];
@@ -16,7 +16,7 @@ export class Task {
         this.title = obj.title;
         this.description = obj.description || '';
         this.assignedTo = obj.assignedTo || [];
-        this.dueDate = obj.dueDate ? new Date(obj.dueDate) : new Date();
+        this.due_date = obj.due_date ? new Date(obj.due_date) : new Date();
         this.prio = obj.prio || '';
         this.category = obj.category;
         this.subtasks = obj.subtasks || [];
@@ -29,7 +29,7 @@ export class Task {
             title: this.title,
             description: this.description,
             assignedTo: this.assignedTo,
-            dueDate: this.dueDate,
+            dueDate: this.due_date,
             prio: this.prio,
             category: this.category,
             subtasks: this.subtasks,

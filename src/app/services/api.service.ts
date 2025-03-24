@@ -43,6 +43,7 @@ export class ApiService {
 
     } catch (error) {
       console.log('Fehler beim erstellen der neuen Task', error)
+      this.tasksSubject.next([]);
     }
   }
 
@@ -183,7 +184,7 @@ export class ApiService {
       if (!response.ok) {
         throw new Error('Fehler bei der Anfrage (Create Contact)');
       }
-      
+
       const data = await response.json();
       await this.getAllContacts();
 
@@ -234,7 +235,7 @@ export class ApiService {
       if (!response.ok) {
         throw new Error('Fehler bei der Anfrage (Create Contact)');
       }
-      
+
       const data = await response.json();
       await this.getAllContacts();
 
@@ -257,7 +258,7 @@ export class ApiService {
       if (!response.ok) {
         throw new Error('Fehler bei der Anfrage (Delete Contact)');
       }
-      
+
       await this.getAllContacts();
 
     } catch (error) {

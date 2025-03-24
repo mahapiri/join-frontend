@@ -3,6 +3,8 @@ import { Title } from '@angular/platform-browser';
 import { PanelComponent } from "./panel/panel.component";
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
+import { Task } from '../models/task.model';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-summary',
@@ -17,6 +19,8 @@ import { ApiService } from '../services/api.service';
 export class SummaryComponent implements OnInit, OnDestroy {
 
   isLoading: boolean = true;
+  tasks$: Observable<Task[]> = new Observable<Task[]>();
+  tasksSubscription: Subscription = new Subscription();
 
   constructor(
     private titleService: Title,
@@ -25,19 +29,22 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.titleService.setTitle("Join - Summary")
   }
 
-  async ngOnInit() {
+  
+  ngOnInit(): void {
     this.isLoading = true;
-    await this.getAllTasks();
-    this.isLoading = false;
+    this.apiService.getAllTasks();
+    this.tasks$ = this.apiService.tasks$;
+    this.tasksSubscription = this.tasks$.subscribe(tasks => {
+      this.isLoading = false;
+      console.log(tasks)
+    })
   }
 
 
   ngOnDestroy(): void {
+    if (this.tasksSubscription) {
+      this.tasksSubscription.unsubscribe();
+    }
     this.isLoading = true;
-  }
-
-  
-  async getAllTasks() {
-    await this.apiService.getAllTasks();
   }
 }

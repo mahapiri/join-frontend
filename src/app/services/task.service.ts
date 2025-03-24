@@ -6,10 +6,6 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class TaskService {
-
-  private _tasks = new BehaviorSubject<Task[]>([]);
-  tasks$ = this._tasks.asObservable();
-
   tasks: Task[] = [];
 
   tasksToDo: number = 0;
@@ -21,41 +17,15 @@ export class TaskService {
   upComingDeadline: string = '-';
 
   constructor() {
-    const exampleTask1 = new Task(
-      {
-        status: 'inProgress',
-        title: 'TestTitle',
-        description: 'Das ist eine Beschreibung',
-        assignedTo: ['Sabrina Müller', 'Max Mustermann'],
-        dueDate: '2024-12-15',
-        prio: 'urgent',
-        category: 'User Story',
-        subtasks: ['Subtask1', 'Subtask2'],
-        createDate: new Date(),
-      }
-    );
-
-    const exampleTask2 = new Task(
-      {
-        status: 'todo',
-        title: 'TestTitle2',
-        description: 'Das ist eine Beschreibung2',
-        assignedTo: ['Piri Müller', 'Mona Mustermann'],
-        dueDate: '2024-12-10',
-        prio: 'urgent',
-        category: 'User Story',
-        subtasks: ['Subtask1', 'Subtask3'],
-        createDate: new Date(),
-      }
-    )
-    this._tasks.next([exampleTask1, exampleTask2]);
   }
 
 
-  updateValues(tasks: any[]) {
-    this.tasksToDo = tasks.filter(task => task.status === 'todo').length;
-    this.tasksInProgress = tasks.filter(task => task.status === 'inProgress').length;
-    this.awaitingFeedback = tasks.filter(task => task.status === 'awaitFeedback').length;
+  updateValues(tasks: Task[]) {
+    tasks = tasks.map(task => new Task(task));
+
+    this.tasksToDo = tasks.filter(task => task.status === 'to_do').length;
+    this.tasksInProgress = tasks.filter(task => task.status === 'in_progress').length;
+    this.awaitingFeedback = tasks.filter(task => task.status === 'await_feedback').length;
     this.tasksDone = tasks.filter(task => task.status === 'done').length;
     const urgentTasks = tasks.filter(task => task.prio === 'urgent');
     this.urgent = urgentTasks.length;
@@ -67,7 +37,7 @@ export class TaskService {
   getUpcomingDate(tasks: Task[]) {
     if (tasks.length > 0) {
       const upcomingDate = tasks
-        .map(task => new Date(task.dueDate))
+        .map(task => new Date(task.due_date))
         .reduce((earliest, current) => current < earliest ? current : earliest);
 
       this.upComingDeadline = tasks[0].formatDeadline(upcomingDate);

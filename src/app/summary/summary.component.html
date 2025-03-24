@@ -1,14 +1,21 @@
-<div class="summary inside-app">
-    <header>
-        <h3>Join 360</h3>
-        <div class="divider"></div>
-        <h5>Key Metrics at a Glance</h5>
-    </header>
-    <div class="panel-container">
-        <app-panel></app-panel>
-        <div>
-            <h4>Good morning,</h4>
-            <h2>Sofia Müller</h2>
+<div *ngIf="isLoading; else summaryView" class="inside-app inside-app-loading">
+    <div class="loader"></div>
+</div>
+
+
+<ng-template #summaryView>
+    <div class="summary inside-app">
+        <header>
+            <h3>Join 360</h3>
+            <div class="divider"></div>
+            <h5>Key Metrics at a Glance</h5>
+        </header>
+        <div class="panel-container">
+            <app-panel></app-panel>
+            <div>
+                <h4>Good morning,</h4>
+                <h2>Sofia Müller</h2>
+            </div>
         </div>
     </div>
-</div>
+</ng-template>

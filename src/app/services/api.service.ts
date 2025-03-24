@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user.model';
+import { Task } from '../models/task.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ export class ApiService {
 
   apiUrl = "http://127.0.0.1:8000/api"
   private contactsSubject = new BehaviorSubject<User[]>([]);
+  private tasksSubject = new BehaviorSubject<Task[]>([]);
 
 
   constructor() { }
@@ -17,6 +19,31 @@ export class ApiService {
 
   get contacts$(): Observable<User[]> {
     return this.contactsSubject.asObservable();
+  }
+
+
+  get tasks$(): Observable<Task[]> {
+    return this.tasksSubject.asObservable();
+  }
+
+
+  async getAllTasks() {
+    try {
+      const response = await fetch(`${this.apiUrl}/tasks/`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok) {
+        throw new Error('Fehler bei der Anfrage (All Task)');
+      }
+
+      const data = await response.json();
+      this.tasksSubject.next(data)
+
+    } catch (error) {
+      console.log('Fehler beim erstellen der neuen Task', error)
+    }
   }
 
 

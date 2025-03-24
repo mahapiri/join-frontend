@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-panel',
@@ -18,18 +19,22 @@ export class PanelComponent implements OnDestroy {
 
   taskServiceSubscription: Subscription = new Subscription();
 
-  constructor(public taskService: TaskService, private router: Router) {
+  constructor(
+    public taskService: TaskService, 
+    private router: Router
+  ) {
     this.taskServiceSubscription = this.taskService.tasks$.subscribe((tasks) => {
       this.taskService.updateValues(tasks);
     })
   }
 
+
   ngOnDestroy(): void {
       this.taskServiceSubscription.unsubscribe();
   }
 
+  
   navigateToBoard() {
     this.router.navigate(['/', 'board']);
   }
-
 }

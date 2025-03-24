@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { SharedService } from '../../services/shared.service';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-contact-overview',
@@ -17,7 +18,12 @@ export class ContactOverviewComponent {
   currentUser: User | null = null;
   selectedUser: string | null = null;
 
-  constructor(public userService: UserService, private sharedService: SharedService) {
+  constructor(
+    public userService: UserService, 
+    private sharedService: SharedService,
+    private apiService: ApiService,
+    private cdr: ChangeDetectorRef
+  ) {
     this.userService.selectedUser$.subscribe((user) => {
       this.selectedUser = user;
     })
@@ -40,5 +46,16 @@ export class ContactOverviewComponent {
   editContact() {
     this.sharedService.isPopup = true;
     this.sharedService.isEditContact = true;
+  }
+
+  async deleteContact() {
+    if (this.currentUser) {
+      await this.apiService.deleteContact(this.currentUser);
+      this.sharedService.closeAll();
+      this.cdr.detectChanges();
+      requestAnimationFrame(() => {
+        this.userService.deselectUser();
+      })
+    }
   }
 }

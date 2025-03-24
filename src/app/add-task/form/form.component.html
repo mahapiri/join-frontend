@@ -144,7 +144,7 @@ class="form-layout"
                 <input 
                     class="category-field" 
                     type="text" 
-                    (click)="toggleCategory()" 
+                    (click)="toggleCategory($event)" 
                     id="input-category" 
                     name="category" 
                     placeholder="Select a category" 
@@ -154,7 +154,7 @@ class="form-layout"
                 >
                 <img class="input-icon"
                     [src]="openedCategoryList ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
-                    alt="arrow" (click)="toggleCategory()">
+                    alt="arrow" (click)="toggleCategory($event)">
                 <div [style.display]="openedCategoryList ? 'flex' : 'none'" class="backlog-box height-auto">
                     <label 
                         class="contact-container width-100"

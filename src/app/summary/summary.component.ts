@@ -36,7 +36,6 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.tasks$ = this.apiService.tasks$;
     this.tasksSubscription = this.tasks$.subscribe(tasks => {
       this.isLoading = false;
-      console.log(tasks)
     })
   }
 

@@ -58,10 +58,6 @@ export class ApiService {
     }
     const assignments = taskForm.assignments;
     const subtasks = taskForm.subtasks;
-
-    console.log(JSON.stringify(newTask))
-    console.log(assignments)
-    console.log(subtasks)
     try {
       const response = await fetch(`${this.apiUrl}/tasks/`, {
         method: 'POST',
@@ -112,7 +108,6 @@ export class ApiService {
 
 
   async createAssignedTo(id: number, assignments: User[]) {
-    console.log(assignments);
     for (const assignment of assignments) {
       let payload = {
         "contact": assignment.id,

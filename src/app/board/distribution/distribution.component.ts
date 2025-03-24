@@ -51,7 +51,6 @@ export class DistributionComponent {
 
 
   drop(event: CdkDragDrop<string[]>) {
-    console.log('Drop Event:', event);
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {

@@ -236,7 +236,8 @@ export class FormComponent implements OnDestroy {
   }
 
 
-  toggleCategory() {
+  toggleCategory(event: Event) {
+    event.preventDefault();
     this.openedCategoryList = !this.openedCategoryList;
   }
 

@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnDestroy, input } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -109,8 +109,12 @@ export class FormComponent implements OnDestroy {
 
 
   clickoutsideAssignedTo() {
+    let inputValue = document.getElementById('assignedTo') as HTMLInputElement;
     if (this.openedAssignmentsList) {
       this.openedAssignmentsList = false;
+      inputValue.value = '';
+      this.searchAssignment = false;
+      
     }
   }
 

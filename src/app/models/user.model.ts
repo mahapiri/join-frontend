@@ -3,7 +3,7 @@ export class User {
     last_name: string = '';
     name: string = '';
     id: string = '';
-    // initial: string = '';
+    initial: string = '';
     color: string = '';
     email: string = '';
     phone?: string = '';
@@ -29,7 +29,7 @@ export class User {
         this.last_name = nameParts[nameParts.length - 1] || ''; 
         this.name = obj.name;
         this.id = obj.id || this.getRandomId();
-        // this.initial = (this.getInitial(obj.first_name) + this.getInitial(obj.last_name)).toUpperCase();
+        this.initial = (this.getInitial(obj.first_name) + this.getInitial(obj.last_name)).toUpperCase();
         this.color = this.getRandomColor();
         this.email = obj.email;
         this.phone = obj.phone || '';
@@ -42,7 +42,7 @@ export class User {
             last_name: this.last_name,
             name: this.name,
             id: this.id,
-            // initial: this.initial,
+            initial: this.initial,
             color: this.color,
             email: this.email,
             phone: this.phone,

@@ -6,22 +6,28 @@
         <img src="../../../assets/img/person-add/default.svg" alt="Contact">
       </div>
 
-      <ng-container *ngIf="groupedUsers | keyvalue as grouped">
-        <div *ngFor="let group of grouped">
-          <div class="alphabet">
-            <p>{{ group.key }}</p>
-          </div>
-          <div class="divider"></div>
-          <div class="contact-list" *ngFor="let user of group.value">
-            <div [attr.id]="'id' + user.id" class="contact-container"
-              (click)="userService.selectUser(user.id)"
-              [ngClass]="{'select-user': (userService.selectedUser$ | async) === user.id}">
-              <div class="contact-icon" [ngStyle]="{'background-color': 'var(' + user.color + ')'}">
-                {{ user.initial }}
-              </div>
-              <div>
-                <p>{{ user.name }}</p>
-                <a>{{ user.email }}</a>
+      <ng-container *ngIf="groupedUsers && (groupedUsers | keyvalue) as grouped">
+        <div *ngIf="grouped.length > 0; else noContacts">
+          <div *ngFor="let group of grouped">
+            <div class="alphabet">
+              <p>{{ group.key }}</p>
+            </div>
+            <div class="divider"></div>
+            <div class="contact-list" *ngFor="let user of group.value">
+              <div [attr.id]="'id' + user.id" class="contact-container"
+                (click)="userService.selectUser(user.id)"
+                [ngClass]="{'select-user': (userService.selectedUser$ | async) === user.id}">
+                
+                <div class="contact-icon" 
+                  [ngStyle]="{'background-color': user.color.startsWith('--') ? 'var(' + user.color + ')' : user.color || '#ccc'}">
+                  {{ user.initial }}
+                </div>
+                
+                <div>
+                  <p>{{ user.name }}</p>
+                  <a>{{ user.email }}</a>
+                </div>
+                
               </div>
             </div>
           </div>

@@ -188,4 +188,53 @@ export class ApiService {
     const randomIndex = Math.floor(Math.random() * this.colors.length);
     return this.colors[randomIndex];
   }
+
+
+  async editContact(newValue: User, currentContact: User) {
+    try {
+      const editableContact = {
+        "name": newValue.name,
+        "email": newValue.email,
+        "phone": newValue.phone,
+        "color": currentContact.color,
+      }
+      const response = await fetch(`${this.apiUrl}/contacts/${currentContact.id}/`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editableContact)
+      })
+
+      if (!response.ok) {
+        throw new Error('Fehler bei der Anfrage (Create Contact)');
+      }
+      
+      const data = await response.json();
+      await this.getAllContacts();
+
+      return data.id;
+
+    } catch (error) {
+      console.log("Fehler beim erstellen des neuen Kontakts: ", error)
+      return null;
+    }
+  }
+
+
+  async deleteContact(currentContact: User) {
+    try {
+      const response = await fetch(`${this.apiUrl}/contacts/${currentContact.id}/`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      })
+
+      if (!response.ok) {
+        throw new Error('Fehler bei der Anfrage (Delete Contact)');
+      }
+      
+      await this.getAllContacts();
+
+    } catch (error) {
+      console.log("Fehler beim löschen des neuen Kontakts: ", error)
+    }
+  }
 }

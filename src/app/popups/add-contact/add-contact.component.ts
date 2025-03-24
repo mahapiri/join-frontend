@@ -18,9 +18,6 @@ import { ApiService } from '../../services/api.service';
   styleUrl: './add-contact.component.scss'
 })
 export class AddContactComponent {
-  // isValidMail: boolean = true;
-  // isValidName: boolean = true;
-  // isValidPhone: boolean = true;
 
   contactForm: FormGroup;
 

@@ -1,4 +1,4 @@
-<div class="popup-contact" onload="currentUser()" *ngIf="currentUser != null">
+<div class="popup-contact" *ngIf="currentUser != null">
     <div class="left-section">
         <div class="left-content">
             <img src="assets/img/logo/white.svg" alt="Join Logo">
@@ -10,30 +10,45 @@
     </div>
     <div class="right-section">
         <div class="right-content">
-            <form (submit)="save()">
+            <form [formGroup]="contactForm" (submit)="onSubmit()">
                 <div class="input-contact-field">
                     <div class="contact-icon" [ngStyle]="{'background-color': 'var(' + currentUser.color + ')'}">
                         <h4>{{ currentUser.initial}}</h4>
                     </div>
                     <div class="inputfield-container">
                         <div class="inputfield">
-                            <input id="name" type="text" placeholder="Name" value="{{ currentUser.name}}">
-                            <img class="input-icon" src="assets/img/contact-form/person.svg" alt="Name">
+                            <div>
+                                <input formControlName="name" type="text" placeholder="Name" value="{{ currentUser.name}}">
+                                <img class="input-icon" src="assets/img/contact-form/person.svg" alt="Name">
+                            </div>
+                            <p class="errormsg" *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
+                                Check your name. Please try again.
+                            </p>
                         </div>
                         <div class="inputfield">
-                            <input id="mail" type="text" placeholder="Mail" value="{{ currentUser.email}}">
-                            <img class="input-icon" src="assets/img/contact-form/mail.svg" alt="Mail">
+                            <div>
+                                <input formControlName="email" type="text" placeholder="Mail" value="{{ currentUser.email}}">
+                                <img class="input-icon" src="assets/img/contact-form/mail.svg" alt="Mail">
+                            </div>
+                            <p class="errormsg" *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+                                Check your email. Please try again.
+                            </p>
                         </div>
                         <div class="inputfield">
-                            <input id="phone" type="text" placeholder="Phone" value="{{ currentUser.phone}}">
-                            <img class="input-icon" src="assets/img/contact-form/call.svg" alt="Phone">
+                            <div>
+                                <input formControlName="phone" type="text" placeholder="Phone" value="{{ currentUser.phone}}">
+                                <img class="input-icon" src="assets/img/contact-form/call.svg" alt="Phone">
+                            </div>
+                            <p class="errormsg" *ngIf="contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched">
+                                Check your phone. Please try again.
+                            </p>
                         </div>
                     </div>
                 </div>
                 <div class="btn-content">
                     <div class="empty-div"></div>
                     <div class="btn-div">
-                        <button class="delete-btn" type="button" (click)="delete()">
+                        <button class="delete-btn" type="button" (click)="deleteContact()">
                             <p>Delete</p>
                         </button>
                         <button class="save-btn" type="submit">

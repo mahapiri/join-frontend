@@ -45,19 +45,19 @@ export class UserService {
   }
 
 
-  deleteContact(id: string | null) {
-    const users = this._users.getValue();
-    let i = 0;
-    users.forEach(user => {
-      i++;
-      if (user.id === id) {
-        users.splice(i - 1, 1);
-        this._users.next(users);
-        this.saveSelectedUser('0');
-        this.resetCurrentUser();
-      }
-    })
-  }
+  // deleteContact(id: string | null) {
+  //   const users = this._users.getValue();
+  //   let i = 0;
+  //   users.forEach(user => {
+  //     i++;
+  //     if (user.id === id) {
+  //       users.splice(i - 1, 1);
+  //       this._users.next(users);
+  //       this.saveSelectedUser('0');
+  //       this.resetCurrentUser();
+  //     }
+  //   })
+  // }
 
 
   selectUser(id: string) {
@@ -75,6 +75,13 @@ export class UserService {
 
   deselectUser() {
     this._selectedUser.next(null);
+    this.saveSelectedUser('0');
+    this.resetCurrentUser();
+  }
+
+
+  resetCurrentUser() {
+    this._currentUser.next(null);
   }
 
 
@@ -88,33 +95,29 @@ export class UserService {
     })
   }
 
-  resetCurrentUser() {
-    this._currentUser.next(null);
-  }
 
+  // saveUser(id: string, firstName: string, lastName: string, mail: string, phone: string): void {
+  //   const users = this._users.getValue();
+  //   const userIndex = users.findIndex((user) => user.id === id);
 
-  saveUser(id: string, firstName: string, lastName: string, mail: string, phone: string): void {
-    const users = this._users.getValue();
-    const userIndex = users.findIndex((user) => user.id === id);
-
-    if (userIndex !== -1) {
-      const updatedUser = new User({
-        id: users[userIndex].id,
-        firstName: firstName,
-        lastName: lastName,
-        email: mail,
-        phone: phone,
-        color: users[userIndex].color,
-      });
-      users[userIndex] = updatedUser;
-      this._currentUser.next(users[userIndex]);
-      this.selectUser(id);
-    }
-    users.sort(this.sortUsersByName);
-    this._users.next([...users]);
+  //   if (userIndex !== -1) {
+  //     const updatedUser = new User({
+  //       id: users[userIndex].id,
+  //       firstName: firstName,
+  //       lastName: lastName,
+  //       email: mail,
+  //       phone: phone,
+  //       color: users[userIndex].color,
+  //     });
+  //     users[userIndex] = updatedUser;
+  //     this._currentUser.next(users[userIndex]);
+  //     this.selectUser(id);
+  //   }
+  //   users.sort(this.sortUsersByName);
+  //   this._users.next([...users]);
 
     
-  }
+  // }
 
 
   newUser(firstName: string, lastName: string, mail: string, phone: string) {

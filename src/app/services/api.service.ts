@@ -33,17 +33,97 @@ export class ApiService {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
+  
+      if (!response.ok) {
+        throw new Error('Fehler bei der Anfrage (All Task)');
+      }
+  
+      const datas = await response.json();
+  
+      if (datas) {
+        const tasksWithAssignments = await this.fillupWithAssignments(datas);
+        const tasksWithSubtasks = await this.fillupWithSubtasks(tasksWithAssignments);
+
+        this.tasksSubject.next(tasksWithSubtasks);
+      }
+  
+    } catch (error) {
+      console.log('Fehler beim Abrufen der Tasks', error);
+      this.tasksSubject.next([]);
+    }
+  }
+
+
+  async fillupWithAssignments(datas: any) {
+    const tasksWithAssignments = [];
+    for (const data of datas) {
+      const contacts = await this.getAssignedContacts(data.id);
+      if (contacts.length > 0) {
+        const assignments = [];
+        for (const contact of contacts) {
+          const assignment = await this.getContact(contact.contact);
+          if (assignment) {
+            assignments.push(assignment);
+          }
+        }
+        data.assignedTo = assignments;
+      }
+      tasksWithAssignments.push(data);
+    }
+
+    return tasksWithAssignments;
+  }
+
+
+  async fillupWithSubtasks(datas: any) {
+    const tasksWithSubtasks = [];
+    for (const data of datas) {
+      const subtasks = await this.getSubtasks(data.id);
+      if (subtasks.length > 0) {
+        data.subtasks = subtasks;
+      }
+      tasksWithSubtasks.push(data);
+    }
+    return tasksWithSubtasks;
+  }
+
+
+  async getAssignedContacts(id: number) {
+    try {
+      const response = await fetch(`${this.apiUrl}/tasks/${id}/assignedto/`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
 
       if (!response.ok) {
         throw new Error('Fehler bei der Anfrage (All Task)');
       }
-
       const data = await response.json();
-      this.tasksSubject.next(data)
+      return data;
 
     } catch (error) {
       console.log('Fehler beim erstellen der neuen Task', error)
-      this.tasksSubject.next([]);
+      return [];
+    }
+  }
+
+
+  async getSubtasks(id: number) {
+    try {
+      const response = await fetch(`${this.apiUrl}/tasks/${id}/subtasks/`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok) {
+        throw new Error('Fehler bei der Anfrage (All Task)');
+      }
+      const data = await response.json();
+      return data;
+
+    } catch (error) {
+      console.log('Fehler beim erstellen der neuen Task', error)
+      return [];
     }
   }
 
@@ -162,6 +242,26 @@ export class ApiService {
   }
 
 
+  async getContact(id: number) {
+    try {
+      const response = await fetch(`${this.apiUrl}/contacts/${id}/`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok) {
+        throw new Error('Fehler bei der Anfrage (Contacts)');
+      }
+
+      const data = await response.json(); 
+      return data;
+    } catch (error) {
+      console.log("Fehler beim Aufruf aller Kontakte", error);
+      return null;
+    }
+  }
+
+
   async createContact(contact: User) {
     try {
       const newContact = {
@@ -191,6 +291,7 @@ export class ApiService {
     }
   }
 
+
   readonly colors: string[] = [
     '--orange',
     '--pink',
@@ -207,6 +308,7 @@ export class ApiService {
     '--orange-lighten',
   ]
 
+  
   getRandomColor(): string {
     const randomIndex = Math.floor(Math.random() * this.colors.length);
     return this.colors[randomIndex];

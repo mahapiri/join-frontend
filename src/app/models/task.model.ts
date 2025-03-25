@@ -1,6 +1,7 @@
 import { User } from "./user.model";
 
 export class Task {
+    id: number;
     status?: string = '';
     title: string = '';
     description?: string = '';
@@ -8,10 +9,11 @@ export class Task {
     due_date: Date;
     prio?: string = '';
     category: string = '';
-    subtasks?: string[] = [];
+    subtasks?: Subtask[] = [];
     createDate: Date;
 
     constructor(obj: any) {
+        this.id = obj.id;
         this.status = obj.status || 'to_do';
         this.title = obj.title;
         this.description = obj.description || '';
@@ -25,6 +27,7 @@ export class Task {
 
     getJson() {
         return {
+            id: this.id,
             status: this.status,
             title: this.title,
             description: this.description,
@@ -59,5 +62,33 @@ export class Task {
 
     padZero(value: number): string {
         return value < 10 ? '0' + value : value.toString();
+    }
+}
+
+export class Subtask {
+    id: number;
+    task: number;
+    task_title: string;
+    title: string;
+    done: boolean;
+
+    
+    constructor(obj: any) {
+        this.id = obj.id;
+        this.task = obj.task;
+        this.task_title = obj.task_title;
+        this.title = obj.title;
+        this.done = obj.done;
+    }
+
+
+    getJson() {
+        return {
+            id: this.id,
+            task: this.task,
+            task_title: this.task_title,
+            title: this.title,
+            done: this.done,
+        }
     }
 }

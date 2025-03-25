@@ -1,254 +1,181 @@
-<form 
-[formGroup]="taskForm" 
-class="form-layout" 
-(keydown.enter)="$event.preventDefault()"
-(ngSubmit)="onSubmit()"
->
-<div class="form-container">
-    <div class="field-container">
-        <label class="field-layout">
-            <p>Title<span>*</span></p>
-            <input 
-                type="text" 
-                placeholder="Enter a title" 
-                formControlName="title"
-            >
-            <div 
-                class="errormsg" 
-                *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched"
-            >This field is required</div>
-        </label>
-        <label class="field-layout">
-            <p>Description</p>
-            <textarea 
-                type="text" 
-                placeholder="Enter a Description" 
-                formControlName="description"
-            ></textarea>
-        </label>
-        <label class="field-layout">
-            <p>Assigned To</p>
-            <div appClickOutside (clickOutside)="clickoutsideAssignedTo()">
-                <div class="select-container">
-                    <input 
-                        class="assigned-to-field" 
-                        id="assignedTo" 
-                        placeholder="Select contacts to assign"
-                        type="text" 
-                        (click)="openAssignedToList()"
-                        (input)="searchAssignments()"
-                        autocomplete="off"
-                    >
-                    <img class="input-icon"
-                        [src]="openedAssignmentsList ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
-                        alt="arrow" 
-                        (click)="toggleAssignedTo($event)"
-                    >
-                    <div [style.display]="openedAssignmentsList ? 'flex' : 'none'" class="backlog-box">
-                        <label class="contact-container" #contactContainer
-                            (mouseover)="onCheckboxChange(checkbox, contactContainer, true)"
-                            (mouseout)="onCheckboxChange(checkbox, contactContainer, false)"
-                            [ngClass]="{'selected': isUserAssigned(contact)}"
-                            *ngFor="let contact of (searchAssignment ? filteredContacts : contacts)" (change)="selectUser(contact, checkbox)">
-                            <div class="contact-name">
-                                <div class="contact-icon"
-                                    [ngStyle]="{'background-color': 'var(' + contact.color + ')'}">{{ contact.initial }}
-                                </div>
-                                <p>{{ contact.name }}</p>
+<form [formGroup]="taskForm" class="form-layout" (keydown.enter)="$event.preventDefault()" (ngSubmit)="onSubmit()">
+    <div class="form-container">
+        <div class="field-container">
+            <label class="field-layout">
+                <p>Title<span>*</span></p>
+                <input type="text" placeholder="Enter a title" formControlName="title">
+                <div class="errormsg" *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">This
+                    field is required</div>
+            </label>
+            <label class="field-layout">
+                <p>Description</p>
+                <textarea type="text" placeholder="Enter a Description" formControlName="description"></textarea>
+            </label>
+            <label class="field-layout">
+                <p>Assigned To</p>
+                <div appClickOutside (clickOutside)="clickoutsideAssignedTo()">
+                    <div class="select-container">
+                        <input class="assigned-to-field" id="assignedTo" placeholder="Select contacts to assign"
+                            type="text" (click)="openAssignedToList()" (input)="searchAssignments()" autocomplete="off">
+                        <img class="input-icon"
+                            [src]="openedAssignmentsList ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
+                            alt="arrow" (click)="toggleAssignedTo($event)">
+                        <div [style.display]="openedAssignmentsList ? 'flex' : 'none'" class="backlog-box">
+                            
+                            <div *ngIf="isLoading; else contactView" class="contactViewLoader">
+                                <div class="loader"></div>
                             </div>
-                            <div class="checkbox-container">
-                                <input type="checkbox" #checkbox
-                                    [checked]="isUserAssigned(contact)"
-                                    (change)="onCheckboxChange(checkbox, contactContainer, true)">
-                                <span class="checkmark checkmark-font"></span>
+
+                            <ng-template #contactView>
+                                <label class="contact-container" #contactContainer
+                                    (mouseover)="onCheckboxChange(checkbox, contactContainer, true)"
+                                    (mouseout)="onCheckboxChange(checkbox, contactContainer, false)"
+                                    [ngClass]="{'selected': isUserAssigned(contact)}"
+                                    *ngFor="let contact of (searchAssignment ? filteredContacts : contacts)"
+                                    (change)="selectUser(contact, checkbox)">
+                                    <div class="contact-name">
+                                        <div class="contact-icon"
+                                            [ngStyle]="{'background-color': 'var(' + contact.color + ')'}">{{
+                                            contact.initial }}
+                                        </div>
+                                        <p>{{ contact.name }}</p>
+                                    </div>
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" #checkbox [checked]="isUserAssigned(contact)"
+                                            (change)="onCheckboxChange(checkbox, contactContainer, true)">
+                                        <span class="checkmark checkmark-font"></span>
+                                    </div>
+                                </label>
+                                <p class="not-found"
+                                    *ngIf="(searchAssignment ? filteredContacts : contacts).length === 0">No result was
+                                    found.</p>
+                            </ng-template>
+                        </div>
+                    </div>
+                    <div class="assigned-container">
+                        <div class="contact-icon icon-border"
+                            *ngFor="let assignedUser of taskForm.get('assignments')?.value"
+                            [ngStyle]="{'background-color': 'var(' + assignedUser.color + ')'}">{{ assignedUser.initial
+                            }}
+                        </div>
+                    </div>
+                </div>
+            </label>
+        </div>
+        <div class="divider"></div>
+        <div class="field-container">
+            <label class="field-layout">
+                <p>Due date<span>*</span></p>
+                <div class="datepicker-box">
+                    <span class="datepicker-btn"></span>
+                    <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" formControlName="date"
+                        class="datepicker-input" placeholder="DD/MM/YYYY" readonly>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </div>
+                <div class="errormsg" *ngIf="taskForm.get('date')?.invalid && taskForm.get('date')?.touched">This field
+                    is required</div>
+            </label>
+            <label class="field-layout">
+                <p>Prio</p>
+                <div class="prio-container">
+                    <input type="radio" id="urgent" name="prio" value="urgent" class="prio-radio"
+                        formControlName="prio">
+                    <label for="urgent" class="prio-content">
+                        <p>Urgent</p>
+                        <img src="assets/img/prio/urgent-default.svg" alt="Urgent">
+                    </label>
+                    <input type="radio" id="medium" name="prio" value="medium" class="prio-radio"
+                        formControlName="prio">
+                    <label for="medium" class="prio-content">
+                        <p>Medium</p>
+                        <img src="assets/img/prio/medium-default.svg" alt="Medium">
+                    </label>
+                    <input type="radio" id="low" name="prio" value="low" class="prio-radio" formControlName="prio">
+                    <label for="low" class="prio-content">
+                        <p>Low</p>
+                        <img src="assets/img/prio/low-default.svg" alt="Low">
+                    </label>
+                </div>
+            </label>
+            <label class="field-layout">
+                <p>Category<span>*</span></p>
+                <div class="select-container" appClickOutside (clickOutside)="clickOutsideCategory()">
+                    <input class="category-field" type="text" (click)="toggleCategory($event)" id="input-category"
+                        name="category" placeholder="Select a category" formControlName="category" readonly required>
+                    <img class="input-icon"
+                        [src]="openedCategoryList ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
+                        alt="arrow" (click)="toggleCategory($event)">
+                    <div [style.display]="openedCategoryList ? 'flex' : 'none'" class="backlog-box height-auto">
+                        <label class="contact-container width-100" id="technical_task"
+                            (click)="selectCategory('Technical Task')">
+                            <div class="contact-name">
+                                <p>Technical Task</p>
                             </div>
                         </label>
-                        <p class="not-found" *ngIf="(searchAssignment ? filteredContacts : contacts).length === 0">No result was found.</p>
+                        <label class="contact-container width-100" id="user_story"
+                            (click)="selectCategory('User Story')">
+                            <div class="contact-name">
+                                <p>User Story</p>
+                            </div>
+                        </label>
                     </div>
                 </div>
-                <div class="assigned-container">
-                    <div 
-                        class="contact-icon icon-border"
-                         *ngFor="let assignedUser of taskForm.get('assignments')?.value"
-                        [ngStyle]="{'background-color': 'var(' + assignedUser.color + ')'}">{{ assignedUser.initial }}
+                <div class="errormsg" *ngIf="taskForm.get('category')?.invalid && taskForm.get('category')?.touched">
+                    This field is required</div>
+            </label>
+            <div class="field-layout field-layout-category">
+                <p>Subtasks</p>
+                <div class="select-container">
+                    <input #subtaskInput id="subtaskInput" (input)="writingSubtask($event)"
+                        (keydown.enter)="saveSubtask(subtaskInput)" type="text" [ngStyle]="{'padding-right': '80px'}"
+                        [placeholder]="subtaskInput.value.trim().length === 0 ? 'Add new subtask' : ''">
+                    <div *ngIf="isWritingSubtask" class="input-icon-container">
+                        <img src="assets/img/cancel/default.svg" alt="Cancel" (click)="deleteSubtask(subtaskInput)">
+                        <div class="input-divider"></div>
+                        <img src="assets/img/check/default-subtask.svg" alt="Check" (click)="saveSubtask(subtaskInput)">
                     </div>
+                    <img *ngIf="!isWritingSubtask" class="input-icon" src="assets/img/add/default-subtask.svg"
+                        alt="Add">
                 </div>
-            </div>
-        </label>
-    </div>
-    <div class="divider"></div>
-    <div class="field-container">
-        <label class="field-layout">
-            <p>Due date<span>*</span></p>
-            <div class="datepicker-box">
-                <span class="datepicker-btn"></span>
-                <input 
-                    matInput 
-                    [min]="minDate" 
-                    [max]="maxDate" 
-                    [matDatepicker]="picker" 
-                    formControlName="date"
-                    class="datepicker-input" 
-                    placeholder="DD/MM/YYYY" 
-                    readonly
-                >
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </div>
-            <div class="errormsg" *ngIf="taskForm.get('date')?.invalid && taskForm.get('date')?.touched">This field is required</div>
-        </label>
-        <label class="field-layout">
-            <p>Prio</p>
-            <div class="prio-container">
-                <input 
-                    type="radio" 
-                    id="urgent" 
-                    name="prio" 
-                    value="urgent" 
-                    class="prio-radio"
-                    formControlName="prio"
-                >
-                <label for="urgent" class="prio-content">
-                    <p>Urgent</p>
-                    <img src="assets/img/prio/urgent-default.svg" alt="Urgent">
-                </label>
-                <input 
-                    type="radio" 
-                    id="medium" 
-                    name="prio" 
-                    value="medium" 
-                    class="prio-radio"
-                    formControlName="prio"
-                >
-                <label for="medium" class="prio-content">
-                    <p>Medium</p>
-                    <img src="assets/img/prio/medium-default.svg" alt="Medium">
-                </label>
-                <input 
-                    type="radio" 
-                    id="low" 
-                    name="prio" 
-                    value="low" 
-                    class="prio-radio"
-                    formControlName="prio" 
-                >
-                <label for="low" class="prio-content">
-                    <p>Low</p>
-                    <img src="assets/img/prio/low-default.svg" alt="Low">
-                </label>
-            </div>
-        </label>
-        <label class="field-layout">
-            <p>Category<span>*</span></p>
-            <div class="select-container" appClickOutside (clickOutside)="clickOutsideCategory()">
-                <input 
-                    class="category-field" 
-                    type="text" 
-                    (click)="toggleCategory($event)" 
-                    id="input-category" 
-                    name="category" 
-                    placeholder="Select a category" 
-                    formControlName="category"
-                    readonly
-                    required
-                >
-                <img class="input-icon"
-                    [src]="openedCategoryList ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
-                    alt="arrow" (click)="toggleCategory($event)">
-                <div [style.display]="openedCategoryList ? 'flex' : 'none'" class="backlog-box height-auto">
-                    <label 
-                        class="contact-container width-100"
-                        id="technical_task"
-                        (click)="selectCategory('Technical Task')"
-                    >
-                        <div class="contact-name">
-                            <p>Technical Task</p>
+                <ul class="subtask-list">
+                    <ng-container *ngFor="let subtask of this.taskForm.get('subtasks')?.value; let i = index">
+                        <li (mouseover)="setSubtaskEdit('subtaskitem' + i)"
+                            (mouseleave)="setSubtaskNotEdit('subtaskitem' + i)" *ngIf="isEditingSubtaskIndex != i">
+                            <a>{{ subtask }}</a>
+                            <div [id]="'subtaskitem' + i" class="input-icon-container">
+                                <img src="assets/img/edit/hover.svg" alt="Edit" (click)="editSubtask(i)">
+                                <div class="input-divider"></div>
+                                <img src="assets/img/delete/default.svg" alt="Delete" (click)="deleteSavedSubtask(i)">
+                            </div>
+                        </li>
+                        <div class="subtask-edit-container" *ngIf="isEditingSubtaskIndex === i">
+                            <input [id]="'subtaskEdit' + i" type="text" value="{{ subtask }}" class="input-subtask">
+                            <div class="input-icon-container">
+                                <img src="assets/img/delete/default.svg" alt="Delete" (click)="deleteSavedSubtask(i)">
+                                <div class="input-divider"></div>
+                                <img src="assets/img/check/default-subtask.svg" alt="Check"
+                                    (click)="replaceSaveSubtask(i)">
+                            </div>
                         </div>
-                    </label>
-                    <label 
-                        class="contact-container width-100"
-                        id="user_story"
-                        (click)="selectCategory('User Story')"
-                    >
-                        <div class="contact-name">
-                            <p>User Story</p>
-                        </div>
-                    </label>
-                </div>
+                    </ng-container>
+                </ul>
             </div>
-            <div class="errormsg" *ngIf="taskForm.get('category')?.invalid && taskForm.get('category')?.touched">This field is required</div>
-        </label>
-        <div class="field-layout field-layout-category">
-            <p>Subtasks</p>
-            <div class="select-container">
-                <input 
-                    #subtaskInput 
-                    id="subtaskInput" 
-                    (input)="writingSubtask($event)"
-                    (keydown.enter)="saveSubtask(subtaskInput)" 
-                    type="text" 
-                    [ngStyle]="{'padding-right': '80px'}"
-                    [placeholder]="subtaskInput.value.trim().length === 0 ? 'Add new subtask' : ''"
-                >
-                <div *ngIf="isWritingSubtask" class="input-icon-container">
-                    <img 
-                        src="assets/img/cancel/default.svg" 
-                        alt="Cancel" (click)="deleteSubtask(subtaskInput)"
-                    >
-                    <div class="input-divider"></div>
-                    <img 
-                        src="assets/img/check/default-subtask.svg" 
-                        alt="Check" 
-                        (click)="saveSubtask(subtaskInput)"
-                    >
-                </div>
-                <img 
-                    *ngIf="!isWritingSubtask" 
-                    class="input-icon" 
-                    src="assets/img/add/default-subtask.svg" 
-                    alt="Add"
-                >
-            </div>
-            <ul class="subtask-list">
-                <ng-container *ngFor="let subtask of this.taskForm.get('subtasks')?.value; let i = index">
-                    <li (mouseover)="setSubtaskEdit('subtaskitem' + i)"
-                        (mouseleave)="setSubtaskNotEdit('subtaskitem' + i)" 
-                        *ngIf="isEditingSubtaskIndex != i"
-                    >
-                        <a>{{ subtask }}</a>
-                        <div [id]="'subtaskitem' + i" class="input-icon-container">
-                            <img src="assets/img/edit/hover.svg" alt="Edit" (click)="editSubtask(i)">
-                            <div class="input-divider"></div>
-                            <img src="assets/img/delete/default.svg" alt="Delete" (click)="deleteSavedSubtask(i)">
-                        </div>
-                    </li>
-                    <div class="subtask-edit-container" *ngIf="isEditingSubtaskIndex === i">
-                        <input [id]="'subtaskEdit' + i" type="text" value="{{ subtask }}" class="input-subtask">
-                        <div class="input-icon-container">
-                            <img src="assets/img/delete/default.svg" alt="Delete" (click)="deleteSavedSubtask(i)">
-                            <div class="input-divider"></div>
-                            <img src="assets/img/check/default-subtask.svg" alt="Check"
-                                (click)="replaceSaveSubtask(i)">
-                        </div>
-                    </div>
-                </ng-container>
-            </ul>
         </div>
     </div>
-</div>
-<div class="submit-container">
-    <div class="required-text">
-        <p><span>*</span>This field is required</p>
+    <div class="submit-container">
+        <div class="required-text">
+            <p><span>*</span>This field is required</p>
+        </div>
+        <div class="btn-content">
+            <button class="clear-btn" type="button" (click)="resetForm()">
+                <p>Clear</p>
+                <img class="clear-img" src="assets/img/clear/default.svg" alt="Clear">
+            </button>
+            <button class="submit-btn" type="submit" [disabled]="taskForm.invalid">
+                <p class="p-bold">Create Task</p>
+                <img src="assets/img/check/default-create-task.svg" alt="Create">
+            </button>
+        </div>
     </div>
-    <div class="btn-content">
-        <button class="clear-btn" type="button" (click)="resetForm()">
-            <p>Clear</p>
-            <img class="clear-img" src="assets/img/clear/default.svg" alt="Clear">
-        </button>
-        <button class="submit-btn" type="submit" [disabled]="taskForm.invalid">
-            <p class="p-bold">Create Task</p>
-            <img src="assets/img/check/default-create-task.svg" alt="Create">
-        </button>
-    </div>
-</div>
 </form>

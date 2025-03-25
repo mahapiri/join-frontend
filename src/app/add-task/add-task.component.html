@@ -1,10 +1,4 @@
-<div *ngIf="isLoading; else addTaskForm" class="inside-app inside-app-loading">
-    <div class="loader"></div>
+<div class="inside-app">
+    <h3>Add Task</h3>
+    <app-form></app-form>
 </div>
-
-<ng-template #addTaskForm>
-    <div class="inside-app">
-        <h3>Add Task</h3>
-        <app-form></app-form>
-    </div>
-</ng-template>

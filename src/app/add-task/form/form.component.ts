@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { NativeDateAdapter } from '@angular/material/core';
-import { Subscription } from 'rxjs';
+import { delay, filter, Subscription, tap } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { ClickOutsideDirective } from '../../click-outside.directive';
@@ -67,6 +67,7 @@ export class FormComponent implements OnDestroy {
   isEditingSubtaskIndex: number | null = null;
   isHoverContact: boolean = false;
   isWritingSubtask: boolean = false;
+  isLoading: boolean = true;
 
 
   constructor(
@@ -87,13 +88,22 @@ export class FormComponent implements OnDestroy {
       subtasks: this.fb.array([])
     })
 
-    this.allSubscription.add(this.userService.users$.subscribe((contacts) => {
+    this.isLoading = true;
+    this.allSubscription.add(
+      this.userService.users$
+      .pipe(
+        delay(500),
+        filter(contacts => contacts && contacts.length > 0),
+        tap(() => this.isLoading = false)
+      )
+      .subscribe((contacts) => {
       this.contacts = [];
       this.filteredContacts = [];
       contacts.forEach(contact => {
         this.contacts.push(contact);
         this.filteredContacts.push(contact);
       });
+      this.cdr.detectChanges();
     }))
   }
 

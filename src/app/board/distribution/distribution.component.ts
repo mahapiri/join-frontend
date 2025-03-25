@@ -55,8 +55,7 @@ export class DistributionComponent {
     this.apiService.getAllTasks();
     this.apiService.tasks$
     .pipe(
-      delay(0),
-      filter(tasks => tasks && tasks.length > 0),
+      delay(500),
       tap(() => this.isLoading = false)
     )
     .subscribe((tasks) => {

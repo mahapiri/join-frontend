@@ -20,7 +20,7 @@
             <div class="assigned-prio-container">
                 <div class="assigned-content">
                     <ng-container *ngFor="let assignment of task.assignedTo; let i = index">
-                        <div class="contact-icon">
+                        <div class="contact-icon" [ngStyle]="{ 'background-color': 'var(' + assignment.color + ')'}">
                             <p>
                                 {{ assignment.initial }}
                             </p>

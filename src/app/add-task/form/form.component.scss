@@ -121,6 +121,15 @@ textarea {
     }
 }
 
+.contactViewLoader {
+    width: 100%;
+    height: 100%;
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .backlog-box {
     display: flex;
     flex-direction: column;

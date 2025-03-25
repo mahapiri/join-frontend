@@ -32,22 +32,13 @@ export class AddTaskComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.isLoading = true;
 
     this.apiService.getAllContacts();
     this.contacts$ = this.apiService.contacts$;
-
-    this.contactSubscription = this.contacts$.pipe(
-      delay(0),
-      filter(contacts => contacts && contacts.length > 0),
-      tap(() => this.isLoading = false)
-    ).subscribe(contacts => { });
   }
 
   ngOnDestroy(): void {
-    if (this.contactSubscription) {
-      this.contactSubscription.unsubscribe();
-    }
+    this.contactSubscription.unsubscribe();
     this.isLoading = true;
   }
 }

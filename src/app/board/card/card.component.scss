@@ -108,16 +108,18 @@
     height: 32px;
     border-radius: 100%;
     background-color: var(--orange);
-    font-family: Inter;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 14.4px;
-    text-align: center;
-    color: var(--white);
     display: flex;
     justify-content: center;
     align-items: center;
     border: 1px solid var(--white);
+
+    p {
+        font-family: Inter;
+        font-size: 12px;
+        font-weight: 400;
+        text-align: center;
+        color: var(--white);
+    }
 
     &:not(:first-child) {
         margin-left: -10px;

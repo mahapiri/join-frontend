@@ -1,11 +1,17 @@
 @import "../../../styles.scss";
 
+.inside-app-loading {
+    padding-left: 64px;
+    padding-top: 64px;
+}
+
 .layout-container {
     height: inherit;
     width: 100%;
     display: flex;
     justify-content: space-between;
     gap: 26px;
+    @include transition-100;
 }
 
 .p-bold {

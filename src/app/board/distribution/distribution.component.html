@@ -1,37 +1,43 @@
-<div class="layout-container" cdkDropListGroup>
-    <div class="column" *ngFor="let status of taskStatuses" cdkDropList [cdkDropListData]="status.tasks"
-        [id]="status.id" [cdkDropListConnectedTo]="connectedToIds" (cdkDropListDropped)="drop($event)"
-        (cdkDropListEntered)="dragEntered(status)" (cdkDropListExited)="dragExited(status)">
+<div *ngIf="isLoading; else boardView" class="inside-app inside-app-loading">
+    <div class="loader"></div>
+</div>
 
-        <div class="header">
-            <p class="p-bold">{{ status.label }}</p>
-            <ng-container *ngIf="status.label !== 'Done'">
-                <img *ngIf="!status.isAdding" (mouseover)="onMouseOver(status)" (mouseout)="onMouseLeave(status)"
-                    (click)="openAddTask(status)"
-                    [src]="status.isHovered ? 'assets/img/plus/hover.svg' : 'assets/img/plus/default.svg'"
-                    alt="Add Task">
-                <img *ngIf="status.isAdding" (click)="openAddTask(status)" src="assets/img/plus/active.svg"
-                    alt="Add Task">
-            </ng-container>
-        </div>
-        <div class="task-container">
-            <ng-container *ngIf="!isSearching">
-                <div class="no-task-content" *ngIf="!status.tasks.length && !status.isDraggingOver">
-                    <a>No tasks To do</a>
-                </div>
-            </ng-container>
+<ng-template #boardView>
+    <div class="layout-container" cdkDropListGroup>
+        <div class="column" *ngFor="let status of taskStatuses" cdkDropList [cdkDropListData]="status.tasks"
+            [id]="status.id" [cdkDropListConnectedTo]="connectedToIds" (cdkDropListDropped)="drop($event)"
+            (cdkDropListEntered)="dragEntered(status)" (cdkDropListExited)="dragExited(status)">
 
-            <div class="task-content" *ngFor="let task of getFilteredTasks(status.tasks)" cdkDrag
-                (cdkDragStarted)="setDragSize($event)" [cdkDragDisabled]="!draggable">
-                <div class="list-container">
-                    <div class="list-content">
-                        <app-card [task]="task"></app-card>
+            <div class="header">
+                <p class="p-bold">{{ status.label }}</p>
+                <ng-container *ngIf="status.label !== 'Done'">
+                    <img *ngIf="!status.isAdding" (mouseover)="onMouseOver(status)" (mouseout)="onMouseLeave(status)"
+                        (click)="openAddTask(status)"
+                        [src]="status.isHovered ? 'assets/img/plus/hover.svg' : 'assets/img/plus/default.svg'"
+                        alt="Add Task">
+                    <img *ngIf="status.isAdding" (click)="openAddTask(status)" src="assets/img/plus/active.svg"
+                        alt="Add Task">
+                </ng-container>
+            </div>
+            <div class="task-container">
+                <ng-container *ngIf="!isSearching">
+                    <div class="no-task-content" *ngIf="!status.tasks.length && !status.isDraggingOver">
+                        <a>No tasks To do</a>
                     </div>
+                </ng-container>
+
+                <div class="task-content" *ngFor="let task of getFilteredTasks(status.tasks)" cdkDrag
+                    (cdkDragStarted)="setDragSize($event)" [cdkDragDisabled]="!draggable">
+                    <div class="list-container">
+                        <div class="list-content">
+                            <app-card [task]="task"></app-card>
+                        </div>
+                    </div>
+                    <ng-template cdkDragPlaceholder>
+                        <div class="dragbox" [ngStyle]="{'height': dragSizeHeight + 'px'}"></div>
+                    </ng-template>
                 </div>
-                <ng-template cdkDragPlaceholder>
-                    <div class="dragbox" [ngStyle]="{'height': dragSizeHeight + 'px'}"></div>
-                </ng-template>
             </div>
         </div>
     </div>
-</div>
+</ng-template>

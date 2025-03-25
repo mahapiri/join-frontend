@@ -21,7 +21,9 @@
                 <div class="assigned-content">
                     <ng-container *ngFor="let assignment of task.assignedTo; let i = index">
                         <div class="contact-icon">
-                            {{ assignment.initial }}
+                            <p>
+                                {{ assignment.initial }}
+                            </p>
                         </div>
                     </ng-container>
                 </div>

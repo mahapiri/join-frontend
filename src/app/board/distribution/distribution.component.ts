@@ -6,6 +6,7 @@ import { CdkDragDrop, CdkDrag, moveItemInArray, transferArrayItem, DragDropModul
 import { ApiService } from '../../services/api.service';
 import { Task } from '../../models/task.model';
 import { SharedService } from '../../services/shared.service';
+import { delay, filter, tap } from 'rxjs';
 
 @Component({
   selector: 'app-distribution',
@@ -26,6 +27,7 @@ export class DistributionComponent {
   @Input() isSearching: boolean = false;
 
   @Output() noTasksFoundEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() isLoadingEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   taskStatuses = [
     { id: 'to_do', label: 'To do', isHovered: false, isAdding: false, isDraggingOver: false, tasks: [] as Task[] },
@@ -37,6 +39,7 @@ export class DistributionComponent {
   isDragging: boolean = false;
   dragSizeHeight: number = 200;
   draggable: boolean = true;
+  isLoading: boolean = true;
 
 
 
@@ -45,9 +48,18 @@ export class DistributionComponent {
     private apiService: ApiService,
     private sharedService: SharedService
   ) {
+    this.isLoading = true;
+
     this.connectedToIds = this.taskStatuses.map(s => s.id);
+
     this.apiService.getAllTasks();
-    this.apiService.tasks$.subscribe((tasks) => {
+    this.apiService.tasks$
+    .pipe(
+      delay(0),
+      filter(tasks => tasks && tasks.length > 0),
+      tap(() => this.isLoading = false)
+    )
+    .subscribe((tasks) => {
       this.taskStatuses.forEach(status => status.tasks = []);
       tasks.forEach(task => {
         const status = this.taskStatuses.find(s => s.id === task.status);
@@ -119,8 +131,6 @@ export class DistributionComponent {
   }
 
   openAddTask(status: any) {
-    console.log(status.id);
-    // this.toggleAddTask(status);
     this.sharedService.isPopup = true;
     this.sharedService.isAddTask = true;
     if(status.id === 'in_progress') {
@@ -130,11 +140,7 @@ export class DistributionComponent {
       this.sharedService.isAddTaskInAwaitFeedback = true;
     }
   }
-
-  // toggleAddTask(status: any) {
-  //   status.isAdding = !status.isAdding;
-  // }
-
+  
 
   dragEntered(status: any) {
     status.isDraggingOver = true;

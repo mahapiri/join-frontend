@@ -3,6 +3,8 @@ import { Title } from '@angular/platform-browser';
 import { DistributionComponent } from "./distribution/distribution.component";
 import { CommonModule } from '@angular/common';
 import { SharedService } from '../services/shared.service';
+import { ApiService } from '../services/api.service';
+import { delay, filter, tap } from 'rxjs';
 
 @Component({
   selector: 'app-board',
@@ -16,10 +18,11 @@ export class BoardComponent {
   searchTerm: string = '';
   isSearching: boolean = false;
   noTaskFound: boolean = false;
+
   constructor(
     private titleService: Title, 
     private cdr: ChangeDetectorRef,
-    private sharedService: SharedService
+    private sharedService: SharedService,
   ) {
     this.titleService.setTitle("Join - Board");
   }

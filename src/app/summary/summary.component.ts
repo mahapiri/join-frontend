@@ -4,7 +4,7 @@ import { PanelComponent } from "./panel/panel.component";
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
 import { Task } from '../models/task.model';
-import { Observable, Subscription } from 'rxjs';
+import { delay, filter, Observable, Subscription, tap } from 'rxjs';
 
 @Component({
   selector: 'app-summary',
@@ -32,12 +32,17 @@ export class SummaryComponent implements OnInit, OnDestroy {
   
   ngOnInit(): void {
     this.isLoading = true;
-    this.apiService.getAllTasks();
+  
+    this.apiService.getAllTasks(); 
     this.tasks$ = this.apiService.tasks$;
-    this.tasksSubscription = this.tasks$.subscribe(tasks => {
-      this.isLoading = false;
-    })
+  
+    this.tasksSubscription = this.tasks$.pipe(
+      delay(0),
+      filter(tasks => tasks && tasks.length > 0),
+      tap(() => this.isLoading = false)
+    ).subscribe();
   }
+  
 
 
   ngOnDestroy(): void {

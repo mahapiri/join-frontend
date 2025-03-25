@@ -10,9 +10,9 @@ import { Task } from '../../models/task.model';
   selector: 'app-distribution',
   standalone: true,
   imports: [
-    CommonModule, 
-    CardComponent, 
-    DragDropModule, 
+    CommonModule,
+    CardComponent,
+    DragDropModule,
     CdkDrag
   ],
   templateUrl: './distribution.component.html',
@@ -28,17 +28,19 @@ export class DistributionComponent {
 
   taskStatuses = [
     { id: 'to_do', label: 'To do', isHovered: false, isAdding: false, isDraggingOver: false, tasks: [] as Task[] },
-    { id: 'in_progress', label: 'In progress', isHovered: false, isAdding: false, isDraggingOver: false, tasks: [] as Task[]  },
-    { id: 'await_feedback', label: 'Await feedback', isHovered: false, isAdding: false, isDraggingOver: false, tasks: [] as Task[]  },
-    { id: 'done', label: 'Done', isHovered: false, isAdding: false, isDraggingOver: false, tasks: [] as Task[]  },
+    { id: 'in_progress', label: 'In progress', isHovered: false, isAdding: false, isDraggingOver: false, tasks: [] as Task[] },
+    { id: 'await_feedback', label: 'Await feedback', isHovered: false, isAdding: false, isDraggingOver: false, tasks: [] as Task[] },
+    { id: 'done', label: 'Done', isHovered: false, isAdding: false, isDraggingOver: false, tasks: [] as Task[] },
   ];
   connectedToIds: string[] = [];
   isDragging: boolean = false;
   dragSizeHeight: number = 200;
+  draggable: boolean = true;
 
-  
+
+
   constructor(
-    private task: TaskService, 
+    private task: TaskService,
     private cdr: ChangeDetectorRef,
     private apiService: ApiService
   ) {
@@ -76,7 +78,7 @@ export class DistributionComponent {
   }
 
 
-  drop(event: CdkDragDrop<Task[]>) {
+  async drop(event: CdkDragDrop<Task[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -86,6 +88,16 @@ export class DistributionComponent {
         event.previousIndex,
         event.currentIndex
       );
+
+      const movedTask = event.container.data[event.currentIndex];
+      movedTask.status = event.container.id;
+      this.draggable = false;
+      this.cdr.detectChanges();
+      await this.apiService.updateTaskwithSubtaskAndAssignements(movedTask, movedTask.status);
+      setTimeout(() => {
+        this.draggable = true;
+        this.cdr.detectChanges();
+      }, 500);
     }
   }
 

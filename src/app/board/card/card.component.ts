@@ -17,9 +17,7 @@ export class CardComponent implements AfterViewInit {
 
   constructor(
     private cdr: ChangeDetectorRef,
-  ) {
-    
-  }
+  ) {}
 
 
   ngAfterViewInit(): void {
@@ -32,7 +30,6 @@ export class CardComponent implements AfterViewInit {
   getDoneSubtasks() {
     this.task.subtasks?.forEach(subtask => {
       this.doneSubtasks = 0;
-      console.log(subtask)
       if (subtask.done == true) {
         this.doneSubtasks++;
       }
@@ -45,7 +42,6 @@ export class CardComponent implements AfterViewInit {
   calculateSubtaskStatus() {
     if(this.task.subtasks) {
       this.subtaskStatus = ((this.doneSubtasks * 100)/this.task.subtasks?.length).toString() + '%';
-      console.log(this.subtaskStatus);
     }
   }
 }

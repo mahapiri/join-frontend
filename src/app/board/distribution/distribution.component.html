@@ -22,7 +22,7 @@
             </ng-container>
 
             <div class="task-content" *ngFor="let task of getFilteredTasks(status.tasks)" cdkDrag
-                (cdkDragStarted)="setDragSize($event)">
+                (cdkDragStarted)="setDragSize($event)" [cdkDragDisabled]="!draggable">
                 <div class="list-container">
                     <div class="list-content">
                         <app-card [task]="task"></app-card>

@@ -1,7 +1,7 @@
 <ng-container *ngIf="task">
     <div class="card-container">
         <div class="card-content">
-            <div class="label">
+            <div class="label" [ngClass]="task.category === 'User Story' ? 'blue' : 'mint'">
                 <a>{{ task.category }}</a>
             </div>
             <div class="title-description-container">
@@ -20,7 +20,7 @@
             <div class="assigned-prio-container">
                 <div class="assigned-content">
                     <ng-container *ngFor="let assignment of task.assignedTo; let i = index">
-                        <div class="contact-icon" [class.translateX]="i > 0">
+                        <div class="contact-icon">
                             {{ assignment.initial }}
                         </div>
                     </ng-container>

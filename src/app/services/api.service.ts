@@ -33,20 +33,20 @@ export class ApiService {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
-  
+
       if (!response.ok) {
         throw new Error('Fehler bei der Anfrage (All Task)');
       }
-  
+
       const datas = await response.json();
-  
+
       if (datas) {
         const tasksWithAssignments = await this.fillupWithAssignments(datas);
         const tasksWithSubtasks = await this.fillupWithSubtasks(tasksWithAssignments);
 
         this.tasksSubject.next(tasksWithSubtasks);
       }
-  
+
     } catch (error) {
       console.log('Fehler beim Abrufen der Tasks', error);
       this.tasksSubject.next([]);
@@ -212,6 +212,27 @@ export class ApiService {
     }
   }
 
+  async updateTaskwithSubtaskAndAssignements(task: Task, newStatus: string) {
+    let payload = {
+      ...task,
+      status: newStatus,
+    }
+    try {
+      const response = await fetch(`${this.apiUrl}/tasks/${task.id}/`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error('Fehler beim Aktualisieren des Status');
+      }
+      this.getAllTasks();
+    } catch (error) {
+      console.error('Fehler beim Aktualisieren des Status:', error);
+    }
+  }
+
 
   formatDateForDjango(date: Date): string {
     return `${date.getFullYear()}-${this.padZero(date.getMonth() + 1)}-${this.padZero(date.getDate())}`;
@@ -253,7 +274,7 @@ export class ApiService {
         throw new Error('Fehler bei der Anfrage (Contacts)');
       }
 
-      const data = await response.json(); 
+      const data = await response.json();
       return data;
     } catch (error) {
       console.log("Fehler beim Aufruf aller Kontakte", error);
@@ -308,7 +329,7 @@ export class ApiService {
     '--orange-lighten',
   ]
 
-  
+
   getRandomColor(): string {
     const randomIndex = Math.floor(Math.random() * this.colors.length);
     return this.colors[randomIndex];

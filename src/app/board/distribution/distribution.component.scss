@@ -34,6 +34,7 @@
 
 .task-content {
     margin-bottom: 16px;
+    @include transition-100;
 }
 
 .no-task-content {
@@ -61,6 +62,7 @@
     height: 200px;
     border-radius: 10px;
     border: 1px dashed var(--input-divider);
+    margin-bottom: 16px;
 }
 
 .rotate {

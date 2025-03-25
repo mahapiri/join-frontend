@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, ChangeDetectionStrategy, OnDestroy, input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnDestroy, input, ChangeDetectorRef } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -74,7 +74,8 @@ export class FormComponent implements OnDestroy {
     private apiService: ApiService,
     private fb: FormBuilder,
     public sharedService: SharedService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.taskForm = this.fb.group({
       title: new FormControl('', Validators.required),
@@ -153,12 +154,20 @@ export class FormComponent implements OnDestroy {
     if (formValue.date) {
       formValue.date = this.apiService.formatDateForDjango(new Date(formValue.date));
     }
-    await this.apiService.createNewTask(formValue);
+    console.log(this.sharedService.isAddTaskInProgress)
+    if(this.sharedService.isAddTaskInProgress) {
+      await this.apiService.createNewTask(formValue, 'in_progress');
+    } else if(this.sharedService.isAddTaskInAwaitFeedback) {
+      await this.apiService.createNewTask(formValue, 'await_feedback');
+    } else {
+      await this.apiService.createNewTask(formValue, null);
+    }
+
     this.resetForm();
     this.sharedService.isAdding = true;
     setTimeout(() => {
       this.navigateToBoard();
-      this.sharedService.isAdding = false;
+      this.sharedService.closeAll();
     }, 1000);
   }
 

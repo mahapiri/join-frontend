@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { DistributionComponent } from "./distribution/distribution.component";
 import { CommonModule } from '@angular/common';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-board',
@@ -15,9 +16,14 @@ export class BoardComponent {
   searchTerm: string = '';
   isSearching: boolean = false;
   noTaskFound: boolean = false;
-  constructor(private titleService: Title, private cdr: ChangeDetectorRef ) {
+  constructor(
+    private titleService: Title, 
+    private cdr: ChangeDetectorRef,
+    private sharedService: SharedService
+  ) {
     this.titleService.setTitle("Join - Board");
   }
+
 
   searchTask(event: any) {
     this.searchTerm = event.target.value.toLowerCase();
@@ -32,5 +38,10 @@ export class BoardComponent {
   noTasksFound(noTasks: boolean) {
     this.noTaskFound = noTasks;
     this.cdr.markForCheck();
+  }
+
+  openAddTask() {
+    this.sharedService.isPopup = true;
+    this.sharedService.isAddTask = true;
   }
 }

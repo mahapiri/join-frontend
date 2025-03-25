@@ -7,10 +7,10 @@
             <p class="p-bold">{{ status.label }}</p>
             <ng-container *ngIf="status.label !== 'Done'">
                 <img *ngIf="!status.isAdding" (mouseover)="onMouseOver(status)" (mouseout)="onMouseLeave(status)"
-                    (click)="toggleAddTask(status)"
+                    (click)="openAddTask(status)"
                     [src]="status.isHovered ? 'assets/img/plus/hover.svg' : 'assets/img/plus/default.svg'"
                     alt="Add Task">
-                <img *ngIf="status.isAdding" (click)="toggleAddTask(status)" src="assets/img/plus/active.svg"
+                <img *ngIf="status.isAdding" (click)="openAddTask(status)" src="assets/img/plus/active.svg"
                     alt="Add Task">
             </ng-container>
         </div>

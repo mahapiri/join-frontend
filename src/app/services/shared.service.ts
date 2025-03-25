@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 export class SharedService {
   isPopup: boolean = false;
   isAddTask: boolean = false;
+  isAddTaskInProgress: boolean = false;
+  isAddTaskInAwaitFeedback: boolean = false;
   isCard: boolean = false;
   isCardEditing: boolean = false;
   isAdding: boolean = false;
@@ -17,6 +19,8 @@ export class SharedService {
   closeAll() {
     this.isPopup = false;
     this.isAddTask = false;
+    this.isAddTaskInProgress = false;
+    this.isAddTaskInAwaitFeedback = false;
     this.isCard = false;
     this.isCardEditing = false;
     this.isAdding = false;

@@ -128,13 +128,14 @@ export class ApiService {
   }
 
 
-  async createNewTask(taskForm: any) {
+  async createNewTask(taskForm: any, newStatus: string | null) {
     const newTask = {
       "title": taskForm.title,
       "description": taskForm.description,
       "due_date": taskForm.date,
       "category": taskForm.category,
       "prio": taskForm.prio,
+      ...(newStatus !== null && { "status": newStatus })
     }
     const assignments = taskForm.assignments;
     const subtasks = taskForm.subtasks;

@@ -5,6 +5,7 @@ import { TaskService } from '../../services/task.service';
 import { CdkDragDrop, CdkDrag, moveItemInArray, transferArrayItem, DragDropModule, CdkDragStart } from '@angular/cdk/drag-drop';
 import { ApiService } from '../../services/api.service';
 import { Task } from '../../models/task.model';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-distribution',
@@ -40,9 +41,9 @@ export class DistributionComponent {
 
 
   constructor(
-    private task: TaskService,
     private cdr: ChangeDetectorRef,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private sharedService: SharedService
   ) {
     this.connectedToIds = this.taskStatuses.map(s => s.id);
     this.apiService.getAllTasks();
@@ -117,10 +118,22 @@ export class DistributionComponent {
     status.isHovered = false;
   }
 
-
-  toggleAddTask(status: any) {
-    status.isAdding = !status.isAdding;
+  openAddTask(status: any) {
+    console.log(status.id);
+    // this.toggleAddTask(status);
+    this.sharedService.isPopup = true;
+    this.sharedService.isAddTask = true;
+    if(status.id === 'in_progress') {
+      this.sharedService.isAddTaskInProgress = true;
+    }
+    if(status.id === 'await_feedback') {
+      this.sharedService.isAddTaskInAwaitFeedback = true;
+    }
   }
+
+  // toggleAddTask(status: any) {
+  //   status.isAdding = !status.isAdding;
+  // }
 
 
   dragEntered(status: any) {

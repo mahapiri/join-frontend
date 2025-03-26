@@ -7,11 +7,21 @@ import { AddingComponent } from './popups/adding/adding.component';
 import { EditContactComponent } from './popups/edit-contact/edit-contact.component';
 import { AddContactComponent } from './popups/add-contact/add-contact.component';
 import { SharedService } from './services/shared.service';
+import { ClickOutsideDirective } from './click-outside.directive';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, DashboardComponent, AddTaskComponent, CardComponent, AddingComponent, EditContactComponent, AddContactComponent],
+  imports: [
+    CommonModule, 
+    DashboardComponent, 
+    AddTaskComponent, 
+    CardComponent, 
+    AddingComponent, 
+    EditContactComponent, 
+    AddContactComponent,
+    ClickOutsideDirective
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -28,6 +38,6 @@ export class AppComponent {
 
   close() {
     this.sharedService.closeAll();
-    // this.cdr.detectChanges();
+    this.cdr.detectChanges();
   }
 }

@@ -106,7 +106,7 @@ export class DistributionComponent {
       movedTask.status = event.container.id;
       this.draggable = false;
       this.cdr.detectChanges();
-      await this.apiService.updateTaskwithSubtaskAndAssignements(movedTask, movedTask.status);
+      await this.apiService.updateTaskstatuswithSubtaskAndAssignements(movedTask, movedTask.status);
       setTimeout(() => {
         this.draggable = true;
         this.cdr.detectChanges();

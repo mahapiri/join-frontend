@@ -283,6 +283,7 @@ export class CardComponent implements OnDestroy, OnInit {
       const subtasks = this.taskForm.get('subtasks') as FormArray;
       subtasks.push(new FormControl({
         title: text,
+        done:
       }));
       this.searchTextSubtasks = '';
       input.value = '';
@@ -341,7 +342,7 @@ export class CardComponent implements OnDestroy, OnInit {
           done: currentSubtaskValue.done,
           id: currentSubtaskValue.id,
           task: currentSubtaskValue.task,
-          task_title: currentSubtaskValue.task_title          
+          task_title: currentSubtaskValue.task_title
         });
       }
       this.isEditingSubtaskIndex = null;
@@ -349,6 +350,31 @@ export class CardComponent implements OnDestroy, OnInit {
   }
 
   saveTask() {
+    // updatedTask speichern
+    const taskValue = {
+      id: this.task?.id,
+      status: this.task?.status,
+      title: this.taskForm.get('title')?.value,
+      description: this.taskForm.get('description')?.value,
+      due_date: this.apiService.formatDateForDjango(new Date(this.taskForm.get('date')?.value)),
+      prio: this.taskForm.get('prio')?.value,
+      category: this.task?.category,
+    }
+
+    const subtaskValue = {
+      subtasks: this.taskForm.get('subtasks')?.value,
+    }
+
+
+
+    const assignmentValue = {
+      assignedTo: this.taskForm.get('assignments')?.value,
+    }
+    console.log(taskValue);
+    console.log(subtaskValue);
+    console.log(assignmentValue);
+    this.apiService.updateTask(taskValue);
+    this.sharedService.closeAll();
 
   }
 }

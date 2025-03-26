@@ -213,7 +213,7 @@ export class ApiService {
     }
   }
 
-  async updateTaskwithSubtaskAndAssignements(task: Task, newStatus: string) {
+  async updateTaskstatuswithSubtaskAndAssignements(task: Task, newStatus: string) {
     let payload = {
       ...task,
       status: newStatus,
@@ -232,6 +232,61 @@ export class ApiService {
     } catch (error) {
       console.error('Fehler beim Aktualisieren des Status:', error);
     }
+  }
+
+  async updateTask(task: any) {
+    try {
+      const response = await fetch(`${this.apiUrl}/tasks/${task.id}/`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(task)
+      });
+
+      if (!response.ok) {
+        throw new Error('Fehler beim Aktualisieren des Status');
+      };
+
+      const data = await response.json();
+      console.log(data);
+
+      if (data) {
+        // await this.updateSubtasks();
+        // await this.updateAssignments();
+        this.getAllTasks();
+      }
+    } catch (error) {
+      console.error('Fehler beim Aktualisieren des Tasks:', error);
+    }
+  }
+
+  // async updateSubtasks() {
+  //   try {
+  //     const response = await fetch(`${this.apiUrl}/tasks/${task.id}/subtasks/${subtask.id}`, {
+  //       method: 'PUT',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify(subtask)
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error('Fehler beim Aktualisieren des Status');
+  //     };
+
+  //     const data = await response.json();
+  //     console.log(data);
+
+  //     if (data) {
+  //       await this.updateSubtasks();
+  //       await this.updateAssignments();
+  //       this.getAllTasks();
+  //     }
+  //   } catch (error) {
+  //     console.error('Fehler beim Aktualisieren des Tasks:', error);
+  //   }
+  // }
+
+
+  async updateAssignments() {
+
   }
 
 

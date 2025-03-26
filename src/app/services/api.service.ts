@@ -153,8 +153,8 @@ export class ApiService {
       const data = await response.json();
       console.log('Neuer Task', data);
       if (data) {
-        this.createNewSubtask(data.id, subtasks);
-        this.createAssignedTo(data.id, assignments);
+        this.createNewSubtasks(data.id, subtasks);
+        this.createAssignments(data.id, assignments);
       }
     } catch (error) {
       console.log('Fehler beim erstellen der neuen Task', error)
@@ -162,7 +162,7 @@ export class ApiService {
   }
 
 
-  async createNewSubtask(id: number, subtasks: string[]) {
+  async createNewSubtasks(id: number, subtasks: string[]) {
     for (const subtask of subtasks) {
       let payload = {
         "task": id,
@@ -188,7 +188,47 @@ export class ApiService {
   }
 
 
-  async createAssignedTo(id: number, assignments: User[]) {
+  async createNewSubtask(id: number, subtask: any) {
+    try {
+      const res = await fetch(`${this.apiUrl}/tasks/${id}/subtasks/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(subtask)
+      });
+
+      if (!res.ok) {
+        throw new Error('Fehler bei der Anfrage');
+      }
+
+      const data = await res.json();
+      console.log('Neue Subtask wurde erstellt', data);
+    } catch (error) {
+      console.log("Fehler:", error);
+    }
+  }
+
+
+  async createAssignment(id: number, assignment: any) {
+    try {
+      const res = await fetch(`${this.apiUrl}/tasks/${id}/assignedto/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(assignment)
+      });
+
+      if (!res.ok) {
+        throw new Error('Fehler bei der Anfrage');
+      }
+
+      const data = await res.json();
+      console.log('Neue Assignment wurde erstellt', data);
+    } catch (error) {
+      console.log("Fehler:", error);
+    }
+  }
+
+
+  async createAssignments(id: number, assignments: User[]) {
     for (const assignment of assignments) {
       let payload = {
         "contact": assignment.id,
@@ -234,7 +274,7 @@ export class ApiService {
     }
   }
 
-  async updateTask(task: any) {
+  async updateTask(task: any, subtasks: any, assignments: any) {
     try {
       const response = await fetch(`${this.apiUrl}/tasks/${task.id}/`, {
         method: 'PUT',
@@ -250,8 +290,21 @@ export class ApiService {
       console.log(data);
 
       if (data) {
-        // await this.updateSubtasks();
-        // await this.updateAssignments();
+        for (const subtask of subtasks) {
+          if (subtask.hasOwnProperty("id")) {
+            await this.updateSubtask(task, subtask);
+          } else {
+            await this.createNewSubtask(task.id, subtask);
+          }
+        }
+
+        for (const assignment of assignments) {
+          if (assignment.hasOwnProperty("id")) {
+            await this.updateAssignment(task, assignment);
+          } else {
+            await this.createAssignment(task.id, assignment);
+          }
+        }
         this.getAllTasks();
       }
     } catch (error) {
@@ -259,34 +312,47 @@ export class ApiService {
     }
   }
 
-  // async updateSubtasks() {
-  //   try {
-  //     const response = await fetch(`${this.apiUrl}/tasks/${task.id}/subtasks/${subtask.id}`, {
-  //       method: 'PUT',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify(subtask)
-  //     });
+  async updateSubtask(task: any, subtask: any) {
+    try {
+      const response = await fetch(`${this.apiUrl}/tasks/${task.id}/subtasks/${subtask.id}/`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(subtask)
+      });
 
-  //     if (!response.ok) {
-  //       throw new Error('Fehler beim Aktualisieren des Status');
-  //     };
+      if (!response.ok) {
+        throw new Error('Fehler beim Aktualisieren des Status');
+      };
 
-  //     const data = await response.json();
-  //     console.log(data);
-
-  //     if (data) {
-  //       await this.updateSubtasks();
-  //       await this.updateAssignments();
-  //       this.getAllTasks();
-  //     }
-  //   } catch (error) {
-  //     console.error('Fehler beim Aktualisieren des Tasks:', error);
-  //   }
-  // }
+      const data = await response.json();
+      if (data) {
+        this.getAllTasks();
+      }
+    } catch (error) {
+      console.error('Fehler beim Aktualisieren des Tasks:', error);
+    }
+  }
 
 
-  async updateAssignments() {
+  async updateAssignment(task: any, assignment: any) {
+    try {
+      const response = await fetch(`${this.apiUrl}/tasks/${task.id}/assignedto/${assignment.id}/`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(assignment)
+      });
 
+      if (!response.ok) {
+        throw new Error('Fehler beim Aktualisieren des Assignments');
+      };
+
+      const data = await response.json();
+      if (data) {
+        this.getAllTasks();
+      }
+    } catch (error) {
+      console.error('Fehler beim Aktualisieren des Assignments:', error);
+    }
   }
 
 

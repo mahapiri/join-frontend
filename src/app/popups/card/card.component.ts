@@ -283,7 +283,9 @@ export class CardComponent implements OnDestroy, OnInit {
       const subtasks = this.taskForm.get('subtasks') as FormArray;
       subtasks.push(new FormControl({
         title: text,
-        done:
+        done: 'false',
+        task_title: this.task?.title,
+        task: this.task?.id
       }));
       this.searchTextSubtasks = '';
       input.value = '';
@@ -371,9 +373,9 @@ export class CardComponent implements OnDestroy, OnInit {
       assignedTo: this.taskForm.get('assignments')?.value,
     }
     console.log(taskValue);
-    console.log(subtaskValue);
-    console.log(assignmentValue);
-    this.apiService.updateTask(taskValue);
+    console.log(subtaskValue.subtasks);
+    console.log(assignmentValue.assignedTo);
+    this.apiService.updateTask(taskValue, subtaskValue.subtasks, assignmentValue.assignedTo);
     this.sharedService.closeAll();
 
   }

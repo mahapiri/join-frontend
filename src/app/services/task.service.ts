@@ -16,7 +16,18 @@ export class TaskService {
   urgent: number = 0;
   upComingDeadline: string = '-';
 
+  private _clickedTaskCardSubject = new BehaviorSubject<any>(Task);
+  clickedTaskCard$ = this._clickedTaskCardSubject.asObservable();
+
   constructor() {
+  }
+
+  updateClickedTaskCard(task: Task) {
+    this._clickedTaskCardSubject.next(task);
+  }
+
+  resetClickedTaskCard() {
+    this._clickedTaskCardSubject.next(null);
   }
 
 

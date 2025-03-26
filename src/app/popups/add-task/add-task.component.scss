@@ -1,1 +1,7 @@
 @import "../../../styles.scss";
+
+app-form {
+    .assigned-container {
+        z-index: unset;
+    }
+}

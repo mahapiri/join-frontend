@@ -6,7 +6,7 @@ import { CdkDragDrop, CdkDrag, moveItemInArray, transferArrayItem, DragDropModul
 import { ApiService } from '../../services/api.service';
 import { Task } from '../../models/task.model';
 import { SharedService } from '../../services/shared.service';
-import { delay, filter, tap } from 'rxjs';
+import { BehaviorSubject, delay, filter, tap } from 'rxjs';
 
 @Component({
   selector: 'app-distribution',
@@ -46,7 +46,8 @@ export class DistributionComponent {
   constructor(
     private cdr: ChangeDetectorRef,
     private apiService: ApiService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private taskService: TaskService
   ) {
     this.isLoading = true;
 
@@ -148,6 +149,13 @@ export class DistributionComponent {
 
   dragExited(status: any) {
     status.isDraggingOver = false;
+  }
+
+
+  openTaskCard(task: Task) {
+    this.taskService.updateClickedTaskCard(task);
+    this.sharedService.isPopup = true;
+    this.sharedService.isCard = true;
   }
 }
 

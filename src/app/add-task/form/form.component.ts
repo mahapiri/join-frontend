@@ -46,7 +46,10 @@ export const MY_DATE_FORMATS = {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './form.component.html',
-  styleUrl: './form.component.scss'
+  styleUrls: [
+    './form.component.scss',
+    './formstyle.component.scss'
+  ]
 })
 
 

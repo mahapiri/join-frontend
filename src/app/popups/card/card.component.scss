@@ -1,11 +1,52 @@
 @import "../../../styles.scss";
 
-
 .card-container {
     display: flex;
     flex-direction: column;
     gap: 24px;
     overflow-y: scroll;
+
+    input {
+        width: 100%;
+    }
+
+    textarea {
+        width: 100%;
+    }
+
+    .prio-container {
+        width: 100%;
+        padding: 0 4px;
+    }
+
+    .assigned-container {
+        width: 100%;
+    }
+
+    .backlog-box {
+        width: 100%;
+    }
+
+    .assigned-container {
+        z-index: 0;
+        position: unset;
+    }
+
+    .main-assigned-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .subtask-list {
+        height: 84px;
+        position: unset;
+        margin-top: -8px;
+    }
+}
+
+.field-layout {
+    width: 100%;
 }
 
 .category {
@@ -14,6 +55,14 @@
     border-radius: 8px;
     padding: 4px 24px;
     background-color: var(--blue);
+
+    &.blue {
+        background-color: var(--blue);
+    }
+
+    &.mint {
+        background-color: var(--mint);
+    }
 }
 
 .card-content {
@@ -21,7 +70,7 @@
     gap: 25px;
 }
 
-.prio-content {
+.prio-content-edit {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -38,13 +87,13 @@
 }
 
 .assigned-box {
-    max-height: 176px;
-    overflow-y: scroll;
+    // max-height: 176px;
+    // overflow-y: scroll;
 }
 
 .subtask-box {
-    max-height: 76px;
-    overflow-y: scroll;
+    // max-height: 76px;
+    // overflow-y: scroll;
 }
 
 .a-s-content {

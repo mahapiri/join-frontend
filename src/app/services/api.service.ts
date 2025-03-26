@@ -384,4 +384,23 @@ export class ApiService {
       console.log("Fehler beim löschen des neuen Kontakts: ", error)
     }
   }
+
+
+  async deleteTask(id: number) {
+    try {
+      const response = await fetch(`${this.apiUrl}/tasks/${id}/`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      })
+
+      if (!response.ok) {
+        throw new Error('Fehler bei der Anfrage (Delete Contact)');
+      }
+
+      await this.getAllTasks();
+
+    } catch (error) {
+      console.log("Fehler beim löschen des neuen Kontakts: ", error)
+    }
+  }
 }

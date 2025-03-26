@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AddTaskComponent } from './popups/add-task/add-task.component';
 import { CommonModule } from '@angular/common';
@@ -18,12 +18,16 @@ import { SharedService } from './services/shared.service';
 export class AppComponent {
   title = 'Join';
 
-  constructor(public sharedService: SharedService) {
+  constructor(
+    public sharedService: SharedService,
+    private cdr: ChangeDetectorRef
+  ) {
 
   }
 
 
   close() {
     this.sharedService.closeAll();
+    // this.cdr.detectChanges();
   }
 }

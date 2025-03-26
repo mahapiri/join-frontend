@@ -73,3 +73,10 @@
         @include transition-100;
     }
 }
+
+app-add-task,
+app-card,
+app-add-contact,
+app-edit-contact {
+    @include transition-100;
+}

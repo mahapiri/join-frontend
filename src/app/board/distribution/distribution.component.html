@@ -30,7 +30,7 @@
                     (cdkDragStarted)="setDragSize($event)" [cdkDragDisabled]="!draggable">
                     <div class="list-container">
                         <div class="list-content">
-                            <app-card [task]="task"></app-card>
+                            <app-card [task]="task" (click)="openTaskCard(task)"></app-card>
                         </div>
                     </div>
                     <ng-template cdkDragPlaceholder>

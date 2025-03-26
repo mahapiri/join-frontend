@@ -352,7 +352,6 @@ export class CardComponent implements OnDestroy, OnInit {
   }
 
   saveTask() {
-    // updatedTask speichern
     const taskValue = {
       id: this.task?.id,
       status: this.task?.status,
@@ -362,19 +361,12 @@ export class CardComponent implements OnDestroy, OnInit {
       prio: this.taskForm.get('prio')?.value,
       category: this.task?.category,
     }
-
     const subtaskValue = {
       subtasks: this.taskForm.get('subtasks')?.value,
     }
-
-
-
     const assignmentValue = {
       assignedTo: this.taskForm.get('assignments')?.value,
     }
-    console.log(taskValue);
-    console.log(subtaskValue.subtasks);
-    console.log(assignmentValue.assignedTo);
     this.apiService.updateTask(taskValue, subtaskValue.subtasks, assignmentValue.assignedTo);
     this.sharedService.closeAll();
 

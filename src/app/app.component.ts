@@ -7,7 +7,6 @@ import { AddingComponent } from './popups/adding/adding.component';
 import { EditContactComponent } from './popups/edit-contact/edit-contact.component';
 import { AddContactComponent } from './popups/add-contact/add-contact.component';
 import { SharedService } from './services/shared.service';
-import { ClickOutsideDirective } from './click-outside.directive';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +19,6 @@ import { ClickOutsideDirective } from './click-outside.directive';
     AddingComponent, 
     EditContactComponent, 
     AddContactComponent,
-    ClickOutsideDirective
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

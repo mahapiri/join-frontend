@@ -208,24 +208,24 @@ export class ApiService {
   }
 
 
-  async createAssignment(id: number, assignment: any) {
-    try {
-      const res = await fetch(`${this.apiUrl}/tasks/${id}/assignedto/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(assignment)
-      });
+  // async createAssignment(id: number, assignment: any) {
+  //   try {
+  //     const res = await fetch(`${this.apiUrl}/tasks/${id}/assignedto/`, {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify(assignment)
+  //     });
 
-      if (!res.ok) {
-        throw new Error('Fehler bei der Anfrage');
-      }
+  //     if (!res.ok) {
+  //       throw new Error('Fehler bei der Anfrage');
+  //     }
 
-      const data = await res.json();
-      console.log('Neue Assignment wurde erstellt', data);
-    } catch (error) {
-      console.log("Fehler:", error);
-    }
-  }
+  //     const data = await res.json();
+  //     console.log('Neue Assignment wurde erstellt', data);
+  //   } catch (error) {
+  //     console.log("Fehler:", error);
+  //   }
+  // }
 
 
   async createAssignments(id: number, assignments: User[]) {
@@ -247,6 +247,8 @@ export class ApiService {
 
         const data = await response.json();
         console.log("Neue Assignement wurde erstellt", data)
+
+        this.getAllTasks();
       } catch (error) {
         console.log('Fehler beim erstellen der Assignments', error)
       }
@@ -298,14 +300,15 @@ export class ApiService {
           }
         }
 
-        for (const assignment of assignments) {
-          if (assignment.hasOwnProperty("id")) {
-            await this.updateAssignment(task, assignment);
-          } else {
-            await this.createAssignment(task.id, assignment);
-          }
+        let response = await this.deleteAllAssignments(task.id)
+        .then((response) => {
+          console.log("gelöscht und neues hinzugefügt")
+          this.createAssignments(task.id, assignments);
+        });
+
+        if (data) {
+          this.getAllTasks();
         }
-        this.getAllTasks();
       }
     } catch (error) {
       console.error('Fehler beim Aktualisieren des Tasks:', error);
@@ -332,29 +335,6 @@ export class ApiService {
       console.error('Fehler beim Aktualisieren des Tasks:', error);
     }
   }
-
-
-  async updateAssignment(task: any, assignment: any) {
-    try {
-      const response = await fetch(`${this.apiUrl}/tasks/${task.id}/assignedto/${assignment.id}/`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(assignment)
-      });
-
-      if (!response.ok) {
-        throw new Error('Fehler beim Aktualisieren des Assignments');
-      };
-
-      const data = await response.json();
-      if (data) {
-        this.getAllTasks();
-      }
-    } catch (error) {
-      console.error('Fehler beim Aktualisieren des Assignments:', error);
-    }
-  }
-
 
   formatDateForDjango(date: Date): string {
     return `${date.getFullYear()}-${this.padZero(date.getMonth() + 1)}-${this.padZero(date.getDate())}`;
@@ -524,4 +504,25 @@ export class ApiService {
       console.log("Fehler beim löschen des neuen Kontakts: ", error)
     }
   }
+
+  async deleteAllAssignments(id: number) {
+    try {
+      const response = await fetch(`${this.apiUrl}/tasks/${id}/assignedto/delete_all/`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json(); // Hol dir die API-Fehlermeldung
+        throw new Error(`Fehler bei der Anfrage (Delete Contact): ${errorData.detail || response.statusText}`);
+      }
+
+      console.log("Alle Assignments erfolgreich gelöscht.");
+      await this.getAllTasks();
+
+    } catch (error) {
+      console.error("Fehler beim Löschen der Assignments:", error);
+    }
+  }
+
 }

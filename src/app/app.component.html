@@ -2,8 +2,7 @@
 <div class="popup-container" *ngIf="sharedService.isPopup">
     <div 
         class="popup-content" 
-        [ngClass]="{'add-task': sharedService.isAddTask, 'card': sharedService.isCard, 'contact': sharedService.isEditContact || sharedService.isAddContact}"
-        appClickOutside (clickOutside)="close()" 
+        [ngClass]="{'add-task': sharedService.isAddTask, 'card': sharedService.isCard, 'contact': sharedService.isEditContact || sharedService.isAddContact}" 
         >
         <img class="close-icon" src="assets/img/close/default-disable.svg" alt="Close" (click)="close()">
         <app-add-task *ngIf="sharedService.isAddTask"></app-add-task>

@@ -101,6 +101,8 @@
 
 .assigned-content {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
 }
 
 .contact-icon {
@@ -112,6 +114,7 @@
     justify-content: center;
     align-items: center;
     border: 1px solid var(--white);
+    @include transition-100;
 
     p {
         font-family: Inter;

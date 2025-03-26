@@ -156,7 +156,7 @@
             </div>
         </ng-container>
         <ng-container *ngIf="sharedService.isCard && sharedService.isCardEditing">
-            <div class="field-layout field-layout-category">
+            <div class="field-layout field-layout-category z-index">
                 <p>Subtasks</p>
                 <div class="select-container">
                     <input #subtaskInput id="subtaskInput" (input)="writingSubtask($event)"
@@ -231,9 +231,9 @@
         </div>
     </ng-container>
     <ng-container *ngIf="sharedService.isCard && sharedService.isCardEditing">
-        <div class="card-content edit-delete-container" (click)="saveTask()">
+        <div class="card-content edit-delete-container">
             <div class="edit-delete-section">
-                <button class="edit-delete-content submit-btn">
+                <button class="edit-delete-content submit-btn" (click)="saveTask()" [disabled]="taskForm.invalid">
                     <p class="p-bold">OK</p>
                     <img src="assets/img/check/default-create-task.svg" alt="Create">
                 </button>

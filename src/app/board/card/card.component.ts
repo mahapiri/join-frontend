@@ -28,20 +28,26 @@ export class CardComponent implements AfterViewInit {
 
 
   getDoneSubtasks() {
-    this.task.subtasks?.forEach(subtask => {
-      this.doneSubtasks = 0;
-      if (subtask.done == true) {
+    if (!this.task || !this.task.subtasks) return;
+  
+    this.doneSubtasks = 0;
+  
+    this.task.subtasks.forEach(subtask => {
+      if (subtask.done) {
         this.doneSubtasks++;
       }
-      this.calculateSubtaskStatus();
-      this.cdr.detectChanges();
-    })
+    });
+  
+    this.calculateSubtaskStatus();
+    this.cdr.detectChanges();
   }
 
 
   calculateSubtaskStatus() {
-    if(this.task.subtasks) {
-      this.subtaskStatus = ((this.doneSubtasks * 100)/this.task.subtasks?.length).toString() + '%';
+    if (this.task?.subtasks?.length) {
+      this.subtaskStatus = ((this.doneSubtasks * 100) / this.task.subtasks.length).toFixed(2) + '%';
+    } else {
+      this.subtaskStatus = '0%';
     }
   }
 }

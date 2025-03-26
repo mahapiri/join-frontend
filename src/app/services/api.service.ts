@@ -330,6 +330,7 @@ export class ApiService {
       const data = await response.json();
       if (data) {
         this.getAllTasks();
+        console.log(data)
       }
     } catch (error) {
       console.error('Fehler beim Aktualisieren des Tasks:', error);
@@ -490,6 +491,25 @@ export class ApiService {
   async deleteTask(id: number) {
     try {
       const response = await fetch(`${this.apiUrl}/tasks/${id}/`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      })
+
+      if (!response.ok) {
+        throw new Error('Fehler bei der Anfrage (Delete Contact)');
+      }
+
+      await this.getAllTasks();
+
+    } catch (error) {
+      console.log("Fehler beim löschen des neuen Kontakts: ", error)
+    }
+  }
+
+
+  async deleteSubtask(subtask: any) {
+    try {
+      const response = await fetch(`${this.apiUrl}/tasks/${subtask.task}/subtasks/${subtask.id}/`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
       })

@@ -148,9 +148,9 @@
         <ng-container *ngIf="sharedService.isCard && !sharedService.isCardEditing">
             <p class="gray">Subtasks</p>
             <div class="subtask-box">
-                <div class="a-s-content" *ngFor="let subtask of task?.subtasks">
-                    <img class="checkbox" [src]="checkboxUrl" alt="Check" (click)="toggleCheck()"
-                        (mouseover)="hoverCheckbox()" (mouseleave)="leaveCheckbox()">
+                <div class="a-s-content" *ngFor="let subtask of task?.subtasks; let i = index">
+                    <img class="checkbox" [id]="'subtask' + i" [src]="subtask.done ? 'assets/img/check-btn/default-checked.svg': 'assets/img/check-btn/default-disable.svg'" alt="Check" (click)="toggleCheck(i, subtask)"
+                        (mouseover)="hoverCheckbox(i)" (mouseleave)="leaveCheckbox(i)">
                     <p>{{ subtask.title }}</p>
                 </div>
             </div>
@@ -178,14 +178,14 @@
                             <div [id]="'subtaskitem' + i" class="input-icon-container">
                                 <img src="assets/img/edit/hover.svg" alt="Edit" (click)="editSubtask(i)">
                                 <div class="input-divider"></div>
-                                <img src="assets/img/delete/default.svg" alt="Delete" (click)="deleteSavedSubtask(i)">
+                                <img src="assets/img/delete/default.svg" alt="Delete" (click)="deleteSavedSubtask(i, subtask)">
                             </div>
                         </li>
                         <div class="subtask-edit-container" *ngIf="isEditingSubtaskIndex === i">
                             <input [id]="'subtaskEdit' + i" type="text" value="{{ subtask.title }}"
                                 class="input-subtask">
                             <div class="input-icon-container">
-                                <img src="assets/img/delete/default.svg" alt="Delete" (click)="deleteSavedSubtask(i)">
+                                <img src="assets/img/delete/default.svg" alt="Delete" (click)="deleteSavedSubtask(i, subtask)">
                                 <div class="input-divider"></div>
                                 <img src="assets/img/check/default-subtask.svg" alt="Check"
                                     (click)="replaceSaveSubtask(i)">

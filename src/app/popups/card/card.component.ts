@@ -36,17 +36,12 @@ import { UserService } from '../../services/user.service';
   ]
 })
 export class CardComponent implements OnDestroy, OnInit {
-  checkboxUrl: string = 'assets/img/check-btn/default-disable.svg';
-  clickedCheckbox: boolean = false;
+  // checkboxUrl: string = 'assets/img/check-btn/default-disable.svg';
+  // clickedCheckbox: boolean = false;
   task?: Task;
   taskForm: FormGroup;
 
   subscriptions: Subscription = new Subscription();
-
-
-
-
-
   contacts: User[] = [];
 
 
@@ -87,14 +82,14 @@ export class CardComponent implements OnDestroy, OnInit {
   }
 
   fillupTaskForm() {
-    if (this.task && this.task.subtasks) {
+    if (this.task) {
       this.taskForm = this.fb.group({
         title: new FormControl(this.task.title, Validators.required),
         description: new FormControl(this.task.description),
-        assignments: new FormControl(this.task.assignedTo),
+        assignments: new FormControl(this.task.assignedTo || []),
         date: new FormControl(this.task.due_date, Validators.required),
         prio: new FormControl(this.task.prio),
-        subtasks: this.fb.array(this.task.subtasks)
+        subtasks: this.fb.array(this.task.subtasks || [])
       })
     }
   }
@@ -110,32 +105,39 @@ export class CardComponent implements OnDestroy, OnInit {
   }
 
 
-  toggleCheck() {
-    this.clickedCheckbox = !this.clickedCheckbox;
-    this.updateCheckboxUrl();
-  }
-
-
-  hoverCheckbox() {
-    if (this.clickedCheckbox) {
-      this.checkboxUrl = 'assets/img/check-btn/hover-checked.svg';
-    } else {
-      this.checkboxUrl = 'assets/img/check-btn/hover-disable.svg';
+  toggleCheck(i: number, subtask: any) {
+    if (this.task?.subtasks) {
+      this.task.subtasks[i].done = !this.task.subtasks[i].done;
+      this.updateCheckboxUrl(i);
+      this.apiService.updateSubtask(this.task, subtask);
+      this.cdr.detectChanges();
     }
   }
 
 
-  leaveCheckbox() {
-    this.updateCheckboxUrl();
+  hoverCheckbox(i: number) {
+    const checkbox = document.getElementById(`subtask${i}`) as HTMLImageElement;
+    if (this.task?.subtasks && !this.task.subtasks[i].done) {
+      checkbox.src = 'assets/img/check-btn/hover-disable.svg';
+    } else {
+      checkbox.src = 'assets/img/check-btn/hover-checked.svg';
+    }
   }
 
 
-  updateCheckboxUrl() {
-    if (this.clickedCheckbox) {
-      this.checkboxUrl = 'assets/img/check-btn/default-checked.svg';
-    } else {
-      this.checkboxUrl = 'assets/img/check-btn/default-disable.svg';
+  leaveCheckbox(i: number) {
+    this.updateCheckboxUrl(i);
+  }
+
+
+  updateCheckboxUrl(i: number) {
+    const checkbox = document.getElementById(`subtask${i}`) as HTMLImageElement;
+    if (this.task?.subtasks) {
+      checkbox.src = this.task.subtasks[i].done ?
+        'assets/img/check-btn/default-checked.svg' :
+        'assets/img/check-btn/default-disable.svg';
     }
+
   }
 
 
@@ -318,13 +320,15 @@ export class CardComponent implements OnDestroy, OnInit {
   }
 
 
-  deleteSavedSubtask(i: number) {
+  deleteSavedSubtask(i: number, subtask: any) {
     const subtasks = this.taskForm.get('subtasks') as FormArray;
     if (subtasks) {
       subtasks.removeAt(i);
+      console.log(subtask)
+      this.apiService.deleteSubtask(subtask);
     }
     this.isEditingSubtaskIndex = null;
-    this.sharedService.closeAll();
+    // this.sharedService.closeAll();
     this.cdr.detectChanges();
   }
 

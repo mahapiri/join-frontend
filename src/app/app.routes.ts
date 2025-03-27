@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { SummaryComponent } from './summary/summary.component';
 import { AddTaskComponent } from './add-task/add-task.component';
 import { BoardComponent } from './board/board.component';
@@ -7,9 +6,12 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { LegalNoticeComponent } from './legal-notice/legal-notice.component';
 import { HelpPageComponent } from './help-page/help-page.component';
+import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [
-    { path: '', component: SummaryComponent},
+    { path: '', component: LoginComponent},
+    { path: 'login', component: LoginComponent},
+    { path: 'register', component: LoginComponent},
     { path: 'summary', component: SummaryComponent},
     { path: 'add-task', component: AddTaskComponent},
     { path: 'board', component: BoardComponent},

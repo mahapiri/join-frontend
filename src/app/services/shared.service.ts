@@ -15,6 +15,10 @@ export class SharedService {
   isAddContact: boolean = false;
   isEditContact: boolean = false;
 
+  isLoginOrSignup: boolean = true;
+  isLogin: boolean = true;
+  isSignup: boolean = false;
+
 
   constructor() { }
 

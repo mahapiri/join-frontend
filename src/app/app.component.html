@@ -1,20 +1,27 @@
-<app-dashboard></app-dashboard>
-<div class="popup-container" *ngIf="sharedService.isPopup">
-    <div 
-        class="popup-content" 
-        [ngClass]="{'add-task': sharedService.isAddTask, 'card': sharedService.isCard, 'contact': sharedService.isEditContact || sharedService.isAddContact}" 
-        >
-        <img class="close-icon" src="assets/img/close/default-disable.svg" alt="Close" (click)="close()">
-        <app-add-task *ngIf="sharedService.isAddTask"></app-add-task>
-        <app-card *ngIf="sharedService.isCard"></app-card>
-        <app-add-contact *ngIf="sharedService.isAddContact"></app-add-contact>
-        <app-edit-contact *ngIf="sharedService.isEditContact"></app-edit-contact>
+<ng-container *ngIf="this.sharedService.isLoginOrSignup">
+    <app-login *ngIf="sharedService.isLogin && !sharedService.isSignup"></app-login>
+    <app-signup *ngIf="sharedService.isSignup && !sharedService.isLogin"></app-signup>
+</ng-container>
+
+<ng-container *ngIf="!this.sharedService.isLoginOrSignup">
+    <app-dashboard></app-dashboard>
+    <div class="popup-container" *ngIf="sharedService.isPopup">
+        <div 
+            class="popup-content" 
+            [ngClass]="{'add-task': sharedService.isAddTask, 'card': sharedService.isCard, 'contact': sharedService.isEditContact || sharedService.isAddContact}" 
+            >
+            <img class="close-icon" src="assets/img/close/default-disable.svg" alt="Close" (click)="close()">
+            <app-add-task *ngIf="sharedService.isAddTask"></app-add-task>
+            <app-card *ngIf="sharedService.isCard"></app-card>
+            <app-add-contact *ngIf="sharedService.isAddContact"></app-add-contact>
+            <app-edit-contact *ngIf="sharedService.isEditContact"></app-edit-contact>
+        </div>
     </div>
-</div>
-<div class="adding-container" *ngIf="sharedService.isAdding">
-    <div class="adding-content">
-        <app-adding></app-adding>
-    </div>
-</div>
+    <div class="adding-container" *ngIf="sharedService.isAdding">
+        <div class="adding-content">
+            <app-adding></app-adding>
+        </div>
+    </div>    
+</ng-container>
 
 

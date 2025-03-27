@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, CUSTOM_ELEMENTS_SCHEMA, OnInit, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, CUSTOM_ELEMENTS_SCHEMA, OnInit, OnDestroy } from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { TaskService } from '../../services/task.service';
 import { CdkDragDrop, CdkDrag, moveItemInArray, transferArrayItem, DragDropModule, CdkDragStart } from '@angular/cdk/drag-drop';
@@ -151,14 +151,6 @@ export class DistributionComponent implements OnInit, OnDestroy {
       }, 500);
     }
   }
-
-  // previousFilteredTasks: string = '';
-  // ngDoCheck() {
-  //   if (this.previousFilteredTasks !== JSON.stringify(this.filteredTasks)) {
-  //     this.checkForNoResults();
-  //     this.previousFilteredTasks = JSON.stringify(this.filteredTasks);
-  //   }
-  // }
 
 
   setDragSize(event: CdkDragStart) {

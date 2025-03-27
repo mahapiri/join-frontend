@@ -9,11 +9,22 @@ export class ValidationService {
   constructor() { }
 
 
+  validatePassword(control: AbstractControl): ValidationErrors | null {
+    const passwordRegex = /^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?/~\-]).{8,}$/;
+    
+    if (!control.value) {
+      return null;
+    }
+  
+    return passwordRegex.test(control.value) ? null : { invalidPassword: true };
+  }
+
+
   validateEmail(control: AbstractControl): ValidationErrors | null {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     
     if (!control.value) {
-      return null; // Falls das Feld leer ist, greift Validators.required
+      return null;
     }
   
     return emailRegex.test(control.value) ? null : { invalidEmail: true };

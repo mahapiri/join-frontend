@@ -54,8 +54,8 @@
                     </div>
                     <div class="assigned-container">
                         <div class="contact-icon icon-border"
-                            *ngFor="let assignedUser of taskForm.get('assignments')?.value"
-                            [ngStyle]="{'background-color': 'var(' + assignedUser.color + ')'}">{{ assignedUser.initial
+                            *ngFor="let assignedContact of taskForm.get('assignments')?.value"
+                            [ngStyle]="{'background-color': 'var(' + assignedContact.color + ')'}">{{ assignedContact.initial
                             }}
                         </div>
                     </div>

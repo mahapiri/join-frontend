@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { FormComponent } from './form/form.component';
 import { ApiService } from '../services/api.service';
 import { CommonModule } from '@angular/common';
-import { delay, filter, Observable, Subscription, tap } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { User } from '../models/user.model';
 
 @Component({

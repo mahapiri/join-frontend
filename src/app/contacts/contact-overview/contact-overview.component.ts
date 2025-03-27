@@ -18,28 +18,37 @@ export class ContactOverviewComponent {
   currentContact: User | null = null;
   selectedContact: string | null = null;
 
+  subscription: Subscription = new Subscription();
+
   constructor(
     public userService: UserService, 
     private sharedService: SharedService,
     private apiService: ApiService,
     private cdr: ChangeDetectorRef
   ) {
-    this.userService.selectedContact$.subscribe((contact) => {
-      this.selectedContact = contact;
-    })
-    this.userService.contacts$.subscribe((contacts) => {
-      contacts.forEach((contact) => {
-        this.contacts.push(contact);
+    this.subscription.add(
+      this.userService.selectedContact$.subscribe((contact) => {
+        this.selectedContact = contact;
       })
-    })
-    this.userService.currentContact$.subscribe(contact => {
-      this.currentContact = contact;
-    })
+    ),
+    this.subscription.add(
+      this.userService.contacts$.subscribe((contacts) => {
+        contacts.forEach((contact) => {
+          this.contacts.push(contact);
+        })
+      })
+    ),
+    this.subscription.add(
+      this.userService.currentContact$.subscribe(contact => {
+        this.currentContact = contact;
+      })
+    )
   }
 
 
   ngOnDestroy(): void {
     this.userService.resetCurrentContact();
+    this.subscription.unsubscribe();
   }
 
 

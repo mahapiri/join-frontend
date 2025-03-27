@@ -18,6 +18,7 @@ export class SharedService {
   isLoginOrSignup: boolean = true;
   isLogin: boolean = true;
   isSignup: boolean = false;
+  disableAnimation: boolean = false;
 
 
   constructor() { }
@@ -33,5 +34,9 @@ export class SharedService {
     this.isAdding = false;
     this.isAddContact = false;
     this.isEditContact = false;
+  }
+
+  setAnimation(status: boolean) {
+    this.disableAnimation = status;
   }
 }

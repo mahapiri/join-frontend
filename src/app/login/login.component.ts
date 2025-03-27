@@ -25,7 +25,7 @@ export class LoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    private sharedService: SharedService,
+    public sharedService: SharedService,
     private router: Router,
     private validate: ValidationService,
   ) {
@@ -85,5 +85,6 @@ export class LoginComponent {
   register() {
     this.sharedService.isSignup = true;
     this.sharedService.isLogin = false;
+    this.sharedService.setAnimation(true);
   }
 }

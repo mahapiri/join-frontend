@@ -18,6 +18,19 @@
         will-change: transform;
     }
 
+    .no-animation-logo {
+        animation: none !important;
+        width: 100.03px !important;
+        height: 121.97px !important;
+        top: 80px !important;
+        left: 77px !important;
+    }
+
+    .no-animation {
+        animation: none !important;
+        opacity: 1 !important;
+    }
+
     .form-container {
         opacity: 0;
         animation: fadeIn 1s ease-in forwards;
@@ -43,6 +56,7 @@
             padding: 15px 16px;
             border-radius: 8px;
             @include transition-100;
+
             a {
                 color: var(--white);
                 font-weight: 700;
@@ -111,6 +125,7 @@
         justify-content: space-between;
         align-items: center;
         gap: 35px;
+        margin-top: 32px;
     }
 
     .login-btn {

@@ -1,1 +1,48 @@
-<p>signup works!</p>
+<form [formGroup]="signupForm" class="main-container" (ngSubmit)="onSubmit()">
+    <div class="login-container">
+        <a (click)="back()" class="back-icon">
+            <img src="../../assets/img/arrow-left/default.svg" alt="Arrow Left">
+        </a>
+        <div class="header-container">
+            <h1>Sign up</h1>
+            <div class="border"></div>
+        </div>
+
+        <div class="inputfield-container">
+            <div class="inputfield-content">
+                <div class="input-icon-container">
+                    <input formControlName="name" type="text" placeholder="Name">
+                    <img class="input-icon" src="../../assets/img/login-signup/person.svg" alt="Name">
+                </div>
+                <div class="input-icon-container">
+                    <input formControlName="email" type="text" placeholder="Email">
+                    <img class="input-icon" src="../../assets/img/login-signup/mail.svg" alt="Email">
+                </div>
+                <div class="input-icon-container">
+                    <input formControlName="password" type="password" placeholder="Password">
+                    <img class="input-icon password-icon" src="../../assets/img/login-signup/lock.svg" alt="Password">
+                </div>
+                <div class="input-icon-container">
+                    <input formControlName="confirmPassword" type="password" placeholder="Confirm Password">
+                    <img class="input-icon password-icon" src="../../assets/img/login-signup/lock.svg" alt="Password">
+                </div>
+                <div class="errormsg" *ngIf="signupForm.invalid && signupForm.invalid ">Check your email and password.
+                    Please try again.</div>
+                <div class="errormsg"
+                    *ngIf="signupForm.controls['confirmPassword'] && signupForm.controls['confirmPassword'].touched && signupForm.hasError('passwordMismatch')">
+                    Your passwords don't match. Please try again.</div>
+            </div>
+        </div>
+
+        <div class="privacy-container">
+            <input type="checkbox">
+            <a class="gray">I accept the <a class="blue">Privacy Policy</a></a>
+        </div>
+
+        <div class="button-container">
+            <button class="login-btn" [disabled]="signupForm.invalid">
+                <p class="p-bold">Log in</p>
+            </button>
+        </div>
+    </div>
+</form>

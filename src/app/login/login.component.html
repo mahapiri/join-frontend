@@ -1,6 +1,6 @@
 <form [formGroup]="loginForm" class="main-container">
-    <img class="logo" src="../../assets/img/logo.svg" alt="Join Logo">
-    <div class="form-container">
+    <img class="logo" src="../../assets/img/logo.svg" alt="Join Logo" [class.no-animation-logo]="sharedService.disableAnimation">
+    <div class="form-container" [class.no-animation]="sharedService.disableAnimation">
         <div class="signup-container">
             <p>Not a Join user?</p>
             <button class="signup-btn" (click)="register()">
@@ -39,7 +39,6 @@
                     <p class="p-bold" (click)="login('guest')">Guest Log in</p>
                 </button>
             </div>
-    
         </div>
     </div>
 </form>

@@ -41,7 +41,6 @@ export class UserService {
 
 
   selectContact(id: string) {
-    console.log(id)
     const div = document.getElementById(`id${id}`);
     const query = document.querySelector('.select-contact');
     query?.classList.remove('select-contact');

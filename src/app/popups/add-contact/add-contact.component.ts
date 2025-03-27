@@ -42,9 +42,21 @@ export class AddContactComponent {
     let response = await this.apiService.createContact(this.contactForm.value)
     this.sharedService.closeAll();
     this.cdr.detectChanges();
-    requestAnimationFrame(() => {
-      this.userService.selectContact(response);
-    })
+    // requestAnimationFrame(() => {
+
+
+    // });
+
+
+    setTimeout(() => {
+      if(response) {
+        this.userService.selectContact(response);
+        const div = document.getElementById(`id${response}`);
+        console.log(div);
+      }
+    }, 1000);
+
+
   }
 
 

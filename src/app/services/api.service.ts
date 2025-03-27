@@ -35,7 +35,7 @@ export class ApiService {
       });
 
       if (!response.ok) {
-        throw new Error('Fehler bei der Anfrage (All Task)');
+        throw new Error('Fehler beim Abrufen aller Tasks');
       }
 
       const datas = await response.json();
@@ -48,7 +48,7 @@ export class ApiService {
       }
 
     } catch (error) {
-      console.log('Fehler beim Abrufen der Tasks', error);
+      console.error('Fehler beim Abrufen aller Tasks', error);
       this.tasksSubject.next([]);
     }
   }
@@ -70,7 +70,6 @@ export class ApiService {
       }
       tasksWithAssignments.push(data);
     }
-
     return tasksWithAssignments;
   }
 
@@ -96,13 +95,13 @@ export class ApiService {
       });
 
       if (!response.ok) {
-        throw new Error('Fehler bei der Anfrage (All Task)');
+        throw new Error('Fehler beim Erhalten der eingeschriebenen Kontakte');
       }
       const data = await response.json();
       return data;
 
     } catch (error) {
-      console.log('Fehler beim erstellen der neuen Task', error)
+      console.error('Fehler beim Erhalten der eingeschriebenen Kontakte', error)
       return [];
     }
   }
@@ -116,13 +115,13 @@ export class ApiService {
       });
 
       if (!response.ok) {
-        throw new Error('Fehler bei der Anfrage (All Task)');
+        throw new Error('FFehler beim Erhalten der Subtasks');
       }
       const data = await response.json();
       return data;
 
     } catch (error) {
-      console.log('Fehler beim erstellen der neuen Task', error)
+      console.error('Fehler beim Erhalten der Subtasks', error)
       return [];
     }
   }
@@ -151,13 +150,13 @@ export class ApiService {
       }
 
       const data = await response.json();
-      console.log('Neuer Task', data);
       if (data) {
         this.createNewSubtasks(data.id, subtasks);
         this.createAssignments(data.id, assignments);
       }
+      this.getAllTasks();
     } catch (error) {
-      console.log('Fehler beim erstellen der neuen Task', error)
+      console.error('Fehler beim erstellen der neuen Task', error)
     }
   }
 
@@ -176,13 +175,12 @@ export class ApiService {
         });
 
         if (!res.ok) {
-          throw new Error('Fehler bei der Anfrage');
+          throw new Error('Fehler beim Erstellen einer neuen Subtask');
         }
 
         const data = await res.json();
-        console.log('Neue Subtask wurde erstellt', data);
       } catch (error) {
-        console.log("Fehler:", error);
+        console.error("Fehler beim Erstellen einer neuen Subtask:", error);
       }
     }
   }
@@ -197,35 +195,14 @@ export class ApiService {
       });
 
       if (!res.ok) {
-        throw new Error('Fehler bei der Anfrage');
+        throw new Error('Neue Subtask konnte nicht erstellt werden!');
       }
 
       const data = await res.json();
-      console.log('Neue Subtask wurde erstellt', data);
     } catch (error) {
-      console.log("Fehler:", error);
+      console.error("Neue Subtask konnte nicht erstellt werden!:", error);
     }
   }
-
-
-  // async createAssignment(id: number, assignment: any) {
-  //   try {
-  //     const res = await fetch(`${this.apiUrl}/tasks/${id}/assignedto/`, {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify(assignment)
-  //     });
-
-  //     if (!res.ok) {
-  //       throw new Error('Fehler bei der Anfrage');
-  //     }
-
-  //     const data = await res.json();
-  //     console.log('Neue Assignment wurde erstellt', data);
-  //   } catch (error) {
-  //     console.log("Fehler:", error);
-  //   }
-  // }
 
 
   async createAssignments(id: number, assignments: User[]) {
@@ -242,15 +219,13 @@ export class ApiService {
         })
 
         if (!response.ok) {
-          throw new Error('Fehler bei der Anfrage (AssignedTo)');
+          throw new Error('Fehler beim erstellen des Assignments');
         }
 
         const data = await response.json();
-        console.log("Neue Assignement wurde erstellt", data)
-
         this.getAllTasks();
       } catch (error) {
-        console.log('Fehler beim erstellen der Assignments', error)
+        console.error('Fehler beim erstellen des Assignments', error)
       }
     }
   }
@@ -289,7 +264,6 @@ export class ApiService {
       };
 
       const data = await response.json();
-      console.log(data);
 
       if (data) {
         for (const subtask of subtasks) {
@@ -301,10 +275,9 @@ export class ApiService {
         }
 
         let response = await this.deleteAllAssignments(task.id)
-        .then((response) => {
-          console.log("gelöscht und neues hinzugefügt")
-          this.createAssignments(task.id, assignments);
-        });
+          .then((response) => {
+            this.createAssignments(task.id, assignments);
+          });
 
         if (data) {
           this.getAllTasks();
@@ -324,16 +297,15 @@ export class ApiService {
       });
 
       if (!response.ok) {
-        throw new Error('Fehler beim Aktualisieren des Status');
+        throw new Error('Fehler beim Aktualisieren des Subtasks:');
       };
 
       const data = await response.json();
       if (data) {
         this.getAllTasks();
-        console.log(data)
       }
     } catch (error) {
-      console.error('Fehler beim Aktualisieren des Tasks:', error);
+      console.error('Fehler beim Aktualisieren des Subtasks:', error);
     }
   }
 
@@ -355,13 +327,13 @@ export class ApiService {
       });
 
       if (!response.ok) {
-        throw new Error('Fehler bei der Anfrage (Contacts)');
+        throw new Error('Fehler beim Aufruf aller Kontakte');
       }
 
       const data = await response.json();
       this.contactsSubject.next(data)
     } catch (error) {
-      console.log("Fehler beim Aufruf aller Kontakte", error);
+      console.error("Fehler beim Aufruf aller Kontakte", error);
     }
   }
 
@@ -374,13 +346,13 @@ export class ApiService {
       });
 
       if (!response.ok) {
-        throw new Error('Fehler bei der Anfrage (Contacts)');
+        throw new Error('Fehler beim Aufruf der Kontakte');
       }
 
       const data = await response.json();
       return data;
     } catch (error) {
-      console.log("Fehler beim Aufruf aller Kontakte", error);
+      console.error("Fehler beim Aufruf der Kontakte", error);
       return null;
     }
   }
@@ -401,7 +373,7 @@ export class ApiService {
       })
 
       if (!response.ok) {
-        throw new Error('Fehler bei der Anfrage (Create Contact)');
+        throw new Error('Fehler beim Erstellen des neuen Kontakts:');
       }
 
       const data = await response.json();
@@ -410,7 +382,7 @@ export class ApiService {
       return data.id;
 
     } catch (error) {
-      console.log("Fehler beim erstellen des neuen Kontakts: ", error)
+      console.error("Fehler beim Erstellen des neuen Kontakts: ", error)
       return null;
     }
   }
@@ -454,7 +426,7 @@ export class ApiService {
       })
 
       if (!response.ok) {
-        throw new Error('Fehler bei der Anfrage (Create Contact)');
+        throw new Error('Fehler beim Bearbeiten des Kontakts');
       }
 
       const data = await response.json();
@@ -463,7 +435,7 @@ export class ApiService {
       return data.id;
 
     } catch (error) {
-      console.log("Fehler beim erstellen des neuen Kontakts: ", error)
+      console.error("Fehler beim Bearbeiten des Kontakts: ", error)
       return null;
     }
   }
@@ -477,13 +449,13 @@ export class ApiService {
       })
 
       if (!response.ok) {
-        throw new Error('Fehler bei der Anfrage (Delete Contact)');
+        throw new Error('Fehler beim Löschen des Kontakts');
       }
 
       await this.getAllContacts();
 
     } catch (error) {
-      console.log("Fehler beim löschen des neuen Kontakts: ", error)
+      console.error("Fehler beim Löschen des Kontakts: ", error)
     }
   }
 
@@ -496,13 +468,13 @@ export class ApiService {
       })
 
       if (!response.ok) {
-        throw new Error('Fehler bei der Anfrage (Delete Contact)');
+        throw new Error('Fehler beim Löschen des Kontakts');
       }
 
       await this.getAllTasks();
 
     } catch (error) {
-      console.log("Fehler beim löschen des neuen Kontakts: ", error)
+      console.error("Fehler beim Löschen des Kontakts: ", error)
     }
   }
 
@@ -515,13 +487,13 @@ export class ApiService {
       })
 
       if (!response.ok) {
-        throw new Error('Fehler bei der Anfrage (Delete Contact)');
+        throw new Error('Fehler beim Löschen des Subtask');
       }
 
       await this.getAllTasks();
 
     } catch (error) {
-      console.log("Fehler beim löschen des neuen Kontakts: ", error)
+      console.error("Fehler beim Löschen des Subtask: ", error)
     }
   }
 
@@ -533,16 +505,12 @@ export class ApiService {
       });
 
       if (!response.ok) {
-        const errorData = await response.json(); // Hol dir die API-Fehlermeldung
-        throw new Error(`Fehler bei der Anfrage (Delete Contact): ${errorData.detail || response.statusText}`);
+        const errorData = await response.json();
+        throw new Error(`Fehler beim Löschen der Assignments: ${errorData.detail || response.statusText}`);
       }
-
-      console.log("Alle Assignments erfolgreich gelöscht.");
       await this.getAllTasks();
-
     } catch (error) {
       console.error("Fehler beim Löschen der Assignments:", error);
     }
   }
-
 }

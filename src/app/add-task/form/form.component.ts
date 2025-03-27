@@ -167,7 +167,6 @@ export class FormComponent implements OnDestroy {
     if (formValue.date) {
       formValue.date = this.apiService.formatDateForDjango(new Date(formValue.date));
     }
-    console.log(this.sharedService.isAddTaskInProgress)
     if(this.sharedService.isAddTaskInProgress) {
       await this.apiService.createNewTask(formValue, 'in_progress');
     } else if(this.sharedService.isAddTaskInAwaitFeedback) {

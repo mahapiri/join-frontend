@@ -51,7 +51,7 @@
                         <button class="delete-btn" type="button" (click)="deleteContact()">
                             <p>Delete</p>
                         </button>
-                        <button class="save-btn" type="submit">
+                        <button class="save-btn" type="submit" [disabled]="contactForm.invalid">
                             <p class="p-bold">Save</p>
                             <img src="assets/img/check/default-create-task.svg" alt="Save">
                         </button>

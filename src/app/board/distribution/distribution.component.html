@@ -3,7 +3,7 @@
 </div>
 
 <ng-template #boardView>
-    <div class="layout-container" cdkDropListGroup>
+    <div class="layout-container"  *ngIf="taskStatuses" cdkDropListGroup>
         <div class="column" *ngFor="let status of taskStatuses" cdkDropList [cdkDropListData]="status.tasks"
             [id]="status.id" [cdkDropListConnectedTo]="connectedToIds" (cdkDropListDropped)="drop($event)"
             (cdkDropListEntered)="dragEntered(status)" (cdkDropListExited)="dragExited(status)">
@@ -20,13 +20,13 @@
                 </ng-container>
             </div>
             <div class="task-container">
-                <ng-container *ngIf="!isSearching">
-                    <div class="no-task-content" *ngIf="!status.tasks.length && !status.isDraggingOver">
+                <ng-container>
+                    <div class="no-task-content" *ngIf="!status.tasks.length && !status.isDraggingOver && !searchTerm">
                         <a>No tasks To do</a>
                     </div>
                 </ng-container>
 
-                <div class="task-content" *ngFor="let task of getFilteredTasks(status.tasks)" cdkDrag
+                <div class="task-content" *ngFor="let task of filteredTasks[status.id]" cdkDrag
                     (cdkDragStarted)="setDragSize($event)" [cdkDragDisabled]="!draggable">
                     <div class="list-container">
                         <div class="list-content">

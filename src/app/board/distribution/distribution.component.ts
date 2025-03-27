@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, CUSTOM_ELEMENTS_SCHEMA, OnInit, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { TaskService } from '../../services/task.service';
 import { CdkDragDrop, CdkDrag, moveItemInArray, transferArrayItem, DragDropModule, CdkDragStart } from '@angular/cdk/drag-drop';
 import { ApiService } from '../../services/api.service';
 import { Task } from '../../models/task.model';
 import { SharedService } from '../../services/shared.service';
-import { BehaviorSubject, delay, filter, tap } from 'rxjs';
+import { delay, Subscription, tap } from 'rxjs';
 
 @Component({
   selector: 'app-distribution',
@@ -22,12 +22,14 @@ import { BehaviorSubject, delay, filter, tap } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class DistributionComponent {
+export class DistributionComponent implements OnInit, OnDestroy {
   @Input() searchTerm: string = '';
   @Input() isSearching: boolean = false;
 
-  @Output() noTasksFoundEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() noTasksFoundEvent: EventEmitter<boolean> = new EventEmitter<boolean>(false);
   @Output() isLoadingEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  subscriptions: Subscription = new Subscription();
 
   taskStatuses = [
     { id: 'to_do', label: 'To do', isHovered: false, isAdding: false, isDraggingOver: false, tasks: [] as Task[] },
@@ -35,13 +37,13 @@ export class DistributionComponent {
     { id: 'await_feedback', label: 'Await feedback', isHovered: false, isAdding: false, isDraggingOver: false, tasks: [] as Task[] },
     { id: 'done', label: 'Done', isHovered: false, isAdding: false, isDraggingOver: false, tasks: [] as Task[] },
   ];
+
   connectedToIds: string[] = [];
   isDragging: boolean = false;
   dragSizeHeight: number = 200;
   draggable: boolean = true;
   isLoading: boolean = true;
-
-
+  filteredTasks: { [key: string]: Task[] } = {};
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -54,40 +56,76 @@ export class DistributionComponent {
     this.connectedToIds = this.taskStatuses.map(s => s.id);
 
     this.apiService.getAllTasks();
-    this.apiService.tasks$
-    .pipe(
-      delay(500),
-      tap(() => this.isLoading = false)
-    )
-    .subscribe((tasks) => {
-      this.taskStatuses.forEach(status => status.tasks = []);
-      tasks.forEach(task => {
-        const status = this.taskStatuses.find(s => s.id === task.status);
-        if (status) {
-          status.tasks.push(task)
-        }
-      });
-      this.cdr.markForCheck();
+  }
+
+
+  updateFilteredTasks() {
+    this.taskStatuses.forEach(status => {
+      this.filteredTasks[status.id] = this.getFilteredTasks(status.tasks);
     });
+    this.cdr.markForCheck();
+  }
+
+
+  ngOnInit() {
+    this.subscriptions.add(
+      this.sharedService.isSearching$.subscribe(isSearching => {
+        this.isSearching = isSearching
+      })
+    ),
+      this.subscriptions.add(
+        this.sharedService.searchTerm$.subscribe(searchTerm => {
+          this.searchTerm = searchTerm;
+          this.updateFilteredTasks();
+          this.cdr.markForCheck();
+          this.cdr.detectChanges();
+          this.checkForNoResults();
+        })
+      ),
+      this.subscriptions.add(
+        this.apiService.tasks$
+          .pipe(
+            delay(250),
+            tap(() => this.isLoading = false)
+          )
+          .subscribe((tasks) => {
+            this.taskStatuses.forEach(status => status.tasks = []);
+            tasks.forEach(task => {
+              const status = this.taskStatuses.find(s => s.id === task.status);
+              if (status) {
+                status.tasks.push(task);
+              }
+            });
+            this.updateFilteredTasks();
+            this.checkForNoResults();
+          })
+      )
+  }
+
+  ngOnDestroy(): void {
+      this.subscriptions.unsubscribe();
   }
 
 
   getFilteredTasks(tasks: Task[]) {
     if (!this.searchTerm) {
-      this.noTasksFoundEvent.emit(false);
-      this.cdr.markForCheck();
       return tasks;
     }
 
-    const filteredTasks = tasks.filter(task =>
-      task.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+    return tasks.filter(task =>
+      task.title.toLowerCase().includes(this.searchTerm) || task.description?.toLowerCase().includes(this.searchTerm)
     );
+  }
 
-    const noTasks = filteredTasks.length === 0;
-    this.noTasksFoundEvent.emit(noTasks);
-    this.cdr.markForCheck();
 
-    return filteredTasks;
+  checkForNoResults() {
+    if (this.isSearching) {
+      const noTasksFound = this.taskStatuses.every(status => {
+        return this.filteredTasks[status.id]?.length === 0;
+      });
+
+      this.noTasksFoundEvent.emit(noTasksFound);
+    }
   }
 
 
@@ -114,6 +152,14 @@ export class DistributionComponent {
     }
   }
 
+  // previousFilteredTasks: string = '';
+  // ngDoCheck() {
+  //   if (this.previousFilteredTasks !== JSON.stringify(this.filteredTasks)) {
+  //     this.checkForNoResults();
+  //     this.previousFilteredTasks = JSON.stringify(this.filteredTasks);
+  //   }
+  // }
+
 
   setDragSize(event: CdkDragStart) {
     const element = event.source.element.nativeElement;
@@ -133,14 +179,14 @@ export class DistributionComponent {
   openAddTask(status: any) {
     this.sharedService.isPopup = true;
     this.sharedService.isAddTask = true;
-    if(status.id === 'in_progress') {
+    if (status.id === 'in_progress') {
       this.sharedService.isAddTaskInProgress = true;
     }
-    if(status.id === 'await_feedback') {
+    if (status.id === 'await_feedback') {
       this.sharedService.isAddTaskInAwaitFeedback = true;
     }
   }
-  
+
 
   dragEntered(status: any) {
     status.isDraggingOver = true;

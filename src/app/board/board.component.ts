@@ -16,8 +16,8 @@ import { delay, filter, tap } from 'rxjs';
 })
 export class BoardComponent {
   searchTerm: string = '';
-  isSearching: boolean = false;
   noTaskFound: boolean = false;
+  isSearching: boolean = false;
 
   constructor(
     private titleService: Title, 
@@ -29,18 +29,13 @@ export class BoardComponent {
 
 
   searchTask(event: any) {
-    this.searchTerm = event.target.value.toLowerCase();
-    this.isSearching = this.searchTerm.length > 0;
-
-    if (!this.isSearching) {
-      this.noTaskFound = false;
-    }
-    this.cdr.markForCheck();
+    const searchTerm = event.target.value.trim().toLowerCase();
+    this.sharedService.setSearchTerm(searchTerm);
+    this.sharedService.setIsSearchingTerm(true);
   }
 
   noTasksFound(noTasks: boolean) {
     this.noTaskFound = noTasks;
-    this.cdr.markForCheck();
   }
 
   openAddTask() {

@@ -69,12 +69,12 @@ export class DistributionComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions.add(
-      this.sharedService.isSearching$.subscribe(isSearching => {
+      this.taskService.isSearching$.subscribe(isSearching => {
         this.isSearching = isSearching
       })
     ),
       this.subscriptions.add(
-        this.sharedService.searchTerm$.subscribe(searchTerm => {
+        this.taskService.searchTerm$.subscribe(searchTerm => {
           this.searchTerm = searchTerm;
           this.updateFilteredTasks();
           this.cdr.markForCheck();

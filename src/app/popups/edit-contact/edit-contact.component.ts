@@ -22,9 +22,9 @@ import { ApiService } from '../../services/api.service';
 export class EditContactComponent implements OnDestroy {
   subscriptions: Subscription = new Subscription();
 
-  users: User[] = [];
-  selectedUser: string | null = null;
-  currentUser: User | null = null;
+  contacts: User[] = [];
+  selectedContact: string | null = null;
+  currentContact: User | null = null;
   contactForm: FormGroup;
 
   constructor(
@@ -37,26 +37,26 @@ export class EditContactComponent implements OnDestroy {
   ) {
 
     this.subscriptions.add(
-      this.userService.users$.subscribe((user) => {
-        user.forEach((u) => {
-          this.users.push(u);
+      this.userService.contacts$.subscribe((contact) => {
+        contact.forEach((u) => {
+          this.contacts.push(u);
         })
       })
     );
     this.subscriptions.add(
-      this.userService.selectedUser$.subscribe((user) => {
-        this.selectedUser = user;
+      this.userService.selectedContact$.subscribe((contact) => {
+        this.selectedContact = contact;
       })
     );
     this.subscriptions.add(
-      this.userService.currentUser$.subscribe((user) => {
-        this.currentUser = user;
+      this.userService.currentContact$.subscribe((contact) => {
+        this.currentContact = contact;
       })
     );
     this.contactForm = this.fb.group({
-      name: new FormControl(this.currentUser?.name, [Validators.required, this.validate.validateName]),
-      email: new FormControl(this.currentUser?.email, [Validators.required, this.validate.validateEmail]),
-      phone: new FormControl(this.currentUser?.phone, [Validators.required, this.validate.validatePhone])
+      name: new FormControl(this.currentContact?.name, [Validators.required, this.validate.validateName]),
+      email: new FormControl(this.currentContact?.email, [Validators.required, this.validate.validateEmail]),
+      phone: new FormControl(this.currentContact?.phone, [Validators.required, this.validate.validatePhone])
     })
   }
 
@@ -67,12 +67,12 @@ export class EditContactComponent implements OnDestroy {
 
 
   async onSubmit() {
-    if (this.currentUser) {
-      let response = await this.apiService.editContact(this.contactForm.value, this.currentUser);
+    if (this.currentContact) {
+      let response = await this.apiService.editContact(this.contactForm.value, this.currentContact);
       this.sharedService.closeAll();
       this.cdr.detectChanges();
       requestAnimationFrame(() => {
-        this.userService.selectUser(response);
+        this.userService.selectContact(response);
       })
     }
 
@@ -80,12 +80,12 @@ export class EditContactComponent implements OnDestroy {
 
 
   async deleteContact() {
-    if (this.currentUser) {
-      await this.apiService.deleteContact(this.currentUser);
+    if (this.currentContact) {
+      await this.apiService.deleteContact(this.currentContact);
       this.sharedService.closeAll();
       this.cdr.detectChanges();
       requestAnimationFrame(() => {
-        this.userService.deselectUser();
+        this.userService.deselectContact();
       })
     }
   }

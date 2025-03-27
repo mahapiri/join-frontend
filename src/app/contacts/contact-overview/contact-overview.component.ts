@@ -14,9 +14,9 @@ import { ApiService } from '../../services/api.service';
   styleUrl: './contact-overview.component.scss'
 })
 export class ContactOverviewComponent {
-  users: User[] = [];
-  currentUser: User | null = null;
-  selectedUser: string | null = null;
+  contacts: User[] = [];
+  currentContact: User | null = null;
+  selectedContact: string | null = null;
 
   constructor(
     public userService: UserService, 
@@ -24,22 +24,22 @@ export class ContactOverviewComponent {
     private apiService: ApiService,
     private cdr: ChangeDetectorRef
   ) {
-    this.userService.selectedUser$.subscribe((user) => {
-      this.selectedUser = user;
+    this.userService.selectedContact$.subscribe((contact) => {
+      this.selectedContact = contact;
     })
-    this.userService.users$.subscribe((users) => {
-      users.forEach((user) => {
-        this.users.push(user);
+    this.userService.contacts$.subscribe((contacts) => {
+      contacts.forEach((contact) => {
+        this.contacts.push(contact);
       })
     })
-    this.userService.currentUser$.subscribe(user => {
-      this.currentUser = user;
+    this.userService.currentContact$.subscribe(contact => {
+      this.currentContact = contact;
     })
   }
 
 
   ngOnDestroy(): void {
-    this.userService.resetCurrentUser();
+    this.userService.resetCurrentContact();
   }
 
 
@@ -49,12 +49,12 @@ export class ContactOverviewComponent {
   }
 
   async deleteContact() {
-    if (this.currentUser) {
-      await this.apiService.deleteContact(this.currentUser);
+    if (this.currentContact) {
+      await this.apiService.deleteContact(this.currentContact);
       this.sharedService.closeAll();
       this.cdr.detectChanges();
       requestAnimationFrame(() => {
-        this.userService.deselectUser();
+        this.userService.deselectContact();
       })
     }
   }

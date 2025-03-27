@@ -6,8 +6,6 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class TaskService {
-  tasks: Task[] = [];
-
   tasksToDo: number = 0;
   tasksInProgress: number = 0;
   awaitingFeedback: number = 0;
@@ -18,6 +16,12 @@ export class TaskService {
 
   private _clickedTaskCardSubject = new BehaviorSubject<any>(Task);
   clickedTaskCard$ = this._clickedTaskCardSubject.asObservable();
+
+  private searchTermSubject = new BehaviorSubject<string>('');
+  searchTerm$ = this.searchTermSubject.asObservable();
+
+  private isSearchingTerm = new BehaviorSubject<boolean>(false);
+  isSearching$ = this.isSearchingTerm.asObservable();
 
   constructor() {
   }
@@ -52,11 +56,18 @@ export class TaskService {
         .reduce((earliest, current) => current < earliest ? current : earliest);
 
       this.upComingDeadline = tasks[0].formatDeadline(upcomingDate);
-      const urgendDate = tasks[0].formatDate(upcomingDate);
-      console.warn('Next Urgent Task Deadline:', urgendDate);
     } else {
       this.upComingDeadline = '-';
-      console.warn('No urgent tasks found');
     }
+  }
+
+
+  setSearchTerm(searchTerm: string) {
+    this.searchTermSubject.next(searchTerm);
+  }
+
+
+  setIsSearchingTerm(isSearching: boolean) {
+    this.isSearchingTerm.next(isSearching);
   }
 }

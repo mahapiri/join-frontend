@@ -93,7 +93,7 @@ export class FormComponent implements OnDestroy {
 
     this.isLoading = true;
     this.allSubscription.add(
-      this.userService.users$
+      this.userService.contacts$
       .pipe(
         delay(500),
         filter(contacts => contacts && contacts.length > 0),
@@ -236,22 +236,22 @@ export class FormComponent implements OnDestroy {
     }
   }
 
-  isUserAssigned(contact: User): boolean {
+  isContactAssigned(contact: User): boolean {
     const assignments = this.taskForm.get('assignments')?.value || [];
-    return assignments.some((user: User) => user.id === contact.id);
+    return assignments.some((thisContact: User) => thisContact.id === contact.id);
   }
 
 
-  selectUser(user: User, checkbox: HTMLInputElement) {
+  selectContact(contact: User, checkbox: HTMLInputElement) {
     const assignments = this.taskForm.get('assignments') as FormControl;
     const currentAssignments: User[] = assignments.value || [];
   
     if (checkbox.checked) {
-      if (!currentAssignments.some(u => u.id === user.id)) {
-        assignments.setValue([...currentAssignments, user]);
+      if (!currentAssignments.some(u => u.id === contact.id)) {
+        assignments.setValue([...currentAssignments, contact]);
       }
     } else {
-      const updatedAssignments = currentAssignments.filter(u => u.id !== user.id);
+      const updatedAssignments = currentAssignments.filter(u => u.id !== contact.id);
       assignments.setValue(updatedAssignments);
     }
   }

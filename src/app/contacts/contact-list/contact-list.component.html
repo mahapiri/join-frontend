@@ -11,25 +11,25 @@
       </div>
 
       <ng-template #contactView>
-        <ng-container *ngIf="groupedUsers && (groupedUsers | keyvalue) as grouped">
+        <ng-container *ngIf="groupedContacts && (groupedContacts | keyvalue) as grouped">
           <div *ngIf="grouped.length > 0; else noContacts">
             <div *ngFor="let group of grouped">
               <div class="alphabet">
                 <p>{{ group.key }}</p>
               </div>
               <div class="divider"></div>
-              <div class="contact-list" *ngFor="let user of group.value">
-                <div [attr.id]="'id' + user.id" class="contact-container" (click)="userService.selectUser(user.id)"
-                  [ngClass]="{'select-user': (userService.selectedUser$ | async) === user.id}">
+              <div class="contact-list" *ngFor="let contact of group.value">
+                <div [attr.id]="'id' + contact.id" class="contact-container" (click)="userService.selectContact(contact.id)"
+                [ngClass]="{'select-contact': (userService.selectedContact$ | async) === contact.id}">
 
                   <div class="contact-icon"
-                    [ngStyle]="{'background-color': user.color.startsWith('--') ? 'var(' + user.color + ')' : user.color || '#ccc'}">
-                    {{ user.initial }}
+                    [ngStyle]="{'background-color': contact.color.startsWith('--') ? 'var(' + contact.color + ')' : contact.color || '#ccc'}">
+                    {{ contact.initial }}
                   </div>
 
                   <div>
-                    <p>{{ user.name }}</p>
-                    <a>{{ user.email }}</a>
+                    <p>{{ contact.name }}</p>
+                    <a>{{ contact.email }}</a>
                   </div>
 
                 </div>

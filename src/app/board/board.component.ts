@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { SharedService } from '../services/shared.service';
 import { ApiService } from '../services/api.service';
 import { delay, filter, tap } from 'rxjs';
+import { TaskService } from '../services/task.service';
 
 @Component({
   selector: 'app-board',
@@ -23,6 +24,7 @@ export class BoardComponent {
     private titleService: Title, 
     private cdr: ChangeDetectorRef,
     private sharedService: SharedService,
+    private taskService: TaskService,
   ) {
     this.titleService.setTitle("Join - Board");
   }
@@ -30,8 +32,8 @@ export class BoardComponent {
 
   searchTask(event: any) {
     const searchTerm = event.target.value.trim().toLowerCase();
-    this.sharedService.setSearchTerm(searchTerm);
-    this.sharedService.setIsSearchingTerm(true);
+    this.taskService.setSearchTerm(searchTerm);
+    this.taskService.setIsSearchingTerm(true);
   }
 
   noTasksFound(noTasks: boolean) {

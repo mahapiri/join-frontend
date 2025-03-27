@@ -111,9 +111,9 @@
                                 <label class="contact-container" #contactContainer
                                     (mouseover)="onCheckboxChange(checkbox, contactContainer, true)"
                                     (mouseout)="onCheckboxChange(checkbox, contactContainer, false)"
-                                    [ngClass]="{'selected': isUserAssigned(contact)}"
+                                    [ngClass]="{'selected': isContactAssigned(contact)}"
                                     *ngFor="let contact of (searchAssignment ? filteredContacts : contacts)"
-                                    (change)="selectUser(contact, checkbox)">
+                                    (change)="selectContact(contact, checkbox)">
                                     <div class="contact-name">
                                         <div class="contact-icon"
                                             [ngStyle]="{'background-color': 'var(' + contact.color + ')'}">{{
@@ -122,7 +122,7 @@
                                         <p>{{ contact.name }}</p>
                                     </div>
                                     <div class="checkbox-container">
-                                        <input type="checkbox" #checkbox [checked]="isUserAssigned(contact)"
+                                        <input type="checkbox" #checkbox [checked]="isContactAssigned(contact)"
                                             (change)="onCheckboxChange(checkbox, contactContainer, true)">
                                         <span class="checkmark checkmark-font"></span>
                                     </div>
@@ -135,8 +135,8 @@
                     </div>
                     <div class="assigned-container">
                         <div class="contact-icon icon-border"
-                            *ngFor="let assignedUser of taskForm.get('assignments')?.value"
-                            [ngStyle]="{'background-color': 'var(' + assignedUser.color + ')'}">{{ assignedUser.initial
+                            *ngFor="let assignedContact of taskForm.get('assignments')?.value"
+                            [ngStyle]="{'background-color': 'var(' + assignedContact.color + ')'}">{{ assignedContact.initial
                             }}
                         </div>
                     </div>

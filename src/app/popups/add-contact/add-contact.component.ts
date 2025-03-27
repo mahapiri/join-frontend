@@ -43,7 +43,7 @@ export class AddContactComponent {
     this.sharedService.closeAll();
     this.cdr.detectChanges();
     requestAnimationFrame(() => {
-      this.userService.selectUser(response);
+      this.userService.selectContact(response);
     })
   }
 

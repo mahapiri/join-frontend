@@ -4,13 +4,13 @@
         <div class="divider"></div>
         <h5>Better with a team</h5>
     </header>
-    <ng-container *ngIf="userService.users$ | async as users">
-        <div class="contact-container" *ngIf="currentUser != null">
+    <ng-container *ngIf="userService.contacts$ | async as contacts">
+        <div class="contact-container" *ngIf="currentContact != null">
             <div class="contact-title">
                 <div class="contact-icon"
-                    [ngStyle]="{'background-color': 'var(' + currentUser.color + ')'}">{{ currentUser.initial}}</div>
+                    [ngStyle]="{'background-color': 'var(' + currentContact.color + ')'}">{{ currentContact.initial}}</div>
                 <div class="contact-title-content">
-                    <h4>{{ currentUser.name}}</h4>
+                    <h4>{{ currentContact.name}}</h4>
                     <div class="edit-delete-section">
                         <div class="edit-delete-content" (click)="editContact()">
                             <svg width="33" height="33" viewBox="0 0 33 33" fill="none"
@@ -49,12 +49,12 @@
             <div class="contact-infos">
                 <div class="email-phone-section">
                     <a class="a-bold">Email</a>
-                    <a class="email-text" href="mailto:{{ currentUser.email}}">{{
-                        currentUser.email}}</a>
+                    <a class="email-text" href="mailto:{{ currentContact.email}}">{{
+                        currentContact.email}}</a>
                 </div>
                 <div class="email-phone-section">
                     <a class="a-bold">Phone</a>
-                    <a>{{ currentUser.phone}}</a>
+                    <a>{{ currentContact.phone}}</a>
                 </div>
             </div>
         </div>

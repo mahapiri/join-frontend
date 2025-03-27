@@ -20,7 +20,6 @@ export class ValidationService {
   }
   
 
-
   validatePhone(control: AbstractControl): ValidationErrors | null {
     const phoneRegex = /^\+?[0-9 ]+$/;
     const minDigits = 7;
@@ -39,7 +38,6 @@ export class ValidationService {
     return null;
   }
   
-
 
   validateName(control: AbstractControl): ValidationErrors | null {
     const nameRegex = /^[a-zA-ZäöüßÄÖÜ ]+$/;

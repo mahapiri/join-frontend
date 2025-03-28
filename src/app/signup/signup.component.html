@@ -11,36 +11,54 @@
         <div class="inputfield-container">
             <div class="inputfield-content">
                 <div class="input-icon-container">
-                    <input formControlName="name" type="text" placeholder="Name">
+                    <input formControlName="name" type="text" placeholder="Name"
+                        [class.invalidInput]="signupForm.get('name')?.invalid && signupForm.get('name')?.touched">
                     <img class="input-icon" src="../../assets/img/login-signup/person.svg" alt="Name">
+                    <div class="errormsg" *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched">
+                        Check your name. Please try again.</div>
                 </div>
                 <div class="input-icon-container">
-                    <input formControlName="email" type="text" placeholder="Email">
+                    <input formControlName="email" type="text" placeholder="Email"
+                        [class.invalidInput]="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
                     <img class="input-icon" src="../../assets/img/login-signup/mail.svg" alt="Email">
+                    <div class="errormsg" *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
+                        Check your email. Please try again.</div>
                 </div>
                 <div class="input-icon-container">
-                    <input formControlName="password" type="password" placeholder="Password">
+                    <input formControlName="password" type="password" placeholder="Password"
+                        [class.invalidInput]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
                     <img class="input-icon password-icon" src="../../assets/img/login-signup/lock.svg" alt="Password">
+                    <div class="errormsg"
+                        *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">Check your
+                        Password. Please try again.</div>
                 </div>
                 <div class="input-icon-container">
-                    <input formControlName="confirmPassword" type="password" placeholder="Confirm Password">
+                    <input formControlName="confirmPassword" type="password" placeholder="Confirm Password"
+                        [class.invalidInput]="signupForm.hasError('passwordMismatch') && signupForm.get('confirmPassword')?.touched">
                     <img class="input-icon password-icon" src="../../assets/img/login-signup/lock.svg" alt="Password">
+                    <div class="errormsg"
+                        *ngIf="signupForm.hasError('passwordMismatch') && signupForm.get('confirmPassword')?.touched">
+                        Your passwords don't match. Please try again.
+                    </div>
                 </div>
-                <div class="errormsg" *ngIf="signupForm.invalid && signupForm.invalid ">Check your email and password.
-                    Please try again.</div>
                 <div class="errormsg"
-                    *ngIf="signupForm.controls['confirmPassword'] && signupForm.controls['confirmPassword'].touched && signupForm.hasError('passwordMismatch')">
-                    Your passwords don't match. Please try again.</div>
+                    *ngIf="signupForm.get('name')?.invalid && signupForm.get('email')?.invalid && signupForm.get('password')?.invalid && signupForm.get('confirmPassword')?.invalid && signupForm.controls['confirmPassword'].touched && signupForm.get('password')?.touched && signupForm.get('email')?.touched && signupForm.get('name')?.touched">
+                    Check your email and password. Please try again.</div>
+
             </div>
         </div>
 
         <div class="privacy-container">
             <div class="checkbox-container">
-                <input type="checkbox" #checkbox [checked]="isContactAssigned()"
-                    (change)="onCheckboxChange()">
+                <input type="checkbox" formControlName="acceptPrivacy">
                 <span class="checkmark checkmark-font"></span>
             </div>
-            <span class="gray">I accept the <a class="blue" (click)="navigateToPrivacyPolicy()">Privacy Policy</a></span>
+            <span class="gray">I accept the <a class="blue" (click)="navigateToPrivacyPolicy()">Privacy
+                    Policy</a></span>
+            <div class="errormsg"
+                *ngIf="signupForm.get('acceptPrivacy')?.touched && !signupForm.get('acceptPrivacy')?.value">
+                Please read and accept the Privacy Policy to proceed.
+            </div>
         </div>
 
 

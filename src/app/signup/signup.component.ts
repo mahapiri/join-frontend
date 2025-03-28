@@ -32,12 +32,12 @@ export class SignupComponent {
         private userService: UserService
   ) {
     this.signupForm = this.fb.group({
-      name: new FormControl('', [Validators.required, this.validate.validateEmail]),
+      name: new FormControl('', [Validators.required, this.validate.validateName]),
       email: new FormControl('', [Validators.required, this.validate.validateEmail]),
       password: new FormControl('', [Validators.required, this.validate.validatePassword]),
-      confirmPassword: new FormControl('', [Validators.required, this.validate.validatePassword])
-    }),
-      { validators: this.validate.passwordMatchValidator() };
+      confirmPassword: new FormControl('', [Validators.required, this.validate.validatePassword]),
+      acceptPrivacy: new FormControl(false, [Validators.requiredTrue])
+    }), { validators: this.validate.passwordMatchValidator() };
     this.sharedService.setIsLoginWindow(true);
     this.sharedService.setisDisableAnimation(true);
     this.userService.setIsLoggedIn(false);
@@ -46,11 +46,13 @@ export class SignupComponent {
 
   onSubmit() {
     if (this.signupForm.invalid) {
-      console.log('Fehler im Formular');
+      this.signupForm.markAllAsTouched();
       return;
     }
-    console.log('Formulardaten:', this.signupForm.value);
+    this.sharedService.isAdding = true;
+    console.log("Registrierung erfolgreich!", this.signupForm.value);
   }
+
 
   back() {
     this.sharedService.setisDisableAnimation(true);
@@ -59,34 +61,5 @@ export class SignupComponent {
 
   navigateToPrivacyPolicy() {
     this.router.navigate(['/privacy-policy']);
-  }
-
-  isContactAssigned() {
-    // const assignments = this.taskForm.get('assignments')?.value || [];
-    // return assignments.some((thisContact: User) => thisContact.id === contact.id);
-  }
-
-  onCheckboxChange() {
-    //   const paragraph = contactContainer.querySelector('p') as HTMLElement;
-    //   const contactIcon = contactContainer.querySelector('.contact-icon') as HTMLElement;
-    //   if (checkbox.checked) {
-    //     if (isHovering) {
-    //       contactContainer.style.backgroundColor = 'var(--third)';
-    //     } else {
-    //       contactContainer.style.backgroundColor = 'var(--primary)';
-    //     }
-
-    //     if (paragraph) {
-    //       paragraph.style.color = 'var(--white)';
-    //       contactIcon.style.borderColor = 'var(--white)';
-    //     }
-    //   } else {
-    //     contactContainer.style.backgroundColor = '';
-    //     if (paragraph) {
-    //       paragraph.style.color = '';
-    //       contactIcon.style.borderColor = '';
-    //     }
-    //   }
-    // }
   }
 }

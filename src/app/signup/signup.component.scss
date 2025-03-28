@@ -45,12 +45,14 @@
     }
 
     .privacy-container {
+        width: 100%;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
         gap: 8px;
         margin-top: 32px;
+        position: relative;
     }
 
     .checkbox-container {
@@ -102,6 +104,6 @@
     }
 
     .button-container {
-        margin-top: unset;
+        margin-top: 16px;
     }
 }

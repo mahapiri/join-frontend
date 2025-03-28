@@ -40,32 +40,25 @@ export class LoginComponent {
   }
 
 
-  passwordOnFocus() {
-    this.updateIcon();
+  passwordOnFocus(inputElement: HTMLInputElement, imgElement: HTMLImageElement) {
+    this.updateIcon(inputElement, imgElement);
   }
 
 
-  passwordNotOnFocus() {
-    const imgElement = this.passwordImg?.nativeElement as HTMLImageElement;
-    const inputElement = this.passwordInput?.nativeElement as HTMLInputElement;
-
+  passwordNotOnFocus(inputElement: HTMLInputElement, imgElement: HTMLImageElement) {
     if (inputElement.value.length === 0) {
       imgElement.src = '../../assets/img/login-signup/lock.svg';
     }
   }
 
 
-  togglePassword() {
-    const inputElement = this.passwordInput?.nativeElement as HTMLInputElement;
+  togglePassword(inputElement: HTMLInputElement, imgElement: HTMLImageElement) {
     inputElement.type = inputElement.type === 'password' ? 'text' : 'password';
-    this.updateIcon();
+    this.updateIcon(inputElement, imgElement);
   }
 
 
-  updateIcon() {
-    const imgElement = this.passwordImg?.nativeElement as HTMLImageElement;
-    const inputElement = this.passwordInput?.nativeElement as HTMLInputElement;
-
+  updateIcon(inputElement: HTMLInputElement, imgElement: HTMLImageElement) {
     if (inputElement.type === 'password') {
       imgElement.src = '../../assets/img/login-signup/visibility_off.svg';
     } else {

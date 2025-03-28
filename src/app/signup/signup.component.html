@@ -25,26 +25,24 @@
                         Check your email. Please try again.</div>
                 </div>
                 <div class="input-icon-container">
-                    <input formControlName="password" type="password" placeholder="Password"
-                        [class.invalidInput]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
-                    <img class="input-icon password-icon" src="../../assets/img/login-signup/lock.svg" alt="Password">
+                    <input #passwordInput formControlName="password" type="password" placeholder="Password"
+                        [class.invalidInput]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
+                        (focus)="passwordOnFocus(passwordInput, passwordImg)" (blur)="passwordNotOnFocus(passwordInput, passwordImg)" (input)="updateIcon(passwordInput, passwordImg)">
+                    <img #passwordImg class="input-icon password-icon" src="../../assets/img/login-signup/lock.svg" alt="Password" (click)="togglePassword(passwordInput, passwordImg)">
                     <div class="errormsg"
                         *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">Check your
                         Password. Please try again.</div>
                 </div>
                 <div class="input-icon-container">
-                    <input formControlName="confirmPassword" type="password" placeholder="Confirm Password"
-                        [class.invalidInput]="signupForm.hasError('passwordMismatch') && signupForm.get('confirmPassword')?.touched">
-                    <img class="input-icon password-icon" src="../../assets/img/login-signup/lock.svg" alt="Password">
+                    <input #confirmPasswordInput formControlName="confirmPassword" type="password" placeholder="Confirm Password"
+                        [class.invalidInput]="signupForm.hasError('passwordMismatch') && signupForm.get('confirmPassword')?.touched"
+                        (focus)="passwordOnFocus(confirmPasswordInput, confirmPasswordImg)" (blur)="passwordNotOnFocus(confirmPasswordInput, confirmPasswordImg)" (input)="updateIcon(confirmPasswordInput, confirmPasswordImg)">
+                    <img #confirmPasswordImg class="input-icon password-icon" src="../../assets/img/login-signup/lock.svg" alt="Password" (click)="togglePassword(confirmPasswordInput, confirmPasswordImg)">
                     <div class="errormsg"
                         *ngIf="signupForm.hasError('passwordMismatch') && signupForm.get('confirmPassword')?.touched">
                         Your passwords don't match. Please try again.
                     </div>
                 </div>
-                <div class="errormsg"
-                    *ngIf="signupForm.get('name')?.invalid && signupForm.get('email')?.invalid && signupForm.get('password')?.invalid && signupForm.get('confirmPassword')?.invalid && signupForm.controls['confirmPassword'].touched && signupForm.get('password')?.touched && signupForm.get('email')?.touched && signupForm.get('name')?.touched">
-                    Check your email and password. Please try again.</div>
-
             </div>
         </div>
 

@@ -21,9 +21,9 @@
                     </div>
                     <div class="input-icon-container">
                         <input #passwordInput formControlName="password" type="password" placeholder="Password"
-                            (focus)="passwordOnFocus()" (blur)="passwordNotOnFocus()" (input)="updateIcon()">
+                            (focus)="passwordOnFocus(passwordInput, passwordImg)" (blur)="passwordNotOnFocus(passwordInput, passwordImg)" (input)="updateIcon(passwordInput, passwordImg)">
                         <img #passwordImg class="input-icon password-icon" src="../../assets/img/login-signup/lock.svg"
-                            alt="Password" (click)="togglePassword()">
+                            alt="Password" (click)="togglePassword(passwordInput, passwordImg)">
                     </div>
                     <div class="errormsg" *ngIf="loginForm.invalid && submitted">Check your email and password. Please try again.</div>
                 </div>

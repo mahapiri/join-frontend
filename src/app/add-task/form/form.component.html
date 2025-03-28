@@ -3,7 +3,7 @@
         <div class="field-container">
             <label class="field-layout">
                 <p>Title<span>*</span></p>
-                <input type="text" placeholder="Enter a title" formControlName="title">
+                <input type="text" placeholder="Enter a title" formControlName="title" [class.invalidInput]="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
                 <div class="errormsg" *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">This
                     field is required</div>
             </label>
@@ -69,7 +69,9 @@
                 <div class="datepicker-box">
                     <span class="datepicker-btn"></span>
                     <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" formControlName="date"
-                        class="datepicker-input" placeholder="DD/MM/YYYY" readonly>
+                        class="datepicker-input" placeholder="DD/MM/YYYY"
+                        [class.invalidInput]="taskForm.get('date')?.invalid && taskForm.get('date')?.touched"
+                        readonly>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </div>
@@ -102,7 +104,9 @@
                 <p>Category<span>*</span></p>
                 <div class="select-container" appClickOutside (clickOutside)="clickOutsideCategory()">
                     <input class="category-field" type="text" (click)="toggleCategory($event)" id="input-category"
-                        name="category" placeholder="Select a category" formControlName="category" readonly required>
+                        name="category" placeholder="Select a category" formControlName="category" 
+                        [class.invalidInput]="taskForm.get('category')?.invalid && taskForm.get('category')?.touched"
+                        readonly required>
                     <img class="input-icon"
                         [src]="openedCategoryList ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
                         alt="arrow" (click)="toggleCategory($event)">

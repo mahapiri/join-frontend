@@ -18,7 +18,7 @@
                     <div class="inputfield-container">
                         <div class="inputfield">
                             <div>
-                                <input formControlName="name" type="text" placeholder="Name" value="{{ currentContact.name}}">
+                                <input formControlName="name" type="text" placeholder="Name" value="{{ currentContact.name}}" [class.invalidInput]="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
                                 <img class="input-icon" src="assets/img/contact-form/person.svg" alt="Name">
                             </div>
                             <p class="errormsg" *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
@@ -27,7 +27,7 @@
                         </div>
                         <div class="inputfield">
                             <div>
-                                <input formControlName="email" type="text" placeholder="Mail" value="{{ currentContact.email}}">
+                                <input formControlName="email" type="text" placeholder="Mail" value="{{ currentContact.email}}" [class.invalidInput]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
                                 <img class="input-icon" src="assets/img/contact-form/mail.svg" alt="Mail">
                             </div>
                             <p class="errormsg" *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
@@ -36,7 +36,7 @@
                         </div>
                         <div class="inputfield">
                             <div>
-                                <input formControlName="phone" type="text" placeholder="Phone" value="{{ currentContact.phone}}">
+                                <input formControlName="phone" type="text" placeholder="Phone" value="{{ currentContact.phone}}" [class.invalidInput]="contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched">
                                 <img class="input-icon" src="assets/img/contact-form/call.svg" alt="Phone">
                             </div>
                             <p class="errormsg" *ngIf="contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched">

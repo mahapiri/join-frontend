@@ -6,7 +6,7 @@
     <ng-container *ngIf="sharedService.isCard && sharedService.isCardEditing">
         <label class="field-layout">
             <p>Title<span>*</span></p>
-            <input type="text" placeholder="Enter a title" formControlName="title">
+            <input type="text" placeholder="Enter a title" formControlName="title" [class.invalidInput]="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
             <div class="errormsg" *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">This
                 field is required</div>
         </label>
@@ -34,7 +34,9 @@
                 <div class="datepicker-box">
                     <span class="datepicker-btn"></span>
                     <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" formControlName="date"
-                        class="datepicker-input" placeholder="DD/MM/YYYY" readonly>
+                        class="datepicker-input" placeholder="DD/MM/YYYY" 
+                        [class.invalidInput]="taskForm.get('date')?.invalid && taskForm.get('date')?.touched"
+                        readonly>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </div>

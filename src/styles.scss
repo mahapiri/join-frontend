@@ -270,6 +270,10 @@ textarea {
     &:focus-visible {
         border-color: var(--secondary);
     }
+
+    &.invalidInput {
+        border-color: var(--required);
+    }
 }
 
 button {

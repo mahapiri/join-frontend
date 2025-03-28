@@ -17,6 +17,9 @@ export class UserService {
   private _currentContact = new BehaviorSubject<(User | null)>(null);
   currentContact$ = this._currentContact.asObservable();
 
+  private _isLoggedIn = new BehaviorSubject<boolean>(true);
+  isLoggedIn$ = this._isLoggedIn.asObservable();
+
 
   constructor(private apiService: ApiService) {
     this.apiService.contacts$.subscribe((contact) => {
@@ -24,6 +27,10 @@ export class UserService {
     })
 
     this.apiService.getAllContacts();
+  }
+
+  setIsLoggedIn(status: boolean) {
+    this._isLoggedIn.next(status);
   }
 
 

@@ -5,6 +5,7 @@ import { SubmenuComponent } from "./submenu/submenu.component";
 import { ClickOutsideDirective } from '../click-outside.directive';
 import { SharedService } from '../services/shared.service';
 import { LogoComponent } from '../logo/logo.component';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,6 +27,7 @@ export class DashboardComponent {
 
   constructor(
     public sharedService: SharedService,
+    public userService: UserService
   ) {
 
   }

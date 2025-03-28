@@ -4,6 +4,7 @@ import { SharedService } from '../services/shared.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ValidationService } from '../services/validation.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -28,12 +29,14 @@ export class LoginComponent {
     public sharedService: SharedService,
     private router: Router,
     private validate: ValidationService,
+    private userService: UserService
   ) {
     this.loginForm = this.fb.group({
       email: new FormControl('', [Validators.required, this.validate.validateEmail]),
       password: new FormControl('', [Validators.required])
     });
     this.sharedService.setIsLoginWindow(true);
+    this.userService.setIsLoggedIn(false);
   }
 
 
@@ -73,10 +76,12 @@ export class LoginComponent {
 
   login(userType: string) {
     if (userType == 'guest') {
+      this.userService.setIsLoggedIn(true);
       this.router.navigate(['/summary']);
     } else if (userType == 'user') {
       this.submitted = true;
       if (this.loginForm.valid) {
+        this.userService.setIsLoggedIn(true);
         this.router.navigate(['/summary']);
       } else {
         this.loginForm.invalid;

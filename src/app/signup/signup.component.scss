@@ -26,8 +26,22 @@
     input[type=checkbox] {
         width: 16px;
         height: 16px;
-        opacity: 1;
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
         cursor: pointer;
+    
+    
+        &:checked {
+            +.checkmark {
+                border-color: var(--primary);
+                background-color: var(--white);
+    
+                &::after {
+                    display: block;
+                }
+            }
+        }
     }
 
     .privacy-container {
@@ -37,6 +51,46 @@
         justify-content: center;
         gap: 8px;
         margin-top: 32px;
+    }
+
+    .checkbox-container {
+        width: 16px;
+        height: 16px;
+        position: relative;
+    }
+
+    .checkmark {
+        width: 16px;
+        height: 16px;
+        background-color: var(--white);
+        border: 2px solid var(--primary);
+        display: inline-block;
+        vertical-align: middle;
+        border-radius: 3px;
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        @include transition-75;
+    
+        &::after {
+            content: "";
+            position: relative;
+            display: none;
+            left: 6px;
+            bottom: 5px;
+            width: 4px;
+            height: 12px;
+            border: solid var(--primary);
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+    }
+    
+    .checkmark-font {
+        font-family: Inter;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 14.4px;
     }
 
     .gray {

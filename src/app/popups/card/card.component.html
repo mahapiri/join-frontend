@@ -13,7 +13,7 @@
     </ng-container>
 
     <ng-container *ngIf="sharedService.isCard && !sharedService.isCardEditing">
-        <p>{{ task?.description }}</p>
+        <p class="description">{{ task?.description }}</p>
     </ng-container>
     <ng-container *ngIf="sharedService.isCard && sharedService.isCardEditing">
         <label class="field-layout">

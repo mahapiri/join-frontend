@@ -35,9 +35,14 @@
         </div>
 
         <div class="privacy-container">
-            <input type="checkbox">
-            <span class="gray">I accept the <a class="blue">Privacy Policy</a></span>
+            <div class="checkbox-container">
+                <input type="checkbox" #checkbox [checked]="isContactAssigned()"
+                    (change)="onCheckboxChange()">
+                <span class="checkmark checkmark-font"></span>
+            </div>
+            <span class="gray">I accept the <a class="blue" (click)="navigateToPrivacyPolicy()">Privacy Policy</a></span>
         </div>
+
 
         <div class="button-container">
             <button class="login-btn" [disabled]="signupForm.invalid">

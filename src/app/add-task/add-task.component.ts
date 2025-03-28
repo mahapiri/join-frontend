@@ -5,6 +5,7 @@ import { ApiService } from '../services/api.service';
 import { CommonModule } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
 import { User } from '../models/user.model';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-add-task',
@@ -26,9 +27,11 @@ export class AddTaskComponent implements OnInit, OnDestroy {
 
   constructor(
     private titleService: Title,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private sharedService: SharedService
   ) {
     this.titleService.setTitle("Join - Add Task");
+    this.sharedService.setIsLoginWindow(false);
   }
 
   async ngOnInit() {

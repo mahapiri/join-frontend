@@ -1,10 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { DistributionComponent } from "./distribution/distribution.component";
 import { CommonModule } from '@angular/common';
 import { SharedService } from '../services/shared.service';
-import { ApiService } from '../services/api.service';
-import { delay, filter, tap } from 'rxjs';
 import { TaskService } from '../services/task.service';
 
 @Component({
@@ -22,11 +20,11 @@ export class BoardComponent {
 
   constructor(
     private titleService: Title, 
-    private cdr: ChangeDetectorRef,
     private sharedService: SharedService,
     private taskService: TaskService,
   ) {
     this.titleService.setTitle("Join - Board");
+    this.sharedService.setIsLoginWindow(false);
   }
 
 

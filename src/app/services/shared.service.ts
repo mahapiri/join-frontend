@@ -15,10 +15,11 @@ export class SharedService {
   isAddContact: boolean = false;
   isEditContact: boolean = false;
 
-  isLoginOrSignup: boolean = true;
-  isLogin: boolean = true;
-  isSignup: boolean = false;
-  disableAnimation: boolean = false;
+  private _loginWindowSubject = new BehaviorSubject<boolean>(true);
+  loginWindow$ = this._loginWindowSubject.asObservable();
+
+  private _disableAnimation = new BehaviorSubject<boolean>(false);
+  disableAnimation$ = this._disableAnimation.asObservable();
 
 
   constructor() { }
@@ -36,7 +37,13 @@ export class SharedService {
     this.isEditContact = false;
   }
 
-  setAnimation(status: boolean) {
-    this.disableAnimation = status;
+
+  setIsLoginWindow(status: boolean) {
+    this._loginWindowSubject.next(status);
+  }
+
+
+  setisDisableAnimation(status: boolean) {
+    this._disableAnimation.next(status);
   }
 }

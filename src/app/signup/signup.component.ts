@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationService } from '../services/validation.service';
 import { SharedService } from '../services/shared.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -25,7 +26,8 @@ export class SignupComponent {
   constructor(
     private fb: FormBuilder,
         private validate: ValidationService,
-        private sharedService: SharedService
+        private sharedService: SharedService,
+        private router: Router,
   ) {
     this.signupForm = this.fb.group({
       name: new FormControl('', [Validators.required, this.validate.validateEmail]),
@@ -33,7 +35,8 @@ export class SignupComponent {
       password: new FormControl('', [Validators.required, this.validate.validatePassword]),
       confirmPassword: new FormControl('', [Validators.required, this.validate.validatePassword])
     }),
-    { validators: this.validate.passwordMatchValidator() }
+    { validators: this.validate.passwordMatchValidator() };
+    this.sharedService.setIsLoginWindow(true);
   }
 
 
@@ -46,8 +49,7 @@ export class SignupComponent {
   }
 
   back() {
-    this.sharedService.isLogin = true;
-    this.sharedService.isSignup = false;
-    this.sharedService.setAnimation(true)
+    this.sharedService.setisDisableAnimation(true);
+    this.router.navigate(['/login']);
   }
 }

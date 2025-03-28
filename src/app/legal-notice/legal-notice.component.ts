@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 import { Title } from '@angular/platform-browser';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-legal-notice',
@@ -11,8 +12,13 @@ import { Title } from '@angular/platform-browser';
 })
 export class LegalNoticeComponent {
 
-  constructor(private _location: Location, private titleService:Title) {
-    this.titleService.setTitle("Join - Legal notice")
+  constructor(
+    private _location: Location, 
+    private titleService:Title,
+    private sharedService: SharedService
+  ) {
+    this.titleService.setTitle("Join - Legal notice");
+    this.sharedService.setIsLoginWindow(false);
   }
 
   back() {

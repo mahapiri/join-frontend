@@ -10,7 +10,7 @@
 
     .logo {
         width: 274px;
-        height: 334.07px;
+        // height: 334.07px;
         position: absolute;
         z-index: 1;
         animation: moveLogo 1s cubic-bezier(0.58, 0.81, 0.69, 0.78) forwards;
@@ -43,8 +43,8 @@
         align-items: center;
         gap: 35px;
         position: absolute;
-        top: 67px;
-        right: 64px;
+        top: 22px;
+        right: 40px;
 
 
         .signup-btn {
@@ -83,6 +83,7 @@
         gap: 32px;
         background-color: var(--white);
         @include box-shadow-backlog;
+        @include transition-100;
     }
 
     .header-container {
@@ -213,10 +214,10 @@
     }
 
     100% {
-        width: 100.03px;
-        height: 121.97px;
-        top: 80px;
-        left: 77px;
+        width: 100px;
+        // height: 121.97px;
+        top: 64px;
+        left: 67px;
         transform: translate(0, 0);
     }
 }

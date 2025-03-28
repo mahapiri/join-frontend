@@ -7,11 +7,12 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 import { LegalNoticeComponent } from './legal-notice/legal-notice.component';
 import { HelpPageComponent } from './help-page/help-page.component';
 import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 
 export const routes: Routes = [
     { path: '', component: LoginComponent},
     { path: 'login', component: LoginComponent},
-    { path: 'register', component: LoginComponent},
+    { path: 'signup', component: SignupComponent},
     { path: 'summary', component: SummaryComponent},
     { path: 'add-task', component: AddTaskComponent},
     { path: 'board', component: BoardComponent},

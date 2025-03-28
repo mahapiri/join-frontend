@@ -11,6 +11,7 @@ header {
     justify-content: center;
     align-items: center;
     gap: 30px;
+    text-wrap-mode: nowrap;
 
     h5 {
         color: var(--primary);

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ContactListComponent } from './contact-list/contact-list.component';
 import { ContactOverviewComponent } from './contact-overview/contact-overview.component';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-contacts',
@@ -12,8 +13,10 @@ import { ContactOverviewComponent } from './contact-overview/contact-overview.co
 })
 export class ContactsComponent {
   constructor(
-    private titleService: Title
+    private titleService: Title,
+    private sharedService: SharedService
   ) {
     this.titleService.setTitle("Join - Contacts");
+    this.sharedService.setIsLoginWindow(false);
   }
 }

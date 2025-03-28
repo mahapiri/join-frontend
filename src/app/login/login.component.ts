@@ -32,7 +32,8 @@ export class LoginComponent {
     this.loginForm = this.fb.group({
       email: new FormControl('', [Validators.required, this.validate.validateEmail]),
       password: new FormControl('', [Validators.required])
-    })
+    });
+    this.sharedService.setIsLoginWindow(true);
   }
 
 
@@ -72,19 +73,19 @@ export class LoginComponent {
 
   login(userType: string) {
     if (userType == 'guest') {
-      this.sharedService.isLoginOrSignup = false;
       this.router.navigate(['/summary']);
     } else if (userType == 'user') {
+      this.submitted = true;
       if (this.loginForm.valid) {
-        this.submitted = true;
+        this.router.navigate(['/summary']);
+      } else {
+        this.loginForm.invalid;
       }
     }
   }
 
 
   register() {
-    this.sharedService.isSignup = true;
-    this.sharedService.isLogin = false;
-    this.sharedService.setAnimation(true);
+    this.router.navigate(['/signup']);
   }
 }

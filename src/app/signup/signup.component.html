@@ -1,4 +1,5 @@
 <form [formGroup]="signupForm" class="main-container" (ngSubmit)="onSubmit()">
+    <img class="logo no-animation-logo" src="../../assets/img/logo.svg" alt="Join Logo">
     <div class="login-container">
         <a (click)="back()" class="back-icon">
             <img src="../../assets/img/arrow-left/default.svg" alt="Arrow Left">
@@ -36,12 +37,12 @@
 
         <div class="privacy-container">
             <input type="checkbox">
-            <a class="gray">I accept the <a class="blue">Privacy Policy</a></a>
+            <span class="gray">I accept the <a class="blue">Privacy Policy</a></span>
         </div>
 
         <div class="button-container">
             <button class="login-btn" [disabled]="signupForm.invalid">
-                <p class="p-bold">Log in</p>
+                <p class="p-bold">Sign up</p>
             </button>
         </div>
     </div>

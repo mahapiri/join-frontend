@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 import { Title } from '@angular/platform-browser';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-help-page',
@@ -11,8 +12,13 @@ import { Title } from '@angular/platform-browser';
 })
 export class HelpPageComponent {
 
-  constructor(private _location: Location, private titleService: Title) {
+  constructor(
+    private _location: Location, 
+    private titleService: Title,
+    private sharedService: SharedService
+  ) {
     this.titleService.setTitle("Join - Help");
+    this.sharedService.setIsLoginWindow(false);
   }
 
   back() {

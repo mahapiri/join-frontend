@@ -1,6 +1,6 @@
 <form [formGroup]="loginForm" class="main-container">
-    <img class="logo" src="../../assets/img/logo.svg" alt="Join Logo" [class.no-animation-logo]="sharedService.disableAnimation">
-    <div class="form-container" [class.no-animation]="sharedService.disableAnimation">
+    <img class="logo" src="../../assets/img/logo.svg" alt="Join Logo" [class.no-animation-logo]="sharedService.disableAnimation$ | async">
+    <div class="form-container" [class.no-animation]="sharedService.disableAnimation$ | async">
         <div class="signup-container">
             <p>Not a Join user?</p>
             <button class="signup-btn" (click)="register()">

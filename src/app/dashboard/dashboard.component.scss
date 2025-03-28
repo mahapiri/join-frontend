@@ -8,6 +8,7 @@
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: stretch;
+    @include transition-100;
 }
 
 .sidebar {

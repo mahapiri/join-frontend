@@ -8,24 +8,6 @@
     align-items: center;
     position: relative;
 
-    .logo {
-        width: 274px;
-        // height: 334.07px;
-        position: absolute;
-        z-index: 1;
-        animation: moveLogo 1s cubic-bezier(0.58, 0.81, 0.69, 0.78) forwards;
-        animation-delay: 1s;
-        will-change: transform;
-    }
-
-    .no-animation-logo {
-        animation: none !important;
-        width: 100.03px !important;
-        height: 121.97px !important;
-        top: 80px !important;
-        left: 77px !important;
-    }
-
     .no-animation {
         animation: none !important;
         opacity: 1 !important;
@@ -203,22 +185,6 @@
                 color: var(--third);
             }
         }
-    }
-}
-
-@keyframes moveLogo {
-    0% {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-
-    100% {
-        width: 100px;
-        // height: 121.97px;
-        top: 64px;
-        left: 67px;
-        transform: translate(0, 0);
     }
 }
 

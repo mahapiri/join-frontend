@@ -37,6 +37,7 @@ export class SignupComponent {
     }),
     { validators: this.validate.passwordMatchValidator() };
     this.sharedService.setIsLoginWindow(true);
+    this.sharedService.setisDisableAnimation(true);
   }
 
 

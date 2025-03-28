@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-submenu',
@@ -13,7 +14,8 @@ export class SubmenuComponent {
   @Output() isSubmenuChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
-    private router: Router
+    private router: Router,
+    private sharedService: SharedService
   ) {
 
   }
@@ -26,6 +28,7 @@ export class SubmenuComponent {
   logout() {
     this.isSubmenu = false;
     this.isSubmenuChange.emit(this.isSubmenu);
+    this.sharedService.setisDisableAnimation(false);
     this.router.navigate(['/login']);
   }
 }

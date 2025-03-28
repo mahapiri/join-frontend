@@ -4,6 +4,7 @@ import { RouterLink, RouterModule } from '@angular/router';
 import { SubmenuComponent } from "./submenu/submenu.component";
 import { ClickOutsideDirective } from '../click-outside.directive';
 import { SharedService } from '../services/shared.service';
+import { LogoComponent } from '../logo/logo.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,7 +15,8 @@ import { SharedService } from '../services/shared.service';
     CommonModule, 
     SubmenuComponent, 
     SubmenuComponent, 
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    LogoComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss', '../../styles.scss']

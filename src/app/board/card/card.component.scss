@@ -126,6 +126,10 @@
     &:not(:first-child) {
         margin-left: -10px;
     }
+
+    &.more-indicator {
+        background-color: var(--primary);
+    }
 }
 
 .prio-content {

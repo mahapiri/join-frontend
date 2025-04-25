@@ -17,7 +17,7 @@
                     <div class="input-icon-container">
                         <input formControlName="email" type="text" placeholder="Email" class="invalidInput" [class.invalidInput]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
                         <img class="input-icon" src="../../assets/img/login-signup/mail.svg" alt="Email">
-                        <div class="errormsg" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">Check your name. Please try again.</div>
+                        <div class="errormsg" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">Check your email. Please try again.</div>
                     </div>
                     <div class="input-icon-container">
                         <input #passwordInput formControlName="password" type="password" placeholder="Password"

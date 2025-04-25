@@ -4,6 +4,8 @@ import { TaskService } from '../../services/task.service';
 import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { Task } from '../../models/task.model';
+import { TaskApiService } from '../../services/task-api.service';
+import { SummaryData } from '../../models/summary-data';
 
 @Component({
   selector: 'app-panel',
@@ -18,28 +20,35 @@ export class PanelComponent implements OnDestroy, OnInit {
   imgSrcDone = 'assets/img/check/default.svg';
   imgSrcPrio = 'assets/img/prio/urgent-active.svg';
 
-  subscription: Subscription = new Subscription();
-  @Input() tasks$!: Observable<Task[]>;
-  tasks: Task[] = [];
+  summData: SummaryData | null = null;
+
+  // subscription: Subscription = new Subscription();
+  // @Input() tasks$!: Observable<Task[]>;
+  // tasks: Task[] = [];
 
   constructor(
     public taskService: TaskService, 
-    private router: Router
+    private router: Router,
+    private taskApi: TaskApiService
   ) { }
 
-
   ngOnInit(): void {
-    this.subscription = this.tasks$.subscribe(tasks => {
-      this.tasks = tasks;
-      this.taskService.updateValues(tasks);
-    });
+    // this.subscription = this.tasks$.subscribe(tasks => {
+    //   this.tasks = tasks;
+    //   this.taskService.updateValues(tasks);
+    // });
+
+    this.taskApi.getSummaryData();
+    this.taskApi.task$.subscribe((data) => {
+      this.summData = data
+    })
   }
 
 
   ngOnDestroy(): void {
-    if(this.subscription){
-      this.subscription.unsubscribe();
-    }    
+    // if(this.subscription){
+    //   this.subscription.unsubscribe();
+    // }    
   }
 
   

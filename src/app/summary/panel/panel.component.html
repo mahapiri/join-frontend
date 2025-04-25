@@ -5,7 +5,7 @@
                 <img [src]="imgSrcTodo" alt="To-Do">
             </div>
             <div class="box-content">
-                <h2>{{ this.taskService.tasksToDo }}</h2>
+                <h2>{{ this.summData?.to_do_count }}</h2>
                 <p>To-do</p>
             </div>
         </div>
@@ -14,7 +14,7 @@
                 <img [src]="imgSrcDone" alt="To-Do">
             </div>
             <div class="box-content">
-                <h2>{{ this.taskService.tasksDone }}</h2>
+                <h2>{{ this.summData?.done_count }}</h2>
                 <p>Done</p>
             </div>
         </div>
@@ -25,32 +25,32 @@
                 <img [src]="imgSrcPrio" alt="Prio-Urgent">
             </div>
             <div class="box-content">
-                <h2>{{ this.taskService.urgent }}</h2>
+                <h2>{{ this.summData?.urgent_count }}</h2>
                 <p>Urgent</p>
             </div>
         </div>
         <div class="divider"></div>
         <div class="urgency-content">
-            <p class="p-bold">{{ this.taskService.upComingDeadline }}</p>
+            <p class="p-bold">{{ this.summData?.upcoming_deadline }}</p>
             <a>Upcoming Deadline</a>
         </div>
     </div>
     <div class="panel-row-3">
         <div class="box box4" (click)="navigateToBoard()">
             <div class="box-content">
-                <h2>{{ this.taskService.totalTasks }}</h2>
+                <h2>{{ this.summData?.tasks_count }}</h2>
                 <p class="box-text">Tasks in Board</p>
             </div>
         </div>
         <div class="box box5" (click)="navigateToBoard()">
             <div class="box-content">
-                <h2>{{ this.taskService.tasksInProgress }}</h2>
+                <h2>{{ this.summData?.in_progress_count }}</h2>
                 <p class="box-text">Tasks in Progress</p>
             </div>
         </div>
         <div class="box box6" (click)="navigateToBoard()">
             <div class="box-content">
-                <h2>{{ this.taskService.awaitingFeedback }}</h2>
+                <h2>{{ this.summData?.await_feedback_count }}</h2>
                 <p class="box-text">Awaiting Feedback</p>
             </div>
         </div>

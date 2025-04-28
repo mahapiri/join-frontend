@@ -4,6 +4,7 @@ import { UserService } from '../../services/user.service';
 import { SharedService } from '../../services/shared.service';
 import { ValidationService } from '../../services/validation.service';
 import { CommonModule } from '@angular/common';
+import { ContactApiService } from '../../services/contact-api.service';
 // import { ApiService } from '../../services/api.service';
 
 @Component({
@@ -28,7 +29,8 @@ export class AddContactComponent {
     private sharedService: SharedService,
     private validate: ValidationService,
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private contactApiService: ContactApiService
   ) {
     this.contactForm = this.fb.group({
       name: new FormControl('', [Validators.required, this.validate.validateName]),
@@ -39,22 +41,23 @@ export class AddContactComponent {
 
 
   async onSubmit() {
-    // let response = await this.apiService.createContact(this.contactForm.value)
+    const formValue = this.contactForm.value;
+    let response = await this.contactApiService.createContact(formValue);
     this.sharedService.closeAll();
     this.cdr.detectChanges();
-    // requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
 
 
-    // });
+    });
 
 
-    // setTimeout(() => {
-    //   if(response) {
-    //     this.userService.selectContact(response);
-    //     const div = document.getElementById(`id${response}`);
-    //     console.log(div);
-    //   }
-    // }, 1000);
+    setTimeout(() => {
+      if (response) {
+        this.userService.selectContact(response);
+        const div = document.getElementById(`id${response}`);
+        console.log(div);
+      }
+    }, 1000);
 
 
   }

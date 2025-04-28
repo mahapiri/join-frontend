@@ -23,7 +23,7 @@
                 [ngClass]="{'select-contact': (userService.selectedContact$ | async) === contact.id}">
 
                   <div class="contact-icon"
-                    [ngStyle]="{'background-color': contact.color.startsWith('--') ? 'var(' + contact.color + ')' : contact.color || '#ccc'}">
+                    [ngStyle]="{'background-color': contact.color}">
                     {{ contact.initial }}
                   </div>
 

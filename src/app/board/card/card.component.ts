@@ -36,6 +36,7 @@ export class CardComponent implements AfterViewInit {
   
     this.task.subtasks.forEach(subtask => {
       if (subtask.is_completed) {
+        console.log(this.task.subtasks)
         this.doneSubtasks++;
       }
     });

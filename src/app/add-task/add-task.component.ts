@@ -4,8 +4,8 @@ import { FormComponent } from './form/form.component';
 // import { ApiService } from '../services/api.service';
 import { CommonModule } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
-import { User } from '../models/user.model';
 import { SharedService } from '../services/shared.service';
+import { Contact } from '../models/contact';
 
 @Component({
   selector: 'app-add-task',
@@ -21,7 +21,7 @@ export class AddTaskComponent implements OnInit, OnDestroy {
 
 
   isLoading: boolean = true;
-  contacts$: Observable<User[]> = new Observable<User[]>();
+  contacts$: Observable<Contact[]> = new Observable<Contact[]>();
   contactSubscription: Subscription = new Subscription();
 
 

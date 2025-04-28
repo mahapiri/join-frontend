@@ -10,8 +10,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, NativeDateAdapter } from '@angular/material/core';
 import { MY_DATE_FORMATS } from '../../add-task/form/form.component';
 import { ClickOutsideDirective } from '../../click-outside.directive';
-import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
+import { Contact } from '../../models/contact';
 
 @Component({
   selector: 'app-card',
@@ -40,7 +40,7 @@ export class CardComponent implements OnDestroy, OnInit {
   taskForm: FormGroup;
 
   subscriptions: Subscription = new Subscription();
-  contacts: User[] = [];
+  contacts: Contact[] = [];
 
 
   constructor(
@@ -140,7 +140,6 @@ export class CardComponent implements OnDestroy, OnInit {
 
 
   setDateFormat(date: any) {
-    console.log(date)
     let splitValues = date.split("-");
     return `${splitValues[2]}/${splitValues[1]}/${splitValues[0]}`
   }
@@ -179,7 +178,7 @@ export class CardComponent implements OnDestroy, OnInit {
 
   openedAssignmentsList: boolean = false;
   searchAssignment: boolean = false;
-  filteredContacts: User[] = [];
+  filteredContacts: Contact[] = [];
   isLoading: boolean = true;
 
   clickoutsideAssignedTo() {
@@ -227,15 +226,15 @@ export class CardComponent implements OnDestroy, OnInit {
     }
   }
 
-  isContactAssigned(contact: User): boolean {
+  isContactAssigned(contact: Contact): boolean {
     const assignments = this.taskForm.get('assignments')?.value || [];
-    return assignments.some((thisContact: User) => thisContact.id === contact.id);
+    return assignments.some((thisContact: Contact) => thisContact.id === contact.id);
   }
 
 
-  selectContact(contact: User, checkbox: HTMLInputElement) {
+  selectContact(contact: Contact, checkbox: HTMLInputElement) {
     const assignments = this.taskForm.get('assignments') as FormControl;
-    const currentAssignments: User[] = assignments.value || [];
+    const currentAssignments: Contact[] = assignments.value || [];
 
     if (checkbox.checked) {
       if (!currentAssignments.some(u => u.id === contact.id)) {

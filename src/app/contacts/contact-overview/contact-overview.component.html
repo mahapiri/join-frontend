@@ -8,7 +8,7 @@
         <div class="contact-container" *ngIf="currentContact != null">
             <div class="contact-title">
                 <div class="contact-icon"
-                    [ngStyle]="{'background-color': 'var(' + currentContact.color + ')'}">{{ currentContact.initial}}</div>
+                    [ngStyle]="{'background-color': currentContact.color}">{{ currentContact.initial}}</div>
                 <div class="contact-title-content">
                     <h4>{{ currentContact.name}}</h4>
                     <div class="edit-delete-section">

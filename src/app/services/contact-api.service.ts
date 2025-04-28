@@ -22,16 +22,47 @@ export class ContactApiService {
     try {
       const response = await fetch(`${this.apiUrl}/`, {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
       })
 
       const datas = await response.json();
 
-      if(datas) {
+      if (datas) {
         return datas
       }
     } catch (error) {
       return [];
+    }
+  }
+
+  async createContact(newContact: Contact) {
+    try {
+      const response = await fetch(`${this.apiUrl}/create/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newContact),
+      })
+
+      const datas = await response.json()
+
+      if (datas) {
+        console.log(datas)
+        return datas
+      }
+    } catch (error) {
+      console.log('Fehler', error)
+      return null
+    }
+  }
+
+  async deleteContact(contact: Contact) {
+    try {
+      await fetch(`${this.apiUrl}/${contact.id}/`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      })
+    } catch (error) {
+      console.log('Fehler', error)
     }
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { FormComponent } from './form/form.component';
-import { ApiService } from '../services/api.service';
+// import { ApiService } from '../services/api.service';
 import { CommonModule } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
 import { User } from '../models/user.model';
@@ -27,7 +27,7 @@ export class AddTaskComponent implements OnInit, OnDestroy {
 
   constructor(
     private titleService: Title,
-    private apiService: ApiService,
+    // private apiService: ApiService,
     private sharedService: SharedService
   ) {
     this.titleService.setTitle("Join - Add Task");
@@ -36,12 +36,12 @@ export class AddTaskComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
 
-    this.apiService.getAllContacts();
-    this.contacts$ = this.apiService.contacts$;
+    // this.apiService.getAllContacts();
+    // this.contacts$ = this.apiService.contacts$;
   }
 
   ngOnDestroy(): void {
-    this.contactSubscription.unsubscribe();
-    this.isLoading = true;
+    // this.contactSubscription.unsubscribe();
+    // this.isLoading = true;
   }
 }

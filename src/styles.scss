@@ -324,6 +324,10 @@ mat-calendar {
     margin-top: 8px;
 }
 
+.mat-mdc-button-touch-target {
+    cursor: pointer;
+} 
+
 @mixin popup {
     border-radius: 30px;
     background-color: var(--white);

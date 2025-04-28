@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { ApiService } from './api.service';
+// import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,12 +21,14 @@ export class UserService {
   isLoggedIn$ = this._isLoggedIn.asObservable();
 
 
-  constructor(private apiService: ApiService) {
-    this.apiService.contacts$.subscribe((contact) => {
-      this.sortAndSetContacts(contact);
-    })
+  constructor(
+    // private apiService: ApiService,
+  ) {
+    // this.apiService.contacts$.subscribe((contact) => {
+    //   this.sortAndSetContacts(contact);
+    // })
 
-    this.apiService.getAllContacts();
+    // this.apiService.getAllContacts();
   }
 
   setIsLoggedIn(status: boolean) {

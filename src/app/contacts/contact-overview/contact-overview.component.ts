@@ -4,7 +4,7 @@ import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { SharedService } from '../../services/shared.service';
-import { ApiService } from '../../services/api.service';
+// import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-contact-overview',
@@ -18,37 +18,37 @@ export class ContactOverviewComponent {
   currentContact: User | null = null;
   selectedContact: string | null = null;
 
-  subscription: Subscription = new Subscription();
+  // subscription: Subscription = new Subscription();
 
   constructor(
     public userService: UserService, 
     private sharedService: SharedService,
-    private apiService: ApiService,
+    // private apiService: ApiService,
     private cdr: ChangeDetectorRef
   ) {
-    this.subscription.add(
+    // this.subscription.add(
       this.userService.selectedContact$.subscribe((contact) => {
         this.selectedContact = contact;
       })
-    ),
-    this.subscription.add(
+    // ),
+    // this.subscription.add(
       this.userService.contacts$.subscribe((contacts) => {
         contacts.forEach((contact) => {
           this.contacts.push(contact);
         })
       })
-    ),
-    this.subscription.add(
+    // ),
+    // this.subscription.add(
       this.userService.currentContact$.subscribe(contact => {
         this.currentContact = contact;
       })
-    )
+    // )
   }
 
 
   ngOnDestroy(): void {
     this.userService.resetCurrentContact();
-    this.subscription.unsubscribe();
+    // this.subscription.unsubscribe();
   }
 
 
@@ -59,7 +59,7 @@ export class ContactOverviewComponent {
 
   async deleteContact() {
     if (this.currentContact) {
-      await this.apiService.deleteContact(this.currentContact);
+      // await this.apiService.deleteContact(this.currentContact);
       this.sharedService.closeAll();
       this.cdr.detectChanges();
       requestAnimationFrame(() => {

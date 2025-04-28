@@ -3,7 +3,7 @@ import { TaskService } from '../../services/task.service';
 import { delay, filter, Subscription, tap } from 'rxjs';
 import { Task } from '../../models/task.model';
 import { CommonModule, DatePipe } from '@angular/common';
-import { ApiService } from '../../services/api.service';
+// import { ApiService } from '../../services/api.service';
 import { SharedService } from '../../services/shared.service';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -45,7 +45,7 @@ export class CardComponent implements OnDestroy, OnInit {
 
   constructor(
     private taskService: TaskService,
-    private apiService: ApiService,
+    // private apiService: ApiService,
     public sharedService: SharedService,
     private fb: FormBuilder,
     private userService: UserService,
@@ -84,7 +84,7 @@ export class CardComponent implements OnDestroy, OnInit {
       this.taskForm = this.fb.group({
         title: new FormControl(this.task.title, Validators.required),
         description: new FormControl(this.task.description),
-        assignments: new FormControl(this.task.assignedTo || []),
+        assignments: new FormControl(this.task.assigned_contacts || []),
         date: new FormControl(this.task.due_date, Validators.required),
         prio: new FormControl(this.task.prio),
         subtasks: this.fb.array(this.task.subtasks || [])
@@ -105,9 +105,9 @@ export class CardComponent implements OnDestroy, OnInit {
 
   toggleCheck(i: number, subtask: any) {
     if (this.task?.subtasks) {
-      this.task.subtasks[i].done = !this.task.subtasks[i].done;
+      this.task.subtasks[i].is_completed = !this.task.subtasks[i].is_completed;
       this.updateCheckboxUrl(i);
-      this.apiService.updateSubtask(this.task, subtask);
+      // this.apiService.updateSubtask(this.task, subtask);
       this.cdr.detectChanges();
     }
   }
@@ -115,7 +115,7 @@ export class CardComponent implements OnDestroy, OnInit {
 
   hoverCheckbox(i: number) {
     const checkbox = document.getElementById(`subtask${i}`) as HTMLImageElement;
-    if (this.task?.subtasks && !this.task.subtasks[i].done) {
+    if (this.task?.subtasks && !this.task.subtasks[i].is_completed) {
       checkbox.src = 'assets/img/check-btn/hover-disable.svg';
     } else {
       checkbox.src = 'assets/img/check-btn/hover-checked.svg';
@@ -131,7 +131,7 @@ export class CardComponent implements OnDestroy, OnInit {
   updateCheckboxUrl(i: number) {
     const checkbox = document.getElementById(`subtask${i}`) as HTMLImageElement;
     if (this.task?.subtasks) {
-      checkbox.src = this.task.subtasks[i].done ?
+      checkbox.src = this.task.subtasks[i].is_completed ?
         'assets/img/check-btn/default-checked.svg' :
         'assets/img/check-btn/default-disable.svg';
     }
@@ -140,6 +140,7 @@ export class CardComponent implements OnDestroy, OnInit {
 
 
   setDateFormat(date: any) {
+    console.log(date)
     let splitValues = date.split("-");
     return `${splitValues[2]}/${splitValues[1]}/${splitValues[0]}`
   }
@@ -166,7 +167,7 @@ export class CardComponent implements OnDestroy, OnInit {
 
   deleteTask() {
     if (this.task) {
-      this.apiService.deleteTask(this.task.id);
+      // this.apiService.deleteTask(this.task.id);
       this.sharedService.closeAll();
       this.cdr.detectChanges();
     }
@@ -323,7 +324,7 @@ export class CardComponent implements OnDestroy, OnInit {
     if (subtasks) {
       subtasks.removeAt(i);
       console.log(subtask)
-      this.apiService.deleteSubtask(subtask);
+      // this.apiService.deleteSubtask(subtask);
     }
     this.isEditingSubtaskIndex = null;
     // this.sharedService.closeAll();
@@ -359,7 +360,7 @@ export class CardComponent implements OnDestroy, OnInit {
       status: this.task?.status,
       title: this.taskForm.get('title')?.value,
       description: this.taskForm.get('description')?.value,
-      due_date: this.apiService.formatDateForDjango(new Date(this.taskForm.get('date')?.value)),
+      // due_date: this.apiService.formatDateForDjango(new Date(this.taskForm.get('date')?.value)),
       prio: this.taskForm.get('prio')?.value,
       category: this.task?.category,
     }
@@ -369,7 +370,7 @@ export class CardComponent implements OnDestroy, OnInit {
     const assignmentValue = {
       assignedTo: this.taskForm.get('assignments')?.value,
     }
-    this.apiService.updateTask(taskValue, subtaskValue.subtasks, assignmentValue.assignedTo);
+    // this.apiService.updateTask(taskValue, subtaskValue.subtasks, assignmentValue.assignedTo);
     this.sharedService.closeAll();
 
   }

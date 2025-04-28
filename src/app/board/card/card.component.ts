@@ -17,7 +17,9 @@ export class CardComponent implements AfterViewInit {
 
   constructor(
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) {
+
+  }
 
 
   ngAfterViewInit(): void {
@@ -33,7 +35,7 @@ export class CardComponent implements AfterViewInit {
     this.doneSubtasks = 0;
   
     this.task.subtasks.forEach(subtask => {
-      if (subtask.done) {
+      if (subtask.is_completed) {
         this.doneSubtasks++;
       }
     });

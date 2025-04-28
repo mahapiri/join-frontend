@@ -1,5 +1,5 @@
 <div class="card-container" [formGroup]="taskForm">
-    <h6 class="category" [ngClass]="task?.category === 'User Story' ? 'blue' : 'mint'">{{ task?.category }}</h6>
+    <h6 class="category" [ngStyle]="{'background-color': task?.category?.color }">{{ task?.category?.name }}</h6>
     <ng-container *ngIf="sharedService.isCard && !sharedService.isCardEditing">
         <h3>{{ task?.title }}</h3>
     </ng-container>
@@ -86,7 +86,7 @@
         <ng-container *ngIf="sharedService.isCard && !sharedService.isCardEditing">
             <p class="gray">Assigned To:</p>
             <div class="assigned-box">
-                <div class="a-s-content" *ngFor="let assignment of task?.assignedTo">
+                <div class="a-s-content" *ngFor="let assignment of task?.assigned_contacts">
                     <div class="contact-icon" [ngStyle]="{'background-color': 'var(' + assignment.color + ')'}">{{
                         assignment.initial }}</div>
                     <p>{{ assignment.name }}</p>
@@ -151,9 +151,9 @@
             <p class="gray">Subtasks</p>
             <div class="subtask-box">
                 <div class="a-s-content" *ngFor="let subtask of task?.subtasks; let i = index">
-                    <img class="checkbox" [id]="'subtask' + i" [src]="subtask.done ? 'assets/img/check-btn/default-checked.svg': 'assets/img/check-btn/default-disable.svg'" alt="Check" (click)="toggleCheck(i, subtask)"
+                    <img class="checkbox" [id]="'subtask' + i" [src]="subtask.is_completed ? 'assets/img/check-btn/default-checked.svg': 'assets/img/check-btn/default-disable.svg'" alt="Check" (click)="toggleCheck(i, subtask)"
                         (mouseover)="hoverCheckbox(i)" (mouseleave)="leaveCheckbox(i)">
-                    <p>{{ subtask.title }}</p>
+                    <p>{{ subtask.subtask }}</p>
                 </div>
             </div>
         </ng-container>
@@ -176,7 +176,7 @@
                     <ng-container *ngFor="let subtask of this.taskForm.get('subtasks')?.value; let i = index">
                         <li (mouseover)="setSubtaskEdit('subtaskitem' + i)"
                             (mouseleave)="setSubtaskNotEdit('subtaskitem' + i)" *ngIf="isEditingSubtaskIndex != i">
-                            <a>{{ subtask.title }}</a>
+                            <a>{{ subtask.subtask }}</a>
                             <div [id]="'subtaskitem' + i" class="input-icon-container">
                                 <img src="assets/img/edit/hover.svg" alt="Edit" (click)="editSubtask(i)">
                                 <div class="input-divider"></div>
@@ -184,7 +184,7 @@
                             </div>
                         </li>
                         <div class="subtask-edit-container" *ngIf="isEditingSubtaskIndex === i">
-                            <input [id]="'subtaskEdit' + i" type="text" value="{{ subtask.title }}"
+                            <input [id]="'subtaskEdit' + i" type="text" value="{{ subtask.subtask }}"
                                 class="input-subtask">
                             <div class="input-icon-container">
                                 <img src="assets/img/delete/default.svg" alt="Delete" (click)="deleteSavedSubtask(i, subtask)">

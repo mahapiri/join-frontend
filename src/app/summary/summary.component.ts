@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { PanelComponent } from "./panel/panel.component";
 import { CommonModule } from '@angular/common';
-import { ApiService } from '../services/api.service';
-import { Task } from '../models/task.model';
+// import { ApiService } from '../services/api.service';
 import { delay, filter, Observable, Subscription, tap } from 'rxjs';
 import { SharedService } from '../services/shared.service';
 import { TaskApiService } from '../services/task-api.service';
@@ -26,7 +25,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
 
   constructor(
     private titleService: Title,
-    private apiService: ApiService,
+    // private apiService: ApiService,
     private sharedService: SharedService,
     private taskApi: TaskApiService
   ) {
@@ -42,7 +41,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     // this.tasks$ = this.apiService.tasks$;
 
     this.taskApi.getSummaryData();
-    this.taskApi.task$.subscribe((data) => {
+    this.taskApi.summData$.subscribe((data) => {
 
     })
 

@@ -1,28 +1,27 @@
-import { User } from "./user.model";
+import { Category } from "./category";
+import { Contact } from "./contact";
 
 export class Task {
     id: number;
-    status?: string = '';
     title: string = '';
     description?: string = '';
-    assignedTo?: User[] = [];
     due_date: Date;
+    status?: string = '';
+    category: Category;
     prio?: string = '';
-    category: string = '';
+    assigned_contacts?: Contact[] = [];
     subtasks?: Subtask[] = [];
-    createDate: Date;
 
     constructor(obj: any) {
         this.id = obj.id;
         this.status = obj.status || 'to_do';
         this.title = obj.title;
         this.description = obj.description || '';
-        this.assignedTo = obj.assignedTo || [];
+        this.assigned_contacts = obj.assigned_contacts || [];
         this.due_date = obj.due_date ? new Date(obj.due_date) : new Date();
         this.prio = obj.prio || '';
         this.category = obj.category;
         this.subtasks = obj.subtasks || [];
-        this.createDate = new Date();
     }
 
     getJson() {
@@ -31,12 +30,11 @@ export class Task {
             status: this.status,
             title: this.title,
             description: this.description,
-            assignedTo: this.assignedTo,
+            assigned_contacts: this.assigned_contacts,
             dueDate: this.due_date,
             prio: this.prio,
             category: this.category,
             subtasks: this.subtasks,
-            createDate: this.createDate
         }
     }
 
@@ -67,28 +65,25 @@ export class Task {
 
 export class Subtask {
     id: number;
-    task: number;
-    task_title: string;
-    title: string;
-    done: boolean;
+    subtask: string;
+    is_completed: boolean;
+    task_id: number;
 
-    
+
     constructor(obj: any) {
         this.id = obj.id;
-        this.task = obj.task;
-        this.task_title = obj.task_title;
-        this.title = obj.title;
-        this.done = obj.done;
+        this.subtask = obj.subtask;
+        this.is_completed = obj.is_completed;
+        this.task_id = obj.task_id;
     }
 
 
     getJson() {
         return {
             id: this.id,
-            task: this.task,
-            task_title: this.task_title,
-            title: this.title,
-            done: this.done,
+            subtask: this.subtask,
+            is_completed: this.is_completed,
+            task_id: this.task_id,
         }
     }
 }

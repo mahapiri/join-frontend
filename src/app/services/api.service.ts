@@ -131,7 +131,7 @@ export class ApiService {
     const newTask = {
       "title": taskForm.title,
       "description": taskForm.description,
-      "due_date": taskForm.date,
+      "due_date": taskForm.due_date,
       "category": taskForm.category,
       "prio": taskForm.prio,
       ...(newStatus !== null && { "status": newStatus })

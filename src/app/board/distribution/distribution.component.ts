@@ -3,10 +3,11 @@ import { Component, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetect
 import { CardComponent } from '../card/card.component';
 import { TaskService } from '../../services/task.service';
 import { CdkDragDrop, CdkDrag, moveItemInArray, transferArrayItem, DragDropModule, CdkDragStart } from '@angular/cdk/drag-drop';
-import { ApiService } from '../../services/api.service';
+// import { ApiService } from '../../services/api.service';
 import { Task } from '../../models/task.model';
 import { SharedService } from '../../services/shared.service';
 import { delay, Subscription, tap } from 'rxjs';
+import { TaskApiService } from '../../services/task-api.service';
 
 @Component({
   selector: 'app-distribution',
@@ -47,15 +48,16 @@ export class DistributionComponent implements OnInit, OnDestroy {
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private apiService: ApiService,
+    // private apiService: ApiService,
     private sharedService: SharedService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private taskApiService: TaskApiService
   ) {
     this.isLoading = true;
 
     this.connectedToIds = this.taskStatuses.map(s => s.id);
 
-    this.apiService.getAllTasks();
+    // this.apiService.getAllTasks();
   }
 
 
@@ -83,7 +85,7 @@ export class DistributionComponent implements OnInit, OnDestroy {
         })
       ),
       this.subscriptions.add(
-        this.apiService.tasks$
+        this.taskApiService.tasks$
           .pipe(
             delay(250),
             tap(() => this.isLoading = false)
@@ -144,7 +146,7 @@ export class DistributionComponent implements OnInit, OnDestroy {
       movedTask.status = event.container.id;
       this.draggable = false;
       this.cdr.detectChanges();
-      await this.apiService.updateTaskstatuswithSubtaskAndAssignements(movedTask, movedTask.status);
+      // await this.apiService.updateTaskstatuswithSubtaskAndAssignements(movedTask, movedTask.status);
       setTimeout(() => {
         this.draggable = true;
         this.cdr.detectChanges();

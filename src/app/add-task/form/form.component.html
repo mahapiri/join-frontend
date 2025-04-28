@@ -3,7 +3,8 @@
         <div class="field-container">
             <label class="field-layout">
                 <p>Title<span>*</span></p>
-                <input type="text" placeholder="Enter a title" formControlName="title" [class.invalidInput]="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
+                <input type="text" placeholder="Enter a title" formControlName="title"
+                    [class.invalidInput]="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
                 <div class="errormsg" *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">This
                     field is required</div>
             </label>
@@ -21,8 +22,8 @@
                             [src]="openedAssignmentsList ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
                             alt="arrow" (click)="toggleAssignedTo($event)">
                         <div [style.display]="openedAssignmentsList ? 'flex' : 'none'" class="backlog-box">
-                            
-                            <div *ngIf="isLoading; else contactView" class="contactViewLoader">
+
+                            <div *ngIf="isContactLoading; else contactView" class="listViewLoader">
                                 <div class="loader"></div>
                             </div>
 
@@ -34,9 +35,8 @@
                                     *ngFor="let contact of (searchAssignment ? filteredContacts : contacts)"
                                     (change)="selectContact(contact, checkbox)">
                                     <div class="contact-name">
-                                        <div class="contact-icon"
-                                            [ngStyle]="{'background-color': 'var(' + contact.color + ')'}">{{
-                                            contact.initial }}
+                                        <div class="contact-icon" [ngStyle]="{'background-color': contact.color}">
+                                            {{ contact.initial }}
                                         </div>
                                         <p>{{ contact.name }}</p>
                                     </div>
@@ -55,8 +55,8 @@
                     <div class="assigned-container">
                         <div class="contact-icon icon-border"
                             *ngFor="let assignedContact of taskForm.get('assignments')?.value"
-                            [ngStyle]="{'background-color': 'var(' + assignedContact.color + ')'}">{{ assignedContact.initial
-                            }}
+                            [ngStyle]="{'background-color': assignedContact.color }">
+                            {{ assignedContact.initial }}
                         </div>
                     </div>
                 </div>
@@ -68,14 +68,13 @@
                 <p>Due date<span>*</span></p>
                 <div class="datepicker-box">
                     <span class="datepicker-btn"></span>
-                    <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" formControlName="date"
+                    <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" formControlName="due_date"
                         class="datepicker-input" placeholder="DD/MM/YYYY"
-                        [class.invalidInput]="taskForm.get('date')?.invalid && taskForm.get('date')?.touched"
-                        readonly>
+                        [class.invalidInput]="taskForm.get('due_date')?.invalid && taskForm.get('due_date')?.touched" readonly>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </div>
-                <div class="errormsg" *ngIf="taskForm.get('date')?.invalid && taskForm.get('date')?.touched">This field
+                <div class="errormsg" *ngIf="taskForm.get('due_date')?.invalid && taskForm.get('due_date')?.touched">This field
                     is required</div>
             </label>
             <label class="field-layout">
@@ -104,25 +103,26 @@
                 <p>Category<span>*</span></p>
                 <div class="select-container" appClickOutside (clickOutside)="clickOutsideCategory()">
                     <input class="category-field" type="text" (click)="toggleCategory($event)" id="input-category"
-                        name="category" placeholder="Select a category" formControlName="category" 
+                        name="category" placeholder="Select a category" formControlName="category"
                         [class.invalidInput]="taskForm.get('category')?.invalid && taskForm.get('category')?.touched"
-                        readonly required>
+                        readonly required
+                        [value]="taskForm.get('category')?.value ? taskForm.get('category')?.value.name : ''">
                     <img class="input-icon"
                         [src]="openedCategoryList ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
                         alt="arrow" (click)="toggleCategory($event)">
                     <div [style.display]="openedCategoryList ? 'flex' : 'none'" class="backlog-box height-auto">
-                        <label class="contact-container width-100" id="technical_task"
-                            (click)="selectCategory('Technical Task')">
-                            <div class="contact-name">
-                                <p>Technical Task</p>
-                            </div>
-                        </label>
-                        <label class="contact-container width-100" id="user_story"
-                            (click)="selectCategory('User Story')">
-                            <div class="contact-name">
-                                <p>User Story</p>
-                            </div>
-                        </label>
+                        <div *ngIf="isCategoryLoading; else categoryView" class="listViewLoader">
+                            <div class="loader"></div>
+                        </div>
+                        <ng-template #categoryView>
+                            <ng-container *ngFor="let category of categories">
+                                <label class="contact-container width-100" (click)="selectCategory(category)">
+                                    <div class="contact-name">
+                                        <p>{{ category.name }}</p>
+                                    </div>
+                                </label>
+                            </ng-container>
+                        </ng-template>
                     </div>
                 </div>
                 <div class="errormsg" *ngIf="taskForm.get('category')?.invalid && taskForm.get('category')?.touched">
@@ -146,7 +146,7 @@
                     <ng-container *ngFor="let subtask of this.taskForm.get('subtasks')?.value; let i = index">
                         <li (mouseover)="setSubtaskEdit('subtaskitem' + i)"
                             (mouseleave)="setSubtaskNotEdit('subtaskitem' + i)" *ngIf="isEditingSubtaskIndex != i">
-                            <a>{{ subtask }}</a>
+                            <a>{{ subtask.subtask }}</a>
                             <div [id]="'subtaskitem' + i" class="input-icon-container">
                                 <img src="assets/img/edit/hover.svg" alt="Edit" (click)="editSubtask(i)">
                                 <div class="input-divider"></div>
@@ -154,7 +154,7 @@
                             </div>
                         </li>
                         <div class="subtask-edit-container" *ngIf="isEditingSubtaskIndex === i">
-                            <input [id]="'subtaskEdit' + i" type="text" value="{{ subtask }}" class="input-subtask">
+                            <input [id]="'subtaskEdit' + i" type="text" value="{{ subtask.subtask }}" class="input-subtask">
                             <div class="input-icon-container">
                                 <img src="assets/img/delete/default.svg" alt="Delete" (click)="deleteSavedSubtask(i)">
                                 <div class="input-divider"></div>

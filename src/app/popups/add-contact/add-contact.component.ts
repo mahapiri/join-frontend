@@ -4,7 +4,7 @@ import { UserService } from '../../services/user.service';
 import { SharedService } from '../../services/shared.service';
 import { ValidationService } from '../../services/validation.service';
 import { CommonModule } from '@angular/common';
-import { ApiService } from '../../services/api.service';
+// import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-add-contact',
@@ -24,7 +24,7 @@ export class AddContactComponent {
 
   constructor(
     private userService: UserService,
-    private apiService: ApiService,
+    // private apiService: ApiService,
     private sharedService: SharedService,
     private validate: ValidationService,
     private fb: FormBuilder,
@@ -39,7 +39,7 @@ export class AddContactComponent {
 
 
   async onSubmit() {
-    let response = await this.apiService.createContact(this.contactForm.value)
+    // let response = await this.apiService.createContact(this.contactForm.value)
     this.sharedService.closeAll();
     this.cdr.detectChanges();
     // requestAnimationFrame(() => {
@@ -48,13 +48,13 @@ export class AddContactComponent {
     // });
 
 
-    setTimeout(() => {
-      if(response) {
-        this.userService.selectContact(response);
-        const div = document.getElementById(`id${response}`);
-        console.log(div);
-      }
-    }, 1000);
+    // setTimeout(() => {
+    //   if(response) {
+    //     this.userService.selectContact(response);
+    //     const div = document.getElementById(`id${response}`);
+    //     console.log(div);
+    //   }
+    // }, 1000);
 
 
   }

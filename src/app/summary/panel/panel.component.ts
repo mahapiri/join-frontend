@@ -29,7 +29,7 @@ export class PanelComponent implements OnDestroy, OnInit {
   constructor(
     public taskService: TaskService, 
     private router: Router,
-    private taskApi: TaskApiService
+    private taskApiService: TaskApiService
   ) { }
 
   ngOnInit(): void {
@@ -38,8 +38,8 @@ export class PanelComponent implements OnDestroy, OnInit {
     //   this.taskService.updateValues(tasks);
     // });
 
-    this.taskApi.getSummaryData();
-    this.taskApi.task$.subscribe((data) => {
+    this.taskApiService.getSummaryData();
+    this.taskApiService.summData$.subscribe((data) => {
       this.summData = data
     })
   }

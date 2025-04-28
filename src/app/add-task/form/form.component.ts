@@ -1,18 +1,19 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, ChangeDetectionStrategy, OnDestroy, input, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { NativeDateAdapter } from '@angular/material/core';
-import { delay, filter, Subscription, tap } from 'rxjs';
-import { UserService } from '../../services/user.service';
-import { User } from '../../models/user.model';
 import { ClickOutsideDirective } from '../../click-outside.directive';
-import { ApiService } from '../../services/api.service';
 import { SharedService } from '../../services/shared.service';
 import { Router } from '@angular/router';
+import { ContactApiService } from '../../services/contact-api.service';
+import { Contact } from '../../models/contact';
+import { delay, filter, Subscription, tap } from 'rxjs';
+import { TaskApiService } from '../../services/task-api.service';
+import { Category } from '../../models/category';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -61,8 +62,9 @@ export class FormComponent implements OnDestroy {
   allSubscription: Subscription = new Subscription();
 
   taskForm: FormGroup;
-  contacts: User[] = [];
-  filteredContacts: User[] = [];
+  contacts: Contact[] = [];
+  categories: Category[] = [];
+  filteredContacts: Contact[] = [];
   searchAssignment: boolean = false;
   openedAssignmentsList: boolean = false;
   openedCategoryList: boolean = false;
@@ -70,44 +72,57 @@ export class FormComponent implements OnDestroy {
   isEditingSubtaskIndex: number | null = null;
   isHoverContact: boolean = false;
   isWritingSubtask: boolean = false;
-  isLoading: boolean = true;
+  isContactLoading: boolean = true;
+  isCategoryLoading: boolean = true;
 
 
   constructor(
-    private userService: UserService,
-    private apiService: ApiService,
     private fb: FormBuilder,
     public sharedService: SharedService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private contactService: ContactApiService,
+    private taskApiService: TaskApiService
   ) {
     this.taskForm = this.fb.group({
       title: new FormControl('', Validators.required),
       description: new FormControl(''),
-      assignments: new FormControl([]),
-      date: new FormControl(new Date(), Validators.required),
+      assigned_contacts: new FormControl([]),
+      due_date: new FormControl(new Date(), Validators.required),
       prio: new FormControl(null),
-      category: new FormControl('', Validators.required),
+      category: new FormControl<Category | null>(null , Validators.required),
       subtasks: this.fb.array([])
     })
 
-    this.isLoading = true;
+    this.isContactLoading = true;
+    this.isCategoryLoading = true;
     this.allSubscription.add(
-      this.userService.contacts$
-      .pipe(
+      this.contactService.contacts$.pipe(
         delay(500),
         filter(contacts => contacts && contacts.length > 0),
-        tap(() => this.isLoading = false)
-      )
-      .subscribe((contacts) => {
-      this.contacts = [];
-      this.filteredContacts = [];
-      contacts.forEach(contact => {
-        this.contacts.push(contact);
-        this.filteredContacts.push(contact);
-      });
-      this.cdr.detectChanges();
-    }))
+        tap(() => this.isContactLoading = false)
+      ).subscribe((contacts => {
+        this.contacts = [];
+        this.filteredContacts = [];
+        contacts.forEach(contact => {
+          this.contacts.push(contact);
+          this.filteredContacts.push(contact);
+        });
+        this.cdr.detectChanges();
+
+      })));
+    this.allSubscription.add(
+      this.taskApiService.categories$.pipe(
+        delay(500),
+        filter(categories => categories && categories.length > 0),
+        tap(() => this.isCategoryLoading = false),
+      ).subscribe(categories => {
+        this.categories = [];
+        categories.forEach(category => {
+          this.categories.push(category);
+        })
+      })
+    );
   }
 
 
@@ -116,7 +131,7 @@ export class FormComponent implements OnDestroy {
   }
 
 
-  selectCategory(category: string): void {
+  selectCategory(category: Category): void {
     this.taskForm.get('category')?.setValue(category);
     this.openedCategoryList = false;
   }
@@ -128,7 +143,6 @@ export class FormComponent implements OnDestroy {
       this.openedAssignmentsList = false;
       inputValue.value = '';
       this.searchAssignment = false;
-      
     }
   }
 
@@ -164,23 +178,23 @@ export class FormComponent implements OnDestroy {
 
   async onSubmit() {
     const formValue = this.taskForm.value
-    if (formValue.date) {
-      formValue.date = this.apiService.formatDateForDjango(new Date(formValue.date));
+    if (formValue.due_date) {
+      formValue.due_date = this.taskApiService.formatDateForDjango(new Date(formValue.due_date));
     }
     if(this.sharedService.isAddTaskInProgress) {
-      await this.apiService.createNewTask(formValue, 'in_progress');
+      await this.taskApiService.createNewTask(formValue, 'in_progress');
     } else if(this.sharedService.isAddTaskInAwaitFeedback) {
-      await this.apiService.createNewTask(formValue, 'await_feedback');
+      await this.taskApiService.createNewTask(formValue, 'await_feedback');
     } else {
-      await this.apiService.createNewTask(formValue, null);
+      await this.taskApiService.createNewTask(formValue, 'to_do');
     }
 
-    this.resetForm();
-    this.sharedService.isAdding = true;
-    setTimeout(() => {
-      this.navigateToBoard();
-      this.sharedService.closeAll();
-    }, 1000);
+    // this.resetForm();
+    // this.sharedService.isAdding = true;
+    // setTimeout(() => {
+    //   this.navigateToBoard();
+    //   this.sharedService.closeAll();
+    // }, 1000);
   }
 
   navigateToBoard() {
@@ -202,7 +216,7 @@ export class FormComponent implements OnDestroy {
     this.searchAssignment = false;
   }
 
-  
+
   uncheckCheckboxes() {
     const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
     checkboxes.forEach(checkbox => checkbox.checked = false);
@@ -236,16 +250,16 @@ export class FormComponent implements OnDestroy {
     }
   }
 
-  isContactAssigned(contact: User): boolean {
-    const assignments = this.taskForm.get('assignments')?.value || [];
-    return assignments.some((thisContact: User) => thisContact.id === contact.id);
+  isContactAssigned(contact: Contact): boolean {
+    const assignments = this.taskForm.get('assigned_contacts')?.value || [];
+    return assignments.some((thisContact: Contact) => thisContact.id === contact.id);
   }
 
 
-  selectContact(contact: User, checkbox: HTMLInputElement) {
-    const assignments = this.taskForm.get('assignments') as FormControl;
-    const currentAssignments: User[] = assignments.value || [];
-  
+  selectContact(contact: Contact, checkbox: HTMLInputElement) {
+    const assignments = this.taskForm.get('assigned_contacts') as FormControl;
+    const currentAssignments: Contact[] = assignments.value || [];
+
     if (checkbox.checked) {
       if (!currentAssignments.some(u => u.id === contact.id)) {
         assignments.setValue([...currentAssignments, contact]);
@@ -279,7 +293,11 @@ export class FormComponent implements OnDestroy {
     if (input.value.trim().length > 0) {
       const text = this.searchTextSubtasks.trim();
       const subtasks = this.taskForm.get('subtasks') as FormArray;
-      subtasks.push(new FormControl(text));
+      const subtaskObject = this.fb.group({
+        subtask: [text, Validators.required],
+        is_completed: false
+      })
+      subtasks.push(subtaskObject);
       this.searchTextSubtasks = '';
       input.value = '';
       this.isWritingSubtask = false;
@@ -325,7 +343,10 @@ export class FormComponent implements OnDestroy {
     if (inputElement && subtasks) {
       const inputValue = inputElement.value.trim();
       if (inputValue.length > 0) {
-        subtasks.at(i).setValue(inputValue);
+        const subtaskGroup = subtasks.at(i) as FormGroup;
+        subtaskGroup.patchValue({
+          subtask: inputValue
+        });
       }
       this.isEditingSubtaskIndex = null;
     }

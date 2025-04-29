@@ -20,7 +20,7 @@
               <div class="divider"></div>
               <div class="contact-list" *ngFor="let contact of group.value">
                 <div [attr.id]="'id' + contact.id" class="contact-container" (click)="contactService.selectContact(contact.id)"
-                [ngClass]="{'select-contact': (contactService.selectedContact$ | async) === contact.id}">
+                [ngClass]="{'select-contact': (contactService.selectedContactId$ | async) === contact.id}">
 
                   <div class="contact-icon"
                     [ngStyle]="{'background-color': contact.color}">

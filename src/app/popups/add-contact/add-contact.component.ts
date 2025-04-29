@@ -1,12 +1,10 @@
-import { ChangeDetectorRef, Component, input } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserService } from '../../services/user.service';
 import { SharedService } from '../../services/shared.service';
 import { ValidationService } from '../../services/validation.service';
 import { CommonModule } from '@angular/common';
 import { ContactApiService } from '../../services/contact-api.service';
 import { ContactService } from '../../services/contact.service';
-// import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-add-contact',
@@ -23,10 +21,8 @@ export class AddContactComponent {
 
   contactForm: FormGroup;
 
-
   constructor(
     private contactService: ContactService,
-    // private apiService: ApiService,
     private sharedService: SharedService,
     private validate: ValidationService,
     private fb: FormBuilder,
@@ -43,24 +39,18 @@ export class AddContactComponent {
 
   async onSubmit() {
     const formValue = this.contactForm.value;
-    let response = await this.contactApiService.createContact(formValue);
+    let contact = await this.contactApiService.createContact(formValue);
+    this.contactService.setNewContact(contact);
     this.sharedService.closeAll();
+    this.sharedService.isAdding = true;
+    this.sharedService.isAddContactText = true;
     this.cdr.detectChanges();
-    requestAnimationFrame(() => {
-
-
-    });
-
-
-    setTimeout(() => {
-      if (response) {
-        this.contactService.selectContact(response);
-        const div = document.getElementById(`id${response}`);
-        console.log(div);
-      }
-    }, 1000);
-
-
+    if (contact) {
+      setTimeout(() => {
+        this.contactService.selectContact(contact.id);
+        this.sharedService.setAllAddingTextOnFalse();
+      }, 1000);
+    }
   }
 
 

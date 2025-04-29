@@ -34,7 +34,7 @@ export class TaskApiService {
         return newAddedTask;
       }
     } catch (error) {
-      console.log('Fehler', error)
+      console.warn('Error create new task:', error)
       return null;
     }
   }
@@ -53,6 +53,7 @@ export class TaskApiService {
         return categories;
       }
     } catch (error) {
+      console.warn('Error get all categories:', error)
       return null;
     }
   }
@@ -71,6 +72,7 @@ export class TaskApiService {
         return tasks;
       }
     } catch (error) {
+      console.warn('Error get all tasks:', error)
       return null;
     }
   }
@@ -91,7 +93,7 @@ export class TaskApiService {
       }
 
     } catch (error) {
-      console.log('Fehler', error)
+      console.warn('Error get summary datas:', error)
       return null;
     }
   }

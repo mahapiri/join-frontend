@@ -1,4 +1,18 @@
 <div class="backlog">
-    <p>{{ text }}</p>
+    @switch (sharedService.isAdding) {
+        @case (sharedService.isAddBoardText) {
+            <p>{{ addBoard }}</p>
+        }
+        @case (sharedService.isAddContactText) {
+            <p>{{ addContact }}</p>
+        }
+        @case (sharedService.isDeleteContactText) {
+            <p>{{ deleteContact }}</p>
+        }
+        @case (sharedService.isAddUserText) {
+            <p>{{ addUser }}</p>
+        }
+    }
+
     <img src="../../../assets/img/board/default.svg" alt="Board">
 </div>

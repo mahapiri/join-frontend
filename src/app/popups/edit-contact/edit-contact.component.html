@@ -12,7 +12,7 @@
         <div class="right-content">
             <form [formGroup]="contactForm" (submit)="onSubmit()">
                 <div class="input-contact-field">
-                    <div class="contact-icon" [ngStyle]="{'background-color': 'var(' + currentContact.color + ')'}">
+                    <div class="contact-icon" [ngStyle]="{'background-color': currentContact.color }">
                         <h4>{{ currentContact.initial}}</h4>
                     </div>
                     <div class="inputfield-container">

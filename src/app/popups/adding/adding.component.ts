@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-adding',
@@ -8,8 +9,12 @@ import { Component } from '@angular/core';
   styleUrl: './adding.component.scss'
 })
 export class AddingComponent {
-  text: string = 'Task added to board';
   addBoard: string = 'Task added to board';
   addContact: string = 'Contact succesfully created';
+  deleteContact: string = 'Contact succesfully deleted';
   addUser: string = 'You Signed Up successfully';
+
+  constructor(
+    public sharedService: SharedService,
+  ) { }
 }

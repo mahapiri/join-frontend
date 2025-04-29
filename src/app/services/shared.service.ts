@@ -14,6 +14,10 @@ export class SharedService {
   isAdding: boolean = false;
   isAddContact: boolean = false;
   isEditContact: boolean = false;
+  isAddBoardText: boolean = false;
+  isAddContactText: boolean = false;
+  isDeleteContactText: boolean = false;
+  isAddUserText: boolean = false;
 
   private _loginWindowSubject = new BehaviorSubject<boolean>(true);
   loginWindow$ = this._loginWindowSubject.asObservable();
@@ -24,7 +28,7 @@ export class SharedService {
 
   constructor() { }
 
-  
+
   closeAll() {
     this.isPopup = false;
     this.isAddTask = false;
@@ -32,9 +36,17 @@ export class SharedService {
     this.isAddTaskInAwaitFeedback = false;
     this.isCard = false;
     this.isCardEditing = false;
-    this.isAdding = false;
     this.isAddContact = false;
     this.isEditContact = false;
+  }
+
+
+  setAllAddingTextOnFalse() {
+    this.isAdding = false;
+    this.isAddBoardText = false;
+    this.isAddContactText = false;
+    this.isDeleteContactText = false;
+    this.isAddUserText = false;
   }
 
 

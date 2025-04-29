@@ -1,12 +1,10 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { SharedService } from '../../services/shared.service';
 import { Contact } from '../../models/contact';
 import { ContactApiService } from '../../services/contact-api.service';
 import { ContactService } from '../../services/contact.service';
-// import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-contact-overview',
@@ -15,32 +13,21 @@ import { ContactService } from '../../services/contact.service';
   templateUrl: './contact-overview.component.html',
   styleUrl: './contact-overview.component.scss'
 })
-export class ContactOverviewComponent {
-  contacts: Contact[] = [];
+export class ContactOverviewComponent implements OnInit, OnDestroy {
   currentContact: Contact | null = null;
   selectedContact: number | null = null;
 
   subscription: Subscription = new Subscription();
 
   constructor(
-    public contactService: ContactService, 
+    public contactService: ContactService,
     private sharedService: SharedService,
-    // private apiService: ApiService,
     private cdr: ChangeDetectorRef,
     private contactApiService: ContactApiService
-  ) {
-    this.subscription.add(
-      this.contactService.selectedContact$.subscribe((contact) => {
-        this.selectedContact = contact;
-      })
-    ),
-    this.subscription.add(
-      this.contactService.contacts$.subscribe((contacts) => {
-        contacts.forEach((contact) => {
-          this.contacts.push(contact);
-        })
-      })
-    ),
+  ) { }
+
+
+  ngOnInit(): void {
     this.subscription.add(
       this.contactService.currentContact$.subscribe(contact => {
         this.currentContact = contact;
@@ -60,14 +47,21 @@ export class ContactOverviewComponent {
     this.sharedService.isEditContact = true;
   }
 
+
   async deleteContact() {
     if (this.currentContact) {
       await this.contactApiService.deleteContact(this.currentContact);
+      this.contactService.loadContacts();
       this.sharedService.closeAll();
+      this.sharedService.isAdding = true;
+      this.sharedService.isDeleteContactText = true;
       this.cdr.detectChanges();
       requestAnimationFrame(() => {
         this.contactService.deselectContact();
       })
+      setTimeout(() => {
+        this.sharedService.setAllAddingTextOnFalse();
+      }, 1000);
     }
   }
 }

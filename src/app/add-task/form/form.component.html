@@ -16,7 +16,7 @@
                 <p>Assigned To</p>
                 <div appClickOutside (clickOutside)="clickoutsideAssignedTo()">
                     <div class="select-container">
-                        <input class="assigned-to-field" id="assignedTo" placeholder="Select contacts to assign"
+                        <input #assignedToInput class="assigned-to-field" placeholder="Select contacts to assign"
                             type="text" (click)="openAssignedToList()" (input)="searchAssignments()" autocomplete="off">
                         <img class="input-icon"
                             [src]="openedAssignmentsList ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
@@ -54,7 +54,7 @@
                     </div>
                     <div class="assigned-container">
                         <div class="contact-icon icon-border"
-                            *ngFor="let assignedContact of taskForm.get('assignments')?.value"
+                            *ngFor="let assignedContact of taskForm.get('assigned_contacts')?.value"
                             [ngStyle]="{'background-color': assignedContact.color }">
                             {{ assignedContact.initial }}
                         </div>

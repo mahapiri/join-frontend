@@ -6,6 +6,7 @@ import { User } from '../../models/user.model';
 import { CommonModule } from '@angular/common';
 import { SharedService } from '../../services/shared.service';
 import { ValidationService } from '../../services/validation.service';
+import { ContactService } from '../../services/contact.service';
 // import { ApiService } from '../../services/api.service';
 
 @Component({
@@ -28,7 +29,7 @@ export class EditContactComponent implements OnDestroy {
   contactForm: FormGroup;
 
   constructor(
-    public userService: UserService,
+    public contactService: ContactService,
     private sharedService: SharedService,
     private validate: ValidationService,
     private fb: FormBuilder,
@@ -85,7 +86,7 @@ export class EditContactComponent implements OnDestroy {
       this.sharedService.closeAll();
       this.cdr.detectChanges();
       requestAnimationFrame(() => {
-        this.userService.deselectContact();
+        this.contactService.deselectContact();
       })
     }
   }

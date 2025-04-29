@@ -5,6 +5,7 @@ import { SharedService } from '../../services/shared.service';
 import { ContactApiService } from '../../services/contact-api.service';
 import { Contact } from '../../models/contact';
 import { UserService } from '../../services/user.service';
+import { ContactService } from '../../services/contact.service';
 
 @Component({
   selector: 'app-contact-list',
@@ -21,10 +22,10 @@ export class ContactListComponent implements OnDestroy {
   constructor(
     private sharedService: SharedService,
     private contactApiService: ContactApiService,
-    public userService: UserService
+    public contactService: ContactService
   ) {
     this.isLoading = true;
-    this.contactApiService.contacts$
+    this.contactService.contacts$
     .pipe(
       delay(500),
       filter(contacts => contacts && contacts.length > 0),
@@ -47,7 +48,7 @@ export class ContactListComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.userService.deselectContact();
+    this.contactService.deselectContact();
   }
 
   addNewContact() {

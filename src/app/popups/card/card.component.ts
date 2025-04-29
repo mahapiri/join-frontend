@@ -12,6 +12,7 @@ import { MY_DATE_FORMATS } from '../../add-task/form/form.component';
 import { ClickOutsideDirective } from '../../click-outside.directive';
 import { UserService } from '../../services/user.service';
 import { Contact } from '../../models/contact';
+import { ContactService } from '../../services/contact.service';
 
 @Component({
   selector: 'app-card',
@@ -48,7 +49,7 @@ export class CardComponent implements OnDestroy, OnInit {
     // private apiService: ApiService,
     public sharedService: SharedService,
     private fb: FormBuilder,
-    private userService: UserService,
+    private contactService: ContactService,
     private cdr: ChangeDetectorRef
   ) {
     this.taskForm = this.fb.group({});
@@ -60,7 +61,7 @@ export class CardComponent implements OnDestroy, OnInit {
         })
     ),
       this.subscriptions.add(
-        this.userService.contacts$
+        this.contactService.contacts$
           .pipe(
             delay(500),
             filter(contacts => contacts && contacts.length > 0),

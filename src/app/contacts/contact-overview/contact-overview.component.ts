@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { SharedService } from '../../services/shared.service';
 import { Contact } from '../../models/contact';
 import { ContactApiService } from '../../services/contact-api.service';
+import { ContactService } from '../../services/contact.service';
 // import { ApiService } from '../../services/api.service';
 
 @Component({
@@ -22,26 +23,26 @@ export class ContactOverviewComponent {
   subscription: Subscription = new Subscription();
 
   constructor(
-    public userService: UserService, 
+    public contactService: ContactService, 
     private sharedService: SharedService,
     // private apiService: ApiService,
     private cdr: ChangeDetectorRef,
     private contactApiService: ContactApiService
   ) {
     this.subscription.add(
-      this.userService.selectedContact$.subscribe((contact) => {
+      this.contactService.selectedContact$.subscribe((contact) => {
         this.selectedContact = contact;
       })
     ),
     this.subscription.add(
-      this.userService.contacts$.subscribe((contacts) => {
+      this.contactService.contacts$.subscribe((contacts) => {
         contacts.forEach((contact) => {
           this.contacts.push(contact);
         })
       })
     ),
     this.subscription.add(
-      this.userService.currentContact$.subscribe(contact => {
+      this.contactService.currentContact$.subscribe(contact => {
         this.currentContact = contact;
       })
     )
@@ -49,7 +50,7 @@ export class ContactOverviewComponent {
 
 
   ngOnDestroy(): void {
-    this.userService.resetCurrentContact();
+    this.contactService.resetCurrentContact();
     this.subscription.unsubscribe();
   }
 
@@ -65,7 +66,7 @@ export class ContactOverviewComponent {
       this.sharedService.closeAll();
       this.cdr.detectChanges();
       requestAnimationFrame(() => {
-        this.userService.deselectContact();
+        this.contactService.deselectContact();
       })
     }
   }

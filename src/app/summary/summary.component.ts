@@ -2,8 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { PanelComponent } from "./panel/panel.component";
 import { CommonModule } from '@angular/common';
-// import { ApiService } from '../services/api.service';
-import { delay, filter, Observable, Subscription, tap } from 'rxjs';
 import { SharedService } from '../services/shared.service';
 import { TaskApiService } from '../services/task-api.service';
 
@@ -20,12 +18,9 @@ import { TaskApiService } from '../services/task-api.service';
 export class SummaryComponent implements OnInit, OnDestroy {
 
   isLoading: boolean = false;
-  // tasks$: Observable<{}> = new Observable<{}>();
-  // tasksSubscription: Subscription = new Subscription();
 
   constructor(
     private titleService: Title,
-    // private apiService: ApiService,
     private sharedService: SharedService,
     private taskApi: TaskApiService
   ) {
@@ -34,27 +29,9 @@ export class SummaryComponent implements OnInit, OnDestroy {
   }
 
 
-  ngOnInit(): void {
-    // this.isLoading = true;
-
-    // this.apiService.getAllTasks();
-    // this.tasks$ = this.apiService.tasks$;
-
-    this.taskApi.getSummaryData();
-    this.taskApi.summData$.subscribe((data) => {
-
-    })
-
-    // this.tasksSubscription = this.tasks$.pipe(
-    //   delay(500),
-    //   tap(() => this.isLoading = false)
-    // ).subscribe();
-  }
+  ngOnInit(): void { }
 
 
 
-  ngOnDestroy(): void {
-    // this.tasksSubscription.unsubscribe();
-    // this.isLoading = true;
-  }
+  ngOnDestroy(): void { }
 }

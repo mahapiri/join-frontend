@@ -14,6 +14,8 @@ import { Contact } from '../../models/contact';
 import { delay, filter, Subscription, tap } from 'rxjs';
 import { TaskApiService } from '../../services/task-api.service';
 import { Category } from '../../models/category';
+import { TaskService } from '../../services/task.service';
+import { ContactService } from '../../services/contact.service';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -62,16 +64,28 @@ export class FormComponent implements OnDestroy {
   allSubscription: Subscription = new Subscription();
 
   taskForm: FormGroup;
+
+
   contacts: Contact[] = [];
-  categories: Category[] = [];
   filteredContacts: Contact[] = [];
+  isHoverContact: boolean = false;
   searchAssignment: boolean = false;
   openedAssignmentsList: boolean = false;
+
+
+  categories: Category[] = [];
+
+
+
   openedCategoryList: boolean = false;
+
+
   searchTextSubtasks: string = '';
   isEditingSubtaskIndex: number | null = null;
-  isHoverContact: boolean = false;
   isWritingSubtask: boolean = false;
+
+
+
   isContactLoading: boolean = true;
   isCategoryLoading: boolean = true;
 
@@ -81,8 +95,10 @@ export class FormComponent implements OnDestroy {
     public sharedService: SharedService,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private contactService: ContactApiService,
-    private taskApiService: TaskApiService
+    private contactApiService: ContactApiService,
+    private contactService: ContactService,
+    private taskApiService: TaskApiService,
+    private taskService: TaskService,
   ) {
     this.taskForm = this.fb.group({
       title: new FormControl('', Validators.required),
@@ -90,37 +106,32 @@ export class FormComponent implements OnDestroy {
       assigned_contacts: new FormControl([]),
       due_date: new FormControl(new Date(), Validators.required),
       prio: new FormControl(null),
-      category: new FormControl<Category | null>(null , Validators.required),
+      category: new FormControl<Category | null>(null, Validators.required),
       subtasks: this.fb.array([])
     })
 
     this.isContactLoading = true;
     this.isCategoryLoading = true;
+
+    this.taskService.loadCategories();
+    this.contactService.loadContacts();
+
     this.allSubscription.add(
       this.contactService.contacts$.pipe(
         delay(500),
         filter(contacts => contacts && contacts.length > 0),
         tap(() => this.isContactLoading = false)
       ).subscribe((contacts => {
-        this.contacts = [];
-        this.filteredContacts = [];
-        contacts.forEach(contact => {
-          this.contacts.push(contact);
-          this.filteredContacts.push(contact);
-        });
-        this.cdr.detectChanges();
-
+        this.contacts = contacts;
       })));
+
     this.allSubscription.add(
-      this.taskApiService.categories$.pipe(
+      this.taskService.categories$.pipe(
         delay(500),
         filter(categories => categories && categories.length > 0),
         tap(() => this.isCategoryLoading = false),
       ).subscribe(categories => {
-        this.categories = [];
-        categories.forEach(category => {
-          this.categories.push(category);
-        })
+        this.categories = categories;
       })
     );
   }
@@ -131,12 +142,6 @@ export class FormComponent implements OnDestroy {
   }
 
 
-  selectCategory(category: Category): void {
-    this.taskForm.get('category')?.setValue(category);
-    this.openedCategoryList = false;
-  }
-
-
   clickoutsideAssignedTo() {
     let inputValue = document.getElementById('assignedTo') as HTMLInputElement;
     if (this.openedAssignmentsList) {
@@ -144,11 +149,6 @@ export class FormComponent implements OnDestroy {
       inputValue.value = '';
       this.searchAssignment = false;
     }
-  }
-
-
-  clickOutsideCategory() {
-    this.openedCategoryList = false;
   }
 
 
@@ -173,40 +173,6 @@ export class FormComponent implements OnDestroy {
         contactIcon.style.borderColor = '';
       }
     }
-  }
-
-
-  async onSubmit() {
-    const formValue = this.taskForm.value
-    if (formValue.due_date) {
-      formValue.due_date = this.taskApiService.formatDateForDjango(new Date(formValue.due_date));
-    }
-    if(this.sharedService.isAddTaskInProgress) {
-      await this.taskApiService.createNewTask(formValue, 'in_progress');
-    } else if(this.sharedService.isAddTaskInAwaitFeedback) {
-      await this.taskApiService.createNewTask(formValue, 'await_feedback');
-    } else {
-      await this.taskApiService.createNewTask(formValue, 'to_do');
-    }
-
-    // this.resetForm();
-    // this.sharedService.isAdding = true;
-    // setTimeout(() => {
-    //   this.navigateToBoard();
-    //   this.sharedService.closeAll();
-    // }, 1000);
-  }
-
-  navigateToBoard() {
-    this.router.navigate(['/', 'board']);
-  }
-
-
-  resetForm() {
-    this.taskForm.reset();
-    this.uncheckCheckboxes();
-    this.deleteSubtaskArray();
-    this.deleteAssignmentInputField();
   }
 
 
@@ -268,6 +234,17 @@ export class FormComponent implements OnDestroy {
       const updatedAssignments = currentAssignments.filter(u => u.id !== contact.id);
       assignments.setValue(updatedAssignments);
     }
+  }
+
+
+  selectCategory(category: Category): void {
+    this.taskForm.get('category')?.setValue(category);
+    this.openedCategoryList = false;
+  }
+
+
+  clickOutsideCategory() {
+    this.openedCategoryList = false;
   }
 
 
@@ -362,5 +339,47 @@ export class FormComponent implements OnDestroy {
     if (subtasks) {
       subtasks.clear();
     }
+  }
+
+
+  async onSubmit() {
+    const formValue = this.taskForm.value
+    if (formValue.due_date) {
+      formValue.due_date = this.taskApiService.formatDateForDjango(new Date(formValue.due_date));
+    }
+
+    let newTask = null;
+
+    if (this.sharedService.isAddTaskInProgress) {
+      newTask = await this.taskApiService.createNewTask(formValue, 'in_progress');
+    } else if (this.sharedService.isAddTaskInAwaitFeedback) {
+      newTask = await this.taskApiService.createNewTask(formValue, 'await_feedback');
+    } else {
+      newTask = await this.taskApiService.createNewTask(formValue, 'to_do');
+    }
+
+    if (newTask) {
+      this.taskService.setNewTask(newTask);
+    }
+
+    this.resetForm();
+    this.sharedService.isAdding = true;
+    setTimeout(() => {
+      this.navigateToBoard();
+      this.sharedService.closeAll();
+    }, 1000);
+  }
+
+
+  navigateToBoard() {
+    this.router.navigate(['/', 'board']);
+  }
+
+
+  resetForm() {
+    this.taskForm.reset();
+    this.uncheckCheckboxes();
+    this.deleteSubtaskArray();
+    this.deleteAssignmentInputField();
   }
 }

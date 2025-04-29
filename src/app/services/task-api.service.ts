@@ -1,30 +1,13 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { Task } from '../models/task.model';
-import { SummaryData } from '../models/summary-data';
-import { Category } from '../models/category';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskApiService {
-  private _sumdata = new BehaviorSubject<SummaryData | null>(null);
-  summData$ = this._sumdata.asObservable();
-  private _categories = new BehaviorSubject<Category[]>([]);
-  categories$ = this._categories.asObservable();
-  private _tasks = new BehaviorSubject<Task[]>([]);
-  tasks$ = this._tasks.asObservable();
-
   apiUrl = "http://127.0.0.1:8000/api/tasks"
 
-  constructor() {
-    this.getAllCategories().then(categories => {
-      this._categories.next(categories);
-    })
-    this.getAllTasks().then(tasks => {
-      this._tasks.next(tasks);
-    })
-  }
+  constructor() { }
 
 
   async createNewTask(taskForm: Task, newStatus: string) {
@@ -45,13 +28,14 @@ export class TaskApiService {
         body: JSON.stringify(newTask),
       })
 
-      const datas = await response.json();
+      const newAddedTask = await response.json();
 
-      if (datas) {
-        console.log(datas)
+      if (newAddedTask) {
+        return newAddedTask;
       }
     } catch (error) {
       console.log('Fehler', error)
+      return null;
     }
   }
 
@@ -63,15 +47,16 @@ export class TaskApiService {
         headers: { 'Content-Type': 'application/json' },
       })
 
-      const datas = await response.json();
+      const categories = await response.json();
 
-      if (datas) {
-        return datas;
+      if (categories) {
+        return categories;
       }
     } catch (error) {
-      return [];
+      return null;
     }
   }
+
 
   async getAllTasks() {
     try {
@@ -80,13 +65,13 @@ export class TaskApiService {
         headers: { 'Content-Type': 'application/json' },
       })
 
-      const datas = await response.json();
+      const tasks = await response.json();
 
-      if (datas) {
-        return datas;
+      if (tasks) {
+        return tasks;
       }
     } catch (error) {
-      return [];
+      return null;
     }
   }
 
@@ -98,21 +83,21 @@ export class TaskApiService {
         headers: { 'Content-Type': 'application/json' },
       })
 
-      const datas = await response.json();
+      const summData = await response.json();
 
-      if (datas) {
-        datas['upcoming_deadline'] = this.formatDate(datas['upcoming_deadline'])
-        this._sumdata.next(datas);
+      if (summData) {
+        summData['upcoming_deadline'] = this.formatDate(summData['upcoming_deadline']);
+        return summData;
       }
 
     } catch (error) {
       console.log('Fehler', error)
-      this._sumdata.next(null);
+      return null;
     }
   }
 
 
-  formatDate(date: any): string {
+  formatDate(date: string): string {
     let splitValues = date.split("-");
     return `${splitValues[2]}/${splitValues[1]}/${splitValues[0]}`;
   }

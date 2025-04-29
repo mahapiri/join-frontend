@@ -4,7 +4,7 @@
         <div class="divider"></div>
         <h5>Better with a team</h5>
     </header>
-    <ng-container *ngIf="userService.contacts$ | async as contacts">
+    <ng-container *ngIf="contactService.contacts$ | async as contacts">
         <div class="contact-container" *ngIf="currentContact != null">
             <div class="contact-title">
                 <div class="contact-icon"

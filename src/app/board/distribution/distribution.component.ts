@@ -85,7 +85,7 @@ export class DistributionComponent implements OnInit, OnDestroy {
         })
       ),
       this.subscriptions.add(
-        this.taskApiService.tasks$
+        this.taskService.tasks$
           .pipe(
             delay(250),
             tap(() => this.isLoading = false)

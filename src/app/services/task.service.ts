@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Task } from '../models/task.model';
 import { BehaviorSubject } from 'rxjs';
+import { TaskApiService } from './task-api.service';
+import { SummaryData } from '../models/summary-data';
+import { Category } from '../models/category';
 
 @Injectable({
   providedIn: 'root'
@@ -20,16 +23,52 @@ export class TaskService {
   private searchTermSubject = new BehaviorSubject<string>('');
   searchTerm$ = this.searchTermSubject.asObservable();
 
-  private isSearchingTerm = new BehaviorSubject<boolean>(false);
-  isSearching$ = this.isSearchingTerm.asObservable();
+  private _isSearching = new BehaviorSubject<boolean>(false);
+  isSearching$ = this._isSearching.asObservable();
 
-  constructor() {
+  private _tasks = new BehaviorSubject<Task[]>([]);
+  tasks$ = this._tasks.asObservable();
+
+  private _sumdata = new BehaviorSubject<SummaryData | null>(null);
+  summData$ = this._sumdata.asObservable();
+
+  private _categories = new BehaviorSubject<Category[]>([]);
+  categories$ = this._categories.asObservable();
+
+  constructor(
+    private taskApiService: TaskApiService,
+  ) {
   }
+
+  async loadCategories() {
+    const categories = await this.taskApiService.getAllCategories();
+    this._categories.next(categories)
+  }
+
+  async loadSummary() {
+    const sumdata = await this.taskApiService.getSummaryData();
+    this.updateSummdata(sumdata);
+  }
+
+
+  updateSummdata(sumdata: SummaryData) {
+    this._sumdata.next(sumdata);
+  }
+
+
+  setNewTask(newTask: Task) {
+    const currentTasks = this._tasks.value;
+    const updatedTasks = [...currentTasks, newTask];
+    this._tasks.next(updatedTasks);
+    this.loadSummary();
+  }
+
 
   updateClickedTaskCard(task: Task) {
     this._clickedTaskCardSubject.next(task);
     console.log(task)
   }
+
 
   resetClickedTaskCard() {
     this._clickedTaskCardSubject.next(null);
@@ -69,6 +108,6 @@ export class TaskService {
 
 
   setIsSearchingTerm(isSearching: boolean) {
-    this.isSearchingTerm.next(isSearching);
+    this._isSearching.next(isSearching);
   }
 }

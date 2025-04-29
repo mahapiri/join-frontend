@@ -9,14 +9,8 @@ export class ContactApiService {
 
   apiUrl = "http://127.0.0.1:8000/api/contacts"
 
-  private _contacts = new BehaviorSubject<Contact[]>([]);
-  contacts$ = this._contacts.asObservable();
+  constructor() { }
 
-  constructor() {
-    this.getAllContacts().then(datas => {
-      this._contacts.next(datas);
-    })
-  }
 
   async getAllContacts() {
     try {
@@ -25,15 +19,16 @@ export class ContactApiService {
         headers: { 'Content-Type': 'application/json' },
       })
 
-      const datas = await response.json();
+      const contacts = await response.json();
 
-      if (datas) {
-        return datas
+      if (contacts) {
+        return contacts
       }
     } catch (error) {
-      return [];
+      return null;
     }
   }
+
 
   async createContact(newContact: Contact) {
     try {
@@ -54,6 +49,7 @@ export class ContactApiService {
       return null
     }
   }
+
 
   async deleteContact(contact: Contact) {
     try {

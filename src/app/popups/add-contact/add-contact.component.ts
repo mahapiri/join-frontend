@@ -5,6 +5,7 @@ import { SharedService } from '../../services/shared.service';
 import { ValidationService } from '../../services/validation.service';
 import { CommonModule } from '@angular/common';
 import { ContactApiService } from '../../services/contact-api.service';
+import { ContactService } from '../../services/contact.service';
 // import { ApiService } from '../../services/api.service';
 
 @Component({
@@ -24,7 +25,7 @@ export class AddContactComponent {
 
 
   constructor(
-    private userService: UserService,
+    private contactService: ContactService,
     // private apiService: ApiService,
     private sharedService: SharedService,
     private validate: ValidationService,
@@ -53,7 +54,7 @@ export class AddContactComponent {
 
     setTimeout(() => {
       if (response) {
-        this.userService.selectContact(response);
+        this.contactService.selectContact(response);
         const div = document.getElementById(`id${response}`);
         console.log(div);
       }

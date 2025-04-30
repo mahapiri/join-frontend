@@ -39,6 +39,8 @@
 }
 
 .task-content {
+    overflow: visible;
+    scrollbar-width: none;
     margin-bottom: 16px;
     @include transition-100;
 }
@@ -71,7 +73,24 @@
     margin-bottom: 16px;
 }
 
+app-card  {
+    width: 100%;
+}
+
+.card-container {
+    width: 100%;
+    border-radius: 24px;
+    padding: 16px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--white);
+    @include card-shadow-backlog;
+    @include transition-100;
+    cursor: pointer;
+}
+
 .rotate {
-    transform-origin: left bottom;
     transform: rotate(3deg);
 }

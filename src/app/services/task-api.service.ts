@@ -78,6 +78,24 @@ export class TaskApiService {
   }
 
 
+  async updateTask(task: Task) {
+    try {
+      const response = await fetch(`${this.apiUrl}/${task.id}/`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(task),
+      })
+
+      const updatedTask = await response.json();
+
+      if(updatedTask) return updatedTask;
+    } catch (error) {
+      console.warn('Error update task:', error)
+      return null;
+    }
+  }
+
+
   async getSummaryData() {
     try {
       const response = await fetch(`${this.apiUrl}/summary/`, {

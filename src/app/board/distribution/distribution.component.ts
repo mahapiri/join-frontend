@@ -3,7 +3,6 @@ import { Component, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetect
 import { CardComponent } from '../card/card.component';
 import { TaskService } from '../../services/task.service';
 import { CdkDragDrop, CdkDrag, moveItemInArray, transferArrayItem, DragDropModule, CdkDragStart } from '@angular/cdk/drag-drop';
-// import { ApiService } from '../../services/api.service';
 import { Task } from '../../models/task.model';
 import { SharedService } from '../../services/shared.service';
 import { delay, Subscription, tap } from 'rxjs';
@@ -48,17 +47,10 @@ export class DistributionComponent implements OnInit, OnDestroy {
 
   constructor(
     private cdr: ChangeDetectorRef,
-    // private apiService: ApiService,
     private sharedService: SharedService,
     private taskService: TaskService,
-    private taskApiService: TaskApiService
-  ) {
-    this.isLoading = true;
-
-    this.connectedToIds = this.taskStatuses.map(s => s.id);
-
-    // this.apiService.getAllTasks();
-  }
+    private taskApiService: TaskApiService,
+  ) { }
 
 
   updateFilteredTasks() {
@@ -69,43 +61,60 @@ export class DistributionComponent implements OnInit, OnDestroy {
   }
 
 
-  ngOnInit() {
+  isSearchingSubscription() {
     this.subscriptions.add(
       this.taskService.isSearching$.subscribe(isSearching => {
         this.isSearching = isSearching
       })
-    ),
-      this.subscriptions.add(
-        this.taskService.searchTerm$.subscribe(searchTerm => {
-          this.searchTerm = searchTerm;
-          this.updateFilteredTasks();
-          this.cdr.markForCheck();
-          this.cdr.detectChanges();
-          this.checkForNoResults();
-        })
-      ),
-      this.subscriptions.add(
-        this.taskService.tasks$
-          .pipe(
-            delay(250),
-            tap(() => this.isLoading = false)
-          )
-          .subscribe((tasks) => {
-            this.taskStatuses.forEach(status => status.tasks = []);
-            tasks.forEach(task => {
-              const status = this.taskStatuses.find(s => s.id === task.status);
-              if (status) {
-                status.tasks.push(task);
-              }
-            });
-            this.updateFilteredTasks();
-            this.checkForNoResults();
-          })
-      )
+    )
   }
 
+
+  searchTermSubscription() {
+    this.subscriptions.add(
+      this.taskService.searchTerm$.subscribe(searchTerm => {
+        this.searchTerm = searchTerm;
+        this.updateFilteredTasks();
+        this.cdr.markForCheck();
+        this.cdr.detectChanges();
+        this.checkForNoResults();
+      })
+    )
+  }
+
+
+  tasksSubscription() {
+    this.subscriptions.add(
+      this.taskService.tasks$
+        .pipe(
+          delay(250),
+          tap(() => this.isLoading = false)
+        )
+        .subscribe((tasks) => {
+          this.taskStatuses.forEach(status => status.tasks = []);
+          tasks.forEach(task => {
+            const status = this.taskStatuses.find(s => s.id === task.status);
+            if (status) status.tasks.push(task);
+          });
+          this.updateFilteredTasks();
+          this.checkForNoResults();
+        })
+    )
+  }
+
+
+  ngOnInit() {
+    this.taskService.loadTasks();
+    this.isSearchingSubscription();
+    this.searchTermSubscription();
+    this.tasksSubscription();
+    this.isLoading = true;
+    this.connectedToIds = this.taskStatuses.map(s => s.id);
+  }
+
+
   ngOnDestroy(): void {
-      this.subscriptions.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 
 
@@ -146,7 +155,7 @@ export class DistributionComponent implements OnInit, OnDestroy {
       movedTask.status = event.container.id;
       this.draggable = false;
       this.cdr.detectChanges();
-      // await this.apiService.updateTaskstatuswithSubtaskAndAssignements(movedTask, movedTask.status);
+      await this.taskApiService.updateTask(movedTask);
       setTimeout(() => {
         this.draggable = true;
         this.cdr.detectChanges();

@@ -122,8 +122,8 @@
 }
 
 .contact-icon {
-    width: 42px;
-    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
     border-radius: 100%;
     background-color: var(--orange);
     font-family: Inter;

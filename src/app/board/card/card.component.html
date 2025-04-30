@@ -1,59 +1,57 @@
 <ng-container *ngIf="task">
-    <div class="card-container">
-        <div class="card-content">
-            <div class="label" [ngStyle]="{ 'background-color': task.category.color}">
-                <a>{{ task.category.name }}</a>
-            </div>
-            <div class="title-description-container">
-                <a class="a-bold title">{{ task.title }}</a>
-                <a class="description">{{ task.description }}</a>
-            </div>
-            <ng-container *ngIf="task">
-                <div class="progress-bar-container" *ngIf="task.subtasks?.length">
-                    <div class="progress-bar">
-                        <div class="bar" [style.width]="subtaskStatus"></div>
-                    </div>
-                    <div class="subtasks-status">{{ doneSubtasks }}/{{ task.subtasks?.length }} Subtasks</div>
+    <div class="card-content">
+        <div class="label" [ngStyle]="{ 'background-color': task.category.color}">
+            <a>{{ task.category.name }}</a>
+        </div>
+        <div class="title-description-container">
+            <a class="a-bold title">{{ task.title }}</a>
+            <a class="description">{{ task.description }}</a>
+        </div>
+        <ng-container *ngIf="task">
+            <div class="progress-bar-container" *ngIf="task.subtasks?.length">
+                <div class="progress-bar">
+                    <div class="bar" [style.width]="subtaskStatus"></div>
                 </div>
-            </ng-container>
+                <div class="subtasks-status">{{ doneSubtasks }}/{{ task.subtasks?.length }} Subtasks</div>
+            </div>
+        </ng-container>
 
-            <div class="assigned-prio-container">
-                <div class="assigned-content">
-                    <ng-container *ngIf="task.assigned_contacts && task.assigned_contacts.length > 0">
-                        <ng-container *ngIf="task.assigned_contacts.length <= 4">
-                            <ng-container *ngFor="let assignment of task.assigned_contacts; let i = index">
-                                <div class="contact-icon"
-                                    [ngStyle]="{ 'background-color': 'var(' + assignment.color + ')'}">
-                                    <p>
-                                        {{ assignment.initial }}
-                                    </p>
-                                </div>
-                            </ng-container>
-                        </ng-container>
-
-                        <ng-container *ngIf="task.assigned_contacts.length > 4">
-                            <ng-container *ngFor="let assignment of task.assigned_contacts.slice(0, 4); let i = index">
-                                <div class="contact-icon"
-                                    [ngStyle]="{ 'background-color': 'var(' + assignment.color + ')'}">
-                                    <p>
-                                        {{ assignment.initial }}
-                                    </p>
-                                </div>
-                            </ng-container>
-                            <div class="contact-icon more-indicator">
-                                <p>+{{ task.assigned_contacts.length - 4 }}</p>
+        <div class="assigned-prio-container">
+            <div class="assigned-content">
+                <ng-container *ngIf="task.assigned_contacts && task.assigned_contacts.length > 0">
+                    <ng-container *ngIf="task.assigned_contacts.length <= 4">
+                        <ng-container *ngFor="let assignment of task.assigned_contacts; let i = index">
+                            <div class="contact-icon"
+                                [ngStyle]="{ 'background-color': 'var(' + assignment.color + ')'}">
+                                <p>
+                                    {{ assignment.initial }}
+                                </p>
                             </div>
                         </ng-container>
                     </ng-container>
-                </div>
-                <div class="prio-content">
-                    <ng-container [ngSwitch]="task.prio">
-                        <img *ngSwitchCase="'low'" src="../../../assets/img/prio/low-default.svg" alt="Prio">
-                        <img *ngSwitchCase="'medium'" src="../../../assets/img/prio/medium-default.svg" alt="Prio">
-                        <img *ngSwitchCase="'urgent'" src="../../../assets/img/prio/urgent-default.svg" alt="Prio">
-                        <p *ngSwitchDefault></p>
+
+                    <ng-container *ngIf="task.assigned_contacts.length > 4">
+                        <ng-container *ngFor="let assignment of task.assigned_contacts.slice(0, 4); let i = index">
+                            <div class="contact-icon"
+                                [ngStyle]="{ 'background-color': 'var(' + assignment.color + ')'}">
+                                <p>
+                                    {{ assignment.initial }}
+                                </p>
+                            </div>
+                        </ng-container>
+                        <div class="contact-icon more-indicator">
+                            <p>+{{ task.assigned_contacts.length - 4 }}</p>
+                        </div>
                     </ng-container>
-                </div>
+                </ng-container>
+            </div>
+            <div class="prio-content">
+                <ng-container [ngSwitch]="task.prio">
+                    <img *ngSwitchCase="'low'" src="../../../assets/img/prio/low-default.svg" alt="Prio">
+                    <img *ngSwitchCase="'medium'" src="../../../assets/img/prio/medium-default.svg" alt="Prio">
+                    <img *ngSwitchCase="'urgent'" src="../../../assets/img/prio/urgent-default.svg" alt="Prio">
+                    <p *ngSwitchDefault></p>
+                </ng-container>
             </div>
         </div>
     </div>

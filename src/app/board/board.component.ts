@@ -34,10 +34,12 @@ export class BoardComponent {
     this.taskService.setIsSearchingTerm(true);
   }
 
+
   noTasksFound(noTasks: boolean) {
     this.noTaskFound = noTasks;
   }
 
+  
   openAddTask() {
     this.sharedService.isPopup = true;
     this.sharedService.isAddTask = true;

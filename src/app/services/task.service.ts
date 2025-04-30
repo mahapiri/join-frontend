@@ -42,7 +42,7 @@ export class TaskService {
 
   async loadCategories() {
     const categories = await this.taskApiService.getAllCategories();
-    this._categories.next(categories)
+    this._categories.next(categories);
   }
 
   async loadSummary() {
@@ -53,6 +53,12 @@ export class TaskService {
 
   updateSummdata(sumdata: SummaryData) {
     this._sumdata.next(sumdata);
+  }
+
+
+  async loadTasks() {
+    const tasks = await this.taskApiService.getAllTasks();
+    this._tasks.next(tasks);
   }
 
 

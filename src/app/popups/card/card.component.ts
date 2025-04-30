@@ -106,12 +106,12 @@ export class CardComponent implements OnDestroy, OnInit {
 
 
   async toggleCheck(i: number, subtask: Subtask) {
-    console.log(subtask)
     if (this.task?.subtasks) {
       this.task.subtasks[i].is_completed = !this.task.subtasks[i].is_completed;
       console.log(this.task.subtasks[i])
       this.updateCheckboxUrl(i);
       await this.taskApiService.updateTask(this.task);
+      this.taskService.loadTasks();
       this.cdr.detectChanges();
     }
   }

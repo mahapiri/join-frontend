@@ -156,6 +156,7 @@ export class DistributionComponent implements OnInit, OnDestroy {
       this.draggable = false;
       this.cdr.detectChanges();
       await this.taskApiService.updateTask(movedTask);
+      this.taskService.loadTasks();
       setTimeout(() => {
         this.draggable = true;
         this.cdr.detectChanges();

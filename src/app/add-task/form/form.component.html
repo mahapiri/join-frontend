@@ -38,7 +38,7 @@
                                         <div class="contact-icon" [ngStyle]="{'background-color': contact.color}">
                                             {{ contact.initial }}
                                         </div>
-                                        <p>{{ contact.name }}</p>
+                                        <p style="width: 304px; overflow-x:hidden;">{{ contact.name }}</p>
                                     </div>
                                     <div class="checkbox-container">
                                         <input type="checkbox" #checkbox [checked]="isContactAssigned(contact)"
@@ -55,7 +55,7 @@
                     <div class="assigned-container">
                         <div class="contact-icon icon-border"
                             *ngFor="let assignedContact of taskForm.get('assigned_contacts')?.value"
-                            [ngStyle]="{'background-color': assignedContact.color }">
+                            [ngStyle]="{'background-color': assignedContact.color}">
                             {{ assignedContact.initial }}
                         </div>
                     </div>
@@ -63,7 +63,7 @@
             </label>
         </div>
         <div class="divider"></div>
-        <div class="field-container">
+        <div class="field-container"> 
             <label class="field-layout">
                 <p>Due date<span>*</span></p>
                 <div class="datepicker-box">

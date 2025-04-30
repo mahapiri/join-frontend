@@ -45,6 +45,7 @@ export class TaskService {
     this._categories.next(categories);
   }
 
+
   async loadSummary() {
     const sumdata = await this.taskApiService.getSummaryData();
     this.updateSummdata(sumdata);
@@ -67,6 +68,7 @@ export class TaskService {
     const updatedTasks = [...currentTasks, newTask];
     this._tasks.next(updatedTasks);
     this.loadSummary();
+    this.loadTasks();
   }
 
 

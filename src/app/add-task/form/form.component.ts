@@ -356,9 +356,11 @@ export class FormComponent implements OnInit, OnDestroy {
     if (newTask) this.taskService.setNewTask(newTask);
     this.resetForm();
     this.sharedService.isAdding = true;
+    this.sharedService.isAddBoardText = true;
     setTimeout(() => {
       this.navigateToBoard();
       this.sharedService.closeAll();
+      this.sharedService.setAllAddingTextOnFalse();
     }, 1000);
   }
 

@@ -21,8 +21,7 @@
                 <ng-container *ngIf="task.assigned_contacts && task.assigned_contacts.length > 0">
                     <ng-container *ngIf="task.assigned_contacts.length <= 4">
                         <ng-container *ngFor="let assignment of task.assigned_contacts; let i = index">
-                            <div class="contact-icon"
-                                [ngStyle]="{ 'background-color': 'var(' + assignment.color + ')'}">
+                            <div class="contact-icon" [ngStyle]="{ 'background-color': assignment.color }">
                                 <p>
                                     {{ assignment.initial }}
                                 </p>
@@ -32,8 +31,7 @@
 
                     <ng-container *ngIf="task.assigned_contacts.length > 4">
                         <ng-container *ngFor="let assignment of task.assigned_contacts.slice(0, 4); let i = index">
-                            <div class="contact-icon"
-                                [ngStyle]="{ 'background-color': 'var(' + assignment.color + ')'}">
+                            <div class="contact-icon" [ngStyle]="{ 'background-color': assignment.color }">
                                 <p>
                                     {{ assignment.initial }}
                                 </p>

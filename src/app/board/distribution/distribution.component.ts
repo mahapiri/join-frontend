@@ -53,14 +53,6 @@ export class DistributionComponent implements OnInit, OnDestroy {
   ) { }
 
 
-  updateFilteredTasks() {
-    this.taskStatuses.forEach(status => {
-      this.filteredTasks[status.id] = this.getFilteredTasks(status.tasks);
-    });
-    this.cdr.markForCheck();
-  }
-
-
   isSearchingSubscription() {
     this.subscriptions.add(
       this.taskService.isSearching$.subscribe(isSearching => {
@@ -115,6 +107,14 @@ export class DistributionComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+
+  updateFilteredTasks() {
+    this.taskStatuses.forEach(status => {
+      this.filteredTasks[status.id] = this.getFilteredTasks(status.tasks);
+    });
+    this.cdr.markForCheck();
   }
 
 
@@ -179,6 +179,17 @@ export class DistributionComponent implements OnInit, OnDestroy {
     status.isHovered = false;
   }
 
+
+  dragEntered(status: any) {
+    status.isDraggingOver = true;
+  }
+
+
+  dragExited(status: any) {
+    status.isDraggingOver = false;
+  }
+
+
   openAddTask(status: any) {
     this.sharedService.isPopup = true;
     this.sharedService.isAddTask = true;
@@ -188,16 +199,6 @@ export class DistributionComponent implements OnInit, OnDestroy {
     if (status.id === 'await_feedback') {
       this.sharedService.isAddTaskInAwaitFeedback = true;
     }
-  }
-
-
-  dragEntered(status: any) {
-    status.isDraggingOver = true;
-  }
-
-
-  dragExited(status: any) {
-    status.isDraggingOver = false;
   }
 
 

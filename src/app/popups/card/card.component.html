@@ -87,7 +87,7 @@
             <p class="gray">Assigned To:</p>
             <div class="assigned-box">
                 <div class="a-s-content" *ngFor="let assignment of task?.assigned_contacts">
-                    <div class="contact-icon" [ngStyle]="{'background-color': 'var(' + assignment.color + ')'}">{{
+                    <div class="contact-icon" [ngStyle]="{'background-color': assignment.color}">{{
                         assignment.initial }}</div>
                     <p style="overflow-x:hidden;">{{ assignment.name }}</p>
                 </div>
@@ -118,7 +118,7 @@
                                     (change)="selectContact(contact, checkbox)">
                                     <div class="contact-name">
                                         <div class="contact-icon"
-                                            [ngStyle]="{'background-color': 'var(' + contact.color + ')'}">{{
+                                            [ngStyle]="{'background-color': contact.color}">{{
                                             contact.initial }}
                                         </div>
                                         <p>{{ contact.name }}</p>
@@ -138,7 +138,7 @@
                     <div class="assigned-container">
                         <div class="contact-icon icon-border"
                             *ngFor="let assignedContact of taskForm.get('assignments')?.value"
-                            [ngStyle]="{'background-color': 'var(' + assignedContact.color + ')'}">{{ assignedContact.initial
+                            [ngStyle]="{'background-color': assignedContact.color}">{{ assignedContact.initial
                             }}
                         </div>
                     </div>
@@ -151,7 +151,7 @@
             <p class="gray">Subtasks:</p>
             <div class="subtask-box">
                 <div class="a-s-content" *ngFor="let subtask of task?.subtasks; let i = index">
-                    <img class="checkbox" [id]="'subtask' + i" [src]="subtask.is_completed ? 'assets/img/check-btn/default-checked.svg': 'assets/img/check-btn/default-disable.svg'" alt="Check" (click)="toggleCheck(i, subtask)"
+                    <img class="checkbox" [id]="'subtask' + i" [src]="subtask.is_completed ? 'assets/img/check-btn/default-checked.svg': 'assets/img/check-btn/default-disable.svg'" alt="Check" (click)="toggleCheck(i)"
                         (mouseover)="hoverCheckbox(i)" (mouseleave)="leaveCheckbox(i)">
                     <p>{{ subtask.subtask }}</p>
                 </div>

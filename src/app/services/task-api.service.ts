@@ -15,9 +15,9 @@ export class TaskApiService {
       "title": taskForm.title,
       "description": taskForm.description,
       "due_date": taskForm.due_date,
-      "category": taskForm.category["id"],
+      "category": taskForm.category,
       "prio": taskForm.prio,
-      "assigned_contacts": taskForm.assigned_contacts?.map(assignment => assignment.id),
+      "assigned_contacts": taskForm.assigned_contacts,
       "subtasks": taskForm.subtasks,
       ...(newStatus !== null && { "status": newStatus })
     }
@@ -90,10 +90,22 @@ export class TaskApiService {
       const updatedTask = await response.json();
       // console.log(updatedTask)
 
-      if(updatedTask) return updatedTask;
+      if (updatedTask) return updatedTask;
     } catch (error) {
       console.warn('Error update task:', error)
       return null;
+    }
+  }
+
+
+  async deleteTask(task: Task) {
+    try {
+      await fetch(`${this.apiUrl}/${task.id}/`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      })
+    } catch (error) {
+      console.warn('Error delete selected task:', error)
     }
   }
 
@@ -108,7 +120,7 @@ export class TaskApiService {
       const summData = await response.json();
 
       if (summData) {
-        if(summData['upcoming_deadline']) summData['upcoming_deadline'] = this.formatDate(summData['upcoming_deadline']);
+        if (summData['upcoming_deadline']) summData['upcoming_deadline'] = this.formatDate(summData['upcoming_deadline']);
         return summData;
       }
 

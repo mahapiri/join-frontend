@@ -44,6 +44,15 @@ export class CardComponent implements OnDestroy, OnInit {
   subscriptions: Subscription = new Subscription();
   contacts: Contact[] = [];
 
+  private readonly _currentYear = new Date().getFullYear();
+  readonly minDate = new Date(this._currentYear, 0, 1);
+  readonly maxDate = new Date(this._currentYear + 5, 11, 31);
+
+  openedAssignmentsList: boolean = false;
+  searchAssignment: boolean = false;
+  filteredContacts: Contact[] = [];
+  isLoading: boolean = true;
+
 
   constructor(
     private taskService: TaskService,
@@ -54,32 +63,8 @@ export class CardComponent implements OnDestroy, OnInit {
     private cdr: ChangeDetectorRef
   ) {
     this.taskForm = this.fb.group({});
-    this.subscriptions.add(
-      this.taskService.clickedTaskCard$
-        .subscribe(task => {
-          this.task = task;
-          this.fillupTaskForm();
-        })
-    ),
-      this.subscriptions.add(
-        this.contactService.contacts$
-          .pipe(
-            delay(500),
-            filter(contacts => contacts && contacts.length > 0),
-            tap(() => this.isLoading = false)
-          )
-          .subscribe((contacts) => {
-            this.contacts = [];
-            this.filteredContacts = [];
-            contacts.forEach(contact => {
-              this.contacts.push(contact);
-              this.filteredContacts.push(contact);
-            });
-            this.cdr.detectChanges();
-          }))
-
-
   }
+
 
   fillupTaskForm() {
     if (this.task) {
@@ -94,8 +79,42 @@ export class CardComponent implements OnDestroy, OnInit {
     }
   }
 
-  ngOnInit(): void {
 
+  clickTaskSubscription() {
+    this.subscriptions.add(
+      this.taskService.clickedTaskCard$
+        .subscribe(task => {
+          this.task = task;
+          this.fillupTaskForm();
+        })
+    )
+  }
+
+
+  contactSubscription() {
+    this.subscriptions.add(
+      this.contactService.contacts$
+        .pipe(
+          delay(500),
+          filter(contacts => contacts && contacts.length > 0),
+          tap(() => this.isLoading = false)
+        )
+        .subscribe((contacts) => {
+          this.contacts = [];
+          this.filteredContacts = [];
+          contacts.forEach(contact => {
+            this.contacts.push(contact);
+            this.filteredContacts.push(contact);
+          });
+          this.cdr.detectChanges();
+        })
+    )
+  }
+
+
+  ngOnInit(): void {
+    this.clickTaskSubscription();
+    this.contactSubscription();
   }
 
 
@@ -105,10 +124,9 @@ export class CardComponent implements OnDestroy, OnInit {
   }
 
 
-  async toggleCheck(i: number, subtask: Subtask) {
+  async toggleCheck(i: number) {
     if (this.task?.subtasks) {
       this.task.subtasks[i].is_completed = !this.task.subtasks[i].is_completed;
-      console.log(this.task.subtasks[i])
       this.updateCheckboxUrl(i);
       await this.taskApiService.updateTask(this.task);
       this.taskService.loadTasks();
@@ -168,22 +186,17 @@ export class CardComponent implements OnDestroy, OnInit {
     this.sharedService.isCardEditing = true;
   }
 
-  deleteTask() {
+
+  async deleteTask() {
     if (this.task) {
-      // this.apiService.deleteTask(this.task.id);
+      await this.taskApiService.deleteTask(this.task);
+      this.taskService.loadTasks();
       this.sharedService.closeAll();
       this.cdr.detectChanges();
     }
   }
 
-  private readonly _currentYear = new Date().getFullYear();
-  readonly minDate = new Date(this._currentYear, 0, 1);
-  readonly maxDate = new Date(this._currentYear + 5, 11, 31);
-
-  openedAssignmentsList: boolean = false;
-  searchAssignment: boolean = false;
-  filteredContacts: Contact[] = [];
-  isLoading: boolean = true;
+  //////////////// bis hier bearbeitet
 
   clickoutsideAssignedTo() {
     let inputValue = document.getElementById('assignedTo') as HTMLInputElement;
@@ -356,6 +369,7 @@ export class CardComponent implements OnDestroy, OnInit {
       this.isEditingSubtaskIndex = null;
     }
   }
+
 
   saveTask() {
     const taskValue = {

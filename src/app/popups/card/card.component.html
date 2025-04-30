@@ -89,7 +89,7 @@
                 <div class="a-s-content" *ngFor="let assignment of task?.assigned_contacts">
                     <div class="contact-icon" [ngStyle]="{'background-color': 'var(' + assignment.color + ')'}">{{
                         assignment.initial }}</div>
-                    <p>{{ assignment.name }}</p>
+                    <p style="overflow-x:hidden;">{{ assignment.name }}</p>
                 </div>
             </div>
         </ng-container>
@@ -148,7 +148,7 @@
     </div>
     <div class="card-content a-s-container">
         <ng-container *ngIf="sharedService.isCard && !sharedService.isCardEditing">
-            <p class="gray">Subtasks</p>
+            <p class="gray">Subtasks:</p>
             <div class="subtask-box">
                 <div class="a-s-content" *ngFor="let subtask of task?.subtasks; let i = index">
                     <img class="checkbox" [id]="'subtask' + i" [src]="subtask.is_completed ? 'assets/img/check-btn/default-checked.svg': 'assets/img/check-btn/default-disable.svg'" alt="Check" (click)="toggleCheck(i, subtask)"

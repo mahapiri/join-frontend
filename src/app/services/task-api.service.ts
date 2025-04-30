@@ -79,6 +79,7 @@ export class TaskApiService {
 
 
   async updateTask(task: Task) {
+    // console.log(task)
     try {
       const response = await fetch(`${this.apiUrl}/${task.id}/`, {
         method: 'PUT',
@@ -87,6 +88,7 @@ export class TaskApiService {
       })
 
       const updatedTask = await response.json();
+      // console.log(updatedTask)
 
       if(updatedTask) return updatedTask;
     } catch (error) {
@@ -106,7 +108,7 @@ export class TaskApiService {
       const summData = await response.json();
 
       if (summData) {
-        summData['upcoming_deadline'] = this.formatDate(summData['upcoming_deadline']);
+        if(summData['upcoming_deadline']) summData['upcoming_deadline'] = this.formatDate(summData['upcoming_deadline']);
         return summData;
       }
 

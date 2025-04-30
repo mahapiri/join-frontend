@@ -103,7 +103,7 @@
                 <p>Category<span>*</span></p>
                 <div class="select-container" appClickOutside (clickOutside)="clickOutsideCategory()">
                     <input class="category-field" type="text" (click)="toggleCategory($event)" id="input-category"
-                        name="category" placeholder="Select a category" formControlName="category"
+                        name="category" placeholder="Select a category"
                         [class.invalidInput]="taskForm.get('category')?.invalid && taskForm.get('category')?.touched"
                         readonly required
                         [value]="taskForm.get('category')?.value ? taskForm.get('category')?.value.name : ''">

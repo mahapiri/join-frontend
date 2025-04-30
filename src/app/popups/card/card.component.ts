@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { delay, filter, Subscription, tap } from 'rxjs';
-import { Task } from '../../models/task.model';
+import { Subtask, Task } from '../../models/task.model';
 import { CommonModule, DatePipe } from '@angular/common';
 // import { ApiService } from '../../services/api.service';
 import { SharedService } from '../../services/shared.service';
@@ -13,6 +13,7 @@ import { ClickOutsideDirective } from '../../click-outside.directive';
 import { UserService } from '../../services/user.service';
 import { Contact } from '../../models/contact';
 import { ContactService } from '../../services/contact.service';
+import { TaskApiService } from '../../services/task-api.service';
 
 @Component({
   selector: 'app-card',
@@ -46,7 +47,7 @@ export class CardComponent implements OnDestroy, OnInit {
 
   constructor(
     private taskService: TaskService,
-    // private apiService: ApiService,
+    private taskApiService: TaskApiService,
     public sharedService: SharedService,
     private fb: FormBuilder,
     private contactService: ContactService,
@@ -104,11 +105,13 @@ export class CardComponent implements OnDestroy, OnInit {
   }
 
 
-  toggleCheck(i: number, subtask: any) {
+  async toggleCheck(i: number, subtask: Subtask) {
+    console.log(subtask)
     if (this.task?.subtasks) {
       this.task.subtasks[i].is_completed = !this.task.subtasks[i].is_completed;
+      console.log(this.task.subtasks[i])
       this.updateCheckboxUrl(i);
-      // this.apiService.updateSubtask(this.task, subtask);
+      await this.taskApiService.updateTask(this.task);
       this.cdr.detectChanges();
     }
   }

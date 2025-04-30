@@ -74,7 +74,6 @@ export class TaskService {
 
   updateClickedTaskCard(task: Task) {
     this._clickedTaskCardSubject.next(task);
-    console.log(task)
   }
 
 

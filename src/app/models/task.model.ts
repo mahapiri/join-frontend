@@ -67,14 +67,14 @@ export class Subtask {
     id: number;
     subtask: string;
     is_completed: boolean;
-    task_id: number;
+    task: Task;
 
 
     constructor(obj: any) {
         this.id = obj.id;
         this.subtask = obj.subtask;
         this.is_completed = obj.is_completed;
-        this.task_id = obj.task_id;
+        this.task = obj.task;
     }
 
 
@@ -83,7 +83,7 @@ export class Subtask {
             id: this.id,
             subtask: this.subtask,
             is_completed: this.is_completed,
-            task_id: this.task_id,
+            task: this.task,
         }
     }
 }

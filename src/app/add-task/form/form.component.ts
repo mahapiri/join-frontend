@@ -114,7 +114,6 @@ export class FormComponent implements OnInit, OnDestroy {
     this.allSubscription.add(
       this.contactService.contacts$.pipe(
         delay(500),
-        filter(contacts => contacts && contacts.length > 0),
         tap(() => this.isContactLoading = false)
       ).subscribe((contacts) => {
         this.contacts = [];

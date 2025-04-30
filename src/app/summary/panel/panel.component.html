@@ -1,6 +1,7 @@
 <div class="panel-container">
     <div class="panel-row">
-        <div class="box box1" (mouseover)="imgSrcTodo ='assets/img/edit/hover.svg'" (mouseout)="imgSrcTodo ='assets/img/edit/default.svg'" (click)="navigateToBoard()">
+        <div class="box box1" (mouseover)="imgSrcTodo ='assets/img/edit/hover.svg'"
+            (mouseout)="imgSrcTodo ='assets/img/edit/default.svg'" (click)="navigateToBoard()">
             <div class="icon">
                 <img [src]="imgSrcTodo" alt="To-Do">
             </div>
@@ -9,7 +10,8 @@
                 <p>To-do</p>
             </div>
         </div>
-        <div class="box box2" (mouseover)="imgSrcDone ='assets/img/check/hover.svg'" (mouseout)="imgSrcDone ='assets/img/check/default.svg'" (click)="navigateToBoard()">
+        <div class="box box2" (mouseover)="imgSrcDone ='assets/img/check/hover.svg'"
+            (mouseout)="imgSrcDone ='assets/img/check/default.svg'" (click)="navigateToBoard()">
             <div class="icon">
                 <img [src]="imgSrcDone" alt="To-Do">
             </div>
@@ -19,7 +21,8 @@
             </div>
         </div>
     </div>
-    <div class="box box3" (mouseover)="imgSrcPrio ='assets/img/prio/urgent-default.svg'" (mouseout)="imgSrcPrio ='assets/img/prio/urgent-active.svg'" (click)="navigateToBoard()">
+    <div class="box box3" (mouseover)="imgSrcPrio ='assets/img/prio/urgent-default.svg'"
+        (mouseout)="imgSrcPrio ='assets/img/prio/urgent-active.svg'" (click)="navigateToBoard()">
         <div class="urgency-container">
             <div class="icon prio-icon">
                 <img [src]="imgSrcPrio" alt="Prio-Urgent">
@@ -31,8 +34,13 @@
         </div>
         <div class="divider"></div>
         <div class="urgency-content">
-            <p class="p-bold">{{ this.summData?.upcoming_deadline }}</p>
-            <a>Upcoming Deadline</a>
+            <ng-container *ngIf="this.summData?.upcoming_deadline; else empyUpcomingField">
+                <p class="p-bold">{{ this.summData?.upcoming_deadline }}</p>
+                <a>Upcoming Deadline</a>
+            </ng-container>
+            <ng-template #empyUpcomingField>
+                <p class="p-bold">No Urgent Deadlines</p>
+            </ng-template>
         </div>
     </div>
     <div class="panel-row-3">

@@ -47,13 +47,36 @@ export class SignupComponent {
   }
 
 
-  onSubmit() {
+  async onSubmit() {
     if (this.signupForm.invalid) {
       this.signupForm.markAllAsTouched();
       return;
     }
     this.sharedService.isAdding = true;
-    console.log("Registrierung erfolgreich!", this.signupForm.value);
+    this.sharedService.isAddUserText = true;
+    const formValue = this.signupForm.value;
+    const name = this.splitName(formValue.name);
+    const user = {
+      "first_name": name.first_name,
+      "last_name": name.last_name,
+      "email": formValue.email,
+      "password": formValue.password
+    }
+    console.log(user)
+    const newCreatedUser = await this.userService.createUser(user);
+    setTimeout(() => {
+      if (newCreatedUser) this.back();
+      this.sharedService.setAllAddingTextOnFalse();
+    }, 1000);
+  }
+
+
+  splitName(name: any) {
+    let nameParts = name.split(' ');
+    return {
+      "first_name": nameParts[0],
+      "last_name": nameParts.slice(1).join(' ') || ''
+    }
   }
 
 
@@ -62,8 +85,12 @@ export class SignupComponent {
     this.router.navigate(['/login']);
   }
 
+
   navigateToPrivacyPolicy() {
-    this.router.navigate(['/privacy-policy']);
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree(['/privacy-policy'])
+    );
+    window.open(url, '_blank');
   }
 
 

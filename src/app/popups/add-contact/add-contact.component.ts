@@ -45,11 +45,12 @@ export class AddContactComponent {
     this.sharedService.isAdding = true;
     this.sharedService.isAddContactText = true;
     this.cdr.detectChanges();
+    this.contactService.deselectContact();
     if (contact) {
       setTimeout(() => {
         this.contactService.selectContact(contact.id);
         this.sharedService.setAllAddingTextOnFalse();
-      }, 1000);
+      }, 500);
     }
   }
 

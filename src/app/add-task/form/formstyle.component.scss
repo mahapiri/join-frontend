@@ -195,6 +195,7 @@ mat-datepicker {
     justify-content: space-between;
     align-items: center;
     padding: 7px 16px;
+    margin-bottom: 8px;
     border-radius: 10px;
     cursor: pointer;
     @include transition-100;
@@ -324,7 +325,7 @@ input[type=checkbox] {
 }
 
 .not-found {
-    padding: 7px 16px;
+    padding: 0px 16px;
     padding-top: 32px;
 }
 
@@ -334,6 +335,7 @@ input[type=checkbox] {
 
 .add-new-category-container {
     width: 100%;
+    padding-top: 8px;
 }
 
 .add-new-category-content {

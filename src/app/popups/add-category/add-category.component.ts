@@ -41,30 +41,13 @@ export class AddCategoryComponent {
     this.sharedService.isAdding = true;
     this.sharedService.isAddCategoryText = true;
     this.cdr.detectChanges();
-    // if (category) {
-    if (category === null) {
+    if (category) {
       setTimeout(() => {
         this.sharedService.setAllAddingTextOnFalse();
       }, 1000);
     }
-
   }
 
-  // async onSubmit() {
-  //   const formValue = this.contactForm.value;
-  //   let contact = await this.contactApiService.createContact(formValue);
-  //   this.contactService.setNewContact(contact);
-  //   this.sharedService.closeAll();
-  //   this.sharedService.isAdding = true;
-  //   this.sharedService.isAddContactText = true;
-  //   this.cdr.detectChanges();
-  //   if (contact) {
-  //     setTimeout(() => {
-  //       this.contactService.selectContact(contact.id);
-  //       this.sharedService.setAllAddingTextOnFalse();
-  //     }, 1000);
-  //   }
-  // }
 
   cancel() {
     this.sharedService.closeAll();

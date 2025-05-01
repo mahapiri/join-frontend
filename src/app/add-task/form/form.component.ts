@@ -106,6 +106,7 @@ export class FormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isContactLoading = true;
     this.isCategoryLoading = true;
+    this.categoriesFound = true;
     this.setContacts();
     this.setCategories();
   }
@@ -357,7 +358,6 @@ export class FormComponent implements OnInit, OnDestroy {
 
   async onSubmit() {
     const formValue = this.taskForm.value;
-    console.log(formValue)
     if (formValue.due_date) formValue.due_date = this.taskApiService.formatDateForDjango(new Date(formValue.due_date));
     const status = this.sharedService.isAddTaskInProgress ? 'in_progress' :
       this.sharedService.isAddTaskInAwaitFeedback ? 'await_feedback' : 'to_do';

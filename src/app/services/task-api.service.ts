@@ -101,19 +101,32 @@ export class TaskApiService {
 
       const categories = await response.json();
 
-      if (categories) {
-        return categories;
-      }
+      if (categories) return categories;
     } catch (error) {
-      console.warn('Error get all categories:', error)
+      console.warn('Error get all categories:', error);
       return null;
     }
   }
 
 
   async createCategory(category: Category) {
-    console.log(category)
-    return null
+    try {
+      const response = await fetch(`${this.apiUrl}/category/create/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(category),
+      })
+
+      const newCategory = await response.json();
+
+      console.log(newCategory)
+      if (newCategory) return newCategory
+    } catch (error) {
+      console.warn('Error create new category:', error);
+      return null;
+    }
+
+
   }
 
 

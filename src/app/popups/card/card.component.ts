@@ -53,6 +53,9 @@ export class CardComponent implements OnDestroy, OnInit {
   filteredContacts: Contact[] = [];
   isLoading: boolean = true;
 
+  isWritingSubtask: boolean = false;
+  isEditingSubtaskIndex: number | null = null;
+  searchTextSubtasks: string = '';
 
   constructor(
     private taskService: TaskService,
@@ -71,8 +74,8 @@ export class CardComponent implements OnDestroy, OnInit {
       this.taskForm = this.fb.group({
         title: new FormControl(this.task.title, Validators.required),
         description: new FormControl(this.task.description),
-        assignments: new FormControl(this.task.assigned_contacts || []),
-        date: new FormControl(this.task.due_date, Validators.required),
+        assigned_contacts: new FormControl(this.task.assigned_contacts || []),
+        due_date: new FormControl(this.task.due_date, Validators.required),
         prio: new FormControl(this.task.prio),
         subtasks: this.fb.array(this.task.subtasks || [])
       })
@@ -115,6 +118,7 @@ export class CardComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     this.clickTaskSubscription();
     this.contactSubscription();
+    this.contactService.loadContacts();
   }
 
 
@@ -196,7 +200,6 @@ export class CardComponent implements OnDestroy, OnInit {
     }
   }
 
-  //////////////// bis hier bearbeitet
 
   clickoutsideAssignedTo() {
     let inputValue = document.getElementById('assignedTo') as HTMLInputElement;
@@ -204,13 +207,14 @@ export class CardComponent implements OnDestroy, OnInit {
       this.openedAssignmentsList = false;
       inputValue.value = '';
       this.searchAssignment = false;
-
     }
   }
+
 
   openAssignedToList() {
     this.openedAssignmentsList = true
   }
+
 
   toggleAssignedTo(event: Event) {
     event.preventDefault();
@@ -243,14 +247,15 @@ export class CardComponent implements OnDestroy, OnInit {
     }
   }
 
+
   isContactAssigned(contact: Contact): boolean {
-    const assignments = this.taskForm.get('assignments')?.value || [];
+    const assignments = this.taskForm.get('assigned_contacts')?.value || [];
     return assignments.some((thisContact: Contact) => thisContact.id === contact.id);
   }
 
 
   selectContact(contact: Contact, checkbox: HTMLInputElement) {
-    const assignments = this.taskForm.get('assignments') as FormControl;
+    const assignments = this.taskForm.get('assigned_contacts') as FormControl;
     const currentAssignments: Contact[] = assignments.value || [];
 
     if (checkbox.checked) {
@@ -262,6 +267,7 @@ export class CardComponent implements OnDestroy, OnInit {
       assignments.setValue(updatedAssignments);
     }
   }
+
 
   searchAssignments() {
     this.openAssignedToList();
@@ -278,9 +284,6 @@ export class CardComponent implements OnDestroy, OnInit {
     }
   }
 
-  isWritingSubtask: boolean = false;
-  isEditingSubtaskIndex: number | null = null;
-  searchTextSubtasks: string = '';
 
   writingSubtask(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -299,9 +302,8 @@ export class CardComponent implements OnDestroy, OnInit {
       const text = this.searchTextSubtasks.trim();
       const subtasks = this.taskForm.get('subtasks') as FormArray;
       subtasks.push(new FormControl({
-        title: text,
+        subtask: text,
         done: 'false',
-        task_title: this.task?.title,
         task: this.task?.id
       }));
       this.searchTextSubtasks = '';
@@ -316,12 +318,14 @@ export class CardComponent implements OnDestroy, OnInit {
     input.value = '';
   }
 
+
   setSubtaskEdit(subtaskitem: string) {
     const div = document.getElementById(subtaskitem);
     if (div) {
       div.style.opacity = '1';
     }
   }
+
 
   setSubtaskNotEdit(subtaskitem: string) {
     const div = document.getElementById(subtaskitem);
@@ -330,22 +334,23 @@ export class CardComponent implements OnDestroy, OnInit {
     }
   }
 
+
   editSubtask(i: number): void {
     this.isEditingSubtaskIndex = i;
   }
 
 
-  deleteSavedSubtask(i: number, subtask: any) {
+  deleteSavedSubtask(i: number, subtask: Subtask) {
     const subtasks = this.taskForm.get('subtasks') as FormArray;
-    if (subtasks) {
+    if (subtasks && this.task) {
       subtasks.removeAt(i);
-      console.log(subtask)
-      // this.apiService.deleteSubtask(subtask);
+      if (subtask.id) this.taskApiService.deleteSubtask(subtask.id);
+      this.taskService.loadTasks();
     }
     this.isEditingSubtaskIndex = null;
-    // this.sharedService.closeAll();
     this.cdr.detectChanges();
   }
+
 
   replaceSaveSubtask(i: number) {
     const inputElement = document.getElementById(`subtaskEdit${i}`) as HTMLInputElement;
@@ -359,11 +364,10 @@ export class CardComponent implements OnDestroy, OnInit {
 
         const currentSubtaskValue = subtaskControl.value;
         subtaskControl.patchValue({
-          title: inputValue,
-          done: currentSubtaskValue.done,
+          subtask: inputValue,
+          is_completed: currentSubtaskValue.is_completed,
           id: currentSubtaskValue.id,
           task: currentSubtaskValue.task,
-          task_title: currentSubtaskValue.task_title
         });
       }
       this.isEditingSubtaskIndex = null;
@@ -371,24 +375,20 @@ export class CardComponent implements OnDestroy, OnInit {
   }
 
 
-  saveTask() {
-    const taskValue = {
-      id: this.task?.id,
-      status: this.task?.status,
-      title: this.taskForm.get('title')?.value,
-      description: this.taskForm.get('description')?.value,
-      // due_date: this.apiService.formatDateForDjango(new Date(this.taskForm.get('date')?.value)),
-      prio: this.taskForm.get('prio')?.value,
-      category: this.task?.category,
+  async saveTask() {
+    if (this.task) {
+      this.task.title = this.taskForm.get('title')?.value;
+      this.task.description = this.taskForm.get('description')?.value;
+      this.task.due_date = this.taskForm.get('due_date')?.value;
+      this.task.prio = this.taskForm.get('prio')?.value;
+      this.task.assigned_contacts = this.taskForm.get('assigned_contacts')?.value;
+      this.task.subtasks = this.taskForm.get('subtasks')?.value;
     }
-    const subtaskValue = {
-      subtasks: this.taskForm.get('subtasks')?.value,
+    const formValue = this.task;
+    if (formValue) {
+      const updatedTask = await this.taskApiService.updateTask(formValue);
+      if (updatedTask) this.sharedService.closeAll();
+      this.taskService.loadTasks();
     }
-    const assignmentValue = {
-      assignedTo: this.taskForm.get('assignments')?.value,
-    }
-    // this.apiService.updateTask(taskValue, subtaskValue.subtasks, assignmentValue.assignedTo);
-    this.sharedService.closeAll();
-
   }
 }

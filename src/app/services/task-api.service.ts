@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Task } from '../models/task.model';
+import { Subtask, Task } from '../models/task.model';
 import { Category } from '../models/category';
 
 @Injectable({
@@ -61,7 +61,7 @@ export class TaskApiService {
 
 
   async updateTask(task: Task) {
-    // console.log(task)
+    if (task.due_date instanceof Date) task.due_date = this.formatDateForDjango(task.due_date) as any;
     try {
       const response = await fetch(`${this.apiUrl}/${task.id}/`, {
         method: 'PUT',
@@ -70,7 +70,6 @@ export class TaskApiService {
       })
 
       const updatedTask = await response.json();
-      // console.log(updatedTask)
 
       if (updatedTask) return updatedTask;
     } catch (error) {
@@ -83,6 +82,18 @@ export class TaskApiService {
   async deleteTask(task: Task) {
     try {
       await fetch(`${this.apiUrl}/${task.id}/`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      })
+    } catch (error) {
+      console.warn('Error delete selected task:', error)
+    }
+  }
+
+
+  async deleteSubtask(subtaskId: number) {
+    try {
+      await fetch(`${this.apiUrl}/subtask/delete/${subtaskId}/`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
       })

@@ -33,14 +33,14 @@
                 <p>Due date<span>*</span></p>
                 <div class="datepicker-box">
                     <span class="datepicker-btn"></span>
-                    <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" formControlName="date"
+                    <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" formControlName="due_date"
                         class="datepicker-input" placeholder="DD/MM/YYYY" 
-                        [class.invalidInput]="taskForm.get('date')?.invalid && taskForm.get('date')?.touched"
+                        [class.invalidInput]="taskForm.get('due_date')?.invalid && taskForm.get('due_date')?.touched"
                         readonly>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </div>
-                <div class="errormsg" *ngIf="taskForm.get('date')?.invalid && taskForm.get('date')?.touched">This field
+                <div class="errormsg" *ngIf="taskForm.get('due_date')?.invalid && taskForm.get('due_date')?.touched">This field
                     is required</div>
             </label>
         </ng-container>
@@ -97,7 +97,7 @@
             <label class="field-layout">
                 <p>Assigned To</p>
                 <div appClickOutside (clickOutside)="clickoutsideAssignedTo()" class="main-assigned-container">
-                    <div class="select-container">
+                    <div class="select-container" appClickOutside (clickOutside)="clickoutsideAssignedTo()">
                         <input class="assigned-to-field" id="assignedTo" placeholder="Select contacts to assign"
                             type="text" (click)="openAssignedToList()" (input)="searchAssignments()" autocomplete="off">
                         <img class="input-icon"
@@ -137,7 +137,7 @@
                     </div>
                     <div class="assigned-container">
                         <div class="contact-icon icon-border"
-                            *ngFor="let assignedContact of taskForm.get('assignments')?.value"
+                            *ngFor="let assignedContact of taskForm.get('assigned_contacts')?.value"
                             [ngStyle]="{'background-color': assignedContact.color}">{{ assignedContact.initial
                             }}
                         </div>

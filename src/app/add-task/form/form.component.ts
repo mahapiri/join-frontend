@@ -74,7 +74,9 @@ export class FormComponent implements OnInit, OnDestroy {
   isEditingSubtaskIndex: number | null = null;
   isWritingSubtask: boolean = false;
   isContactLoading: boolean = true;
+  contactsFound: boolean = true;
   isCategoryLoading: boolean = true;
+  categoriesFound: boolean = true;
 
 
   @ViewChild('assignedToInput') assignedToInput!: ElementRef<HTMLInputElement>
@@ -118,6 +120,7 @@ export class FormComponent implements OnInit, OnDestroy {
       ).subscribe((contacts) => {
         this.contacts = [];
         this.filteredContacts = [];
+        if (contacts.length < 1) this.contactsFound = false;
         contacts.forEach(contact => {
           this.contacts.push(contact);
           this.filteredContacts.push(contact);
@@ -133,9 +136,9 @@ export class FormComponent implements OnInit, OnDestroy {
     this.allSubscription.add(
       this.taskService.categories$.pipe(
         delay(500),
-        filter(categories => categories && categories.length > 0),
         tap(() => this.isCategoryLoading = false),
       ).subscribe(categories => {
+        if (categories.length < 1) this.categoriesFound = false;
         this.categories = categories;
       })
     );
@@ -254,6 +257,12 @@ export class FormComponent implements OnInit, OnDestroy {
   toggleCategory(event: Event) {
     event.preventDefault();
     this.openedCategoryList = !this.openedCategoryList;
+  }
+
+
+  addNewCategory() {
+    this.sharedService.isPopup = true;
+    this.sharedService.isAddCategory = true;
   }
 
 

@@ -13,6 +13,7 @@ export class AddingComponent {
   addContact: string = 'Contact succesfully created';
   deleteContact: string = 'Contact succesfully deleted';
   addUser: string = 'You Signed Up successfully';
+  addCategory: string = 'Category succesfully created';
 
   constructor(
     public sharedService: SharedService,

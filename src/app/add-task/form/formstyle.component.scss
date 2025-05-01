@@ -328,6 +328,28 @@ input[type=checkbox] {
     padding-top: 32px;
 }
 
+.p-t-16 {
+    padding-top: 16px !important;
+}
+
+.add-new-category-container {
+    width: 100%;
+}
+
+.add-new-category-content {
+    padding: 7px 16px;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--secondary);
+    }
+}
+
+.divider-horizontal {
+    width: 100%;
+    border: 1px solid var(--divider-line);
+}
+
 .subtask-list {
     width: 100%;
     height: 78px;

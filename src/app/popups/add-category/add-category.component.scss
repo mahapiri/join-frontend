@@ -1,0 +1,152 @@
+@import "../../../styles.scss";
+
+.popup-category {             
+    display: flex;
+}
+
+.left-section {
+    width: fit-content;
+    height: 100%;
+    background-color: var(--primary);
+    padding: 66px 46px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+
+    img {
+        width: 53px;
+        height: 66px;
+    }
+
+    h3,
+    h5 {
+        color: var(--white);
+    }
+}
+
+.left-content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.divider {
+    width: 90px;
+    height: 3px;
+    background-color: var(--secondary);
+}
+
+.right-section {
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 48px 40px;
+    background-color: var(--white);
+}
+
+.right-content {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+}
+
+.inputfield {
+    position: relative;
+
+    input {
+        width: 422px;
+        height: auto;
+    }
+}
+
+.btn-content {
+    display: flex;
+    gap: 64px;
+    padding-top: 16px;
+}
+
+.btn-div {
+    display: flex;
+    gap: 25px;
+}
+
+.cancel-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--background);
+    gap: 4px;
+    @include transition-100;
+
+    img {
+        width: 24px;
+        height: 24px;
+    }
+
+    &:hover {
+        border-color: var(--secondary);
+
+        p {
+            color: var(--secondary);
+        }
+
+        .clear-img {
+            content: url(../../../assets/img/clear/hover.svg);
+        }
+    }
+
+    &:active {
+        border-color: var(--third);
+
+        p {
+            color: var(--third);
+        }
+
+        .clear-img {
+            content: url(../../../assets/img/clear/active.svg);
+        }
+    }
+}
+
+.save-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary);
+    gap: 4px;
+    @include transition-100;
+
+    p {
+        color: var(--white);
+    }
+
+    img {
+        width: 24px;
+        height: 24px;
+    }
+
+    &:hover {
+        border-color: var(--secondary);
+        background-color: var(--secondary);
+    }
+
+    &:active {
+        background-color: var(--third);
+        border-color: var(--third);
+    }
+}

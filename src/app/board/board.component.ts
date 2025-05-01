@@ -32,6 +32,7 @@ export class BoardComponent {
     const searchTerm = event.target.value.trim().toLowerCase();
     this.taskService.setSearchTerm(searchTerm);
     this.taskService.setIsSearchingTerm(true);
+    if(searchTerm == '') this.noTasksFound(false);
   }
 
 

@@ -24,7 +24,8 @@
     animation-name: slideIn;
     animation-duration: 900ms;
 
-    &.contact {
+    &.contact,
+    &.category {
         padding: 0;
         background-color: transparent;
         overflow-y: hidden;

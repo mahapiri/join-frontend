@@ -47,7 +47,12 @@
                                     </div>
                                 </label>
                                 <p class="not-found"
-                                    *ngIf="(searchAssignment ? filteredContacts : contacts).length === 0">No result was
+                                    *ngIf="(searchAssignment ? filteredContacts : contacts).length === 0 && contactsFound">
+                                    No result was
+                                    found.</p>
+                                <p class="not-found"
+                                    *ngIf="(searchAssignment ? filteredContacts : contacts).length === 0 && !contactsFound">
+                                    No contact was
                                     found.</p>
                             </ng-template>
                         </div>
@@ -63,18 +68,20 @@
             </label>
         </div>
         <div class="divider"></div>
-        <div class="field-container"> 
+        <div class="field-container">
             <label class="field-layout">
                 <p>Due date<span>*</span></p>
                 <div class="datepicker-box">
                     <span class="datepicker-btn"></span>
                     <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" formControlName="due_date"
                         class="datepicker-input" placeholder="DD/MM/YYYY"
-                        [class.invalidInput]="taskForm.get('due_date')?.invalid && taskForm.get('due_date')?.touched" readonly>
+                        [class.invalidInput]="taskForm.get('due_date')?.invalid && taskForm.get('due_date')?.touched"
+                        readonly>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </div>
-                <div class="errormsg" *ngIf="taskForm.get('due_date')?.invalid && taskForm.get('due_date')?.touched">This field
+                <div class="errormsg" *ngIf="taskForm.get('due_date')?.invalid && taskForm.get('due_date')?.touched">
+                    This field
                     is required</div>
             </label>
             <label class="field-layout">
@@ -122,6 +129,12 @@
                                     </div>
                                 </label>
                             </ng-container>
+                            <p class="not-found p-t-16" *ngIf="categories.length === 0 && !categoriesFound">No categories was
+                                found.</p>
+                            <div class="divider-horizontal"></div>
+                            <div class="add-new-category-container">
+                                <p class="add-new-category-content" (click)="addNewCategory()">Add new category</p>
+                            </div>
                         </ng-template>
                     </div>
                 </div>
@@ -154,7 +167,8 @@
                             </div>
                         </li>
                         <div class="subtask-edit-container" *ngIf="isEditingSubtaskIndex === i">
-                            <input [id]="'subtaskEdit' + i" type="text" value="{{ subtask.subtask }}" class="input-subtask">
+                            <input [id]="'subtaskEdit' + i" type="text" value="{{ subtask.subtask }}"
+                                class="input-subtask">
                             <div class="input-icon-container">
                                 <img src="assets/img/delete/default.svg" alt="Delete" (click)="deleteSavedSubtask(i)">
                                 <div class="input-divider"></div>

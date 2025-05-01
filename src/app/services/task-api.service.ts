@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Task } from '../models/task.model';
+import { Category } from '../models/category';
 
 @Injectable({
   providedIn: 'root'
@@ -35,25 +36,6 @@ export class TaskApiService {
       }
     } catch (error) {
       console.warn('Error create new task:', error)
-      return null;
-    }
-  }
-
-
-  async getAllCategories() {
-    try {
-      const response = await fetch(`${this.apiUrl}/category/`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      })
-
-      const categories = await response.json();
-
-      if (categories) {
-        return categories;
-      }
-    } catch (error) {
-      console.warn('Error get all categories:', error)
       return null;
     }
   }
@@ -107,6 +89,31 @@ export class TaskApiService {
     } catch (error) {
       console.warn('Error delete selected task:', error)
     }
+  }
+
+
+  async getAllCategories() {
+    try {
+      const response = await fetch(`${this.apiUrl}/category/`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      })
+
+      const categories = await response.json();
+
+      if (categories) {
+        return categories;
+      }
+    } catch (error) {
+      console.warn('Error get all categories:', error)
+      return null;
+    }
+  }
+
+
+  async createCategory(category: Category) {
+    console.log(category)
+    return null
   }
 
 

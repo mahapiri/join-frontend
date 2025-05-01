@@ -9,6 +9,7 @@ import { AddContactComponent } from './popups/add-contact/add-contact.component'
 import { SharedService } from './services/shared.service';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from "./signup/signup.component";
+import { AddCategoryComponent } from "./popups/add-category/add-category.component";
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,8 @@ import { SignupComponent } from "./signup/signup.component";
     EditContactComponent,
     AddContactComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    AddCategoryComponent,
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

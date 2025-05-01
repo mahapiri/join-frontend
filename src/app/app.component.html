@@ -1,12 +1,13 @@
 <app-dashboard></app-dashboard>
 <div class="popup-container" *ngIf="sharedService.isPopup">
     <div class="popup-content"
-        [ngClass]="{'add-task': sharedService.isAddTask, 'card': sharedService.isCard, 'contact': sharedService.isEditContact || sharedService.isAddContact}">
+        [ngClass]="{'add-task': sharedService.isAddTask, 'card': sharedService.isCard, 'contact': sharedService.isEditContact || sharedService.isAddContact, 'category': sharedService.isAddCategory}">
         <img class="close-icon" src="assets/img/close/default-disable.svg" alt="Close" (click)="close()">
         <app-add-task *ngIf="sharedService.isAddTask"></app-add-task>
         <app-card *ngIf="sharedService.isCard"></app-card>
         <app-add-contact *ngIf="sharedService.isAddContact"></app-add-contact>
         <app-edit-contact *ngIf="sharedService.isEditContact"></app-edit-contact>
+        <app-add-category *ngIf="sharedService.isAddCategory"></app-add-category>
     </div>
 </div>
 <div class="adding-container" *ngIf="sharedService.isAdding">

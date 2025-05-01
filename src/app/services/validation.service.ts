@@ -70,6 +70,17 @@ export class ValidationService {
   }
 
 
+  validateCategory(control: AbstractControl): ValidationErrors | null {
+    const categoryRegex = /([a-zA-Z0-9\s]+)/;
+
+    if(!control.value || control.value.trim().length === 0) {
+      return { required: true };
+    }
+
+    return categoryRegex.test(control.value) ? null : { invalidName: true };
+  }
+
+
   formatPhone(phone: string): string {
     return phone.replace(/\s+/g, "");
   }

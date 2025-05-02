@@ -81,6 +81,7 @@
 }
 
 .btn-div {
+    width: 100%;
     display: flex;
     gap: 25px;
 }
@@ -124,6 +125,7 @@
 }
 
 .save-btn {
+    width: -webkit-fill-available;
     display: flex;
     justify-content: center;
     align-items: center;

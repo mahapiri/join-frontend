@@ -15,10 +15,10 @@
         <div class="right-content">
             <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
                 <div class="inputfield">
-                    <input formControlName="name" type="text" placeholder="Name"
+                    <input formControlName="name" type="text" placeholder="Category Name"
                         [class.invalidInput]="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched">
                     <p class="errormsg" *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched">
-                        Check your name. Please try again.
+                        Check your category name. Please try again.
                     </p>
                 </div>
                 <div class="btn-content">

@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class UserService {
 
-  apiUrl = "http://127.0.0.1:8000/api/contacts"
+  apiUrl = "http://127.0.0.1:8000/api/users"
 
   private _isLoggedIn = new BehaviorSubject<boolean>(true);
   isLoggedIn$ = this._isLoggedIn.asObservable();
@@ -20,7 +20,7 @@ export class UserService {
   async createUser(newUser: any) {
     console.log(newUser)
     try {
-      const response = await fetch(`${this.apiUrl}/create/user/`, {
+      const response = await fetch(`${this.apiUrl}/create/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newUser),

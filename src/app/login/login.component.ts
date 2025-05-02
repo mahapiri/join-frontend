@@ -66,8 +66,14 @@ export class LoginComponent {
     }
   }
 
+  onSubmit(event: Event, user: any){
+    event.preventDefault();
+    this.login(user);
+  }
 
-  login(userType: string) {
+
+  async login(userType: string) {
+    const formValue = this.loginForm.value;
     if (userType == 'guest') {
       this.userService.setIsLoggedIn(true);
       this.router.navigate(['/summary']);
@@ -75,7 +81,11 @@ export class LoginComponent {
       this.submitted = true;
       if (this.loginForm.valid) {
         this.userService.setIsLoggedIn(true);
-        this.router.navigate(['/summary']);
+        const loggedIn = await this.userService.loginUser(formValue);
+        console.log(loggedIn)
+        if(loggedIn) {
+          this.router.navigate(['/summary']);
+        }
       } else {
         this.loginForm.invalid;
       }

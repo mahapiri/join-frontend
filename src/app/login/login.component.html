@@ -1,9 +1,9 @@
-<form [formGroup]="loginForm" class="main-container" (ngSubmit)="login('user')">
+<form [formGroup]="loginForm" class="main-container" (ngSubmit)="onSubmit($event, 'user')">
     <div class="form-container" [class.no-animation]="sharedService.disableAnimation$ | async">
         <div class="signup-container">
             <p>Not a Join user?</p>
-            <button class="signup-btn" (click)="register()">
-                <a>Sign up</a>
+            <button type="button" class="signup-btn" (click)="register()">
+                <p>Sign up</p>
             </button>
         </div>
         <div class="login-container">

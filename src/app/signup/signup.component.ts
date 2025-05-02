@@ -63,7 +63,7 @@ export class SignupComponent {
       "password": formValue.password
     }
     console.log(user)
-    const newCreatedUser = await this.userService.createUser(user);
+    const newCreatedUser = await this.userService.registerUser(user);
     setTimeout(() => {
       if (newCreatedUser) this.back();
       this.sharedService.setAllAddingTextOnFalse();

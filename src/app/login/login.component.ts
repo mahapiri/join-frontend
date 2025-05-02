@@ -66,30 +66,24 @@ export class LoginComponent {
     }
   }
 
-  onSubmit(event: Event, user: any){
+
+  async onSubmit(event: Event, user: string) {
     event.preventDefault();
-    this.login(user);
-  }
-
-
-  async login(userType: string) {
-    const formValue = this.loginForm.value;
-    if (userType == 'guest') {
-      this.userService.setIsLoggedIn(true);
-      this.router.navigate(['/summary']);
-    } else if (userType == 'user') {
-      this.submitted = true;
-      if (this.loginForm.valid) {
-        this.userService.setIsLoggedIn(true);
-        const loggedIn = await this.userService.loginUser(formValue);
-        console.log(loggedIn)
-        if(loggedIn) {
-          this.router.navigate(['/summary']);
-        }
-      } else {
-        this.loginForm.invalid;
-      }
+  
+    if (user === 'guest') {
+      this.loginForm.get('email')?.setValue('guest@pirathib-mahalingam.ch');
+      this.loginForm.get('password')?.setValue('Hallo123@');
     }
+  
+    setTimeout(async () => {
+      const loggedIn = await this.userService.loginUser(this.loginForm.value);
+      if (loggedIn) {
+        this.userService.setIsLoggedIn(true);
+        this.router.navigate(['/summary']);
+      } else {
+        this.submitted = true;
+      }
+    }, 500);
   }
 
 

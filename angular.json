@@ -30,6 +30,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/app/styles/styles-mobile.scss",
               "src/styles.scss",
               "@angular/material/prebuilt-themes/azure-blue.css"
             ],
@@ -93,6 +94,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/app/styles/styles-mobile.scss",
               "src/styles.scss",
               "@angular/material/prebuilt-themes/azure-blue.css"
             ],

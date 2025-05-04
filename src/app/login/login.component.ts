@@ -16,7 +16,10 @@ import { Title } from '@angular/platform-browser';
     CommonModule
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrls: [
+    './login.component.scss',
+    './login-mobile.component.scss',
+  ]
 })
 export class LoginComponent {
   @ViewChild('passwordInput') passwordInput?: ElementRef;

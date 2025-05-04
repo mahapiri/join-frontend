@@ -39,7 +39,7 @@ export class SubmenuComponent {
     this.sharedService.setisDisableAnimation(false);
     this.sharedService.siteIsLoading(true);
     this.userService.deletetoken();
-    this.userService.setIsLoggedIn(false);
+    this.userService.setIsLoggedIn(null);
     this.router.navigate(['/login']);
   }
 }

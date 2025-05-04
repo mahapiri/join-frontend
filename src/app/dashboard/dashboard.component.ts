@@ -6,6 +6,7 @@ import { ClickOutsideDirective } from '../click-outside.directive';
 import { SharedService } from '../services/shared.service';
 import { LogoComponent } from '../logo/logo.component';
 import { UserService } from '../services/user.service';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,6 +26,7 @@ import { UserService } from '../services/user.service';
 export class DashboardComponent implements OnInit {
   isSubmenu = false;
   noUser = false;
+  currentUser: User | null = null;
 
   constructor(
     public sharedService: SharedService,
@@ -34,7 +36,14 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.getCurrentUser();
+  }
 
+
+  getCurrentUser() {
+    this.userService.isLoggedIn$.subscribe(user => {
+      this.currentUser = user;
+    })
   }
 
 

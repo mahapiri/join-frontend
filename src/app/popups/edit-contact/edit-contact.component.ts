@@ -64,7 +64,16 @@ export class EditContactComponent implements OnInit, OnDestroy {
 
   async onSubmit() {
     const id = this.currentContact?.id;
-    const formValue = this.contactForm.value;
+    console.log(this.currentContact)
+    const formValue: any = {
+      'name': this.contactForm.get('name')?.value,
+      'email': this.contactForm.get('email')?.value,
+      'phone': this.contactForm.get('phone')?.value,
+      'color': this.currentContact?.color,
+      'id': this.currentContact?.id,
+      'initial': this.currentContact?.initial,
+      'linked_user': this.currentContact?.linked_user,
+    }
     formValue['id'] = id;
     let updatedContact = await this.contactApiService.updateContact(formValue);
     this.contactService.setUpdatedContact(updatedContact);

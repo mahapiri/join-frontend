@@ -32,14 +32,7 @@ export class SharedService {
   siteIsLoading$ = this._siteIsLoading.asObservable();
 
 
-  constructor() { 
-    console.log(this.siteIsLoading$.subscribe(boolean => {
-      console.log('siteisloading', boolean)
-    }))
-    console.log(this.siteviewer$.subscribe(boolean => {
-      console.log('siteviewer', boolean)
-    }))
-  }
+  constructor() { }
 
 
   closeAll() {

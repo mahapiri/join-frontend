@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ export class UserService {
 
   apiUrl = "http://127.0.0.1:8000/api/users"
 
-  private _isLoggedIn = new BehaviorSubject<boolean>(false);
+  private _isLoggedIn = new BehaviorSubject<User | null>(null);
   isLoggedIn$ = this._isLoggedIn.asObservable();
 
   TOKEN: number | null = null;
@@ -16,13 +17,13 @@ export class UserService {
   constructor() { }
 
 
-  setIsLoggedIn(status: boolean) {
-    this._isLoggedIn.next(status);
+  setIsLoggedIn(user: User | null) {
+    this._isLoggedIn.next(user);
   }
 
 
   async registerUser(newUser: any) {
-    console.log(newUser)
+    this.deletetoken();
     try {
       const response = await fetch(`${this.apiUrl}/create/`, {
         method: 'POST',
@@ -57,7 +58,7 @@ export class UserService {
         this.setToken(newUser['token']);
         return true;
       } else {
-        return false
+        return false;
       }
     } catch (error) {
       console.warn('username or password is not valid:', error)

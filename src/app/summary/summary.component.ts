@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { PanelComponent } from "./panel/panel.component";
 import { CommonModule } from '@angular/common';
-import { SharedService } from '../services/shared.service';
+import { UserService } from '../services/user.service';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-summary',
@@ -18,15 +19,22 @@ export class SummaryComponent implements OnInit {
 
   isLoading: boolean = false;
   greetingText: string = 'Hello';
+  currentUser: User | null = null;
 
 
   constructor(
     private titleService: Title,
-    private sharedService: SharedService,
+    private userService: UserService,
   ) {
     this.titleService.setTitle("Join - Summary");
+    this.getCurrentUser();
   }
-
+  
+  getCurrentUser() {
+    this.userService.isLoggedIn$.subscribe(user => {
+      this.currentUser = user;
+    })
+  }
 
   ngOnInit(): void {
     this.setGreeting();

@@ -27,7 +27,8 @@ export const authGuard: CanActivateFn = async (route, state) => {
     },
   })
   if (response.ok) {
-    userService.setIsLoggedIn(true);
+    const user = await response.json();
+    userService.setIsLoggedIn(user);
     return true;
   } else {
     sharedService.setSiteviewer(false);

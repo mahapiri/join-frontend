@@ -57,9 +57,9 @@ export class ContactApiService {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(contact),
       });
-
+      console.log(contact)
       const updatedContact = await response.json();
-
+      console.log(updatedContact)
       if (updatedContact) {
         return updatedContact
       }

@@ -38,6 +38,18 @@ export class LoginComponent {
       email: new FormControl('', [Validators.required, this.validate.validateEmail]),
       password: new FormControl('', [Validators.required])
     });
+    this.existingUser()
+  }
+
+
+  existingUser() {
+    let token = this.userService.getToken();
+    if (token == null) {
+      return null;
+    } else {
+      this.router.navigate(['/summary'])
+      return true;
+    }
   }
 
 
@@ -79,8 +91,10 @@ export class LoginComponent {
       const loggedIn = await this.userService.loginUser(this.loginForm.value);
       if (loggedIn) {
         this.router.navigate(['/summary']);
+        this.sharedService.setisDisableAnimation(true);
       } else {
         this.loginFailed = true;
+        this.sharedService.setisDisableAnimation(true);
       }
     }, 0);
   }

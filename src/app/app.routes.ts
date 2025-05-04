@@ -8,16 +8,24 @@ import { LegalNoticeComponent } from './legal-notice/legal-notice.component';
 import { HelpPageComponent } from './help-page/help-page.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-    { path: '', component: LoginComponent},
-    { path: 'login', component: LoginComponent},
-    { path: 'signup', component: SignupComponent},
-    { path: 'summary', component: SummaryComponent},
-    { path: 'add-task', component: AddTaskComponent},
-    { path: 'board', component: BoardComponent},
-    { path: 'contacts', component: ContactsComponent},
-    { path: 'privacy-policy', component: PrivacyPolicyComponent},
-    { path: 'legal-notice', component: LegalNoticeComponent},
-    { path: 'help', component: HelpPageComponent},
+    { path: '', component: LoginComponent },
+    { path: 'login', component: LoginComponent },
+    { path: 'signup', component: SignupComponent },
+
+    {
+        path: 'summary',
+        component: SummaryComponent,
+        canActivate: [authGuard]
+    },
+
+    { path: 'add-task', component: AddTaskComponent },
+    { path: 'board', component: BoardComponent },
+    { path: 'contacts', component: ContactsComponent },
+    { path: 'privacy-policy', component: PrivacyPolicyComponent },
+    { path: 'legal-notice', component: LegalNoticeComponent },
+    { path: 'help', component: HelpPageComponent },
+    { path: '**', redirectTo: 'login' },
 ];

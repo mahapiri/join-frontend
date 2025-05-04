@@ -69,7 +69,6 @@ export class LoginComponent {
 
   async onSubmit(event: Event, user: string) {
     event.preventDefault();
-  
     if (user === 'guest') {
       this.loginForm.get('email')?.setValue('guest@pirathib-mahalingam.ch');
       this.loginForm.get('password')?.setValue('Hallo123@');
@@ -80,9 +79,7 @@ export class LoginComponent {
       if (loggedIn) {
         this.userService.setIsLoggedIn(true);
         this.router.navigate(['/summary']);
-      } else {
-        this.submitted = true;
-      }
+      } else this.submitted = true;
     }, 500);
   }
 

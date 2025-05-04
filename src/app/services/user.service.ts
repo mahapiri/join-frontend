@@ -15,9 +15,11 @@ export class UserService {
 
   constructor() { }
 
+
   setIsLoggedIn(status: boolean) {
     this._isLoggedIn.next(status);
   }
+
 
   async registerUser(newUser: any) {
     console.log(newUser)
@@ -29,7 +31,6 @@ export class UserService {
       })
 
       const newCreatedUser = await response.json();
-      console.log(newCreatedUser)
       if (newCreatedUser) return newCreatedUser
     } catch (error) {
       console.warn('Error create new user:', error)
@@ -48,10 +49,11 @@ export class UserService {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(loginUser),
+        credentials: 'include',
       })
       if (response.ok) {
-        const user = await response.json();
-        this.TOKEN = user['token'];
+        const newUser = await response.json();
+        this.setToken(newUser['token']);
         return true;
       } else {
         return false
@@ -60,5 +62,19 @@ export class UserService {
       console.warn('username or password is not valid:', error)
       return false
     }
+  }
+
+
+  setToken(token: string) {
+    return localStorage.setItem('token', token);
+  }
+
+
+  getToken(): string | null {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return localStorage.getItem('token');
+    }
+    console.warn('localStorage not loaded');
+    return null;
   }
 }

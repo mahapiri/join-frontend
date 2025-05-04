@@ -1,62 +1,60 @@
-<ng-container *ngIf="!(sharedService.loginWindow$ | async)">
-    <div class="dashboard-container">
-        <div class="sidebar">
-            <a routerLink="/summary">
-                <img class="logo" src="assets/img/logo/white.svg" alt="Join">
-            </a>
-            <nav class="sidebar-container" *ngIf="userService.isLoggedIn$ | async">
-                <ul class="sidebar-list">
-                    <li class="sidebar-item">
-                        <div routerLink="/summary" routerLinkActive="sidebar-item-active">
-                            <img src="assets/img/menu/summary/default.svg" alt="Summary">
-                            <a>Summary</a>
-                        </div>
-                    </li>
-                    <li class="sidebar-item">
-                        <div routerLink="/add-task" routerLinkActive="sidebar-item-active">
-                            <img src="assets/img/menu/add-task/default.svg" alt="Summary">
-                            <a>Add Task</a>
-                        </div>
-                    </li>
-                    <li class="sidebar-item">
-                        <div routerLink="/board" routerLinkActive="sidebar-item-active">
-                            <img src="assets/img/menu/board/default.svg" alt="Summary">
-                            <a>Board</a>
-                        </div>
-                    </li>
-                    <li class="sidebar-item">
-                        <div routerLink="/contacts" routerLinkActive="sidebar-item-active">
-                            <img src="assets/img/menu/contacts/default.svg" alt="Summary">
-                            <a>Contacts</a>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-            <div class="legal-item">
-                <a routerLink="/privacy-policy" routerLinkActive="legal-item-active">Privacy Policy</a>
-                <a routerLink="/legal-notice" routerLinkActive="legal-item-active">Legal notice</a>
-            </div>
-        </div>
-        <div class="menu">
-            <div class="menu-container" *ngIf="userService.isLoggedIn$ | async">
-                <p>Kanban Project Management Tool</p>
-                <div class="menu-right-section">
-                    <a routerLink="/help" routerLinkActive="help-icon-active">
-                        <img class="help-icon" src="assets/img/help/default.svg" alt="Help">
-                    </a>
-                    <div class="profile-icon" (click)="toggleSubmenu()">
-                        <a>GM</a>
+<div class="dashboard-container">
+    <div class="sidebar">
+        <a routerLink="/summary">
+            <img class="logo" src="assets/img/logo/white.svg" alt="Join">
+        </a>
+        <nav class="sidebar-container" *ngIf="userService.isLoggedIn$ | async">
+            <ul class="sidebar-list">
+                <li class="sidebar-item">
+                    <div routerLink="/summary" routerLinkActive="sidebar-item-active">
+                        <img src="assets/img/menu/summary/default.svg" alt="Summary">
+                        <a>Summary</a>
                     </div>
-                </div>
-            </div>
-            <div *ngIf="isSubmenu">
-                <app-submenu appClickOutside (clickOutside)="toggleSubmenu()" [(isSubmenu)]="isSubmenu"></app-submenu>
-            </div>
+                </li>
+                <li class="sidebar-item">
+                    <div routerLink="/add-task" routerLinkActive="sidebar-item-active">
+                        <img src="assets/img/menu/add-task/default.svg" alt="Summary">
+                        <a>Add Task</a>
+                    </div>
+                </li>
+                <li class="sidebar-item">
+                    <div routerLink="/board" routerLinkActive="sidebar-item-active">
+                        <img src="assets/img/menu/board/default.svg" alt="Summary">
+                        <a>Board</a>
+                    </div>
+                </li>
+                <li class="sidebar-item">
+                    <div routerLink="/contacts" routerLinkActive="sidebar-item-active">
+                        <img src="assets/img/menu/contacts/default.svg" alt="Summary">
+                        <a>Contacts</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div class="legal-item">
+            <a routerLink="/privacy-policy" routerLinkActive="legal-item-active">Privacy Policy</a>
+            <a routerLink="/legal-notice" routerLinkActive="legal-item-active">Legal notice</a>
         </div>
     </div>
-</ng-container>
+    <div class="menu">
+        <div class="menu-container" *ngIf="userService.isLoggedIn$ | async">
+            <p>Kanban Project Management Tool</p>
+            <div class="menu-right-section">
+                <a routerLink="/help" routerLinkActive="help-icon-active">
+                    <img class="help-icon" src="assets/img/help/default.svg" alt="Help">
+                </a>
+                <div class="profile-icon" (click)="toggleSubmenu()">
+                    <a>GM</a>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="isSubmenu">
+            <app-submenu appClickOutside (clickOutside)="toggleSubmenu()" [(isSubmenu)]="isSubmenu"></app-submenu>
+        </div>
+    </div>
+</div>
 
-<app-logo *ngIf="sharedService.loginWindow$ | async"></app-logo>
+<app-logo></app-logo>
 
 <div class="router-container">
     <router-outlet></router-outlet>

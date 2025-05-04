@@ -18,7 +18,6 @@ export class LegalNoticeComponent {
     private sharedService: SharedService
   ) {
     this.titleService.setTitle("Join - Legal notice");
-    this.sharedService.setIsLoginWindow(false);
   }
 
   back() {

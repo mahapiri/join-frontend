@@ -18,7 +18,6 @@ export class HelpPageComponent {
     private sharedService: SharedService
   ) {
     this.titleService.setTitle("Join - Help");
-    this.sharedService.setIsLoginWindow(false);
   }
 
   back() {

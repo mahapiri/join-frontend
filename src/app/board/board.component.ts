@@ -24,7 +24,6 @@ export class BoardComponent {
     private taskService: TaskService,
   ) {
     this.titleService.setTitle("Join - Board");
-    this.sharedService.setIsLoginWindow(false);
   }
 
 

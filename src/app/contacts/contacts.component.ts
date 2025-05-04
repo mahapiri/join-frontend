@@ -17,6 +17,5 @@ export class ContactsComponent {
     private sharedService: SharedService
   ) {
     this.titleService.setTitle("Join - Contacts");
-    this.sharedService.setIsLoginWindow(false);
   }
 }

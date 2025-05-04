@@ -21,8 +21,6 @@ export class SharedService {
   isAddUserText: boolean = false;
   isAddCategoryText: boolean = false;
 
-  private _loginWindowSubject = new BehaviorSubject<boolean>(true);
-  loginWindow$ = this._loginWindowSubject.asObservable();
 
   private _disableAnimation = new BehaviorSubject<boolean>(false);
   disableAnimation$ = this._disableAnimation.asObservable();
@@ -51,11 +49,6 @@ export class SharedService {
     this.isDeleteContactText = false;
     this.isAddUserText = false;
     this.isAddCategoryText = false;
-  }
-
-
-  setIsLoginWindow(status: boolean) {
-    this._loginWindowSubject.next(status);
   }
 
 

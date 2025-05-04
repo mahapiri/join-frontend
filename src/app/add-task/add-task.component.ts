@@ -29,7 +29,6 @@ export class AddTaskComponent implements OnInit, OnDestroy {
     private sharedService: SharedService
   ) {
     this.titleService.setTitle("Join - Add Task");
-    this.sharedService.setIsLoginWindow(false);
   }
 
   async ngOnInit() { }

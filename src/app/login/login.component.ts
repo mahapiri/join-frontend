@@ -35,7 +35,6 @@ export class LoginComponent {
       email: new FormControl('', [Validators.required, this.validate.validateEmail]),
       password: new FormControl('', [Validators.required])
     });
-    this.sharedService.setIsLoginWindow(true);
     this.userService.setIsLoggedIn(false);
   }
 

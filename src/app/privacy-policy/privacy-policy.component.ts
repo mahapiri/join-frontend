@@ -17,7 +17,6 @@ export class PrivacyPolicyComponent {
     private sharedService: SharedService,
   ) {
     this.titleService.setTitle("Join - Privacy Policy");
-    this.sharedService.setIsLoginWindow(false);
   }
 
   back() {

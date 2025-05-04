@@ -25,7 +25,6 @@ export class SummaryComponent implements OnInit {
     private sharedService: SharedService,
   ) {
     this.titleService.setTitle("Join - Summary");
-    this.sharedService.setIsLoginWindow(false);
   }
 
 

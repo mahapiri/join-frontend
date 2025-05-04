@@ -41,8 +41,6 @@ export class SignupComponent {
     },
       { validators: this.validate.passwordMatchValidator() }
     );
-    this.sharedService.setisDisableAnimation(true);
-    this.userService.setIsLoggedIn(false);
   }
 
 
@@ -61,7 +59,6 @@ export class SignupComponent {
       "email": formValue.email,
       "password": formValue.password
     }
-    console.log(user)
     const newCreatedUser = await this.userService.registerUser(user);
     setTimeout(() => {
       if (newCreatedUser) this.back();

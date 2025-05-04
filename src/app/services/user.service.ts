@@ -8,17 +8,17 @@ export class UserService {
 
   apiUrl = "http://127.0.0.1:8000/api/users"
 
-  private _isLoggedIn = new BehaviorSubject<boolean>(true);
-  isLoggedIn$ = this._isLoggedIn.asObservable();
+  // private _isLoggedIn = new BehaviorSubject<boolean>(true);
+  // isLoggedIn$ = this._isLoggedIn.asObservable();
 
   TOKEN: number | null = null;
 
   constructor() { }
 
 
-  setIsLoggedIn(status: boolean) {
-    this._isLoggedIn.next(status);
-  }
+  // setIsLoggedIn(status: boolean) {
+  //   this._isLoggedIn.next(status);
+  // }
 
 
   async registerUser(newUser: any) {

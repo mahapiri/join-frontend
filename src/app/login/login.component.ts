@@ -35,7 +35,6 @@ export class LoginComponent {
       email: new FormControl('', [Validators.required, this.validate.validateEmail]),
       password: new FormControl('', [Validators.required])
     });
-    this.userService.setIsLoggedIn(false);
   }
 
 
@@ -76,7 +75,6 @@ export class LoginComponent {
     setTimeout(async () => {
       const loggedIn = await this.userService.loginUser(this.loginForm.value);
       if (loggedIn) {
-        this.userService.setIsLoggedIn(true);
         this.router.navigate(['/summary']);
       } else this.submitted = true;
     }, 500);

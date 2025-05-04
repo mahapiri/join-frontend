@@ -17,6 +17,7 @@
     }
 
     .no-animation-logo {
+        animation-play-state: paused !important;
         animation: none !important;
         width: 100.03px !important;
         height: 121.97px !important;

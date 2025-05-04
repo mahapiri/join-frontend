@@ -21,5 +21,6 @@ export class PrivacyPolicyComponent {
 
   back() {
     this._location.back();
+    this.sharedService.setisDisableAnimation(true);
   }
 }

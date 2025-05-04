@@ -44,6 +44,7 @@ export class UserService {
       'username': user.email,
       'password': user.password
     }
+    this.deletetoken();
     try {
       const response = await fetch(`${this.apiUrl}/login/`, {
         method: 'POST',

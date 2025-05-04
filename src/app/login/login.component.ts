@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ValidationService } from '../services/validation.service';
 import { UserService } from '../services/user.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -22,15 +23,17 @@ export class LoginComponent {
   @ViewChild('passwordImg') passwordImg?: ElementRef;
 
   loginForm: FormGroup;
-  submitted: boolean = false;
+  loginFailed: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     public sharedService: SharedService,
     private router: Router,
     private validate: ValidationService,
-    private userService: UserService
+    private userService: UserService,
+    private titleService: Title
   ) {
+    this.titleService.setTitle("Join - Login");
     this.loginForm = this.fb.group({
       email: new FormControl('', [Validators.required, this.validate.validateEmail]),
       password: new FormControl('', [Validators.required])
@@ -76,8 +79,10 @@ export class LoginComponent {
       const loggedIn = await this.userService.loginUser(this.loginForm.value);
       if (loggedIn) {
         this.router.navigate(['/summary']);
-      } else this.submitted = true;
-    }, 500);
+      } else {
+        this.loginFailed = true;
+      }
+    }, 0);
   }
 
 

@@ -8,11 +8,13 @@ export const authGuard: CanActivateFn = async (route, state) => {
   const sharedService = inject(SharedService);
   const router = inject(Router);
 
-  await new Promise(resolve => setTimeout(resolve, 500));
+  await new Promise(resolve => setTimeout(resolve, 0));
   sharedService.siteIsLoading(false);
   const token = userService.getToken()
   if (token == null) {
-    sharedService.setisDisableAnimation(true);
+    sharedService.setSiteviewer(false);
+    sharedService.setisDisableAnimation(false);
+    sharedService.siteIsLoading(true);
     return router.navigate(['/login']);
   }
   const apiURL = 'http://127.0.0.1:8000/api/users/auth-check/'
@@ -28,7 +30,9 @@ export const authGuard: CanActivateFn = async (route, state) => {
     userService.setIsLoggedIn(true);
     return true;
   } else {
-    sharedService.setisDisableAnimation(true);
+    sharedService.setSiteviewer(false);
+    sharedService.setisDisableAnimation(false);
+    sharedService.siteIsLoading(true);
     return router.navigate(['/login']);
   }
 };

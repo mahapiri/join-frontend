@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { PrivacyPolicyComponent } from '../privacy-policy/privacy-policy.component';
 import { LegalNoticeComponent } from '../legal-notice/legal-notice.component';
 import { SharedService } from '../services/shared.service';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-public-notices',
@@ -11,7 +12,6 @@ import { CommonModule } from '@angular/common';
   imports: [
     PrivacyPolicyComponent,
     LegalNoticeComponent,
-    RouterLink,
     RouterModule,
     CommonModule
   ],
@@ -23,16 +23,20 @@ export class PublicNoticesComponent {
 
   constructor(
     private sharedService : SharedService,
-    private router : Router
+    private router : Router,
+    private titleService: Title
   ) {
-    this.sharedService.setSiteviewer(true)
+    this.titleService.setTitle("Join - Legal Notices");
+    this.sharedService.setSiteviewer(true);
+    this.sharedService.siteIsLoading(false);
   }
 
 
   navigateToLoginPage() {
     this.router.navigate(['/login']);
-    this.sharedService.setSiteviewer(true);
-    this.sharedService.setisDisableAnimation(true);
+    this.sharedService.setSiteviewer(false);
+    this.sharedService.setisDisableAnimation(false);
+    this.sharedService.siteIsLoading(true);
   }
 
   showLegalNotice(isPrivacy: boolean) {

@@ -1,4 +1,4 @@
-<ng-container *ngIf="sharedService.siteIsLoading$ | async">
+<ng-container *ngIf="!(sharedService.siteviewer$ | async)">
     <form [formGroup]="loginForm" class="main-container" (ngSubmit)="onSubmit($event, 'user')">
         <div class="form-container" [class.no-animation]="sharedService.disableAnimation$ | async">
             <div class="signup-container">
@@ -32,7 +32,7 @@
                                 src="../../assets/img/login-signup/lock.svg" alt="Password"
                                 (click)="togglePassword(passwordInput, passwordImg)">
                         </div>
-                        <div class="errormsg" *ngIf="loginForm.invalid && submitted">Check your email and password.
+                        <div class="errormsg" *ngIf="loginFailed">Check your email and password.
                             Please try again.</div>
                     </div>
                 </div>

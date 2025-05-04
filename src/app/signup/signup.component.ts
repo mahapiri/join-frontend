@@ -5,6 +5,7 @@ import { ValidationService } from '../services/validation.service';
 import { SharedService } from '../services/shared.service';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-signup',
@@ -29,8 +30,10 @@ export class SignupComponent {
     private validate: ValidationService,
     private sharedService: SharedService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private titleService: Title,
   ) {
+    this.titleService.setTitle("Join - Signup");
     this.signupForm = this.fb.group({
       name: new FormControl('', [Validators.required, this.validate.validateName]),
       email: new FormControl('', [Validators.required, this.validate.validateEmail]),

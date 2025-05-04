@@ -1,12 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-submenu',
   standalone: true,
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './submenu.component.html',
   styleUrl: './submenu.component.scss'
 })
@@ -20,6 +20,12 @@ export class SubmenuComponent {
     private userService: UserService
   ) { }
 
+
+  navigateTo(path: string) {
+    this.router.navigate([`/${path}`]);
+    this.toggleSubmenu();
+    this.sharedService.setSiteviewer(false);
+  }
 
   toggleSubmenu() {
     this.isSubmenu = !this.isSubmenu;

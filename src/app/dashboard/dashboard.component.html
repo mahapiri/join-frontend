@@ -32,8 +32,8 @@
             </ul>
         </nav>
         <div class="legal-item">
-            <a routerLink="/privacy-policy" routerLinkActive="legal-item-active">Privacy Policy</a>
-            <a routerLink="/legal-notice" routerLinkActive="legal-item-active">Legal notice</a>
+            <a (click)="navigateTo('privacy-policy')" routerLinkActive="legal-item-active">Privacy Policy</a>
+            <a (click)="navigateTo('legal-notice')" routerLinkActive="legal-item-active">Legal notice</a>
         </div>
     </div>
     <div class="menu">
@@ -54,7 +54,7 @@
     </div>
 </div>
 
-<ng-container *ngIf="(sharedService.siteIsLoading$ | async) && !sharedService.hideLogo">
+<ng-container *ngIf="(sharedService.siteIsLoading$ | async) && !(sharedService.siteviewer$ | async)">
     <app-logo></app-logo>
 </ng-container>
 

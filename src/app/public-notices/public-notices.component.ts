@@ -25,13 +25,13 @@ export class PublicNoticesComponent {
     private sharedService : SharedService,
     private router : Router
   ) {
-    this.sharedService.hideLogo = true;
+    this.sharedService.setSiteviewer(true)
   }
 
 
   navigateToLoginPage() {
     this.router.navigate(['/login']);
-    this.sharedService.hideLogo = false;
+    this.sharedService.setSiteviewer(true);
     this.sharedService.setisDisableAnimation(true);
   }
 

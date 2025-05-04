@@ -1,5 +1,5 @@
 <div class="inside-app">
-    <a (click)="back()" class="back-icon" *ngIf="sharedService.hideLogo">
+    <a (click)="back()" class="back-icon" *ngIf="!(sharedService.siteviewer$ | async)">
         <img src="../../assets/img/arrow-left/default.svg" alt="Back-To-Summary">
     </a>
     <h3>Legal Notice</h3>

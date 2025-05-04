@@ -18,19 +18,20 @@ export class SubmenuComponent {
     private router: Router,
     private sharedService: SharedService,
     private userService: UserService
-  ) {
+  ) { }
 
-  }
 
   toggleSubmenu() {
     this.isSubmenu = !this.isSubmenu;
     this.isSubmenuChange.emit(this.isSubmenu);
   }
 
+
   logout() {
     this.isSubmenu = false;
     this.isSubmenuChange.emit(this.isSubmenu);
     this.sharedService.setisDisableAnimation(true);
+    this.userService.deletetoken();
     this.router.navigate(['/login']);
   }
 }

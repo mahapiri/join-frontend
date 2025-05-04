@@ -14,18 +14,32 @@ export const routes: Routes = [
     { path: '', component: LoginComponent },
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
-
     {
         path: 'summary',
         component: SummaryComponent,
         canActivate: [authGuard]
     },
-
-    { path: 'add-task', component: AddTaskComponent },
-    { path: 'board', component: BoardComponent },
-    { path: 'contacts', component: ContactsComponent },
+    {
+        path: 'add-task',
+        component: AddTaskComponent,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'board',
+        component: BoardComponent,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'contacts',
+        component: ContactsComponent,
+        canActivate: [authGuard]
+    },
     { path: 'privacy-policy', component: PrivacyPolicyComponent },
     { path: 'legal-notice', component: LegalNoticeComponent },
-    { path: 'help', component: HelpPageComponent },
+    {
+        path: 'help',
+        component: HelpPageComponent,
+        canActivate: [authGuard]
+    },
     { path: '**', redirectTo: 'login' },
 ];

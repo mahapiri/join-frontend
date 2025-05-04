@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SharedService } from '../services/shared.service';
 import { Router } from '@angular/router';
@@ -71,7 +71,7 @@ export class LoginComponent {
       this.loginForm.get('email')?.setValue('guest@pirathib-mahalingam.ch');
       this.loginForm.get('password')?.setValue('Hallo123@');
     }
-  
+
     setTimeout(async () => {
       const loggedIn = await this.userService.loginUser(this.loginForm.value);
       if (loggedIn) {

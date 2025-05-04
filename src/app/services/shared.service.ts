@@ -20,10 +20,14 @@ export class SharedService {
   isDeleteContactText: boolean = false;
   isAddUserText: boolean = false;
   isAddCategoryText: boolean = false;
+  hideLogo: boolean = false;
 
 
   private _disableAnimation = new BehaviorSubject<boolean>(false);
   disableAnimation$ = this._disableAnimation.asObservable();
+
+  private _siteIsLoading = new BehaviorSubject<boolean>(true);
+  siteIsLoading$ = this._siteIsLoading.asObservable();
 
 
   constructor() { }
@@ -54,5 +58,10 @@ export class SharedService {
 
   setisDisableAnimation(status: boolean) {
     this._disableAnimation.next(status);
+  }
+
+
+  siteIsLoading(status: boolean) {
+    this._siteIsLoading.next(status);
   }
 }

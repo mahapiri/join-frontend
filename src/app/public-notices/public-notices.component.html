@@ -1,9 +1,9 @@
-<div class="dashboard-container" *ngIf="userService.isLoggedIn$ | async">
+<div class="dashboard-container">
     <div class="sidebar">
-        <a routerLink="/summary">
+        <a routerLink="/login" (click)="navigateToLoginPage()">
             <img class="logo" src="assets/img/logo/white.svg" alt="Join">
         </a>
-        <nav class="sidebar-container">
+        <!-- <nav class="sidebar-container">
             <ul class="sidebar-list">
                 <li class="sidebar-item">
                     <div routerLink="/summary" routerLinkActive="sidebar-item-active">
@@ -30,14 +30,14 @@
                     </div>
                 </li>
             </ul>
-        </nav>
+        </nav> -->
         <div class="legal-item">
-            <a routerLink="/privacy-policy" routerLinkActive="legal-item-active">Privacy Policy</a>
-            <a routerLink="/legal-notice" routerLinkActive="legal-item-active">Legal notice</a>
+            <a routerLinkActive="legal-item-active" (click)="showLegalNotice(true)">Privacy Policy</a>
+            <a routerLinkActive="legal-item-active" (click)="showLegalNotice(false)">Legal notice</a>
         </div>
     </div>
     <div class="menu">
-        <div class="menu-container">
+        <!-- <div class="menu-container">
             <p>Kanban Project Management Tool</p>
             <div class="menu-right-section">
                 <a routerLink="/help" routerLinkActive="help-icon-active">
@@ -50,14 +50,17 @@
         </div>
         <div *ngIf="isSubmenu">
             <app-submenu appClickOutside (clickOutside)="toggleSubmenu()" [(isSubmenu)]="isSubmenu"></app-submenu>
-        </div>
+        </div> -->
     </div>
 </div>
 
-<ng-container *ngIf="(sharedService.siteIsLoading$ | async) && !sharedService.hideLogo">
+<!-- <ng-container *ngIf="sharedService.siteIsLoading$ | async">
     <app-logo></app-logo>
-</ng-container>
+</ng-container> -->
 
 <div class="router-container">
-    <router-outlet></router-outlet>
+    <app-privacy-policy *ngIf="privacy"></app-privacy-policy>
+    <app-legal-notice *ngIf="!privacy"></app-legal-notice>
 </div>
+
+

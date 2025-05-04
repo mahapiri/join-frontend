@@ -41,6 +41,7 @@ export class SignupComponent {
     },
       { validators: this.validate.passwordMatchValidator() }
     );
+    this.sharedService.setisDisableAnimation(true);
   }
 
 
@@ -84,7 +85,7 @@ export class SignupComponent {
 
   navigateToPrivacyPolicy() {
     const url = this.router.serializeUrl(
-      this.router.createUrlTree(['/privacy-policy'])
+      this.router.createUrlTree(['/public-notices'])
     );
     window.open(url, '_blank');
   }

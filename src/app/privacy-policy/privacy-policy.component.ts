@@ -12,7 +12,7 @@ import { SharedService } from '../services/shared.service';
 })
 export class PrivacyPolicyComponent {
   constructor(
-    private _location: Location, 
+    private _location: Location,
     private titleService: Title,
     private sharedService: SharedService,
   ) {

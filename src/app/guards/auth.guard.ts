@@ -8,8 +8,8 @@ export const authGuard: CanActivateFn = async (route, state) => {
   const sharedService = inject(SharedService);
   const router = inject(Router);
 
-  await new Promise(resolve => setTimeout(resolve, 10));
-
+  await new Promise(resolve => setTimeout(resolve, 500));
+  sharedService.siteIsLoading(false);
   const token = userService.getToken()
   if (token == null) {
     sharedService.setisDisableAnimation(true);

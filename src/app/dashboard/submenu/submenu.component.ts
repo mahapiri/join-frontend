@@ -30,8 +30,10 @@ export class SubmenuComponent {
   logout() {
     this.isSubmenu = false;
     this.isSubmenuChange.emit(this.isSubmenu);
-    this.sharedService.setisDisableAnimation(true);
+    this.sharedService.setisDisableAnimation(false);
+    this.sharedService.siteIsLoading(true);
     this.userService.deletetoken();
+    this.userService.setIsLoggedIn(false);
     this.router.navigate(['/login']);
   }
 }

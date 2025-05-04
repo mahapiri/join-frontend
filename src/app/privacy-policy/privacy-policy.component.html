@@ -1,5 +1,5 @@
 <div class="inside-app">
-    <a (click)="back()" class="back-icon">
+    <a (click)="back()" class="back-icon" *ngIf="sharedService.hideLogo">
         <img src="../../assets/img/arrow-left/default.svg" alt="Back-To-Summary">
     </a>
     <h3>Privacy Policy</h3>

@@ -53,6 +53,7 @@ body {
     --input-bottom-line: rgba(0, 93, 255, 1);
     --header-border: #42526e;
     --notask-card: rgba(231, 231, 231, 1);
+    --icon-gray: #A8A8A8;
 
 
     --mint: rgba(31, 215, 193, 1);
@@ -180,6 +181,16 @@ span {
     font-weight: 700;
     font-size: 16px;
     line-height: 120%;
+}
+
+.login-legal-notice-icon {
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    color: var(--icon-gray);
 }
 
 .errormsg {

@@ -1,3 +1,5 @@
+@import "../../styles.scss";
+
 @media (min-width: 320px) {}
 
 @media (min-width: 375px) {}
@@ -6,7 +8,51 @@
 
 @media (min-width: 768px) {}
 
-@media (min-width: 1024px) {}
+
+@media (min-width: 1024px) {
+    .main-container {
+
+        .form-container {
+            animation-delay: 0.7s;
+        }
+
+        .signup-container {
+            gap: 35px;
+            position: absolute;
+            top: 22px;
+            right: 40px;
+        }
+
+        .login-container {
+            padding: 48px 115px;
+        }
+
+        .inputfield-content {
+            gap: 32px;
+        }
+
+        .button-container {
+            flex-direction: unset;
+            gap: 35px;
+            margin-top: 32px;
+        }
+
+        .login-btn {
+            width: unset;
+            height: 48px;
+            padding: 15px 24px;
+        }
+
+        .guest-btn {
+            width: unset;
+            height: 48px;
+        }
+
+        .legal-notice-container {
+            animation-delay: 0.7s;
+        }
+    }
+}
 
 @media (min-width: 1440px) {}
 

@@ -1,12 +1,6 @@
 <ng-container *ngIf="!(sharedService.siteviewer$ | async)">
     <form [formGroup]="loginForm" class="main-container" (ngSubmit)="onSubmit($event, 'user')">
         <div class="form-container" [class.no-animation]="sharedService.disableAnimation$ | async">
-            <div class="signup-container">
-                <p>Not a Join user?</p>
-                <button type="button" class="signup-btn" (click)="register()">
-                    <p>Sign up</p>
-                </button>
-            </div>
             <div class="login-container">
                 <div class="header-container">
                     <h1>Log in</h1>
@@ -46,6 +40,16 @@
                     </button>
                 </div>
             </div>
+        </div>
+        <div class="signup-container">
+            <p>Not a Join user?</p>
+            <button type="button" class="signup-btn" (click)="register()">
+                <p>Sign up</p>
+            </button>
+        </div>
+        <div class="legal-notice-container">
+            <a class="login-legal-notice-icon">Privacy Policy</a>
+            <a class="login-legal-notice-icon">Legal Notice</a>
         </div>
     </form>
 </ng-container>

@@ -50,7 +50,8 @@ export const MY_DATE_FORMATS = {
   templateUrl: './form.component.html',
   styleUrls: [
     './form.component.scss',
-    './formstyle.component.scss'
+    './formstyle.component.scss',
+    './form-responsive.component.scss',
   ]
 })
 

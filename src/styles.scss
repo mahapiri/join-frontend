@@ -209,15 +209,15 @@ span {
     height: 100%;
     overflow: scroll;
     overflow-x: hidden;
-    padding-top: unset;
+    padding-top: 128px;
     padding-right: 16px;
-    padding-bottom: 96px;
+    padding-bottom: 106px;
     padding-left: 16px;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     gap: 26px;
     transition: cubic-bezier(0.41, -0.22, 1, 0.78) 1000000ms ease-in-out;
     animation-name: fadeIn;

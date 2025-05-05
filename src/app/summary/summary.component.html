@@ -3,17 +3,21 @@
 </div>
 
 <ng-template #summaryView>
-    <div class="summary inside-app">
-        <header>
-            <h3>Join 360</h3>
-            <div class="divider"></div>
-            <h5>Key Metrics at a Glance</h5>
-        </header>
-        <div class="panel-container">
-            <app-panel></app-panel>
-            <div>
-                <h4>{{ greetingText }},</h4>
-                <h2>{{ currentUser?.name }}</h2>
+    <div class="inside-app">
+        <div class="inside-content">
+            <header *ngIf="(!show && isMobileView) || !isMobileView" class="header-title">
+                <h3>Join 360</h3>
+                <div class="divider"></div>
+                <h5 class="subtitle">Key Metrics at a Glance</h5>
+                <div class="divider-horz"></div>
+            </header>
+            <div class="panel-container" [ngClass]="{ 'centered': isMobileView, 'desktop': !isMobileView }">
+                <app-panel class="panel-content" *ngIf="(!show && isMobileView) || !isMobileView"></app-panel>
+                <div class="greet-container" *ngIf="show && isMobileView || !isMobileView"
+                    [ngClass]="{ 'mobile': isMobileView, 'desktop': !isMobileView }">
+                    <h4 class="greeting-text">{{ greetingText }},</h4>
+                    <h2 class="username">{{ currentUser?.name }}</h2>
+                </div>
             </div>
         </div>
     </div>

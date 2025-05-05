@@ -1,23 +1,38 @@
-header {
+@import "../../styles.scss";
+
+.inside-content {
     display: flex;
+    flex-direction: column;
+    gap: 32px;
     justify-content: center;
-    align-items: center;
-    gap: 30px;
+    align-items: flex-start;
 }
 
 .divider {
+    display: none;
     width: 3px;
     height: 59px;
     background-color: var(--secondary);
 }
 
-h2 {
-    font-weight: 700;
+.divider-horz {
+    display: block;
+    width: 90px;
+    height: 3px;
+    background-color: var(--secondary);
+}
+
+.username {
+    font-weight: 700 !important;
     color: var(--secondary);
 }
 
-h5 {
+.subtitle {
     color: var(--primary);
+}
+
+.greeting-text {
+    font-weight: 400 !important;
 }
 
 .panel-container {
@@ -25,4 +40,44 @@ h5 {
     display: flex;
     align-items: center;
     gap: 64px;
+    @include transition-100;
+
+    &.centered {
+        justify-content: center;
+    }
+
+    &.desktop {
+        justify-content: flex-start;
+    }
 }
+
+.header-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: unset;
+    gap: 16px;
+    @include transition-100;
+}
+
+.panel-content {
+    display: flex;
+    @include transition-100;
+}
+
+.greet-container {
+    display: flex;
+    flex-direction: column;
+    @include transition-100;
+
+    &.mobile {
+        position: absolute;
+        bottom: 50%;
+    }
+
+    &.desktop {
+        position: static;
+    }
+}
+
+@import './summary-responsive.component.scss';

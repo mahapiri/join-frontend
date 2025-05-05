@@ -1,7 +1,7 @@
 @import "../../../styles.scss";
 
 .panel-container {
-    width: 560px;
+    width: 358px;
     display: flex;
     flex-direction: column;
     gap: 32px;
@@ -10,10 +10,10 @@
 .box {
     display: flex;
     justify-content: center;
-    gap: 24px;
+    gap: 10px;
     align-items: center;
     border-radius: 30px;
-    padding: 22px 19px;
+    padding: 19px 19px;
     background-color: var(--white);
     cursor: pointer;
     @include transition-75;
@@ -24,7 +24,9 @@
         background-color: var(--third);
         @include box-shadow-stronger;
 
-        h2, p, a {
+        h2,
+        p,
+        a {
             color: var(--white);
         }
 
@@ -36,12 +38,13 @@
 
 .panel-row {
     flex: 1;
-    display: flex; 
+    display: flex;
     justify-content: space-between;
-    gap: 32px;
+    gap: 22px;
 }
 
-.box1, .box2 {
+.box1,
+.box2 {
     flex: 1;
 }
 
@@ -56,16 +59,18 @@
     flex: 1;
     display: flex;
     justify-content: space-between;
-    gap: 32px;
+    gap: 22px;
 }
 
-.box4, .box5, .box6 {
+.box4,
+.box5,
+.box6 {
     flex: 1;
 }
 
 .icon {
-    width: 69px;
-    height: 69px;
+    width: 40px;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -74,8 +79,8 @@
     border-radius: 50%;
 
     img {
-        width: 32px;
-        height: 32px;
+        width: 18px;
+        height: 18px;
     }
 }
 
@@ -99,18 +104,21 @@
 
 .divider {
     height: 100px;
-    border: 2px solid var(--divider-line);
+    border: 1px solid var(--divider-line);
 }
 
 .urgency-content {
-   display: flex;
-   flex-direction: column;
-   align-items: start;
-   gap: 13px; 
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 13px;
 }
 
 .box-text {
-    width: 83px;
+    width: 54px;
     height: 48px;
     text-align: center;
+    font-size: 14px;
 }
+
+@import '../summary-responsive.component.scss';

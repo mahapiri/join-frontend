@@ -11,7 +11,10 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './panel.component.html',
-  styleUrl: './panel.component.scss'
+  styleUrls: [
+    './panel.component.scss',
+    '../summary-responsive.component.scss'
+  ]
 })
 
 export class PanelComponent implements OnDestroy, OnInit {

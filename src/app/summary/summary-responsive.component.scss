@@ -1,0 +1,75 @@
+@import "../../styles.scss";
+
+@media (min-width: 320px) {}
+
+@media (min-width: 375px) {}
+
+@media (min-width: 425px) {}
+
+@media (min-width: 768px) {}
+
+@media (min-width: 1024px) {
+    .header-title {
+        flex-direction: unset;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .divider {
+        display: block;
+    }
+
+    .divider-horz {
+        display: none;
+        width: 90px;
+        height: 3px;
+        background-color: var(--secondary);
+    }
+
+    .greet-container {
+        display: block;
+    }
+}
+
+@media (min-width: 1024px) {
+    .panel-container {
+        width: 560px;
+    }
+
+    .box {
+        gap: 24px;
+        padding: 22px 19px;
+    }
+
+    .panel-row {
+        gap: 32px;
+    }
+
+    .panel-row-3 {
+        gap: 32px;
+    }
+
+    .icon {
+        width: 69px;
+        height: 69px;
+
+        img {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    .divider {
+        border: 2px solid var(--divider-line);
+    }
+
+    .box-text {
+        width: 83px;
+        font-size: unset;
+    }
+}
+
+@media (min-width: 1440px) {}
+
+@media (min-width: 1920px) {}

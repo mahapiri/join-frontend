@@ -21,7 +21,11 @@ import { User } from '../models/user.model';
     LogoComponent,
   ],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss', '../../styles.scss']
+  styleUrls: [
+    './dashboard.component.scss',
+    '../../styles.scss',
+    './dashboard-responsive.component.scss'
+  ]
 })
 export class DashboardComponent implements OnInit {
   isSubmenu = false;

@@ -38,7 +38,10 @@
     </div>
     <div class="menu">
         <div class="menu-container">
-            <p>Kanban Project Management Tool</p>
+            <p class="kanban-text">Kanban Project Management Tool</p>
+            <a routerLink="/summary">
+                <img class="logo-mobile" src="../../assets/img/logo.svg" alt="Join Logo">
+            </a>
             <div class="menu-right-section">
                 <a routerLink="/help" routerLinkActive="help-icon-active">
                     <img class="help-icon" src="assets/img/help/default.svg" alt="Help">
@@ -54,10 +57,10 @@
     </div>
 </div>
 
-<ng-container *ngIf="(sharedService.siteIsLoading$ | async)">
+<ng-container *ngIf="(sharedService.siteIsLoading$ | async) && !(sharedService.disableAnimation$)">
     <app-logo></app-logo>
 </ng-container>
 
 <div class="router-container">
-    <router-outlet></router-outlet>
+    <!-- <router-outlet></router-outlet> -->
 </div>

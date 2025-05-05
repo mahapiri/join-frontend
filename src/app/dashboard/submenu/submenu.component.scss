@@ -23,4 +23,16 @@
             color: var(--white);
         }
     }
+
+    .help-icon {
+        display: block;
+    }
+}
+
+@media (min-width: 1024px) {
+    .submenu-container {
+        .help-icon {
+            display: none !important;
+        }
+    }
 }

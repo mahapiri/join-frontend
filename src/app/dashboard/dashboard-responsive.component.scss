@@ -34,8 +34,10 @@
     }
 
     .sidebar-list {
+        height: unset;
         display: grid;
         justify-content: unset;
+        align-items: unset;
     }
 
     .sidebar-item {

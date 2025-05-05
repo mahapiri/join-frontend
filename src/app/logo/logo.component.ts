@@ -22,6 +22,7 @@ export class LogoComponent {
     private router: Router
   ) {}
 
+  
   navigateToLogin() {
     this.router.navigate(['/login']);
   }

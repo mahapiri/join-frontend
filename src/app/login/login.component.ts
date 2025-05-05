@@ -106,4 +106,12 @@ export class LoginComponent {
   register() {
     this.router.navigate(['/signup']);
   }
+
+
+  navigateTo(path: string) {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([`/public-notices/${path}`])
+    );
+    window.open(url, '_blank');
+  }
 }

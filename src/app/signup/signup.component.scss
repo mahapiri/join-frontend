@@ -7,8 +7,8 @@
 
     .back-icon {
         position: absolute;
-        top: 64px;
-        left: 88px;
+        top: 48px;
+        left: 32px;
     
         img {
             width: 32px;
@@ -51,7 +51,7 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
-        margin-top: 32px;
+        margin-top: 16px;
         position: relative;
     }
 
@@ -104,6 +104,8 @@
     }
 
     .button-container {
-        margin-top: 16px;
+        margin-top: 8px;
     }
 }
+
+@import url('./signup-responsive.component.scss');

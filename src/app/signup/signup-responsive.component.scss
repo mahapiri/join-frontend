@@ -1,0 +1,33 @@
+@import "../../styles.scss";
+
+@media (min-width: 320px) {}
+
+@media (min-width: 375px) {}
+
+@media (min-width: 425px) {}
+
+@media (min-width: 768px) {
+    
+}
+
+@media (min-width: 1024px) {
+    .main-container {
+        .back-icon {
+            top: 64px;
+            left: 88px;
+        }
+
+        .privacy-container {
+            margin-top: 32px;
+        }
+
+        .button-container {
+            margin-top: 16px;
+        }
+    }
+
+}
+
+@media (min-width: 1440px) {}
+
+@media (min-width: 1920px) {}

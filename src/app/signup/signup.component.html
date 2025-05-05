@@ -66,4 +66,8 @@
             </button>
         </div>
     </div>
+    <div class="legal-notice-container" [class.no-animation]="sharedService.disableAnimation$ | async">
+        <a (click)="navigateTo('privacy-policy')" class="login-legal-notice-icon">Privacy Policy</a>
+        <a (click)="navigateTo('legal-notice')" class="login-legal-notice-icon">Legal Notice</a>
+    </div>
 </form>

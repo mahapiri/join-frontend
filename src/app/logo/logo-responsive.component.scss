@@ -23,6 +23,13 @@
             top: 64px !important;
             left: 67px !important;
         }
+
+        &.animation {
+            background-color: unset;
+            animation: changeBackground 1s cubic-bezier(0.58, 0.81, 0.69, 0.78) forwards;
+            animation-delay: 1s;
+            will-change: transform;
+        }
     }
 }
 

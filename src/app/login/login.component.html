@@ -41,15 +41,15 @@
                 </div>
             </div>
         </div>
-        <div class="signup-container">
+        <div class="signup-container" [class.no-animation]="sharedService.disableAnimation$ | async">
             <p>Not a Join user?</p>
             <button type="button" class="signup-btn" (click)="register()">
                 <p>Sign up</p>
             </button>
         </div>
-        <div class="legal-notice-container">
-            <a class="login-legal-notice-icon">Privacy Policy</a>
-            <a class="login-legal-notice-icon">Legal Notice</a>
+        <div class="legal-notice-container" [class.no-animation]="sharedService.disableAnimation$ | async">
+            <a (click)="navigateTo('privacy-policy')" class="login-legal-notice-icon">Privacy Policy</a>
+            <a (click)="navigateTo('legal-notice')" class="login-legal-notice-icon">Legal Notice</a>
         </div>
     </form>
 </ng-container>

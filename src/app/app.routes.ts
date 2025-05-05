@@ -16,7 +16,7 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
     {
-        path: 'public-notices',
+        path: 'public-notices/:type',
         component: PublicNoticesComponent,
     },
     {

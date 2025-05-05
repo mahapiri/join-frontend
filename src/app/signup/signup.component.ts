@@ -18,7 +18,8 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './signup.component.html',
   styleUrls: [
     './../../../src/app/login/login.component.scss',
-    './signup.component.scss'
+    './signup.component.scss',
+    './signup-responsive.component.scss'
   ]
 })
 export class SignupComponent {
@@ -28,7 +29,7 @@ export class SignupComponent {
   constructor(
     private fb: FormBuilder,
     private validate: ValidationService,
-    private sharedService: SharedService,
+    public sharedService: SharedService,
     private router: Router,
     private userService: UserService,
     private titleService: Title,
@@ -89,6 +90,14 @@ export class SignupComponent {
   navigateToPrivacyPolicy() {
     const url = this.router.serializeUrl(
       this.router.createUrlTree(['/public-notices'])
+    );
+    window.open(url, '_blank');
+  }
+
+
+  navigateTo(path: string) {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([`/public-notices/${path}`])
     );
     window.open(url, '_blank');
   }

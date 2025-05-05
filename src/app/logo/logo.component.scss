@@ -5,10 +5,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    background-color: var(--primary);
-    animation: changeBackground 1s cubic-bezier(0.58, 0.81, 0.69, 0.78) forwards;
-    animation-delay: 1s;
-    will-change: transform;
+    background-color: unset;
 
     .logo {
         content: url(../../assets/img/logo/white.svg);
@@ -22,12 +19,20 @@
     }
 
     .no-animation-logo {
+        content: url(../../assets/img/logo.svg);
         animation-play-state: paused !important;
         animation: none !important;
         width: 64px !important;
         height: 78px !important;
         top: 36px !important;
         left: 36px !important;
+    }
+
+    &.animation {
+        background-color: var(--primary);
+        animation: changeBackground 1s cubic-bezier(0.58, 0.81, 0.69, 0.78) forwards;
+        animation-delay: 1s;
+        will-change: transform;
     }
 }
 

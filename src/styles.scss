@@ -253,6 +253,7 @@ textarea {
     border: 1px solid var(--divider-line);
     background-color: var(--white);
     padding: 12px 21px;
+    padding-right: 56px;
     display: flex;
     gap: 8px;
     font-family: 'Inter';
@@ -281,6 +282,10 @@ textarea {
     &.invalidInput {
         border-color: var(--required);
     }
+}
+
+.no-pr-56 {
+    padding-right: 21px;
 }
 
 button {

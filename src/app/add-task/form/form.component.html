@@ -3,14 +3,14 @@
         <div class="field-container">
             <label class="field-layout">
                 <p>Title<span>*</span></p>
-                <input type="text" placeholder="Enter a title" formControlName="title"
+                <input class="no-pr-56" type="text" placeholder="Enter a title" formControlName="title"
                     [class.invalidInput]="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
                 <div class="errormsg" *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">This
                     field is required</div>
             </label>
             <label class="field-layout">
                 <p>Description</p>
-                <textarea type="text" placeholder="Enter a Description" formControlName="description"></textarea>
+                <textarea class="no-pr-56" type="text" placeholder="Enter a Description" formControlName="description"></textarea>
             </label>
             <label class="field-layout">
                 <p>Assigned To</p>

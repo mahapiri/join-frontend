@@ -102,71 +102,67 @@ body {
 h1 {
     font-family: 'Inter';
     font-weight: 700;
-    font-size: 61px;
-    line-height: 73.2px;
+    font-size: 47px;
+    line-height: 120%;
 }
 
 h2 {
     font-family: 'Inter';
     font-weight: 600;
-    font-size: 64px;
-    line-height: 76.8px;
-}
-
-.h2-bold {
-    font-family: 'Inter';
-    font-weight: 700;
-    font-size: 64px;
-    line-height: 76.8px;
+    font-size: 47px;
+    line-height: 120%;
 }
 
 h3 {
     font-family: 'Inter';
     font-weight: 700;
-    font-size: 61px;
-    line-height: 73.2px;
+    font-size: 47px;
+    line-height: 120%;
+    letter-spacing: 0%;
 }
 
 h4 {
     font-family: 'Inter';
-    font-weight: 500;
-    font-size: 47px;
-    line-height: 56.4px;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    vertical-align: middle;
 }
 
 h5 {
     font-family: 'Inter';
     font-weight: 400;
-    font-size: 27px;
-    line-height: 32.4px;
+    font-size: 20px;
+    line-height: 120%;
 }
 
 h6 {
     font-family: 'Inter';
     font-weight: 400;
-    font-size: 23px;
-    line-height: 27.6px;
+    font-size: 16px;
+    line-height: 120%;
 }
 
 p {
     font-family: 'Inter';
     font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 16px;
+    line-height: 120%;
 }
 
 .p-bold {
     font-family: 'Inter';
     font-weight: 700;
     font-size: 21px;
-    line-height: 25.2px;
+    line-height: 120%;
 }
 
 a {
     font-family: 'Inter';
     font-weight: 400;
     font-size: 16px;
-    line-height: 19.2px;
+    line-height: 120%;
     text-decoration: none;
     cursor: pointer;
 }
@@ -175,7 +171,7 @@ span {
     font-family: 'Inter';
     font-weight: 400;
     font-size: 16px;
-    line-height: 19.2px;
+    line-height: 120%;
     cursor: default;
 }
 
@@ -183,17 +179,17 @@ span {
     font-family: 'Inter';
     font-weight: 700;
     font-size: 16px;
-    line-height: 19.2px;
+    line-height: 120%;
 }
 
 .errormsg {
     font-family: 'Inter';
     font-weight: 400;
-    font-size: 13px;
-    line-height: 15.6px;
+    font-size: 12px;
+    line-height: 120%;
+    margin-top: 4px;
     color: rgba(255, 129, 144, 1);
     position: absolute;
-    margin-top: 8px;
     top: 100%;
 }
 
@@ -202,17 +198,16 @@ span {
     height: 100%;
     overflow: scroll;
     overflow-x: hidden;
-    padding-left: 328px;
-    // padding-top: 206px;
-    padding-top: 192px;
-    padding-right: 64px;
-    padding-bottom: 64px;
+    padding-top: unset;
+    padding-right: 16px;
+    padding-bottom: 96px;
+    padding-left: 16px;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: 32px;
+    gap: 26px;
     transition: cubic-bezier(0.41, -0.22, 1, 0.78) 1000000ms ease-in-out;
     animation-name: fadeIn;
     animation-duration: 75ms;
@@ -242,7 +237,7 @@ span {
 
 input,
 textarea {
-    width: 440px;
+    width: 288px; // 364px
     border-radius: 10px;
     border: 1px solid var(--divider-line);
     background-color: var(--white);
@@ -252,7 +247,8 @@ textarea {
     font-family: 'Inter';
     font-weight: 400;
     font-size: 20px;
-    line-height: 24px;
+    line-height: 120%;
+    letter-spacing: 0%;
     outline: none;
     resize: vertical;
     @include transition-75;
@@ -277,9 +273,9 @@ textarea {
 }
 
 button {
-    border-radius: 10px;
     border: 1px solid var(--primary);
-    padding: 16px;
+    border-radius: 8px;
+    padding: 4px;
     position: relative;
     cursor: pointer;
     @include transition-75;
@@ -361,3 +357,5 @@ mat-calendar {
         transform: rotate(1turn)
     }
 }
+
+@import 'app/styles/styles-responsive';

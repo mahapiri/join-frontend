@@ -76,7 +76,6 @@ export class UserService {
     if (typeof window !== 'undefined' && window.localStorage) {
       return localStorage.getItem('token');
     }
-    console.warn('localStorage not loaded');
     return null;
   }
 

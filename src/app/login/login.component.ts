@@ -18,7 +18,7 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './login.component.html',
   styleUrls: [
     './login.component.scss',
-    './login-mobile.component.scss',
+    './login-responsive.component.scss',
   ]
 })
 export class LoginComponent {

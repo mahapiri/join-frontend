@@ -10,7 +10,10 @@ import { Router } from '@angular/router';
     CommonModule
   ],
   templateUrl: './logo.component.html',
-  styleUrl: './logo.component.scss'
+  styleUrls: [
+    './logo.component.scss',
+    './logo-responsive.component.scss',
+  ]
 })
 export class LogoComponent {
 

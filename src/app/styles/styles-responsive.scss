@@ -1,0 +1,111 @@
+@media (min-width: 320px) {}
+
+@media (min-width: 375px) {}
+
+@media (min-width: 425px) {}
+
+@media (min-width: 768px) {
+    input,
+    textarea {
+        width: 440px;
+        line-height: 24px;
+    }
+
+    button {
+        border-radius: 10px;
+        padding: 16px;
+    }
+}
+
+@media (min-width: 1024px) {
+    h1 {
+        font-size: 61px;
+        line-height: 73.2px;
+    }
+
+    h2 {
+        font-size: 64px;
+        line-height: 76.8px;
+    }
+
+    h3 {
+        font-size: 61px;
+        line-height: 73.2px;
+    }
+
+    h4 {
+        font-weight: 400;
+        font-size: 47px;
+        line-height: 56.4px;
+    }
+
+    h5 {
+        font-size: 27px;
+        line-height: 32.4px;
+    }
+
+    h6 {
+        font-size: 23px;
+        line-height: 27.6px;
+    }
+
+    p {
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    .p-bold {
+        line-height: 25.2px;
+    }
+
+    a {
+        line-height: 19.2px;
+    }
+
+    span {
+        line-height: 19.2px;
+    }
+
+    .a-bold {
+        line-height: 19.2px;
+    }
+
+    .errormsg {
+        font-size: 13px;
+        line-height: 15.6px;
+        margin-top: 8px;
+    }
+
+    .inside-app {
+        padding-top: 192px;
+        padding-right: 64px;
+        padding-bottom: 64px;
+        padding-left: 328px;
+        gap: 32px;
+    }
+
+    .loader {
+        width: 50px;
+        padding: 8px;
+    }
+}
+
+@media (min-width: 1440px) {}
+
+@media (min-width: 1920px) {}
+
+
+
+////////
+
+@media (min-width: 320px) {}
+
+@media (min-width: 375px) {}
+
+@media (min-width: 425px) {}
+
+@media (min-width: 768px) {}
+
+@media (min-width: 1440px) {}
+
+@media (min-width: 1920px) {}

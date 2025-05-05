@@ -5,12 +5,17 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    background-color: var(--primary);
+    animation: changeBackground 1s cubic-bezier(0.58, 0.81, 0.69, 0.78) forwards;
+    animation-delay: 1s;
+    will-change: transform;
 
     .logo {
-        width: 274px;
+        content: url(../../assets/img/logo/white.svg);
+        width: 100px;
         position: absolute;
         z-index: 1;
-        animation: moveLogo 1s cubic-bezier(0.58, 0.81, 0.69, 0.78) forwards;
+        animation: moveLogoResponsive 1s cubic-bezier(0.58, 0.81, 0.69, 0.78) forwards;
         animation-delay: 1s;
         will-change: transform;
         cursor: pointer;
@@ -19,24 +24,60 @@
     .no-animation-logo {
         animation-play-state: paused !important;
         animation: none !important;
-        width: 100.03px !important;
-        height: 121.97px !important;
-        top: 64px !important;
-        left: 67px !important;
+        width: 64px !important;
+        height: 78px !important;
+        top: 36px !important;
+        left: 36px !important;
     }
 }
 
-@keyframes moveLogo {
+@keyframes changeBackground {
     0% {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        background-color: var(--primary);
     }
 
     100% {
-        width: 100px;
-        top: 64px;
-        left: 67px;
+        background-color: unset;
+    }
+}
+
+@keyframes moveLogoResponsive {
+    0% {
+        content: url(../../assets/img/logo/white.svg);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+
+    10% {
+        content: url(../../assets/img/logo.svg);
+        opacity: 0.10;
+    }
+
+    25% {
+        content: url(../../assets/img/logo.svg);
+        opacity: 0.25;
+    }
+
+    50% {
+        content: url(../../assets/img/logo.svg);
+        opacity: 0.5;
+    }
+
+    75% {
+        content: url(../../assets/img/logo.svg);
+        opacity: 0.75;
+    }
+
+    100% {
+        content: url(../../assets/img/logo.svg);
+        opacity: 1;
+        width: 64px;
+        top: 36px;
+        left: 36px;
         transform: translate(0, 0);
     }
 }
+
+@import "./logo-responsive.component.scss";

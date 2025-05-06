@@ -25,17 +25,14 @@
         display: block;
     }
 
-
     .required-text {
         opacity: 1;
     }
-}
 
-@media (min-width: 1024px) {
     .field-layout {
         width: 440px;
     }
-    
+
     .prio-container {
         width: 440px;
     }
@@ -70,7 +67,6 @@
 
     .input-subtask {
         width: 440px;
-        // padding-right: unset;
     }
 
     .subtask-edit-container {

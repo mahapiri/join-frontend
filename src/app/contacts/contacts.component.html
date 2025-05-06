@@ -1,4 +1,10 @@
-<div class="inside-app inside-app-contacts">
-    <app-contact-list></app-contact-list>
-    <app-contact-overview></app-contact-overview>
+<div *ngIf="isLoading; else contactView" class="loader-container">
+    <div class="loader"></div>
 </div>
+
+<ng-template #contactView>
+    <div class="inside-app inside-app-contacts">
+        <app-contact-list *ngIf="((sharedService.isContactList$ | async) && !(sharedService.isContactOverview$ | async)) || !(sharedService.isMobileView$ | async)"></app-contact-list>
+        <app-contact-overview *ngIf="(!(sharedService.isContactList$ | async) && (sharedService.isContactOverview$ | async)) || !(sharedService.isMobileView$ | async)"></app-contact-overview>
+    </div>
+</ng-template>

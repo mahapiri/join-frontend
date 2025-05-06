@@ -1,16 +1,17 @@
 @import "../../../styles.scss";
 
-.inside-app {
-    padding-left: 32px;
-    height: unset;
+.inside-content {
+    min-width: 358px;
 }
 
-header {
+.header-title {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    gap: 30px;
+    align-items: unset;
+    gap: 16px;
     text-wrap-mode: nowrap;
+    @include transition-100;
 
     h5 {
         color: var(--primary);
@@ -18,8 +19,16 @@ header {
 }
 
 .divider {
+    display: none;
     width: 3px;
     height: 59px;
+    background-color: var(--secondary);
+}
+
+.divider-horz {
+    display: block;
+    width: 90px;
+    height: 3px;
     background-color: var(--secondary);
 }
 
@@ -28,13 +37,12 @@ header {
     flex-direction: column;
     gap: 32px;
     @include transition-100;
-    animation-name: slideIn;
-    animation-duration: 400ms;
 }
 
 .contact-title {
     display: flex;
-    gap: 54px;
+    align-items: center;
+    gap: 20px;
 }
 
 .contact-title-content {
@@ -43,18 +51,18 @@ header {
     gap: 8px;
 
     h4 {
-        text-wrap-mode: nowrap;
+        overflow-wrap: anywhere;
     }
 }
 
 .edit-delete-section {
-    display: flex;
+    display: none;
     gap: 32px;
     @include transition-100;
 
     svg {
-       width: 24px;
-       height: 24px; 
+        width: 24px;
+        height: 24px;
     }
 
     a {
@@ -86,6 +94,8 @@ header {
 .contact-icon {
     width: 120px;
     height: 120px;
+    min-width: 120px;
+    min-height: 120px;
     border-radius: 70px;
     border: 3px solid var(--white);
     background-color: var(--orange);
@@ -122,3 +132,98 @@ header {
     color: rgba(0, 124, 238, 1);
     cursor: pointer !important;
 }
+
+.more-contact-responsive {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 46px;
+    border: 1px solid var(--primary);
+    padding: 12px;
+    background-color: var(--primary);
+    position: fixed;
+    right: 22px;
+    bottom: 108px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--secondary);
+        border-color: var(--secondary);
+    }
+
+    &:active {
+        background-color: var(--third);
+        border-color: var(--third);
+    }
+
+    img {
+        width: 32px;
+        height: 32px
+    }
+}
+
+.back-icon {
+    display: block;
+    position: fixed;
+    right: 22px;
+    top: 143px;
+
+    img {
+        width: 32px;
+        height: 32px;
+        @include transition-75;
+
+        &:hover {
+            background-color: var(--lightgray);
+            border-radius: 42px;
+        }
+
+    }
+}
+
+.option-container {
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    border-radius: 20px 20px 0px 20px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    background-color: var(--white);
+    position: fixed;
+    bottom: 108px;
+    right: 22px;
+    @include transition-100;
+
+    .option-edit-delete-content {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px;
+
+        &:hover {
+            a {
+                color: var(--secondary);
+            }
+
+            svg {
+                path {
+                    fill: var(--secondary);
+                }
+            }
+        }
+
+        a {
+            width: 100%;
+            color: var(--primary);
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+
+@import "./contact-overview-responsive.component.scss";

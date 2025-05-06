@@ -1,21 +1,29 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { SharedService } from '../../services/shared.service';
 import { Contact } from '../../models/contact';
 import { ContactApiService } from '../../services/contact-api.service';
 import { ContactService } from '../../services/contact.service';
+import { ClickOutsideDirective } from '../../click-outside.directive';
 
 @Component({
   selector: 'app-contact-overview',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    ClickOutsideDirective,
+  ],
   templateUrl: './contact-overview.component.html',
-  styleUrl: './contact-overview.component.scss'
+  styleUrls: [
+    './contact-overview.component.scss',
+    './contact-overview-responsive.component.scss'
+  ]
 })
 export class ContactOverviewComponent implements OnInit, OnDestroy {
   currentContact: Contact | null = null;
   selectedContact: number | null = null;
+  isOption: boolean = false;
 
   subscription: Subscription = new Subscription();
 
@@ -61,7 +69,25 @@ export class ContactOverviewComponent implements OnInit, OnDestroy {
       })
       setTimeout(() => {
         this.sharedService.setAllAddingTextOnFalse();
+        this.sharedService.resetContactView();
       }, 1000);
     }
+  }
+
+  
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.sharedService.checkViewportWidth();
+  }
+
+
+  toggleOptions() {
+    this.isOption = !this.isOption;
+  }
+
+
+  back() {
+    this.sharedService.resetContactView();
+    this.contactService.deselectContact();
   }
 }

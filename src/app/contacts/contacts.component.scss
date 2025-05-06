@@ -1,9 +1,47 @@
-app-contact-list {
+.loader-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+app-contact-list,
+app-contact-overview {
+    width: 100%;
     height: 100%;
 }
 
-.inside-app-contacts{
-    padding-left: 232px;
+.inside-app {
+    padding-bottom: 80px;
+    padding-right: 0px;
+}
+
+.inside-app-contacts {
+    padding-left: 0px;
     padding-top: unset;
     flex-direction: row;
 }
+
+@media (min-width: 320px) {}
+
+@media (min-width: 375px) {}
+
+@media (min-width: 425px) {}
+
+@media (min-width: 768px) {}
+
+@media (min-width: 1024px) {
+    app-contact-list,
+    app-contact-overview {
+        height: 100%;
+    }
+
+    .inside-app-contacts {
+        padding-left: 232px;
+    }
+}
+
+@media (min-width: 1440px) {}
+
+@media (min-width: 1920px) {}

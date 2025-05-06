@@ -24,7 +24,6 @@ export class SummaryComponent implements OnInit {
   greetingText: string = 'Hello';
   currentUser: User | null = null;
   show: boolean = true;
-  isMobileView: boolean = false;
 
   constructor(
     private titleService: Title,
@@ -36,25 +35,25 @@ export class SummaryComponent implements OnInit {
     this.animateGreeting();
   }
 
+
   ngOnInit(): void {
     this.setGreeting();
-    this.checkViewportWidth();
+    this.sharedService.checkViewportWidth();
   }
+
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
-    this.checkViewportWidth();
+    this.sharedService.checkViewportWidth();
   }
 
-  checkViewportWidth() {
-    this.isMobileView = window.innerWidth < 1024;
-  }
 
   animateGreeting() {
     setTimeout(() => {
       this.show = false;
     }, 1000);
   }
+
 
   getCurrentUser() {
     this.userService.isLoggedIn$.subscribe(user => {

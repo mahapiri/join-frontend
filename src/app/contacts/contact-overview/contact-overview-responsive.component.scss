@@ -1,0 +1,76 @@
+@import "../../../styles.scss";
+
+@media (min-width: 320px) {}
+
+@media (min-width: 375px) {}
+
+@media (min-width: 425px) {}
+
+@media (min-width: 768px) {}
+
+@media (min-width: 1024px) {
+    .inside-content {
+        min-width: unset;
+    }
+
+    .contact-overview {
+        padding-left: 32px !important;
+        height: unset;
+    }
+
+    .inside-app {
+        padding-left: 32px;
+        height: unset;
+    }
+
+    .header-title {
+        flex-direction: unset;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .divider {
+        display: block;
+    }
+
+    .divider-horz {
+        display: none;
+    }
+
+    .contact-container {
+        animation-name: slideIn;
+        animation-duration: 400ms;
+    }
+
+    .contact-title {
+        display: flex;
+        align-items: unset;
+        gap: 54px;
+    }
+
+    .contact-title-content {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .edit-delete-section {
+        display: flex;
+    }
+
+    .more-contact-responsive {
+        display: none;
+    }
+
+    .back-icon {
+        display: none;
+    }
+
+    .option-container {
+        display: none;
+    }
+}
+
+@media (min-width: 1440px) {}
+
+@media (min-width: 1920px) {}

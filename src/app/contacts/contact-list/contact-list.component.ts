@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { delay, filter, Subscription, tap } from 'rxjs';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { SharedService } from '../../services/shared.service';
 import { ContactApiService } from '../../services/contact-api.service';
 import { Contact } from '../../models/contact';
-import { UserService } from '../../services/user.service';
 import { ContactService } from '../../services/contact.service';
 
 @Component({
@@ -12,10 +11,12 @@ import { ContactService } from '../../services/contact.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './contact-list.component.html',
-  styleUrl: './contact-list.component.scss'
+  styleUrls: [
+    './contact-list.component.scss',
+    './constact-list-responsive.component.scss',
+  ]
 })
 export class ContactListComponent implements OnInit, OnDestroy {
-
   groupedContacts: { [key: string]: Contact[] } = {};
   isLoading: boolean = true;
 
@@ -23,19 +24,18 @@ export class ContactListComponent implements OnInit, OnDestroy {
 
   constructor(
     private sharedService: SharedService,
-    private contactApiService: ContactApiService,
     public contactService: ContactService
   ) { }
 
 
   ngOnInit(): void {
     this.initContact();
+    this.sharedService.checkViewportWidth();
   }
 
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.contactService.deselectContact();
   }
 
 
@@ -69,5 +69,18 @@ export class ContactListComponent implements OnInit, OnDestroy {
   addNewContact() {
     this.sharedService.isPopup = true;
     this.sharedService.isAddContact = true;
+  }
+
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.sharedService.checkViewportWidth();
+  }
+
+
+  selectContact(id: number) {
+    this.contactService.selectContact(id);
+    this.sharedService.setIsContactList(false);
+    this.sharedService.setIsContactOverview(true);
   }
 }

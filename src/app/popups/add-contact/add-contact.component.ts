@@ -50,6 +50,8 @@ export class AddContactComponent {
       setTimeout(() => {
         this.contactService.selectContact(contact.id);
         this.sharedService.setAllAddingTextOnFalse();
+        this.sharedService.setIsContactList(false);
+        this.sharedService.setIsContactOverview(true);
       }, 500);
     }
   }

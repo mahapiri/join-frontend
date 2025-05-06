@@ -12,22 +12,21 @@
 
       <ng-template #contactView>
         <ng-container *ngIf="groupedContacts && (groupedContacts | keyvalue) as grouped">
-          <div *ngIf="grouped.length > 0; else noContacts">
+          <div *ngIf="grouped.length > 0; else noContacts" class="contact-view-container">
             <div *ngFor="let group of grouped">
               <div class="alphabet">
                 <p>{{ group.key }}</p>
               </div>
               <div class="divider"></div>
               <div class="contact-list" *ngFor="let contact of group.value">
-                <div [attr.id]="'id' + contact.id" class="contact-container" (click)="contactService.selectContact(contact.id)"
-                [ngClass]="{'select-contact': (contactService.selectedContactId$ | async) === contact.id}">
+                <div [attr.id]="'id' + contact.id" class="contact-container" (click)="selectContact(contact.id)"
+                  [ngClass]="{'select-contact': (contactService.selectedContactId$ | async) === contact.id}">
 
-                  <div class="contact-icon"
-                    [ngStyle]="{'background-color': contact.color}">
+                  <div class="contact-icon" [ngStyle]="{'background-color': contact.color}">
                     {{ contact.initial }}
                   </div>
 
-                  <div style="overflow-x: hidden;">
+                  <div style="overflow-x: hidden;" class="contact-data">
                     <p>{{ contact.name }}</p>
                     <a>{{ contact.email }}</a>
                   </div>
@@ -43,9 +42,9 @@
           </div>
         </ng-template>
       </ng-template>
-
-
-
+      <div class="add-contact-responsive" (click)="addNewContact()">
+        <img src="./../../../assets/img/person-add/default.svg" alt="Add Contact">
+      </div>
     </div>
   </div>
 </div>

@@ -1,0 +1,45 @@
+@import "../../../styles.scss";
+
+@media (min-width: 320px) {}
+
+@media (min-width: 375px) {}
+
+@media (min-width: 425px) {}
+
+@media (min-width: 768px) {}
+
+@media (min-width: 1024px) {
+    .contact-list-container {
+        width: 456px;
+    }
+
+    .list-container {
+        padding-top: 96px;
+        padding-bottom: unset;
+    }
+
+    .list-content {
+        padding: 32px 24px;
+    }
+
+    .add-btn {
+        display: flex;
+    }
+
+    .contact-view-container {
+        width: unset;
+    }
+
+    .contact-list {
+        width: 352px;
+        margin-bottom: unset;
+    }
+
+    .add-contact-responsive {
+        display: none;
+    }
+}
+
+@media (min-width: 1440px) {}
+
+@media (min-width: 1920px) {}

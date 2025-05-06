@@ -5,16 +5,20 @@
 <ng-template #summaryView>
     <div class="inside-app">
         <div class="inside-content">
-            <header *ngIf="(!show && isMobileView) || !isMobileView" class="header-title">
+            <header *ngIf="(!show && (sharedService.isMobileView$ | async)) || !(sharedService.isMobileView$ | async)"
+                class="header-title">
                 <h3>Join 360</h3>
                 <div class="divider"></div>
                 <h5 class="subtitle">Key Metrics at a Glance</h5>
                 <div class="divider-horz"></div>
             </header>
-            <div class="panel-container" [ngClass]="{ 'centered': isMobileView, 'desktop': !isMobileView }">
-                <app-panel class="panel-content" *ngIf="(!show && isMobileView) || !isMobileView"></app-panel>
-                <div class="greet-container" *ngIf="show && isMobileView || !isMobileView"
-                    [ngClass]="{ 'mobile': isMobileView, 'desktop': !isMobileView }">
+            <div class="panel-container"
+                [ngClass]="{ 'centered': (sharedService.isMobileView$ | async), 'desktop': !(sharedService.isMobileView$ | async) }">
+                <app-panel class="panel-content"
+                    *ngIf="(!show && (sharedService.isMobileView$ | async)) || !(sharedService.isMobileView$ | async)"></app-panel>
+                <div class="greet-container"
+                    *ngIf="show && (sharedService.isMobileView$ | async) || !(sharedService.isMobileView$ | async)"
+                    [ngClass]="{ 'mobile': (sharedService.isMobileView$ | async), 'desktop': !(sharedService.isMobileView$ | async) }">
                     <h4 class="greeting-text">{{ greetingText }},</h4>
                     <h2 class="username">{{ currentUser?.name }}</h2>
                 </div>

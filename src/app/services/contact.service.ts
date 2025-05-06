@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { HostListener, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Contact } from '../models/contact';
 import { ContactApiService } from './contact-api.service';
@@ -16,10 +16,10 @@ export class ContactService {
   private _currentContact = new BehaviorSubject<(Contact | null)>(null);
   currentContact$ = this._currentContact.asObservable();
 
-
   constructor(
     private contactApiService: ContactApiService
-  ) { }
+  ) {
+  }
 
 
   async loadContacts() {
@@ -35,7 +35,7 @@ export class ContactService {
     this.sortAndSetContacts(updatedContacts);
   }
 
-  
+
   setUpdatedContact(updatedContact: Contact) {
     const currentContacts = this._contacts.value;
     const updatedId = updatedContact.id;
@@ -64,11 +64,11 @@ export class ContactService {
     const div = document.getElementById(`id${id}`);
     const query = document.querySelector('.select-contact');
     query?.classList.remove('select-contact');
-    if (div) {
-      div.classList.add('select-contact');
+    if (div || id) {
+      div?.classList.add('select-contact');
       this.saveSelectedContact(id);
       this.findContact();
-      div.scrollIntoView();
+      div?.scrollIntoView();
     }
   }
 

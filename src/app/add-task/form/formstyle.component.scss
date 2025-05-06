@@ -1,6 +1,7 @@
 @import "../../../styles.scss";
 
 .field-layout {
+    width: unset;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -63,7 +64,7 @@ mat-datepicker {
 }
 
 .prio-container {
-    width: 440px;
+    width: unset;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -72,7 +73,8 @@ mat-datepicker {
 
 .prio-content {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    flex-direction: column-reverse;
     align-items: center;
     gap: 8px;
     flex: 1;
@@ -82,6 +84,10 @@ mat-datepicker {
     cursor: pointer;
     @include box-shadow;
     @include transition-75;
+
+    .medium {
+        margin-top: 4px;
+    }
 
     &:hover {
         @include box-shadow-stronger;
@@ -158,12 +164,12 @@ mat-datepicker {
 }
 
 .backlog-box {
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
     gap: 4px;
-    width: 440px;
     max-height: 156px;
     min-height: 80px;
     position: absolute;
@@ -214,6 +220,8 @@ mat-datepicker {
 .contact-icon {
     width: 42px;
     height: 42px;
+    min-width: 42px;
+    min-height: 42px;
     border-radius: 100%;
     font-family: Inter;
     font-size: 12px;
@@ -233,7 +241,6 @@ mat-datepicker {
     height: 16px;
     position: relative;
 }
-
 
 input[type=checkbox] {
     width: 16px;
@@ -301,7 +308,7 @@ input[type=checkbox] {
 }
 
 .checkmark-font {
-    font-family: Inter;
+    font-family: 'Inter';
     font-size: 12px;
     font-weight: 400;
     line-height: 14.4px;
@@ -354,25 +361,27 @@ input[type=checkbox] {
 
 .subtask-list {
     width: 100%;
-    height: 78px;
+    height: unset;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    position: absolute;
+    position: relative;
     top: calc(100% + 8px);
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0;
+    margin-bottom: 32px;
 
     .input-icon-container {
-        position: unset;
         opacity: 0;
+        top: 10%;
     }
 
     li {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-wrap: wrap;
         padding: 6px 16px;
         padding-left: 32px;
         list-style-position: inside;
@@ -400,14 +409,17 @@ input[type=checkbox] {
 
         a {
             width: 100%;
+            word-break: break-all;
+            padding-right: 60px;
         }
     }
 
 }
 
 .input-subtask {
-    width: 440px;
+    width: unset;
     padding: 4px 16px;
+    padding-right: 80px;
     border: none;
     border-radius: unset;
     border-bottom: 1px solid var(--secondary);
@@ -425,7 +437,6 @@ input[type=checkbox] {
         position: absolute;
         top: 6%;
         opacity: 1;
-
     }
 }
 
@@ -480,4 +491,4 @@ input[type=checkbox] {
     }
 }
 
-// @import './form-responsive.component.scss';
+@import './form-responsive.component.scss';

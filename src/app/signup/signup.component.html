@@ -11,21 +11,21 @@
         <div class="inputfield-container">
             <div class="inputfield-content">
                 <div class="input-icon-container">
-                    <input formControlName="name" type="text" placeholder="Name"
+                    <input formControlName="name" class="login" type="text" placeholder="Name"
                         [class.invalidInput]="signupForm.get('name')?.invalid && signupForm.get('name')?.touched">
                     <img class="input-icon" src="../../assets/img/login-signup/person.svg" alt="Name">
                     <div class="errormsg" *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched">
                         Check your name. Please try again.</div>
                 </div>
                 <div class="input-icon-container">
-                    <input formControlName="email" type="text" placeholder="Email"
+                    <input formControlName="email" class="login" type="text" placeholder="Email"
                         [class.invalidInput]="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
                     <img class="input-icon" src="../../assets/img/login-signup/mail.svg" alt="Email">
                     <div class="errormsg" *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
                         Check your email. Please try again.</div>
                 </div>
                 <div class="input-icon-container">
-                    <input #passwordInput formControlName="password" type="password" placeholder="Password"
+                    <input #passwordInput formControlName="password" class="login" type="password" placeholder="Password"
                         [class.invalidInput]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
                         (focus)="passwordOnFocus(passwordInput, passwordImg)" (blur)="passwordNotOnFocus(passwordInput, passwordImg)" (input)="updateIcon(passwordInput, passwordImg)">
                     <img #passwordImg class="input-icon password-icon" src="../../assets/img/login-signup/lock.svg" alt="Password" (click)="togglePassword(passwordInput, passwordImg)">
@@ -34,7 +34,7 @@
                         Password. Please try again.</div>
                 </div>
                 <div class="input-icon-container">
-                    <input #confirmPasswordInput formControlName="confirmPassword" type="password" placeholder="Confirm Password"
+                    <input #confirmPasswordInput formControlName="confirmPassword" class="login" type="password" placeholder="Confirm Password"
                         [class.invalidInput]="signupForm.hasError('passwordMismatch') && signupForm.get('confirmPassword')?.touched"
                         (focus)="passwordOnFocus(confirmPasswordInput, confirmPasswordImg)" (blur)="passwordNotOnFocus(confirmPasswordInput, confirmPasswordImg)" (input)="updateIcon(confirmPasswordInput, confirmPasswordImg)">
                     <img #confirmPasswordImg class="input-icon password-icon" src="../../assets/img/login-signup/lock.svg" alt="Password" (click)="togglePassword(confirmPasswordInput, confirmPasswordImg)">

@@ -10,7 +10,7 @@
                 <div class="inputfield-container">
                     <div class="inputfield-content">
                         <div class="input-icon-container">
-                            <input formControlName="email" type="text" placeholder="Email" class="invalidInput"
+                            <input formControlName="email" type="text" placeholder="Email" class="invalidInput login"
                                 [class.invalidInput]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
                             <img class="input-icon" src="../../assets/img/login-signup/mail.svg" alt="Email">
                             <div class="errormsg"
@@ -18,7 +18,7 @@
                                 email. Please try again.</div>
                         </div>
                         <div class="input-icon-container">
-                            <input #passwordInput formControlName="password" type="password" placeholder="Password"
+                            <input #passwordInput formControlName="password" class="login" type="password" placeholder="Password"
                                 (focus)="passwordOnFocus(passwordInput, passwordImg)"
                                 (blur)="passwordNotOnFocus(passwordInput, passwordImg)"
                                 (input)="updateIcon(passwordInput, passwordImg)">

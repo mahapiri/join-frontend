@@ -38,7 +38,7 @@
                                         <div class="contact-icon" [ngStyle]="{'background-color': contact.color}">
                                             {{ contact.initial }}
                                         </div>
-                                        <p style="width: 304px; overflow-x:hidden;">{{ contact.name }}</p>
+                                        <p style="overflow-wrap: anywhere; padding-right: 4px;">{{ contact.name }}</p>
                                     </div>
                                     <div class="checkbox-container">
                                         <input type="checkbox" #checkbox [checked]="isContactAssigned(contact)"

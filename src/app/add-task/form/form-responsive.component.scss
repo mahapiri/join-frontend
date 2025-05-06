@@ -10,620 +10,74 @@
 
 @media (min-width: 768px) {}
 
-// @media (min-width: 1024px) {
-//     .form-layout {
-//         display: flex;
-//         flex-direction: column;
-//         gap: 96px;
-//         position: relative;
-//     }
-
-//     .form-container {
-//         width: 100%;
-//         height: 100%;
-//         display: flex;
-//         // align-items: center;
-//         gap: 64px;
-//     }
-
-//     .field-container {
-//         // height: 424px;
-//         display: flex;
-//         flex-direction: column;
-//         // justify-content: space-evenly;
-//         gap: 32px;
-//     }
-
-//     .divider {
-//         width: 0px;
-//         height: auto;
-//         border: 1px solid var(--divider-line);
-//     }
-
-//     .input-divider {
-//         width: 0px;
-//         height: 24px;
-//         border: 1px solid var(--input-divider);
-//     }
-
-//     .field-layout-category {
-//         z-index: 0;
-//     }
-
-//     textarea {
-//         height: 120px;
-//     }
-
-//     .category-field {
-//         cursor: default;
-//         user-select: none;
-
-//         &::placeholder {
-//             color: black;
-//         }
-//     }
-
-//     .height-auto {
-//         height: 100px;
-//     }
-
-//     .width-100 {
-//         width: 100% !important;
-
-//     }
-
-//     .required-text {
-//         p {
-//             display: flex;
-//             align-items: flex-start;
-//         }
-//     }
-
-
-
-//     .submit-container {
-//         display: flex;
-//         justify-content: space-between;
-//         align-items: end;
-//     }
-
-//     .btn-content {
-//         display: flex;
-//         gap: 16px;
-//     }
-
-//     .clear-btn {
-//         display: flex;
-//         justify-content: center;
-//         align-items: center;
-//         background-color: var(--background);
-//         gap: 4px;
-//         @include transition-100;
-
-//         img {
-//             width: 24px;
-//             height: 24px;
-//         }
-
-//         &:hover {
-//             border-color: var(--secondary);
-
-//             p {
-//                 color: var(--secondary);
-//             }
-
-//             .clear-img {
-//                 content: url(../../../assets/img/clear/hover.svg);
-//             }
-//         }
-
-//         &:active {
-//             border-color: var(--third);
-
-//             p {
-//                 color: var(--third);
-//             }
-
-//             .clear-img {
-//                 content: url(../../../assets/img/clear/active.svg);
-//             }
-//         }
-//     }
-
-//     .select-category {
-//         background-color: var(--primary);
-
-//         &:hover {
-//             background-color: var(--third);
-//         }
-
-//         p {
-//             color: var(--white);
-//         }
-//     }
-// }
-
-// @media (min-width: 1024px) {
-//     .field-layout {
-//         display: flex;
-//         flex-direction: column;
-//         gap: 8px;
-//         position: relative;
-//     }
-
-//     span {
-//         font-family: 'Inter';
-//         font-weight: 400;
-//         font-size: 20px;
-//         line-height: 24px;
-//         color: var(--required);
-//     }
-
-//     .datepicker-box {
-//         display: inline-block;
-//         position: relative;
-//         width: 100%;
-//         height: 100%;
-//     }
-
-//     .datepicker-btn {
-//         position: absolute;
-//         top: 28%;
-//         right: 16px;
-//         width: 24px;
-//         height: 24px;
-//         background-image: url('../../../assets/img/calender/default.svg');
-//         background-repeat: no-repeat;
-//         background-size: contain;
-//         border-radius: 10px;
-//         cursor: pointer;
-//         @include transition-75;
-//     }
-
-//     .datepicker-input::-webkit-calendar-picker-indicator {
-//         opacity: 0;
-//         position: absolute;
-//         top: 33%;
-//         right: 16px;
-//         cursor: pointer;
-//     }
-
-//     mat-datepicker-toggle {
-//         opacity: 0;
-//         position: absolute;
-//         top: 14%;
-//         right: 8px;
-//     }
-
-//     mat-datepicker {
-//         width: 24px !important;
-//         height: 24px !important;
-//         display: none;
-//         padding: 0;
-//     }
-
-//     .mat-calendar {
-//         background-color: red !important;
-//     }
-
-//     .prio-container {
-//         width: 440px;
-//         display: flex;
-//         flex-direction: row;
-//         justify-content: space-between;
-//         gap: 16px;
-//     }
-
-//     .prio-content {
-//         display: flex;
-//         justify-content: center;
-//         align-items: center;
-//         gap: 8px;
-//         flex: 1;
-//         border-radius: 10px;
-//         padding: 16px 10px;
-//         background-color: var(--white);
-//         cursor: pointer;
-//         @include box-shadow;
-//         @include transition-75;
-
-//         &:hover {
-//             @include box-shadow-stronger;
-//         }
-//     }
-
-//     .prio-radio {
-//         display: none;
-//     }
-
-//     #urgent:checked+label {
-//         background-color: var(--prio-red);
-
-//         p {
-//             color: var(--white);
-//         }
-//     }
-
-//     #medium:checked+label {
-//         background-color: var(--prio-orange);
-
-//         p {
-//             color: var(--white);
-//         }
-//     }
-
-//     #low:checked+label {
-//         background-color: var(--prio-green);
-
-//         p {
-//             color: var(--white);
-//         }
-//     }
-
-//     #urgent:checked+label img {
-//         content: url('../../../assets/img/prio/urgent-active.svg');
-//     }
-
-//     #medium:checked+label img {
-//         content: url('../../../assets/img/prio/medium-active.svg');
-//     }
-
-//     #low:checked+label img {
-//         content: url('../../../assets/img/prio/low-active.svg');
-//     }
-
-//     .select-container {
-//         position: relative;
-//         z-index: 1;
-//     }
-
-//     .input-icon {
-//         width: 24px;
-//         height: 24px;
-//         position: absolute;
-//         top: 25%;
-//         right: 16px;
-//         z-index: 1;
-//         @include transition-100;
-//         cursor: pointer;
-//         border-radius: 50%;
-
-//         &:hover {
-//             background-color: var(--hover-icon);
-//         }
-//     }
-
-//     .assigned-to-field {
-//         cursor: text;
-
-//         &::placeholder {
-//             color: black;
-//         }
-//     }
-
-//     .backlog-box {
-//         display: flex;
-//         flex-direction: column;
-//         justify-content: flex-start;
-//         align-items: flex-start;
-//         gap: 4px;
-//         width: 440px;
-//         max-height: 156px;
-//         min-height: 80px;
-//         position: absolute;
-//         top: 80%;
-//         z-index: -1;
-//         background-color: var(--white);
-//         border: 1px solid var(--white);
-//         border-bottom-right-radius: 10px;
-//         border-bottom-left-radius: 10px;
-//         @include box-shadow-backlog;
-//         overflow-y: auto;
-//     }
-
-//     .listViewLoader {
-//         width: 100%;
-//         height: 100%;
-//         margin-top: 16px;
-//         display: flex;
-//         justify-content: center;
-//         align-items: center;
-//     }
-
-//     .contact-container {
-//         width: 100%;
-//         position: relative;
-//         top: 16px;
-//         display: flex;
-//         flex-direction: row;
-//         justify-content: space-between;
-//         align-items: center;
-//         padding: 7px 16px;
-//         margin-bottom: 8px;
-//         border-radius: 10px;
-//         cursor: pointer;
-//         @include transition-100;
-
-//         &:hover {
-//             background-color: var(--lightgray);
-//         }
-//     }
-
-//     .contact-name {
-//         display: flex;
-//         align-items: center;
-//         gap: 16px;
-//     }
-
-//     .contact-icon {
-//         width: 42px;
-//         height: 42px;
-//         border-radius: 100%;
-//         font-family: Inter;
-//         font-size: 12px;
-//         font-weight: 400;
-//         line-height: 14.4px;
-//         text-align: center;
-//         color: var(--white);
-//         display: flex;
-//         justify-content: center;
-//         align-items: center;
-//         border: 2px solid;
-//         background-color: var(--secondary);
-//     }
-
-//     .checkbox-container {
-//         width: 16px;
-//         height: 16px;
-//         position: relative;
-//     }
-
-
-//     input[type=checkbox] {
-//         width: 16px;
-//         height: 16px;
-//         position: absolute;
-//         opacity: 0;
-//         z-index: 1;
-//         cursor: pointer;
-
-
-//         &:checked {
-//             +.checkmark {
-//                 border-color: var(--white);
-//                 background-color: var(--primary);
-
-//                 &::after {
-//                     display: block;
-//                 }
-//             }
-
-//             +.contact-container {
-//                 background-color: var(--primary);
-
-//                 p {
-//                     color: var(--white) !important;
-//                 }
-//             }
-//         }
-//     }
-
-//     .contact-container.selected {
-//         background-color: var(--primary);
-//         color: var(--white);
-
-//         p {
-//             color: var(--white);
-//         }
-//     }
-
-//     .checkmark {
-//         width: 16px;
-//         height: 16px;
-//         background-color: var(--white);
-//         border: 2px solid var(--primary);
-//         display: inline-block;
-//         vertical-align: middle;
-//         border-radius: 3px;
-//         position: absolute;
-//         margin: 0;
-//         padding: 0;
-//         @include transition-75;
-
-//         &::after {
-//             content: "";
-//             position: relative;
-//             display: none;
-//             left: 6px;
-//             bottom: 5px;
-//             width: 4px;
-//             height: 12px;
-//             border: solid var(--white);
-//             border-width: 0 2px 2px 0;
-//             transform: rotate(45deg);
-//         }
-//     }
-
-//     .checkmark-font {
-//         font-family: Inter;
-//         font-size: 12px;
-//         font-weight: 400;
-//         line-height: 14.4px;
-//     }
-
-//     .assigned-container {
-//         width: 442px;
-//         max-height: 144px;
-//         flex-wrap: wrap;
-//         display: flex;
-//         gap: 8px;
-//         flex-direction: row;
-//         overflow: auto;
-//         position: absolute;
-//         top: calc(100% + 8px);
-//         @include transition-75;
-//     }
-
-//     .icon-border {
-//         border-color: var(--white);
-//     }
-
-//     .not-found {
-//         padding: 0px 16px;
-//         padding-top: 32px;
-//     }
-
-//     .p-t-16 {
-//         padding-top: 16px !important;
-//     }
-
-//     .add-new-category-container {
-//         width: 100%;
-//         padding-top: 8px;
-//     }
-
-//     .add-new-category-content {
-//         padding: 7px 16px;
-//         cursor: pointer;
-
-//         &:hover {
-//             color: var(--secondary);
-//         }
-//     }
-
-//     .divider-horizontal {
-//         width: 100%;
-//         border: 1px solid var(--divider-line);
-//     }
-
-//     .subtask-list {
-//         width: 100%;
-//         height: 78px;
-//         display: flex;
-//         flex-direction: column;
-//         gap: 8px;
-//         position: absolute;
-//         top: calc(100% + 8px);
-//         overflow-y: auto;
-//         overflow-x: hidden;
-//         padding: 0;
-
-//         .input-icon-container {
-//             position: unset;
-//             opacity: 0;
-//         }
-
-//         li {
-//             display: flex;
-//             justify-content: space-between;
-//             align-items: center;
-//             padding: 6px 16px;
-//             padding-left: 32px;
-//             list-style-position: inside;
-//             list-style: circle;
-//             border-radius: 10px;
-//             cursor: pointer;
-//             position: relative;
-//             @include transition-100;
-
-//             &::before {
-//                 content: "";
-//                 position: absolute;
-//                 transform: translateY(-50%);
-//                 top: 50%;
-//                 left: 16px;
-//                 border-radius: 100%;
-//                 width: 6px;
-//                 height: 6px;
-//                 background: var(--primary);
-//             }
-
-//             &:hover {
-//                 background-color: var(--lightgray);
-//             }
-
-//             a {
-//                 width: 100%;
-//             }
-//         }
-
-//     }
-
-//     .input-subtask {
-//         width: 440px;
-//         padding: 4px 16px;
-//         border: none;
-//         border-radius: unset;
-//         border-bottom: 1px solid var(--secondary);
-//         font-family: 'Inter';
-//         font-weight: 400;
-//         font-size: 16px;
-//         line-height: 19.2px;
-//     }
-
-//     .subtask-edit-container {
-//         position: relative;
-//         @include transition-100;
-
-//         .input-icon-container {
-//             position: absolute;
-//             top: 6%;
-//             opacity: 1;
-
-//         }
-//     }
-
-//     .input-icon-container {
-//         display: flex;
-//         flex-direction: row;
-//         gap: 4px;
-//         position: absolute;
-//         top: 25%;
-//         right: 16px;
-//         z-index: 1;
-//         @include transition-100;
-
-//         img {
-//             width: 24px;
-//             height: 24px;
-//             @include transition-100;
-//             cursor: pointer;
-//             border-radius: 50%;
-
-//             &:hover {
-//                 background-color: var(--hover-icon);
-//             }
-//         }
-//     }
-
-//     .submit-btn {
-//         display: flex;
-//         justify-content: center;
-//         align-items: center;
-//         background-color: var(--primary);
-//         gap: 4px;
-//         @include transition-100;
-
-//         p {
-//             color: var(--white);
-//         }
-
-//         img {
-//             width: 24px;
-//             height: 24px;
-//         }
-
-//         &:hover {
-//             border-color: var(--secondary);
-//             background-color: var(--secondary);
-//         }
-
-//         &:active {
-//             background-color: var(--third);
-//             border-color: var(--third);
-//         }
-//     }
-// }
+@media (min-width: 1024px) {
+    .form-layout {
+        align-items: unset;
+        justify-content: unset;
+        gap: 96px;
+    }
+
+    .form-container {
+        flex-direction: unset;
+    }
+
+    .divider {
+        display: block;
+    }
+
+
+    .required-text {
+        opacity: 1;
+    }
+}
+
+@media (min-width: 1024px) {
+    .field-layout {
+        width: 440px;
+    }
+    
+    .prio-container {
+        width: 440px;
+    }
+
+    .prio-content {
+        justify-content: center;
+        align-items: center;
+        flex-direction: unset;
+
+        .medium {
+            margin-top: unset;
+        }
+    }
+
+    #low:checked+label {
+        background-color: var(--prio-green);
+
+        p {
+            color: var(--white);
+        }
+    }
+
+    .backlog-box {
+        width: 440px;
+    }
+
+    .subtask-list {
+        height: 78px;
+        position: absolute;
+        margin-bottom: unset;
+    }
+
+    .input-subtask {
+        width: 440px;
+        // padding-right: unset;
+    }
+
+    .subtask-edit-container {
+        position: relative;
+        @include transition-100;
+    }
+}
 
 @media (min-width: 1440px) {}
 

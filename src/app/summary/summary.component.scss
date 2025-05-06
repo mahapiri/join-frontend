@@ -1,13 +1,5 @@
 @import "../../styles.scss";
 
-.inside-content {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-    justify-content: center;
-    align-items: flex-start;
-}
-
 .divider {
     display: none;
     width: 3px;
@@ -32,6 +24,7 @@
 }
 
 .greeting-text {
+    width: max-content;
     font-weight: 400 !important;
 }
 

@@ -8,12 +8,16 @@
 
     input,
     textarea {
-        width: 440px;
+        font-size: 20px;
         line-height: 24px;
+
+        &.login {
+            width: 440px;
+        }
     }
 
     button {
-        border-radius: 10px;
+        border-radius: 8px;
         padding: 16px;
     }
 }

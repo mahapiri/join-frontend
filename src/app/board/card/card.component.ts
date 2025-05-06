@@ -8,7 +8,10 @@ import { CommonModule } from '@angular/common';
     CommonModule,
   ],
   templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss']
+  styleUrls: [
+    './card.component.scss',
+    './card-responsive.component.scss'
+  ]
 })
 export class CardComponent implements AfterViewInit {
   subtaskStatus: string = '';

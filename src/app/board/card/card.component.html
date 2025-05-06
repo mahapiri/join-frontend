@@ -8,11 +8,11 @@
             <a class="description">{{ task.description }}</a>
         </div>
         <ng-container *ngIf="task">
-            <div class="progress-bar-container" *ngIf="task.subtasks?.length">
-                <div class="progress-bar">
+            <div class="progress-bar-container">
+                <div class="progress-bar" *ngIf="task.subtasks?.length">
                     <div class="bar" [style.width]="subtaskStatus"></div>
                 </div>
-                <div class="subtasks-status">{{ doneSubtasks }}/{{ task.subtasks?.length }} Subtasks</div>
+                <div class="subtasks-status" *ngIf="task.subtasks?.length">{{ doneSubtasks }}/{{ task.subtasks?.length }} Subtasks</div>
             </div>
         </ng-container>
 

@@ -18,7 +18,10 @@ import { TaskApiService } from '../../services/task-api.service';
     CdkDrag
   ],
   templateUrl: './distribution.component.html',
-  styleUrls: ['./distribution.component.scss'],
+  styleUrls: [
+    './distribution.component.scss',
+    './distribution-responsive.component.scss'
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

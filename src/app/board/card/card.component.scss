@@ -39,20 +39,28 @@
 }
 
 .title {
+    height: 38px;
     color: var(--primary);
+    overflow-wrap: anywhere;
+    overflow-y: hidden;
 }
 
 .description {
+    height: 38px;
     color: var(--input-divider);
     white-space: pre-line;
+    overflow-wrap: anywhere;
+    overflow-y: hidden;
 }
 
 .progress-bar-container {
     width: 100%;
+    height: 38px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 16px;
+    overflow-wrap: break-word;
 }
 
 .progress-bar {
@@ -81,6 +89,7 @@
 
 .assigned-prio-container {
     width: 100%;
+    height: 32px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -127,3 +136,5 @@
     justify-content: center;
     align-items: center;
 }
+
+@import "./card-responsive.component.scss";

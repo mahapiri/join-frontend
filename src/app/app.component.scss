@@ -21,6 +21,7 @@
     @include popup;
     padding: 48px 40px;
     overflow-y: scroll;
+    scrollbar-width: none;
     animation-name: slideIn;
     animation-duration: 900ms;
 
@@ -34,7 +35,7 @@
 
 .add-task {
     width: auto;
-    height: auto;
+    height: 100%;
 }
 
 .card {
@@ -83,4 +84,11 @@ app-card,
 app-add-contact,
 app-edit-contact {
     @include transition-100;
+}
+
+
+@media (min-width: 1024px) {
+    .add-task {
+        height: auto;
+    }
 }

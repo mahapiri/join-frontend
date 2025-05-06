@@ -1,25 +1,37 @@
 .inside-app {
-    scrollbar-width: none;
+    display: block !important;
 }
 
 .headline {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+}
+
+.headline-content {
+    width: inherit;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .search-add-container {
+    width: 100%;
     display: flex;
+    align-items: center;
+    justify-content: flex-end;
     gap: 32px;
 }
 
 .search-container {
-    width: 312px;
+    width: 100%;
     position: relative;
 
     input {
-        width: 312px;
+        width: 100%;
         padding-right: 64px;
     }
 }
@@ -43,7 +55,7 @@
 }
 
 .add-btn {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     gap: 4px;
@@ -56,12 +68,40 @@
 
     &:hover {
         background-color: var(--secondary);
-        border-color:  var(--secondary);
+        border-color: var(--secondary);
     }
 
     &:active {
         background-color: var(--third);
-        border-color:  var(--third);
+        border-color: var(--third);
+    }
+}
+
+.add-btn-responsive {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+    background-color: var(--primary);
+
+    img {
+        width: -webkit-fill-available;
+    }
+
+    p {
+        color: var(--white);
+    }
+
+    &:hover {
+        background-color: var(--secondary);
+        border-color: var(--secondary);
+    }
+
+    &:active {
+        background-color: var(--third);
+        border-color: var(--third);
     }
 }
 
@@ -69,3 +109,5 @@ app-distribution {
     height: 100%;
     width: 100%;
 }
+
+@import "./board-responsive.component.scss";

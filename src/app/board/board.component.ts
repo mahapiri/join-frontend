@@ -10,7 +10,10 @@ import { TaskService } from '../services/task.service';
   standalone: true,
   imports: [DistributionComponent, CommonModule],
   templateUrl: './board.component.html',
-  styleUrl: './board.component.scss',
+  styleUrls: [
+    './board.component.scss',
+    './board-responsive.component.scss'
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BoardComponent {

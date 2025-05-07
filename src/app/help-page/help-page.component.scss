@@ -1,11 +1,15 @@
 @import "../../styles.scss";
 
+.inside-content {
+    position: relative;
+}
+
 .help {
     align-items: flex-start;
 }
 
 h5 {
-    font-weight: 700;
+    font-weight: 700 !important;
 }
 
 .blue {
@@ -13,22 +17,20 @@ h5 {
 }
 
 span {
-    font-family: 'Inter';
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
+    line-height: 120%;
 }
 
 article {
     font-family: 'Inter';
     font-weight: 700;
     font-size: 20px;
-    line-height: 24px;
+    line-height: 120%;
 }
 
 .back-icon {
     position: absolute;
-    right: 64px;
+    right: 16px;
+    top: 16px;
 
     img {
         width: 32px;
@@ -65,9 +67,12 @@ ol li::before {
     font-family: 'Inter';
     font-weight: 700;
     font-size: 27px;
+    line-height: 120%;
     padding-right: 32px;       
 }  
 
 .list-item {
-    line-height: 24px;
+    line-height: 120%;
 }
+
+@import "./help-page-responsive.component.scss";

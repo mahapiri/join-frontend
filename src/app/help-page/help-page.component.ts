@@ -8,7 +8,10 @@ import { SharedService } from '../services/shared.service';
   standalone: true,
   imports: [],
   templateUrl: './help-page.component.html',
-  styleUrl: './help-page.component.scss'
+  styleUrls: [
+    './help-page.component.scss',
+    './help-page-responsive.component.scss',
+  ]
 })
 export class HelpPageComponent {
 

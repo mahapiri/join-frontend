@@ -1,0 +1,31 @@
+@import "./../../styles.scss";
+
+@media (min-width: 320px) {}
+
+@media (min-width: 375px) {}
+
+@media (min-width: 425px) {}
+
+@media (min-width: 768px) {}
+
+@media (min-width: 1024px) {
+    span {
+        line-height: 24px;
+    }
+
+    article {
+        line-height: 24px;
+    }
+
+    ol li::before {
+        line-height: 24px;
+    }
+
+    .list-item {
+        line-height: 24px;
+    }
+}
+
+@media (min-width: 1440px) {}
+
+@media (min-width: 1920px) {}

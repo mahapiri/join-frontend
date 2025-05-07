@@ -30,11 +30,9 @@
     .greet-container {
         display: block;
     }
-}
 
-@media (min-width: 1024px) {
     .panel-container {
-        width: 560px;
+        width: 100%;
     }
 
     .box {
@@ -60,16 +58,16 @@
         }
     }
 
-    .divider {
-        border: 2px solid var(--divider-line);
-    }
-
     .box-text {
         width: 83px;
         font-size: unset;
     }
 }
 
-@media (min-width: 1440px) {}
+@media (min-width: 1440px) {
+    .panel-container {
+        width: 560px;
+    }
+}
 
 @media (min-width: 1920px) {}

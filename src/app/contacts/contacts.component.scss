@@ -32,16 +32,22 @@ app-contact-overview {
 @media (min-width: 768px) {}
 
 @media (min-width: 1024px) {
+
     app-contact-list,
     app-contact-overview {
+        width: unset;
         height: 100%;
     }
 
     .inside-app-contacts {
-        padding-left: 232px;
+        padding-left: 64px;
     }
 }
 
-@media (min-width: 1440px) {}
+@media (min-width: 1440px) {
+    .inside-app-contacts {
+        padding-left: 232px;
+    }
+}
 
 @media (min-width: 1920px) {}

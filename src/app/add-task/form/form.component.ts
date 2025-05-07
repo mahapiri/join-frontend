@@ -263,6 +263,7 @@ export class FormComponent implements OnInit, OnDestroy {
 
 
   addNewCategory() {
+    this.sharedService.closeAll();
     this.sharedService.isPopup = true;
     this.sharedService.isAddCategory = true;
   }

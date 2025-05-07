@@ -19,6 +19,7 @@
 
     .form-container {
         flex-direction: unset;
+        gap: 22px;
     }
 
     .divider {
@@ -30,11 +31,11 @@
     }
 
     .field-layout {
-        width: 440px;
+        width: 390px;
     }
 
     .prio-container {
-        width: 440px;
+        width: 390px;
     }
 
     .prio-content {
@@ -56,7 +57,7 @@
     }
 
     .backlog-box {
-        width: 440px;
+        width: 390px;
     }
 
     .subtask-list {
@@ -66,7 +67,7 @@
     }
 
     .input-subtask {
-        width: 440px;
+        width: 390px;
     }
 
     .subtask-edit-container {
@@ -75,6 +76,26 @@
     }
 }
 
-@media (min-width: 1440px) {}
+@media (min-width: 1440px) {
+    .form-container {
+        flex-direction: unset;
+    }
+
+    .field-layout {
+        width: 440px;
+    }
+
+    .prio-container {
+        width: 440px;
+    }
+
+    .input-subtask {
+        width: 440px;
+    }
+
+    .backlog-box {
+        width: 440px;
+    }
+}
 
 @media (min-width: 1920px) {}

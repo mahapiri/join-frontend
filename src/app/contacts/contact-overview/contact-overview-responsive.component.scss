@@ -24,17 +24,17 @@
     }
 
     .header-title {
-        flex-direction: unset;
-        align-items: center;
-        gap: 30px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
     }
 
     .divider {
-        display: block;
+        display: none;
     }
 
     .divider-horz {
-        display: none;
+        display: block;
     }
 
     .contact-container {
@@ -71,6 +71,20 @@
     }
 }
 
-@media (min-width: 1440px) {}
+@media (min-width: 1440px) {
+    .header-title {
+        flex-direction: unset;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .divider {
+        display: block;
+    }
+
+    .divider-horz {
+        display: none;
+    }
+}
 
 @media (min-width: 1920px) {}

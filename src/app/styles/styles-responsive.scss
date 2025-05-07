@@ -85,9 +85,9 @@
         padding-top: 192px;
         padding-right: 64px;
         padding-bottom: 64px;
-        padding-left: 328px;
+        padding-left: 124px;
         gap: 32px;
-        align-items: flex-start;
+        align-items: center;
     }
 
     .loader {
@@ -114,6 +114,11 @@
 
 @media (min-width: 1024px) {}
 
-@media (min-width: 1440px) {}
+@media (min-width: 1440px) {
+    .inside-app {
+        padding-left: 328px;
+        align-items: flex-start;
+    }
+}
 
 @media (min-width: 1920px) {}

@@ -315,13 +315,12 @@ input[type=checkbox] {
 }
 
 .assigned-container {
-    width: 442px;
+    width: 100%;
+    overflow-x: scroll;
     max-height: 144px;
-    flex-wrap: wrap;
     display: flex;
     gap: 8px;
     flex-direction: row;
-    overflow: auto;
     position: absolute;
     top: calc(100% + 8px);
     @include transition-75;

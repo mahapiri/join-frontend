@@ -3,7 +3,7 @@
     <div class="popup-content"
         [ngClass]="{'add-task': sharedService.isAddTask, 'card': sharedService.isCard, 'contact': sharedService.isEditContact || sharedService.isAddContact, 'category': sharedService.isAddCategory}">
         <img class="close-icon" src="assets/img/close/default-disable.svg" alt="Close" (click)="close()"
-        [ngClass]="{'close-icon-contact': sharedService.isAddContact || sharedService.isEditContact}"
+        [ngClass]="{'close-icon-contact': sharedService.isAddContact || sharedService.isEditContact || sharedService.isAddCategory}"
         >
         <app-add-task *ngIf="sharedService.isAddTask"></app-add-task>
         <app-card *ngIf="sharedService.isCard"></app-card>

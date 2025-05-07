@@ -6,7 +6,7 @@ import { Category } from '../models/category';
   providedIn: 'root'
 })
 export class TaskApiService {
-  apiUrl = "http://127.0.0.1:8000/api/tasks"
+  apiUrl = "https://join-backend-p0l1.onrender.com/api/tasks"
 
   constructor() { }
 

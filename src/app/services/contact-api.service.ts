@@ -6,7 +6,7 @@ import { Contact } from '../models/contact';
 })
 export class ContactApiService {
 
-  apiUrl = "http://127.0.0.1:8000/api/contacts"
+  apiUrl = "https://join-backend-p0l1.onrender.com/api/contacts"
 
   constructor() { }
 

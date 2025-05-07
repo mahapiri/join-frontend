@@ -7,7 +7,7 @@ import { User } from '../models/user.model';
 })
 export class UserService {
 
-  apiUrl = "http://127.0.0.1:8000/api/users"
+  apiUrl = "https://join-backend-p0l1.onrender.com/api/users"
 
   private _isLoggedIn = new BehaviorSubject<User | null>(null);
   isLoggedIn$ = this._isLoggedIn.asObservable();

@@ -17,7 +17,7 @@ export const authGuard: CanActivateFn = async (route, state) => {
     sharedService.siteIsLoading(true);
     return router.navigate(['/login']);
   }
-  const apiURL = 'http://127.0.0.1:8000/api/users/auth-check/'
+  const apiURL = 'https://join-backend-p0l1.onrender.com/api/users/auth-check/'
 
   const response = await fetch(`${apiURL}`, {
     method: 'GET',

@@ -6,29 +6,22 @@
 
 @media (min-width: 768px) {
     .logo-container {
-        animation: none !important;
-        animation-play-state: paused;
-        will-change: unset;
-        background-color: unset;
+        &.animation-logo-container {
+            background-color: unset;
+            animation: changeZindex 2s linear forwards;
+        }
 
         .logo {
-            content: url(../../assets/img/logo.svg);
-            width: 274px;
-            animation: moveLogo 1s cubic-bezier(0.58, 0.81, 0.69, 0.78) forwards;
-        }
+            width: 100px;
+            height: 121px;
+            top: 64px;
+            left: 67px;
 
-        .no-animation-logo {
-            width: 100.03px !important;
-            height: 121.97px !important;
-            top: 64px !important;
-            left: 67px !important;
-        }
-
-        &.animation {
-            background-color: unset;
-            animation: changeBackground 1s cubic-bezier(0.58, 0.81, 0.69, 0.78) forwards;
-            animation-delay: 1s;
-            will-change: transform;
+            &.animation-logo {
+                content: url(../../assets/img/logo.svg);
+                width: 274px;
+                animation: moveLogo 2s linear forwards;
+            }
         }
     }
 }
@@ -40,17 +33,42 @@
 @media (min-width: 1920px) {}
 
 
-@keyframes moveLogo {
+@keyframes changeZindex {
     0% {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        z-index: 1;
+    }
+
+    99% {
+        z-index: 1;
     }
 
     100% {
+        z-index: 0;
+    }
+}
+
+@keyframes moveLogo {
+    0% {
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        z-index: 1;
+        opacity: 1;
+    }
+    
+    50% {
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        z-index: 1;
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(0%, 0%);
         width: 100px;
         top: 64px;
         left: 67px;
-        transform: translate(0, 0);
+        z-index: 1;
     }
 }

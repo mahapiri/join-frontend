@@ -1,3 +1,5 @@
-<div class="logo-container" [class.animation]="!(sharedService.disableAnimation$ | async)">
-    <img class="logo" alt="Join Logo" (click)="navigateToLogin()" [class.no-animation-logo]="sharedService.disableAnimation$ | async">
+<div class="logo-container"
+    [ngClass]="(sharedService.disableAnimation$ | async) ? 'no-animation-logo-container' : 'animation-logo-container'">
+    <img class="logo" alt="Join Logo" (click)="navigateToLogin()"
+    [ngClass]="(sharedService.disableAnimation$ | async) ? 'no-animation-logo' : 'animation-logo'">
 </div>

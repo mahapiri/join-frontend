@@ -1,6 +1,7 @@
 <ng-container *ngIf="!(sharedService.siteviewer$ | async)">
     <form [formGroup]="loginForm" class="main-container" (ngSubmit)="onSubmit($event, 'user')">
-        <div class="form-container" [class.no-animation]="sharedService.disableAnimation$ | async">
+        <div class="form-container"
+            [ngClass]="(sharedService.disableAnimation$ | async) ? 'no-animation' : 'animation'">
             <div class="login-container">
                 <div class="header-container">
                     <h1>Log in</h1>
@@ -18,8 +19,8 @@
                                 email. Please try again.</div>
                         </div>
                         <div class="input-icon-container">
-                            <input #passwordInput formControlName="password" class="login" type="password" placeholder="Password"
-                                (focus)="passwordOnFocus(passwordInput, passwordImg)"
+                            <input #passwordInput formControlName="password" class="login" type="password"
+                                placeholder="Password" (focus)="passwordOnFocus(passwordInput, passwordImg)"
                                 (blur)="passwordNotOnFocus(passwordInput, passwordImg)"
                                 (input)="updateIcon(passwordInput, passwordImg)">
                             <img #passwordImg class="input-icon password-icon"
@@ -41,13 +42,15 @@
                 </div>
             </div>
         </div>
-        <div class="signup-container" [class.no-animation]="sharedService.disableAnimation$ | async">
+        <div class="signup-container"
+            [ngClass]="(sharedService.disableAnimation$ | async) ? 'no-animation' : 'animation'">
             <p>Not a Join user?</p>
             <button type="button" class="signup-btn" (click)="register()">
                 <p>Sign up</p>
             </button>
         </div>
-        <div class="legal-notice-container" [class.no-animation]="sharedService.disableAnimation$ | async">
+        <div class="legal-notice-container"
+            [ngClass]="(sharedService.disableAnimation$ | async) ? 'no-animation' : 'animation'">
             <a (click)="navigateTo('privacy-policy')" class="login-legal-notice-icon">Privacy Policy</a>
             <a (click)="navigateTo('legal-notice')" class="login-legal-notice-icon">Legal Notice</a>
         </div>

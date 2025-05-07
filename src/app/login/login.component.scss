@@ -12,12 +12,14 @@
 
     .form-container {
         opacity: 0;
-        animation: fadeIn 1s ease-in forwards;
-        animation-delay: 1s;
+
+
+        &.animation {
+            animation: fadeIn 1s ease-in forwards;
+            animation-delay: 1s;
+        }
 
         &.no-animation {
-            animation-play-state: paused !important;
-            animation: none !important;
             opacity: 1 !important;
         }
     }

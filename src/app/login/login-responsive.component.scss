@@ -11,9 +11,10 @@
 
 @media (min-width: 1024px) {
     .main-container {
-
         .form-container {
-            animation-delay: 0.7s;
+            &.animation {
+                animation-delay: 0.7s;
+            }
         }
 
         .signup-container {

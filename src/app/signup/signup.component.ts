@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationService } from '../services/validation.service';
 import { SharedService } from '../services/shared.service';
@@ -22,7 +22,7 @@ import { Title } from '@angular/platform-browser';
     './signup-responsive.component.scss'
   ]
 })
-export class SignupComponent {
+export class SignupComponent implements OnInit, OnDestroy {
 
   signupForm: FormGroup;
 
@@ -35,6 +35,12 @@ export class SignupComponent {
     private titleService: Title,
   ) {
     this.titleService.setTitle("Join - Signup");
+    this.signupForm = this.fb.group({});
+  }
+
+
+  ngOnInit(): void {
+    this.sharedService.setisDisableAnimation(true);
     this.signupForm = this.fb.group({
       name: new FormControl('', [Validators.required, this.validate.validateName]),
       email: new FormControl('', [Validators.required, this.validate.validateEmail]),
@@ -45,8 +51,10 @@ export class SignupComponent {
     },
       { validators: this.validate.passwordMatchValidator() }
     );
-    this.sharedService.setisDisableAnimation(true);
   }
+
+
+  ngOnDestroy(): void { }
 
 
   async onSubmit() {

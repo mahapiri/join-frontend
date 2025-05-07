@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SharedService } from '../services/shared.service';
 import { Router } from '@angular/router';
@@ -21,7 +21,7 @@ import { Title } from '@angular/platform-browser';
     './login-responsive.component.scss',
   ]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy {
   @ViewChild('passwordInput') passwordInput?: ElementRef;
   @ViewChild('passwordImg') passwordImg?: ElementRef;
 
@@ -37,11 +37,20 @@ export class LoginComponent {
     private titleService: Title
   ) {
     this.titleService.setTitle("Join - Login");
+    this.loginForm = this.fb.group({});
+  }
+
+
+  ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: new FormControl('', [Validators.required, this.validate.validateEmail]),
       password: new FormControl('', [Validators.required])
     });
-    this.existingUser()
+    this.existingUser();
+  }
+
+
+  ngOnDestroy(): void {
   }
 
 

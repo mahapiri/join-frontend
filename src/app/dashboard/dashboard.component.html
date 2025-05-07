@@ -69,7 +69,7 @@
     </div>
 </div>
 
-<ng-container *ngIf="(sharedService.siteIsLoading$ | async) && !(sharedService.disableAnimation$)">
+<ng-container *ngIf="isLoading && !(userService.isLoggedIn$ | async)">
     <app-logo></app-logo>
 </ng-container>
 

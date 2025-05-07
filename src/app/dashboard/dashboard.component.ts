@@ -31,6 +31,7 @@ export class DashboardComponent implements OnInit {
   isSubmenu = false;
   noUser = false;
   currentUser: User | null = null;
+  isLoading: boolean = false;
 
   constructor(
     public sharedService: SharedService,
@@ -41,6 +42,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCurrentUser();
+    this.isLoading = true
   }
 
 

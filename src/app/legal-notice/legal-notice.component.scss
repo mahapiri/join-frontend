@@ -1,8 +1,13 @@
 @import "../../styles.scss";
 
+.inside-content {
+    position: relative;
+}
+
 .back-icon {
     position: absolute;
-    right: 64px;
+    right: 16px;
+    top: 16px;
 
     img {
         width: 32px;
@@ -25,12 +30,11 @@ ul {
     li a {
         font-family: 'Inter';
         font-weight: 400;
-        font-size: 20px;
-        line-height: 24px;
+        font-size: 16px;
+        line-height: 120%;
         color: var(--secondary);
     }
 }
-
 
 a {
     color: var(--secondary);
@@ -38,12 +42,18 @@ a {
 
 h4,
 h5 {
-    font-weight: 700;
+    font-weight: 700 !important;
 }
 
+h4 {
+    font-size: 27px !important;
+    line-height: 120%;
+}
 
 .content {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
+
+@import "./legal-notice-responsive.component.scss";

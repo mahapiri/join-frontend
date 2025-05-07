@@ -10,7 +10,10 @@ import { SharedService } from '../services/shared.service';
     CommonModule
   ],
   templateUrl: './legal-notice.component.html',
-  styleUrl: './legal-notice.component.scss'
+  styleUrls: [
+    './legal-notice.component.scss',
+    './legal-notice-responsive.component.scss'
+  ]
 })
 export class LegalNoticeComponent {
 

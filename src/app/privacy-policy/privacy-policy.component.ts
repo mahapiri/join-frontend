@@ -10,7 +10,10 @@ import { SharedService } from '../services/shared.service';
     CommonModule
   ],
   templateUrl: './privacy-policy.component.html',
-  styleUrl: './privacy-policy.component.scss'
+  styleUrls: [
+    './privacy-policy.component.scss',
+    './privacy-policy-responsive.component.scss',
+  ]
 })
 export class PrivacyPolicyComponent {
   constructor(

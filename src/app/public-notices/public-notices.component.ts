@@ -16,14 +16,17 @@ import { Title } from '@angular/platform-browser';
     CommonModule
   ],
   templateUrl: './public-notices.component.html',
-  styleUrl: './public-notices.component.scss'
+  styleUrls: [
+    './public-notices.component.scss',
+    './public-notices-responsive.component.scss',
+  ]
 })
 export class PublicNoticesComponent {
   privacy: boolean = true;
 
   constructor(
-    private sharedService : SharedService,
-    private router : Router,
+    private sharedService: SharedService,
+    private router: Router,
     private titleService: Title,
     private route: ActivatedRoute
   ) {
@@ -38,7 +41,7 @@ export class PublicNoticesComponent {
   getURLParams() {
     const type = this.route.snapshot.paramMap.get('type');
 
-    if(type === 'privacy-policy') {
+    if (type === 'privacy-policy') {
       this.privacy = true;
     } else if (type === 'legal-notice') {
       this.privacy = false;

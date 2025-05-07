@@ -7,8 +7,35 @@
             <a routerLinkActive="legal-item-active" (click)="showLegalNotice(true)">Privacy Policy</a>
             <a routerLinkActive="legal-item-active" (click)="showLegalNotice(false)">Legal notice</a>
         </div>
+        <nav class="sidebar-container">
+            <ul class="sidebar-list">
+                <div>
+                    <li class="sidebar-item">
+                        <div routerLinkActive="sidebar-item-active" (click)="navigateToLoginPage()">
+                            <img src="assets/img/login-signup/login.svg" alt="Login">
+                            <a>Login</a>
+                        </div>
+                    </li>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <li class="sidebar-item">
+                        <div routerLinkActive="legal-item-active" (click)="showLegalNotice(true)">
+                            <a>Privacy Policy</a>
+                        </div>
+                    </li>
+                    <li class="sidebar-item">
+                        <div routerLinkActive="legal-item-active" (click)="showLegalNotice(false)">
+                            <a>Legal notice</a>
+                        </div>
+                    </li>
+                </div>
+            </ul>
+        </nav>
     </div>
     <div class="menu">
+        <a (click)="navigateToLoginPage()">
+            <img src="../../assets/img/logo.svg" alt="Logo">
+        </a>
     </div>
 </div>
 <div class="router-container">

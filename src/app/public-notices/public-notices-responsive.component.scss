@@ -1,0 +1,57 @@
+@import "../../styles.scss";
+
+@media (min-width: 320px) {}
+
+@media (min-width: 375px) {}
+
+@media (min-width: 425px) {}
+
+@media (min-width: 768px) {}
+
+@media (min-width: 1024px) {
+    .dashboard-container {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    .sidebar {
+        width: 232px;
+        height: 100%;
+        padding: 64px 0 64px 0;
+    }
+
+    .sidebar-container {
+        display: none;
+    }
+
+    .menu {
+        flex-grow: 1;
+        height: 96px;
+        background-color: var(--white);
+
+        img {
+            display: none;
+        }
+    }
+
+    .logo {
+        width: 100px;
+        display: block;
+    }
+
+    .legal-item {
+        display: flex;
+    }
+
+    .router-container {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        z-index: 0;
+    }
+}
+
+@media (min-width: 1440px) {}
+
+@media (min-width: 1920px) {}

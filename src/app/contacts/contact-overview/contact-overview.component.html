@@ -1,7 +1,7 @@
 <div class="inside-app contact-overview">
     <div class="inside-content">
         <a (click)="back()" class="back-icon">
-            <img src="../../assets/img/arrow-left/default.svg" alt="Back-To-Summary">
+            <img src="/assets/img/arrow-left/default.svg" alt="Back-To-Summary">
         </a>
         <header class="header-title">
             <h3>Contacts</h3>
@@ -67,7 +67,7 @@
     </div>
 
     <div class="more-contact-responsive" (click)="toggleOptions()">
-        <img src="./../../../assets/img/more/default.svg" alt="Options Contact">
+        <img src="/assets/img/more/default.svg" alt="Options Contact">
     </div>
 
     <div class="option-container" *ngIf="isOption" appClickOutside (clickOutside)="toggleOptions()">

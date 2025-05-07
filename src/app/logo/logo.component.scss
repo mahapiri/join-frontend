@@ -20,7 +20,7 @@
     }
 
     .logo {
-        content: url(../../assets/img/logo.svg);
+        content: url(/assets/img/logo.svg);
         width: 64px;
         height: 78px;
         position: fixed;
@@ -28,7 +28,7 @@
         left: 36px;
 
         &.animation-logo {
-            content: url(../../assets/img/logo/white.svg);
+            content: url(/assets/img/logo/white.svg);
             width: 100px;
             position: fixed;
             top: 50%;
@@ -66,7 +66,7 @@
 
 @keyframes moveLogoResponsive {
     0% {
-        content: url(../../assets/img/logo/white.svg);
+        content: url(/assets/img/logo/white.svg);
         transform: translate(-50%, -50%);
         top: 50%;
         left: 50%;
@@ -74,7 +74,7 @@
     }
 
     50% {
-        content: url(../../assets/img/logo/white.svg);
+        content: url(/assets/img/logo/white.svg);
         transform: translate(-50%, -50%);
         top: 50%;
         left: 50%;
@@ -82,12 +82,12 @@
     }
 
     75% {
-        content: url(../../assets/img/logo.svg);
+        content: url(/assets/img/logo.svg);
         opacity: 1;
     }
 
     100% {
-        content: url(../../assets/img/logo.svg);
+        content: url(/assets/img/logo.svg);
         transform: translate(0%, 0%);
         opacity: 1;
         width: 64px;

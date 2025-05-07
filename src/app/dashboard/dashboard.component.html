@@ -1,13 +1,13 @@
 <div class="dashboard-container" *ngIf="userService.isLoggedIn$ | async">
     <div class="sidebar">
         <a routerLink="/summary">
-            <img class="logo" src="assets/img/logo/white.svg" alt="Join">
+            <img class="logo" src="/assets/img/logo/white.svg" alt="Join">
         </a>
         <nav class="sidebar-container">
             <ul class="sidebar-list">
                 <li class="sidebar-item">
                     <div routerLink="/summary" routerLinkActive="sidebar-item-active" class="sidebar-item-container">
-                        <img src="assets/img/menu/summary/default.svg" alt="Summary">
+                        <img src="/assets/img/menu/summary/default.svg" alt="Summary">
                         <a class="nav-title">Summary</a>
                     </div>
                     <div class="short-info">
@@ -16,7 +16,7 @@
                 </li>
                 <li class="sidebar-item">
                     <div routerLink="/add-task" routerLinkActive="sidebar-item-active" class="sidebar-item-container">
-                        <img src="assets/img/menu/add-task/default.svg" alt="Summary">
+                        <img src="/assets/img/menu/add-task/default.svg" alt="Summary">
                         <a class="nav-title">Add Task</a>
                     </div>
                     <div class="short-info">
@@ -25,7 +25,7 @@
                 </li>
                 <li class="sidebar-item">
                     <div routerLink="/board" routerLinkActive="sidebar-item-active" class="sidebar-item-container">
-                        <img src="assets/img/menu/board/default.svg" alt="Summary">
+                        <img src="/assets/img/menu/board/default.svg" alt="Summary">
                         <a class="nav-title">Board</a>
                     </div>
                     <div class="short-info">
@@ -34,7 +34,7 @@
                 </li>
                 <li class="sidebar-item">
                     <div routerLink="/contacts" routerLinkActive="sidebar-item-active" class="sidebar-item-container">
-                        <img src="assets/img/menu/contacts/default.svg" alt="Summary">
+                        <img src="/assets/img/menu/contacts/default.svg" alt="Summary">
                         <a class="nav-title">Contacts</a>
                     </div>
                     <div class="short-info">
@@ -52,11 +52,11 @@
         <div class="menu-container">
             <p class="kanban-text">Kanban Project Management Tool</p>
             <a routerLink="/summary">
-                <img class="logo-mobile" src="../../assets/img/logo.svg" alt="Join Logo">
+                <img class="logo-mobile" src="/assets/img/logo.svg" alt="Join Logo">
             </a>
             <div class="menu-right-section">
                 <a routerLink="/help" routerLinkActive="help-icon-active">
-                    <img class="help-icon" src="assets/img/help/default.svg" alt="Help">
+                    <img class="help-icon" src="/assets/img/help/default.svg" alt="Help">
                 </a>
                 <div class="profile-icon" (click)="toggleSubmenu()">
                     <a>{{ currentUser?.initial }}</a>

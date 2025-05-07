@@ -18,7 +18,7 @@
             left: 67px;
 
             &.animation-logo {
-                content: url(../../assets/img/logo.svg);
+                content: url(/assets/img/logo.svg);
                 width: 274px;
                 animation: moveLogo 2s linear forwards;
             }

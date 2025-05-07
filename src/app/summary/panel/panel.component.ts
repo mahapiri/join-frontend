@@ -18,9 +18,9 @@ import { Subscription } from 'rxjs';
 })
 
 export class PanelComponent implements OnDestroy, OnInit {
-  imgSrcTodo = 'assets/img/edit/default.svg';
-  imgSrcDone = 'assets/img/check/default.svg';
-  imgSrcPrio = 'assets/img/prio/urgent-active.svg';
+  imgSrcTodo = '/assets/img/edit/default.svg';
+  imgSrcDone = '/assets/img/check/default.svg';
+  imgSrcPrio = '/assets/img/prio/urgent-active.svg';
 
   subscription: Subscription = new Subscription();
   summData: SummaryData | null = null;

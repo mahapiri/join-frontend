@@ -13,7 +13,7 @@
                         <div class="input-icon-container">
                             <input formControlName="email" type="text" placeholder="Email" class="invalidInput login"
                                 [class.invalidInput]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-                            <img class="input-icon" src="../../assets/img/login-signup/mail.svg" alt="Email">
+                            <img class="input-icon" src="/assets/img/login-signup/mail.svg" alt="Email">
                             <div class="errormsg"
                                 *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">Check your
                                 email. Please try again.</div>
@@ -24,7 +24,7 @@
                                 (blur)="passwordNotOnFocus(passwordInput, passwordImg)"
                                 (input)="updateIcon(passwordInput, passwordImg)">
                             <img #passwordImg class="input-icon password-icon"
-                                src="../../assets/img/login-signup/lock.svg" alt="Password"
+                                src="/assets/img/login-signup/lock.svg" alt="Password"
                                 (click)="togglePassword(passwordInput, passwordImg)">
                         </div>
                         <div class="errormsg" *ngIf="loginFailed">Check your email and password.

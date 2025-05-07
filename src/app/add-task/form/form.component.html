@@ -19,7 +19,7 @@
                         <input #assignedToInput class="assigned-to-field" placeholder="Select contacts to assign"
                             type="text" (click)="openAssignedToList()" (input)="searchAssignments()" autocomplete="off">
                         <img class="input-icon"
-                            [src]="openedAssignmentsList ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
+                            [src]="openedAssignmentsList ? '/assets/img/arrow-down-up/up.svg' : '/assets/img/arrow-down-up/down.svg'"
                             alt="arrow" (click)="toggleAssignedTo($event)">
                         <div [style.display]="openedAssignmentsList ? 'flex' : 'none'" class="backlog-box">
 
@@ -91,18 +91,18 @@
                         formControlName="prio">
                     <label for="urgent" class="prio-content">
                         <p>Urgent</p>
-                        <img src="assets/img/prio/urgent-default.svg" alt="Urgent">
+                        <img src="/assets/img/prio/urgent-default.svg" alt="Urgent">
                     </label>
                     <input type="radio" id="medium" name="prio" value="medium" class="prio-radio"
                         formControlName="prio">
                     <label for="medium" class="prio-content">
                         <p>Medium</p>
-                        <img src="assets/img/prio/medium-default.svg" alt="Medium">
+                        <img src="/assets/img/prio/medium-default.svg" alt="Medium">
                     </label>
                     <input type="radio" id="low" name="prio" value="low" class="prio-radio" formControlName="prio">
                     <label for="low" class="prio-content">
                         <p>Low</p>
-                        <img src="assets/img/prio/low-default.svg" alt="Low">
+                        <img src="/assets/img/prio/low-default.svg" alt="Low">
                     </label>
                 </div>
             </label>
@@ -115,7 +115,7 @@
                         readonly required
                         [value]="taskForm.get('category')?.value ? taskForm.get('category')?.value.name : ''">
                     <img class="input-icon"
-                        [src]="openedCategoryList ? 'assets/img/arrow-down-up/up.svg' : 'assets/img/arrow-down-up/down.svg'"
+                        [src]="openedCategoryList ? '/assets/img/arrow-down-up/up.svg' : '/assets/img/arrow-down-up/down.svg'"
                         alt="arrow" (click)="toggleCategory($event)">
                     <div [style.display]="openedCategoryList ? 'flex' : 'none'" class="backlog-box height-auto">
                         <div *ngIf="isCategoryLoading; else categoryView" class="listViewLoader">
@@ -149,11 +149,11 @@
                         (keydown.enter)="saveSubtask(subtaskInput)" type="text" [ngStyle]="{'padding-right': '80px'}"
                         [placeholder]="subtaskInput.value.trim().length === 0 ? 'Add new subtask' : ''">
                     <div *ngIf="isWritingSubtask" class="input-icon-container">
-                        <img src="assets/img/cancel/default.svg" alt="Cancel" (click)="deleteSubtask(subtaskInput)">
+                        <img src="/assets/img/cancel/default.svg" alt="Cancel" (click)="deleteSubtask(subtaskInput)">
                         <div class="input-divider"></div>
-                        <img src="assets/img/check/default-subtask.svg" alt="Check" (click)="saveSubtask(subtaskInput)">
+                        <img src="/assets/img/check/default-subtask.svg" alt="Check" (click)="saveSubtask(subtaskInput)">
                     </div>
-                    <img *ngIf="!isWritingSubtask" class="input-icon" src="assets/img/add/default-subtask.svg"
+                    <img *ngIf="!isWritingSubtask" class="input-icon" src="/assets/img/add/default-subtask.svg"
                         alt="Add">
                 </div>
                 <ul class="subtask-list">
@@ -162,18 +162,18 @@
                             (mouseleave)="setSubtaskNotEdit('subtaskitem' + i)" *ngIf="isEditingSubtaskIndex != i">
                             <a>{{ subtask.subtask }}</a>
                             <div [id]="'subtaskitem' + i" class="input-icon-container">
-                                <img src="assets/img/edit/hover.svg" alt="Edit" (click)="editSubtask(i)">
+                                <img src="/assets/img/edit/hover.svg" alt="Edit" (click)="editSubtask(i)">
                                 <div class="input-divider"></div>
-                                <img src="assets/img/delete/default.svg" alt="Delete" (click)="deleteSavedSubtask(i)">
+                                <img src="/assets/img/delete/default.svg" alt="Delete" (click)="deleteSavedSubtask(i)">
                             </div>
                         </li>
                         <div class="subtask-edit-container" *ngIf="isEditingSubtaskIndex === i">
                             <input [id]="'subtaskEdit' + i" type="text" value="{{ subtask.subtask }}"
                                 class="input-subtask">
                             <div class="input-icon-container">
-                                <img src="assets/img/delete/default.svg" alt="Delete" (click)="deleteSavedSubtask(i)">
+                                <img src="/assets/img/delete/default.svg" alt="Delete" (click)="deleteSavedSubtask(i)">
                                 <div class="input-divider"></div>
-                                <img src="assets/img/check/default-subtask.svg" alt="Check"
+                                <img src="/assets/img/check/default-subtask.svg" alt="Check"
                                     (click)="replaceSaveSubtask(i)">
                             </div>
                         </div>
@@ -189,11 +189,11 @@
         <div class="btn-content">
             <button class="clear-btn" type="button" (click)="resetForm()">
                 <p>Clear</p>
-                <img class="clear-img" src="assets/img/clear/default.svg" alt="Clear">
+                <img class="clear-img" src="/assets/img/clear/default.svg" alt="Clear">
             </button>
             <button class="submit-btn" type="submit" [disabled]="taskForm.invalid">
                 <p class="p-bold">Create Task</p>
-                <img src="assets/img/check/default-create-task.svg" alt="Create">
+                <img src="/assets/img/check/default-create-task.svg" alt="Create">
             </button>
         </div>
     </div>

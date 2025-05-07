@@ -118,7 +118,7 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   passwordNotOnFocus(inputElement: HTMLInputElement, imgElement: HTMLImageElement) {
     if (inputElement.value.length === 0) {
-      imgElement.src = '../../assets/img/login-signup/lock.svg';
+      imgElement.src = '/assets/img/login-signup/lock.svg';
     }
   }
 
@@ -131,9 +131,9 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   updateIcon(inputElement: HTMLInputElement, imgElement: HTMLImageElement) {
     if (inputElement.type === 'password') {
-      imgElement.src = '../../assets/img/login-signup/visibility_off.svg';
+      imgElement.src = '/assets/img/login-signup/visibility_off.svg';
     } else {
-      imgElement.src = '../../assets/img/login-signup/visibility.svg';
+      imgElement.src = '/assets/img/login-signup/visibility.svg';
     }
   }
 }

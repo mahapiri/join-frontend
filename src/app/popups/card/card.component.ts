@@ -140,9 +140,9 @@ export class CardComponent implements OnDestroy, OnInit {
   hoverCheckbox(i: number) {
     const checkbox = document.getElementById(`subtask${i}`) as HTMLImageElement;
     if (this.task?.subtasks && !this.task.subtasks[i].is_completed) {
-      checkbox.src = 'assets/img/check-btn/hover-disable.svg';
+      checkbox.src = '/assets/img/check-btn/hover-disable.svg';
     } else {
-      checkbox.src = 'assets/img/check-btn/hover-checked.svg';
+      checkbox.src = '/assets/img/check-btn/hover-checked.svg';
     }
   }
 
@@ -156,8 +156,8 @@ export class CardComponent implements OnDestroy, OnInit {
     const checkbox = document.getElementById(`subtask${i}`) as HTMLImageElement;
     if (this.task?.subtasks) {
       checkbox.src = this.task.subtasks[i].is_completed ?
-        'assets/img/check-btn/default-checked.svg' :
-        'assets/img/check-btn/default-disable.svg';
+        '/assets/img/check-btn/default-checked.svg' :
+        '/assets/img/check-btn/default-disable.svg';
     }
 
   }

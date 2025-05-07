@@ -1,136 +1,12 @@
 @import "../../../styles.scss";
-
-.popup-contact {
-    height: 592px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.left-section {
-    width: fit-content;
-    height: 100%;
-    background-color: var(--primary);
-    padding: 66px 46px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 32px;
-
-    img {
-        width: 53px;
-        height: 66px;
-    }
-
-    h3 {
-        color: var(--white);
-    }
-}
-
-.left-content {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-}
-
-.title {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.divider {
-    width: 90px;
-    height: 3px;
-    background-color: var(--secondary);
-}
-
-.input-contact-field {
-    display: flex;
-    gap: 64px;
-    align-items: center;
-}
-
-.inputfield-container {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-}
+@import "../add-contact/add-contact.component.scss";
 
 .contact-icon {
-    width: 120px;
-    height: 120px;
-    border-radius: 100%;
-    background-color: var(--orange);
-    font-family: Inter;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 14.4px;
-    text-align: center;
-    color: var(--white);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid var(--white);
-
     h4 {
+        font-size: 47px;
+        font-weight: 500;
         color: var(--white);
     }
-}
-
-.empty-div {
-    width: 120px;
-}
-
-
-.right-section {
-    width: auto;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 48px 40px;
-    background-color: var(--white);
-}
-
-.right-content {
-    display: flex;
-    align-items: center;
-    gap: 64px;
-
-    form {
-        display: flex;
-        flex-direction: column;
-        gap: 32px;
-    }
-}
-
-.inputfield {
-    position: relative;
-
-    input {
-        width: 422px;
-        height: auto;
-    }
-}
-
-.input-icon {
-    position: absolute;
-    // top: 25%;
-    top: 12px;
-    right: 21px;
-}
-
-.btn-content {
-    display: flex;
-    gap: 64px;
-    padding-top: 16px;
-}
-
-.btn-div {
-    display: flex;
-    gap: 25px;
 }
 
 .delete-btn {
@@ -155,30 +31,4 @@
     }
 }
 
-.save-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--primary);
-    gap: 4px;
-    @include transition-100;
-
-    p {
-        color: var(--white);
-    }
-
-    img {
-        width: 24px;
-        height: 24px;
-    }
-
-    &:hover {
-        border-color: var(--secondary);
-        background-color: var(--secondary);
-    }
-
-    &:active {
-        background-color: var(--third);
-        border-color: var(--third);
-    }
-}
+@import './edit-contact-responsive.component.scss'

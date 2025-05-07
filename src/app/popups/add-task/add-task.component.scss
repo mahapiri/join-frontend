@@ -1,7 +1,29 @@
 @import "../../../styles.scss";
 
+h3 {
+    margin-bottom: 16px;
+}
+
 app-form {
     .assigned-container {
         z-index: unset;
     }
 }
+
+@media (min-width: 320px) {}
+
+@media (min-width: 375px) {}
+
+@media (min-width: 425px) {}
+
+@media (min-width: 768px) {}
+
+@media (min-width: 1024px) {
+    h3 {
+        margin-bottom: 32px;
+    }
+}
+
+@media (min-width: 1440px) {}
+
+@media (min-width: 1920px) {}

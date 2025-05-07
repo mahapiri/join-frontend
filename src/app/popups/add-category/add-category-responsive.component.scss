@@ -1,0 +1,38 @@
+@import '../../../styles.scss';
+
+@media (min-width: 320px) {}
+
+@media (min-width: 375px) {}
+
+@media (min-width: 425px) {}
+
+@media (min-width: 768px) {}
+
+@media (min-width: 1024px) {
+    .popup-category {
+        flex-direction: unset;
+    }
+
+    .left-section {
+        width: fit-content;
+        height: 100%;
+
+        img {
+            display: block;
+        }
+
+        h5 {
+            display: block;
+        }
+    }
+
+    .inputfield {
+        input {
+            width: 100%
+        }
+    }
+}
+
+@media (min-width: 1440px) {}
+
+@media (min-width: 1920px) {}

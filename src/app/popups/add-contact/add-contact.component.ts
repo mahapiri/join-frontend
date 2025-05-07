@@ -15,7 +15,10 @@ import { ContactService } from '../../services/contact.service';
     CommonModule
   ],
   templateUrl: './add-contact.component.html',
-  styleUrl: './add-contact.component.scss'
+  styleUrls: [
+    './add-contact.component.scss',
+    './add-contact-responsive.component.scss',
+  ]
 })
 export class AddContactComponent {
 

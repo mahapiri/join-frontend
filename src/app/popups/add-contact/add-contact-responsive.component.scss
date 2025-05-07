@@ -1,0 +1,81 @@
+@import '../../../styles.scss';
+
+@media (min-width: 320px) {}
+
+@media (min-width: 375px) {}
+
+@media (min-width: 425px) {}
+
+@media (min-width: 768px) {}
+
+@media (min-width: 1024px) {
+    .popup-contact {
+        height: 592px;
+        flex-direction: row;
+    }
+
+    .left-section {
+        width: fit-content;
+        height: 100%;
+
+        img {
+            display: block;
+        }
+    }
+
+    .input-contact-field {
+        flex-direction: unset;
+    }
+
+    .inputfield-container {
+        width: unset;
+    }
+
+    .contact-icon {
+        position: static;
+        top: unset;
+    }
+
+    .empty-div {
+        width: 120px;
+    }
+
+
+    .right-section {
+        width: auto;
+        justify-content: unset;
+        padding-top: unset;
+    }
+
+    .right-content {
+        width: unset;
+
+        form {
+            width: unset;
+        }
+    }
+
+    .inputfield {
+
+        input {
+            width: 422px;
+        }
+    }
+
+    .btn-content {
+        justify-content: unset;
+        align-items: unset;
+    }
+
+    .empty-div {
+        display: block;
+    }
+
+    .cancel-btn {
+        display: flex;
+    }
+}
+
+@media (min-width: 1440px) {}
+
+@media (min-width: 1920px) {}

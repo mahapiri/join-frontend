@@ -15,7 +15,10 @@ import { TaskApiService } from '../../services/task-api.service';
     FormsModule
   ],
   templateUrl: './add-category.component.html',
-  styleUrl: './add-category.component.scss'
+  styleUrls: [
+    './add-category.component.scss',
+    './add-category-responsive.component.scss',
+  ]
 })
 export class AddCategoryComponent {
   categoryForm: FormGroup;

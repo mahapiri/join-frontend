@@ -1,15 +1,15 @@
 @import "../../../styles.scss";
 
 .popup-contact {
-    height: 592px;
+    height: unset;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
 }
 
 .left-section {
-    width: fit-content;
-    height: 100%;
+    width: 100%;
+    height: 357px;
     background-color: var(--primary);
     padding: 66px 46px;
     display: flex;
@@ -19,11 +19,13 @@
     gap: 32px;
 
     img {
+        display: none;
         width: 53px;
         height: 66px;
     }
 
-    h3, h5 {
+    h3,
+    h5 {
         color: var(--white);
     }
 }
@@ -48,11 +50,13 @@
 
 .input-contact-field {
     display: flex;
+    flex-direction: column;
     gap: 64px;
     align-items: center;
 }
 
 .inputfield-container {
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 32px;
@@ -63,7 +67,7 @@
     height: 120px;
     border-radius: 100%;
     background-color: var(--divider-line);
-    font-family: Inter;
+    font-family: 'Inter';
     font-size: 12px;
     font-weight: 400;
     line-height: 14.4px;
@@ -72,30 +76,37 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid var(--white);
+    border: 3px solid var(--white);
+    position: absolute;
+    top: 288px;
 }
 
 .empty-div {
+    display: none;
     width: 120px;
 }
 
 
 .right-section {
-    width: auto;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: row;
+    justify-content: center;
     align-items: center;
     padding: 48px 40px;
+    padding-top: 80px;
     background-color: var(--white);
 }
 
 .right-content {
+    width: inherit;
     display: flex;
     align-items: center;
     gap: 64px;
 
     form {
+        width: inherit;
         display: flex;
         flex-direction: column;
         gap: 32px;
@@ -106,20 +117,21 @@
     position: relative;
 
     input {
-        width: 422px;
+        width: 100%;
         height: auto;
     }
 }
 
 .input-icon {
     position: absolute;
-    // top: 25%;
     top: 12px;
     right: 21px;
 }
 
 .btn-content {
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 64px;
     padding-top: 16px;
 }
@@ -130,7 +142,7 @@
 }
 
 .cancel-btn {
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     background-color: var(--background);
@@ -194,3 +206,5 @@
         border-color: var(--third);
     }
 }
+
+@import './add-contact-responsive.component.scss'

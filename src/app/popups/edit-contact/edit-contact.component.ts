@@ -17,7 +17,10 @@ import { ContactApiService } from '../../services/contact-api.service';
     CommonModule
   ],
   templateUrl: './edit-contact.component.html',
-  styleUrl: './edit-contact.component.scss'
+  styleUrls: [
+    './edit-contact.component.scss',
+    './edit-contact-responsive.component.scss',
+  ]
 })
 export class EditContactComponent implements OnInit, OnDestroy {
 
